@@ -15,19 +15,23 @@ import java.util.List;
 * Time: 12:05
 * To change this template use File | Settings | File Templates.
 */
-public class ConsoleVisualizer {
+public class ConsoleVisualizer implements Visualizer{
 
+  private Log log;
 
+  public ConsoleVisualizer( Log log ) {
+    this.log = log;
+  }
 
   private void printNode(DependencyNode dependencyNode,int depth)
   {
     for ( DependencyNode dN : dependencyNode.getChildren() ) {
-      System.out.println( Strings.repeat( "  ", depth )+ dN.toString() );
+     log.info( Strings.repeat( "  ", depth )+ dN.toString() );
         this.printNode( dN ,depth+1);
     }
   }
 
-  public void visualize(CollectResult collectResult, Log log)
+  public void visualize(CollectResult collectResult)
   {
 
     printNode( collectResult.getRoot(),0);

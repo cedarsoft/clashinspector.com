@@ -1,5 +1,7 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
+import org.eclipse.aether.collection.CollectResult;
+
 /**
  * Created with IntelliJ IDEA.
  * User: m
@@ -7,7 +9,13 @@ package com.cedarsoft.hsrt.zkb.ourplugin;
  * Time: 12:05
  * To change this template use File | Settings | File Templates.
  */
-public class HtmlVisualizer {
+public class HtmlVisualizer implements Visualizer {
+
+
+  @Override
+  public void visualize( CollectResult collectResult ) {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
 }
 
 

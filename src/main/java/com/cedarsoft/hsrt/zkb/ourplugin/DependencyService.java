@@ -1,7 +1,5 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
-import com.google.common.base.Strings;
-import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
@@ -14,81 +12,112 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
-import org.eclipse.aether.util.artifact.JavaScopes;
-import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
+import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Created with IntelliJ IDEA.
-* User: m
-* Date: 01.11.13
-* Time: 12:26
-* To change this template use File | Settings | File Templates.
-*/
+ * Created with IntelliJ IDEA.
+ * User: m
+ * Date: 01.11.13
+ * Time: 12:26
+ * To change this template use File | Settings | File Templates.
+ */
 public class DependencyService {
 
-  public CollectResult getDependencyTree(Artifact artifact,RepositorySystemSession repoSession, RepositorySystem repoSystem,Log log)   throws DependencyCollectionException
-  {
-    DefaultRepositorySystemSession session = new DefaultRepositorySystemSession(repoSession);
+
+  /**
+   * This Method returns a CollectResult which includes the Root-Dependency-Node
+   * with all transitive Dependency-Nodes with a scope specified by the included and excluded scope list.
+   *
+   * @param artifact  The root-Node for the tree.
+   * @param repoSession
+   * @param repoSystem
+   * @param includedScopes
+   * @param excludedScopes
+   * @return
+   *
+   * @throws DependencyCollectionException
+   */
+  public CollectResult getDependencyTree(Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes ) throws DependencyCollectionException {
+    DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, false );
+    //session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
 
-                   for(int i=0; i<session.getConfigProperties().size();i++)
-                   {
-                     log.info( session.getConfigProperties().get( i ).toString());
-                   }
 
-    //to get dirty tree
+    ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
 
-    //session.setDependencyGraphTransformer( null );
-    //session.setDependencySelector( null );
-         log.info( session.getLocalRepository().toString() );
+    session.setDependencySelector( sDS );
+
+
     CollectRequest collectRequest = new CollectRequest();
-    //collectRequest.setRootArtifact(  artifact)   ;
-    collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" )  );
-    //collectRequest.addRepository( new RemoteRepository.Builder( "central", "default", "http://repo1.maven.org/maven2/" ).build() ) ;
-    CollectResult collectResult= repoSystem.collectDependencies( session, collectRequest );
-    //collectResult.getRoot(). .accept( new ConsoleDependencyGraphDumper() );
+    collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
+    collectRequest.setRootArtifact( artifact );
 
-    return    collectResult;
+    CollectResult collectResult = repoSystem.collectDependencies( session, collectRequest );
+
+    session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
+
+    return collectResult;
 
   }
 
-    @Deprecated
-    public List<Dependency> getAllDependencies(Artifact artifact,RepositorySystemSession repoSession, RepositorySystem repoSystem)
-    {         //Not completely implemented
-            try
-            {
-              for ( Dependency dependency : getDirectDependencies( artifact,repoSession,repoSystem ) ) {
+  /**
+   * This Method returns a CollectResult which includes the Root-Dependency-Node
+   * with all transitive Dependency-Nodes. Included scopes of the dependencies are: (provided,test,compile,runtime,system).
+   *
+   * @param artifact    The root-Node for the tree.
+   * @param repoSession
+   * @param repoSystem
+   * @return
+   *
+   * @throws DependencyCollectionException
+   */
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws DependencyCollectionException {
 
-                if(dependency.getScope().equals( "test" ) || dependency.isOptional() || dependency.getScope().equals( "provided" ))
-                {
-                  continue;
-                }
-                // System.out.println("-------------------------------------------------");
 
-               // System.out.println( Strings.repeat( "  ", depth )+ dependency );
-                //System.out.println( dependency.getScope() );
+    ArrayList<String> includes = new ArrayList<String>();
+    includes.add( "provided" );
+    includes.add( "test" );
+    includes.add( "compile" );
+    includes.add( "runtime" );
+    includes.add( "system" );
 
-                //System.out.println( "dependency.isOptional() = " + dependency.isOptional() );
+    ArrayList<String> excludes = new ArrayList<String>();
 
-                //this.getAllDependencies( dependency.getArtifact(),depth+1 );
-              }
-            }
-            catch(Exception e)
-            {
+    return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes );
 
-            }
-                return new ArrayList<Dependency>();
+  }
+
+
+  @Deprecated
+  public List<Dependency> getAllDependencies( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) {         //Not completely implemented
+    try {
+      for ( Dependency dependency : getDirectDependencies( artifact, repoSession, repoSystem ) ) {
+
+        if ( dependency.getScope().equals( "test" ) || dependency.isOptional() || dependency.getScope().equals( "provided" ) ) {
+          continue;
+        }
+        // System.out.println("-------------------------------------------------");
+
+        // System.out.println( Strings.repeat( "  ", depth )+ dependency );
+        //System.out.println( dependency.getScope() );
+
+        //System.out.println( "dependency.isOptional() = " + dependency.isOptional() );
+
+        //this.getAllDependencies( dependency.getArtifact(),depth+1 );
+      }
+    } catch ( Exception e ) {
+
     }
+    return new ArrayList<Dependency>();
+  }
 
 
-  public List<Dependency> getDirectDependencies(Artifact artifact,RepositorySystemSession repoSession, RepositorySystem repoSystem) throws ArtifactDescriptorException
-  {
+  public List<Dependency> getDirectDependencies( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws ArtifactDescriptorException {
 
     ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();
     descriptorRequest.setArtifact( artifact );
@@ -99,7 +128,6 @@ public class DependencyService {
 
     return descriptorResult.getDependencies();
   }
-
 
 
 }

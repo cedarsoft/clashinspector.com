@@ -9,25 +9,37 @@ package com.cedarsoft.hsrt.zkb.ourplugin;
  */
 
 
+import com.google.common.base.Strings;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
+
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.collection.CollectRequest;
-import org.sonatype.aether.collection.CollectResult;
-import org.sonatype.aether.graph.Dependency;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.repository.RemoteRepository;
+
+import org.eclipse.aether.DefaultRepositorySystemSession;
+import org.eclipse.aether.RepositorySystem;
+
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.collection.CollectRequest;
+import org.eclipse.aether.collection.CollectResult;
+import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
+import org.eclipse.aether.util.graph.transformer.ConflictResolver;
+
+
+
+
 import org.sonatype.aether.resolution.ArtifactDescriptorRequest;
 import org.sonatype.aether.resolution.ArtifactDescriptorResult;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
-import org.sonatype.aether.util.artifact.JavaScopes;
+
+
 
 import java.util.List;
 /**
@@ -36,7 +48,7 @@ import java.util.List;
  */
 
 
-  @Mojo( name="dependencies",requiresProject = true)
+  @Mojo( name="dependencies",requiresProject = true )
 public class DependencyMojo extends AbstractMojo {
 
   @Component()
@@ -65,7 +77,8 @@ public class DependencyMojo extends AbstractMojo {
     }
 
     try {
-      this.getAllDependencies( artifact );
+      //this.getAllDependencies( artifact,0 );
+      this.getDependencyTree( artifact );
     } catch ( Exception e ) {
       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
     }
@@ -76,7 +89,7 @@ public class DependencyMojo extends AbstractMojo {
     // DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.COMPILE );
 
     CollectRequest collectRequest = new CollectRequest();
-    collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
+    //collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
 
 
       /*DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
@@ -91,13 +104,10 @@ public class DependencyMojo extends AbstractMojo {
 
   }
 
-  public void getAllDependencies( Artifact artifact ) throws MojoExecutionException, MojoFailureException, Exception {
+  public void getAllDependencies( Artifact artifact , int depth) throws MojoExecutionException, MojoFailureException, Exception {
 
-    for ( Dependency dependency : getDirectDependencies( artifact ) ) {
-      System.out.println( dependency );
-      System.out.println( dependency.getScope() );
-      this.getAllDependencies( dependency.getArtifact() );
-    }
+
+
 
 
   }
@@ -106,40 +116,20 @@ public class DependencyMojo extends AbstractMojo {
   public void getDependencyTree( Artifact artifact ) throws Exception {
 
 
-    CollectRequest collectRequest = new CollectRequest();
-    collectRequest.setRoot( new Dependency( artifact, "" ) );
+    DependencyService dependencyService = new DependencyService();
 
-
-    CollectResult collectResult = this.repoSystem.collectDependencies( this.repoSession, collectRequest );
-
-
-    for ( DependencyNode dN : collectResult.getRoot().getChildren() ) {
-      System.out.println( dN );
-      for ( DependencyNode dN1 : dN.getChildren() ) {
-        System.out.println( dN1 );
-      }
-
-    }
-
+         ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer();
+   consoleVisualizer.visualize(dependencyService.getDependencyTree( artifact,this.repoSession,this.repoSystem ,getLog()) ,getLog() );
 
   }
 
-  public List<Dependency> getDirectDependencies( Artifact artifact ) throws MojoExecutionException, MojoFailureException, Exception {
+  public void getDirectDependencies( Artifact artifact ) throws MojoExecutionException, MojoFailureException, Exception {
 
 
     //  ArtifactRequest request = new ArtifactRequest();
     //LocalArtifactRequest lrequest = new LocalArtifactRequest(  );
 
-    ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();
-    descriptorRequest.setArtifact( artifact );
 
-
-    ArtifactDescriptorResult descriptorResult = this.repoSystem.readArtifactDescriptor( this.repoSession, descriptorRequest );
-
-    for ( Dependency dependency : descriptorResult.getDependencies() ) {
-      // System.out.println( dependency );
-    }
-    return descriptorResult.getDependencies();
 
 
     //this.remoteRepos.add( rR );

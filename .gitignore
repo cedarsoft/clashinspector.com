@@ -1,0 +1,50 @@
+*.class
+out
+target
+test-output
+.idea
+*.iml
+*.iws
+*.ipr
+*.ips
+dist
+temp
+tmp
+
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+
+
+#################
+## Eclipse
+#################
+
+*.pydevproject
+.project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath

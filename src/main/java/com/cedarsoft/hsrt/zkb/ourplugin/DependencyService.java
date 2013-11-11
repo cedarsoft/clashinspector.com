@@ -8,7 +8,6 @@ import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.collection.DependencyCollectionException;
 import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
@@ -32,7 +31,7 @@ public class DependencyService {
    * This Method returns a CollectResult which includes the Root-Dependency-Node
    * with all transitive Dependency-Nodes with a scope specified by the included and excluded scope list.
    *
-   * @param artifact  The root-Node for the tree.
+   * @param artifact       The root-Node for the tree.
    * @param repoSession
    * @param repoSystem
    * @param includedScopes
@@ -41,7 +40,7 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree(Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes ) throws DependencyCollectionException {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );

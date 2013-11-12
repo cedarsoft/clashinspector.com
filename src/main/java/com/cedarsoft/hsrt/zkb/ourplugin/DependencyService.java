@@ -12,8 +12,14 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
+import org.eclipse.aether.util.graph.manager.ClassicDependencyManager;
+import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
+import org.eclipse.aether.util.graph.selector.AndDependencySelector;
+import org.eclipse.aether.util.graph.selector.OptionalDependencySelector;
 import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
+import org.eclipse.aether.version.Version;
+import org.eclipse.aether.util.version.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,17 +51,30 @@ public class DependencyService {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-    //session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+
+    OptionalDependencySelector oDS = new OptionalDependencySelector( );
+
+
 
 
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
 
-    session.setDependencySelector( sDS );
 
+
+
+    AndDependencySelector aDS = new AndDependencySelector( oDS,sDS );
+
+    session.setDependencySelector( aDS );
 
     CollectRequest collectRequest = new CollectRequest();
+
+
+
     collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
     collectRequest.setRootArtifact( artifact );
+    //collectRequest.addManagedDependency(  )
+
 
     CollectResult collectResult = repoSystem.collectDependencies( session, collectRequest );
 
@@ -116,7 +135,7 @@ public class DependencyService {
     return new ArrayList<Dependency>();
   }
 
-
+  @Deprecated
   public List<Dependency> getDirectDependencies( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws ArtifactDescriptorException {
 
     ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();

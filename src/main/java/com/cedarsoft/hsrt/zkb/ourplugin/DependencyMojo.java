@@ -71,7 +71,7 @@ public class DependencyMojo extends AbstractMojo {
       ArrayList<String> includes = new ArrayList<String>();
      // includes.add( "test" );
       includes.add( "compile" );
-
+               System.out.println(this.remoteRepos.toString() );
 
       ArrayList<String> excludes = new ArrayList<String>();
 

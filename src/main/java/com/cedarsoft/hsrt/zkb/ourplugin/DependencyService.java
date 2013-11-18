@@ -89,7 +89,7 @@ public class DependencyService {
     } catch ( DependencyCollectionException e ) {
 
       collectResult = e.getResult();
-      System.out.println(e.getMessage())   ;
+     // System.out.println(e.getMessage())   ;
 
     }
    // session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );

@@ -11,6 +11,6 @@ import org.eclipse.aether.collection.CollectResult;
  */
 public interface Visualizer {
 
-       public void visualize(CollectResult collectResult)   ;
+       public void visualize(CollectResult collectResult, DependencyMojo dependencyMojo)  ;
 
 }

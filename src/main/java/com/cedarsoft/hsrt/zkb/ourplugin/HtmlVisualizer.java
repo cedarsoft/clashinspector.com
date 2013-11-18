@@ -13,7 +13,7 @@ public class HtmlVisualizer implements Visualizer {
 
 
   @Override
-  public void visualize( CollectResult collectResult ) {
+  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 }

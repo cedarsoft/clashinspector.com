@@ -9,31 +9,18 @@ package com.cedarsoft.hsrt.zkb.ourplugin;
  */
 
 
-import com.google.common.base.Strings;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
-
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;
-
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
-import org.eclipse.aether.collection.CollectRequest;
-import org.eclipse.aether.collection.CollectResult;
-import org.eclipse.aether.collection.DependencyCollectionException;
-import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.repository.RemoteRepository;
-import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
-import org.eclipse.aether.util.graph.transformer.ConflictResolver;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,15 +69,13 @@ public class DependencyMojo extends AbstractMojo {
 
       ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( getLog() );
 
-      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes, false ) );
+      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes, false ), this );
       // consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, false ) );
 
 
     } catch ( IllegalArgumentException e ) {
       throw new MojoFailureException( e.getMessage(), e );
     }
-
-
   }
 
 

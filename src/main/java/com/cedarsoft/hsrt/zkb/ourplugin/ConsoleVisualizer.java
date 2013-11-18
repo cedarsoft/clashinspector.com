@@ -4,10 +4,6 @@ import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
-import org.eclipse.aether.version.Version;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,51 +13,42 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class ConsoleVisualizer implements Visualizer {
-  Map<String, Version> map = new HashMap<String, Version>();
+
   private Log log;
+  private VersionDetailService service;
 
   public ConsoleVisualizer( Log log ) {
     this.log = log;
   }
 
-  private void printNode( DependencyNode dependencyNode, int depth ) {
-
-
-
+  private void printTree( DependencyNode dependencyNode, int depth )  {
+    DependencyNodeVersionDetails dNVersionDetails;
     for ( DependencyNode dN : dependencyNode.getChildren() ) {
-
+      dNVersionDetails = service.resolveVersionDetails( dN );
       log.info( Strings.repeat( "  ", depth ) + dN.toString() );
 
-      String key = dN.getArtifact().getGroupId() + ":" + dN.getArtifact().getArtifactId();
-      Version version = map.get( key );
-
-      if ( version != null ) {
-        if(!version.toString().equals( dN.getArtifact().getVersion().toString() ))
-        {
-        log.error( Strings.repeat( "  ", depth ) + "Version Clash " + version.toString() + " and " + dN.getArtifact().getVersion() + " !!!!!!!!!!!!!!!!!!!!!!" );
-        }
-        } else {
-        map.put( key, dN.getVersion() );
+      switch ( dNVersionDetails.getClashType() ) {
+        case NONE:
+          break;
+        case EQUAL:
+          break;
+        case USED_VERSION_HIGHER:
+          log.warn(  "[Version Clash] Maven is using a higher version " + dNVersionDetails.getInMavenUsedVersion() );
+          log.warn( "----------------------------" );
+          break;
+        case USED_VERSION_LOWER:
+          log.warn( "[FATAL Version Clash] Maven is using a lower version " + dNVersionDetails.getInMavenUsedVersion() );
+          log.warn( "----------------------------" );
+          break;
       }
 
-
-        /*
-      log.info( Strings.repeat( "  ", depth ) + "Direct Version " + dN.getVersion() );
-      log.info( Strings.repeat( "  ", depth ) + "Direct VersionConstraint " + dN.getVersionConstraint() );
-      log.info( Strings.repeat( "  ", depth ) + "Artifact Base Version " + dN.getArtifact().getBaseVersion() );
-
-      log.info( Strings.repeat( "  ", depth ) + "Artifact Version " + dN.getArtifact().getVersion() );
-                       */
-      this.printNode( dN, depth + 1 );
+      this.printTree( dN, depth + 1 );
     }
   }
 
-  public void visualize( CollectResult collectResult ) {
-
-    printNode( collectResult.getRoot(), 0 );
-
-
+  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ){
+    this.service = new VersionDetailService();
+    printTree( collectResult.getRoot(), 0 );
   }
-
 
 }

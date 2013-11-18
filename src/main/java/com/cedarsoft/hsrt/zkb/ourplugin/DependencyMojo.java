@@ -43,22 +43,22 @@ import java.util.List;
  */
 
 
-@Mojo( name = "dependencies", requiresProject = true )
+@Mojo(name = "dependencies", requiresProject = true)
 public class DependencyMojo extends AbstractMojo {
 
   @Component()
   private RepositorySystem repoSystem;
 
 
-  @Parameter( defaultValue = "${repositorySystemSession}" )
+  @Parameter(defaultValue = "${repositorySystemSession}")
   private RepositorySystemSession repoSession;
 
 
-  @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
+  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepos;
 
 
-  @Parameter( defaultValue = "${project}", readonly = true, required = true )
+  @Parameter(defaultValue = "${project}", readonly = true, required = true)
   private MavenProject project;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -69,9 +69,11 @@ public class DependencyMojo extends AbstractMojo {
       artifact = new DefaultArtifact( project.getArtifact().toString() );
 
       ArrayList<String> includes = new ArrayList<String>();
-     // includes.add( "test" );
+      // includes.add( "test" );
       includes.add( "compile" );
-               System.out.println(this.remoteRepos.toString() );
+      //includes.add( "provided" );
+
+      System.out.println( this.remoteRepos.toString() );
 
       ArrayList<String> excludes = new ArrayList<String>();
 
@@ -80,12 +82,11 @@ public class DependencyMojo extends AbstractMojo {
 
       ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( getLog() );
 
-      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes ) );
+      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes, false ) );
+      // consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, false ) );
 
 
     } catch ( IllegalArgumentException e ) {
-      throw new MojoFailureException( e.getMessage(), e );
-    } catch ( DependencyCollectionException e ) {
       throw new MojoFailureException( e.getMessage(), e );
     }
 

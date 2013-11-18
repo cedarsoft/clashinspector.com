@@ -14,6 +14,7 @@ import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
+import org.eclipse.aether.transfer.ArtifactTransferException;
 import org.eclipse.aether.util.graph.manager.ClassicDependencyManager;
 import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
 import org.eclipse.aether.util.graph.selector.AndDependencySelector;
@@ -55,15 +56,15 @@ public class DependencyService {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+   session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
 
     OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
     AndDependencySelector aDS;
     if ( includeOptional == true ) {
-      aDS = new AndDependencySelector( oDS, sDS );
-    } else {
       aDS = new AndDependencySelector( sDS );
+    } else {
+      aDS = new AndDependencySelector( oDS, sDS );
     }
     session.setDependencySelector( aDS );
 
@@ -88,9 +89,25 @@ public class DependencyService {
     } catch ( DependencyCollectionException e ) {
 
       collectResult = e.getResult();
+      System.out.println(e.getMessage())   ;
 
     }
-    session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
+   // session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
+
+    /*
+    System.out.println( collectResult.getExceptions().get( 0 ).getClass() );
+    System.out.println( collectResult.getExceptions().get( 0 ).getCause().getClass() );
+    System.out.println( collectResult.getExceptions().get( 0 ).getCause().getCause().getClass() );
+
+    ArtifactDescriptorException a= (ArtifactDescriptorException) collectResult.getExceptions().get( 0 )  ;
+    System.out.println("RESULT a:    " + a.getResult() );
+
+
+    ArtifactResolutionException b =    (ArtifactResolutionException)  collectResult.getExceptions().get( 0 ).getCause();
+    System.out.println("RESULT b:    " +  b.getResult());
+    ArtifactTransferException c =    (ArtifactTransferException)  collectResult.getExceptions().get( 0 ).getCause().getCause();
+    System.out.println("RESULT c:    " +  c.getArtifact().getClass() );
+             */
 
     return collectResult;
 
@@ -107,7 +124,7 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, boolean includeOptional ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, boolean includeOptional ) {
 
 
     ArrayList<String> includes = new ArrayList<String>();

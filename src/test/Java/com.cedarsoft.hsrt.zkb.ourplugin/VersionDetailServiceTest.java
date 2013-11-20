@@ -20,14 +20,15 @@ public class VersionDetailServiceTest {
   public void testResolveVersionDetails()
         {
 
-          Artifact artifact = new DefaultArtifact( "org.apache.maven:maven-aether-provider:3.1.0" );
+          Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
 
           DefaultDependencyNode defaultDependencyNode = new DefaultDependencyNode(artifact);
 
+
+
           VersionDetailService vDS = new VersionDetailService();
 
-          vDS.resolveVersionDetails( defaultDependencyNode );
-
+          DependencyNodeVersionDetails dependencyNodeVersionDetails = vDS.resolveVersionDetails( defaultDependencyNode );
 
 
         }

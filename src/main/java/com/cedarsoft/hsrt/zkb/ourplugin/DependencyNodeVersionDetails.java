@@ -16,26 +16,38 @@ import java.util.List;
 public class DependencyNodeVersionDetails {
   //DependencyNodeVersionDetails
 
-  private ArrayList<Version> versions;
+  private ArrayList<VersionWrapper> versions;
+  private Version nodeVersion;
 
 
   public Version getHighestVersion() {
     // for(Version version : versions)
-    Version version = Collections.max( versions );
 
 
-    return version;
+    ArrayList<Version> list = new ArrayList<Version>();
+    for ( VersionWrapper versionWrapper : this.versions ) {
+      list.add( versionWrapper.getVersion() );
+    }
+
+
+    return Collections.max( list );
   }
 
   public Version getLowestVersion() {
-    Version version = Collections.min( versions );
 
 
-    return version;
+    ArrayList<Version> list = new ArrayList<Version>();
+    for ( VersionWrapper versionWrapper : this.versions ) {
+      list.add( versionWrapper.getVersion() );
+    }
+
+
+    return Collections.min( list );
   }
 
   public boolean hasVersionClash() {
-    if ( this.versions.size() > 1 ) {
+
+    if ( this.getAllDifferentVersions().size() > 1 ) {
       return true;
     } else {
       return false;
@@ -44,30 +56,46 @@ public class DependencyNodeVersionDetails {
 
   public Version getInMavenUsedVersion() {
     //TODO Baum chekcen ob wirklihc erste version von maven verwendet wird
-    return versions.get( 0 );
+
+
+    return Collections.min( this.versions ).getVersion();
   }
 
 
-  public List<Version> getVersions() {
+  public List<VersionWrapper> getVersions() {
     return Collections.unmodifiableList( versions );
   }
 
-  public void setVersions( ArrayList<Version> versions ) {
+  public List<Version> getAllDifferentVersions() {
+
+    ArrayList<Version> differentVersions = new ArrayList<Version>();
+
+    for ( VersionWrapper versionWrapper : versions ) {
+      if ( !differentVersions.contains( versionWrapper.getVersion() ) ) {
+        differentVersions.add( versionWrapper.getVersion() );
+      }
+    }
+
+
+    return Collections.unmodifiableList( differentVersions );
+  }
+
+  public void setVersions( ArrayList<VersionWrapper> versions ) {
     this.versions = versions;
   }
 
   public ClashType getClashType() {
-    //compare last entry with used version benutzte version mit leztter version vergelcihen
-    int clashResult = versions.get( 0 ).compareTo( versions.get( versions.size() - 1 ) );
+    //compare nodeVersion with inMavenUsedVersion
+    int clashResult = this.nodeVersion.compareTo( this.getInMavenUsedVersion() );
 
     if ( !this.hasVersionClash() ) {
       return ClashType.NONE;
     }
 
     if ( clashResult < 0 ) {
-      return ClashType.USED_VERSION_LOWER;
-    } else if ( clashResult > 0 ) {
       return ClashType.USED_VERSION_HIGHER;
+    } else if ( clashResult > 0 ) {
+      return ClashType.USED_VERSION_LOWER;
     } else {
       return ClashType.EQUAL;
     }
@@ -81,4 +109,11 @@ public class DependencyNodeVersionDetails {
   }
 
 
+  public Version getNodeVersion() {
+    return nodeVersion;
+  }
+
+  public void setNodeVersion( Version nodeVersion ) {
+    this.nodeVersion = nodeVersion;
+  }
 }

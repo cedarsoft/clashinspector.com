@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.version.Version;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,40 +16,103 @@ import org.eclipse.aether.graph.DependencyNode;
 public class ConsoleVisualizer implements Visualizer {
 
   private Log log;
-  private VersionDetailService service;
 
   public ConsoleVisualizer( Log log ) {
     this.log = log;
   }
 
-  private void printTree( DependencyNode dependencyNode, int depth )  {
+  private void printFullTree( DependencyNode dependencyNode, int depth ) {
     DependencyNodeVersionDetails dNVersionDetails;
+
+
     for ( DependencyNode dN : dependencyNode.getChildren() ) {
-      dNVersionDetails = service.resolveVersionDetails( dN );
+
+
+      dNVersionDetails = ( DependencyNodeVersionDetails ) dN.getData().get( "DependencyNodeVersionDetails" );
+
+
       log.info( Strings.repeat( "  ", depth ) + dN.toString() );
+
 
       switch ( dNVersionDetails.getClashType() ) {
         case NONE:
           break;
         case EQUAL:
+          log.warn( Strings.repeat( "  ", depth ) + "[Version Clash] Maybe Maven should use higher Version. Details:" );
+          for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
+            String details = "";
+
+
+            if ( version.toString().equals( dNVersionDetails.getInMavenUsedVersion().toString() ) ) {
+              details = details + " (used)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getHighestVersion().toString() ) ) {
+              details = details + " (highest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getLowestVersion().toString() ) ) {
+              details = details + " (lowest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getNodeVersion().toString() ) ) {
+              details = details + " <- referred";
+            }
+
+            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+          }
           break;
         case USED_VERSION_HIGHER:
-          log.warn(  "[Version Clash] Maven is using a higher version " + dNVersionDetails.getInMavenUsedVersion() );
-          log.warn( "----------------------------" );
+          log.warn( Strings.repeat( "  ", depth ) + "[Version Clash] Maven is using a higher version. Details:" );
+          for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
+            String details = "";
+
+
+            if ( version.toString().equals( dNVersionDetails.getInMavenUsedVersion().toString() ) ) {
+              details = details + " (used)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getHighestVersion().toString() ) ) {
+              details = details + " (highest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getLowestVersion().toString() ) ) {
+              details = details + " (lowest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getNodeVersion().toString() ) ) {
+              details = details + " <- referred";
+            }
+
+            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+          }
+
+
           break;
         case USED_VERSION_LOWER:
-          log.warn( "[FATAL Version Clash] Maven is using a lower version " + dNVersionDetails.getInMavenUsedVersion() );
-          log.warn( "----------------------------" );
+          log.error( Strings.repeat( "  ", depth ) + "[CRITICAL Version Clash] Maven is using a lower version. Details:" );
+          for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
+            String details = "";
+
+
+            if ( version.toString().equals( dNVersionDetails.getInMavenUsedVersion().toString() ) ) {
+              details = details + " (used)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getHighestVersion().toString() ) ) {
+              details = details + " (highest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getLowestVersion().toString() ) ) {
+              details = details + " (lowest)";
+            }
+            if ( version.toString().equals( dNVersionDetails.getNodeVersion().toString() ) ) {
+              details = details + " <- referred";
+            }
+
+            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+          }
           break;
       }
 
-      this.printTree( dN, depth + 1 );
+      this.printFullTree( dN, depth + 1 );
     }
   }
 
-  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ){
-    this.service = new VersionDetailService();
-    printTree( collectResult.getRoot(), 0 );
+  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ) {
+    printFullTree( collectResult.getRoot(), 0 );
   }
 
 }

@@ -36,10 +36,8 @@ public class DependencyMojo extends AbstractMojo {
   @Component()
   private RepositorySystem repoSystem;
 
-
   @Parameter(defaultValue = "${repositorySystemSession}")
   private RepositorySystemSession repoSession;
-
 
   @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepos;
@@ -54,7 +52,7 @@ public class DependencyMojo extends AbstractMojo {
     Artifact artifact;
     try {
       artifact = new DefaultArtifact( project.getArtifact().toString() );
-
+      System.out.println( "Artifact to string: " +project.getArtifact().toString() );
       ArrayList<String> includes = new ArrayList<String>();
       // includes.add( "test" );
       includes.add( "compile" );

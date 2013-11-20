@@ -7,27 +7,21 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.collection.DependencyCollectionException;
-import org.eclipse.aether.collection.DependencyGraphTransformer;
 import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
-import org.eclipse.aether.resolution.ArtifactResolutionException;
-import org.eclipse.aether.transfer.ArtifactTransferException;
-import org.eclipse.aether.util.graph.manager.ClassicDependencyManager;
 import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
 import org.eclipse.aether.util.graph.selector.AndDependencySelector;
 import org.eclipse.aether.util.graph.selector.OptionalDependencySelector;
 import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
-import org.eclipse.aether.util.graph.transformer.ConflictMarker;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
-import org.eclipse.aether.util.graph.transformer.JavaScopeDeriver;
-import org.eclipse.aether.version.Version;
-import org.eclipse.aether.util.version.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -56,7 +50,7 @@ public class DependencyService {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-   session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
 
     OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
@@ -89,29 +83,51 @@ public class DependencyService {
     } catch ( DependencyCollectionException e ) {
 
       collectResult = e.getResult();
-     // System.out.println(e.getMessage())   ;
 
     }
-   // session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
-
-    /*
-    System.out.println( collectResult.getExceptions().get( 0 ).getClass() );
-    System.out.println( collectResult.getExceptions().get( 0 ).getCause().getClass() );
-    System.out.println( collectResult.getExceptions().get( 0 ).getCause().getCause().getClass() );
-
-    ArtifactDescriptorException a= (ArtifactDescriptorException) collectResult.getExceptions().get( 0 )  ;
-    System.out.println("RESULT a:    " + a.getResult() );
 
 
-    ArtifactResolutionException b =    (ArtifactResolutionException)  collectResult.getExceptions().get( 0 ).getCause();
-    System.out.println("RESULT b:    " +  b.getResult());
-    ArtifactTransferException c =    (ArtifactTransferException)  collectResult.getExceptions().get( 0 ).getCause().getCause();
-    System.out.println("RESULT c:    " +  c.getArtifact().getClass() );
-             */
+    //Fill list of versions for every dependency
+    //Über alle depependency nodes iterieren und  map mit key und version erstellen
+
+    Map<String, ArrayList<VersionWrapper>> dependencyMap = new HashMap<String, ArrayList<VersionWrapper>>();
+
+    this.enrichDependencyNodesWithVersionDetails( collectResult.getRoot(), dependencyMap, 0 );
 
     return collectResult;
 
   }
+
+  private void enrichDependencyNodesWithVersionDetails( DependencyNode dependencyNode, Map<String, ArrayList<VersionWrapper>> dependencyMap, int depth ) {
+    ArrayList<VersionWrapper> versions;
+    for ( DependencyNode dN : dependencyNode.getChildren() ) {
+
+      String key = dN.getArtifact().getGroupId() + ":" + dN.getArtifact().getArtifactId();
+
+      if ( dependencyMap.get( key ) == null ) {
+        versions = this.createVersionList();
+        VersionWrapper versionWrapper = new VersionWrapper( dN.getVersion(), depth );
+
+        versions.add( versionWrapper );
+        dependencyMap.put( key, versions );
+
+      } else {
+        versions = dependencyMap.get( key );
+        versions.add( new VersionWrapper( dN.getVersion(), depth ) );
+      }
+
+      DependencyNodeVersionDetails dependencyNodeVersionDetails = new DependencyNodeVersionDetails();
+      dependencyNodeVersionDetails.setVersions( versions );
+      dependencyNodeVersionDetails.setNodeVersion( dN.getVersion() );
+      dN.setData( "DependencyNodeVersionDetails", dependencyNodeVersionDetails );
+
+
+      this.enrichDependencyNodesWithVersionDetails( dN, dependencyMap, depth + 1 );
+    }
+
+
+  }
+
 
   /**
    * This Method returns a CollectResult which includes the Root-Dependency-Node
@@ -177,5 +193,9 @@ public class DependencyService {
     return descriptorResult.getDependencies();
   }
 
+
+  private ArrayList<VersionWrapper> createVersionList() {
+    return new ArrayList<VersionWrapper>();
+  }
 
 }

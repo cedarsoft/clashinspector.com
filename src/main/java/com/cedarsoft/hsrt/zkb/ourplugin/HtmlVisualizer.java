@@ -1,5 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import org.eclipse.aether.collection.CollectResult;
 
 /**
@@ -13,7 +14,7 @@ public class HtmlVisualizer implements Visualizer {
 
 
   @Override
-  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ) {
+  public void visualize( CollectResult collectResult, ClashTreeMojo clashTreeMojo ) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 }

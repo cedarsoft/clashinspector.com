@@ -1,5 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import org.eclipse.aether.collection.CollectResult;
 
 /**
@@ -11,6 +12,6 @@ import org.eclipse.aether.collection.CollectResult;
  */
 public interface Visualizer {
 
-       public void visualize(CollectResult collectResult, DependencyMojo dependencyMojo)  ;
+       public void visualize(CollectResult collectResult, ClashTreeMojo clashTreeMojo )  ;
 
 }

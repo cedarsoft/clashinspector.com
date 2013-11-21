@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,10 +9,13 @@ package com.cedarsoft.hsrt.zkb.ourplugin;
  */
 
 
+import com.cedarsoft.hsrt.zkb.ourplugin.ConsoleVisualizer;
+import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
@@ -28,10 +31,10 @@ import java.util.List;
 /**
  * Get all Dependencies of the project
  */
-
-
-@Mojo(name = "dependencies", requiresProject = true)
-public class DependencyMojo extends AbstractMojo {
+                //clashinspector
+              //clashfinder
+@Mojo(name = "clashdetectorphase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
+public class ClashPhaseMojo extends AbstractMojo {
 
   @Component()
   private RepositorySystem repoSystem;
@@ -41,6 +44,12 @@ public class DependencyMojo extends AbstractMojo {
 
   @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepos;
+
+  @Parameter( alias = "includedScopes" , defaultValue ="provided")
+  private String[] includedScopes;
+
+  @Parameter( alias = "excludedScopes" , defaultValue ="provided")
+  private String[] excludedScopes;
 
 
   @Parameter(defaultValue = "${project}", readonly = true, required = true)
@@ -67,7 +76,7 @@ public class DependencyMojo extends AbstractMojo {
 
       ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( getLog() );
 
-      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes, false ), this );
+      //consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includes, excludes, false ), this );
       // consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, false ) );
 
 
@@ -77,6 +86,13 @@ public class DependencyMojo extends AbstractMojo {
   }
 
 
+  public void setIncludedScopes( String[] includedScopes ) {
+    this.includedScopes = includedScopes;
+  }
+
+  public void setExcludedScopes( String[] excludedScopes ) {
+    this.excludedScopes = excludedScopes;
+  }
 }
 
 

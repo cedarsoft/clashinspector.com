@@ -12,7 +12,7 @@ import org.junit.*;
  * Time: 15:18
  * To change this template use File | Settings | File Templates.
  */
-public class VersionDetailServiceTest {
+public class DependencyServiceTest {
 
 
 
@@ -23,12 +23,6 @@ public class VersionDetailServiceTest {
           Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
 
           DefaultDependencyNode defaultDependencyNode = new DefaultDependencyNode(artifact);
-
-
-
-          VersionDetailService vDS = new VersionDetailService();
-
-          DependencyNodeVersionDetails dependencyNodeVersionDetails = vDS.resolveVersionDetails( defaultDependencyNode );
 
 
         }

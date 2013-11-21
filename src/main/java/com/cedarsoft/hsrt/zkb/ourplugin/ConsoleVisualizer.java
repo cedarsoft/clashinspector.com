@@ -1,5 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.collection.CollectResult;
@@ -38,6 +39,13 @@ public class ConsoleVisualizer implements Visualizer {
         case NONE:
           break;
         case EQUAL:
+                //Wenn die benutzte Version (bereits durch equal klar) in Maven bereits die höchste version ist dann keine probleme anzeigen
+         if( dNVersionDetails.getInMavenUsedVersion().toString().equals( dNVersionDetails.getHighestVersion().toString() ))
+        {
+
+        }
+        else
+        {
           log.warn( Strings.repeat( "  ", depth ) + "[Version Clash] Maybe Maven should use higher Version. Details:" );
           for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
             String details = "";
@@ -57,6 +65,9 @@ public class ConsoleVisualizer implements Visualizer {
             }
 
             log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+        }
+
+
           }
           break;
         case USED_VERSION_HIGHER:
@@ -111,7 +122,7 @@ public class ConsoleVisualizer implements Visualizer {
     }
   }
 
-  public void visualize( CollectResult collectResult, DependencyMojo dependencyMojo ) {
+  public void visualize( CollectResult collectResult, ClashTreeMojo clashTreeMojo ) {
     printFullTree( collectResult.getRoot(), 0 );
   }
 

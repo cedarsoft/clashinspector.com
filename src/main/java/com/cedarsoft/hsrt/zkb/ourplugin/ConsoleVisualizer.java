@@ -1,6 +1,7 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashFullTreeMojo;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.collection.CollectResult;
@@ -18,9 +19,6 @@ public class ConsoleVisualizer implements Visualizer {
 
   private Log log;
 
-  public ConsoleVisualizer( Log log ) {
-    this.log = log;
-  }
 
   private void printFullTree( DependencyNode dependencyNode, int depth ) {
     DependencyNodeVersionDetails dNVersionDetails;
@@ -31,8 +29,30 @@ public class ConsoleVisualizer implements Visualizer {
 
       dNVersionDetails = ( DependencyNodeVersionDetails ) dN.getData().get( "DependencyNodeVersionDetails" );
 
+      String s ="";
 
-      log.info( Strings.repeat( "  ", depth ) + dN.toString() );
+            for(int i=0;i<depth;i++)
+            {
+              s = s +"|  ";
+            }
+
+
+         if( dN.getChildren().size()>0)
+         {
+           s = s+ "+ " ;
+         }
+         else if (dNVersionDetails.hasVersionClash()==true) {
+           s = s+ "  ";
+         }
+      else
+         {
+           s = s+ "- ";
+         }
+
+
+
+
+      log.info( s + dN.toString() );
 
 
       switch ( dNVersionDetails.getClashType() ) {
@@ -46,7 +66,7 @@ public class ConsoleVisualizer implements Visualizer {
         }
         else
         {
-          log.warn( Strings.repeat( "  ", depth ) + "[Version Clash] Maybe Maven should use higher Version. Details:" );
+          log.warn( s+ "[Version Clash] Maybe Maven should use higher Version. Details:" );
           for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
             String details = "";
 
@@ -64,14 +84,14 @@ public class ConsoleVisualizer implements Visualizer {
               details = details + " <- referred";
             }
 
-            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+            log.info( s + version.toString() + details );
         }
 
 
           }
           break;
         case USED_VERSION_HIGHER:
-          log.warn( Strings.repeat( "  ", depth ) + "[Version Clash] Maven is using a higher version. Details:" );
+          log.warn( s+ "[Version Clash] Maven is using a higher version. Details:" );
           for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
             String details = "";
 
@@ -89,13 +109,13 @@ public class ConsoleVisualizer implements Visualizer {
               details = details + " <- referred";
             }
 
-            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+            log.info( s + version.toString() + details );
           }
 
 
           break;
         case USED_VERSION_LOWER:
-          log.error( Strings.repeat( "  ", depth ) + "[CRITICAL Version Clash] Maven is using a lower version. Details:" );
+          log.error( s + "[CRITICAL Version Clash] Maven is using a lower version. Details:" );
           for ( Version version : dNVersionDetails.getAllDifferentVersions() ) {
             String details = "";
 
@@ -113,16 +133,18 @@ public class ConsoleVisualizer implements Visualizer {
               details = details + " <- referred";
             }
 
-            log.info( Strings.repeat( "   ", depth ) + version.toString() + details );
+            log.info( s + version.toString() + details );
           }
           break;
       }
+
 
       this.printFullTree( dN, depth + 1 );
     }
   }
 
-  public void visualize( CollectResult collectResult, ClashTreeMojo clashTreeMojo ) {
+  public void visualize( CollectResult collectResult, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashFullTreeMojo clashFullTreeMojo ) {
+    this.log = clashFullTreeMojo.getLog();
     printFullTree( collectResult.getRoot(), 0 );
   }
 

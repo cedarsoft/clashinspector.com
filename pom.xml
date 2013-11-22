@@ -101,9 +101,10 @@
         <version>0.1-SNAPSHOT</version>
         <configuration>
           <includedScopes>
+                      <includedScope>compile</includedScope>
 
           </includedScopes>
-
+                   <includeOptional>false</includeOptional>
         </configuration>
 
 

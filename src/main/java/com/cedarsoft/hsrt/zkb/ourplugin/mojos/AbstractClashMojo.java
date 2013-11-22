@@ -29,15 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Get all Dependencies of the project
- */
 
-//tree full tree simple
-@Mojo( name = "tree", requiresProject = true, defaultPhase = LifecyclePhase.NONE )
-public class ClashTreeMojo extends AbstractMojo {
-
-  static String[] a;
+public abstract class AbstractClashMojo extends AbstractMojo {
 
   @Component()
   private RepositorySystem repoSystem;
@@ -61,49 +54,68 @@ public class ClashTreeMojo extends AbstractMojo {
   @Parameter( alias = "includeOptional", defaultValue = "false" )
   private boolean includeOptional;
 
+  @Parameter( alias = "clashDetectionLevel", defaultValue = "ALL" )
+  private ClashDetectionLevel detectionLevel;
 
-  //big tree .. small tree und level mitgeben
+  private ArrayList<String> includedScopesList = new ArrayList<String>();
+  private ArrayList<String> excludedScopesList = new ArrayList<String>();
+
   public void execute() throws MojoExecutionException, MojoFailureException {
-
-    ArrayList<String> includedScopesList = new ArrayList<String>();
-    ArrayList<String> excludedScopesList = new ArrayList<String>();
-
-    if ( this.includedScopes != null ) {
-      includedScopesList.addAll( Arrays.asList( this.includedScopes ) );
-    } else {
+    if ( this.includedScopes == null | this.includedScopes.length == 0 ) {
       includedScopesList.add( "compile" );
-    }
-
-    if ( this.excludedScopes != null ) {
-      excludedScopesList.addAll( Arrays.asList( this.excludedScopes ) );
     } else {
 
+      includedScopesList.addAll( Arrays.asList( this.includedScopes ) );
     }
 
-    Artifact artifact;
-    try {
-      artifact = new DefaultArtifact( project.getArtifact().toString() );
+    if ( this.excludedScopes == null ) {
 
-
-      DependencyService dependencyService = new DependencyService();
-
-      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( getLog() );
-
-      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includedScopesList, excludedScopesList, includeOptional ), this );
-
-
-    } catch ( IllegalArgumentException e ) {
-      throw new MojoFailureException( e.getMessage(), e );
+    } else {
+      excludedScopesList.addAll( Arrays.asList( this.excludedScopes ) );
     }
+
+
   }
 
-  public void setIncludedScopes( String[] includedScopes ) {
-    this.includedScopes = includedScopes;
+
+  public RepositorySystem getRepoSystem() {
+    return repoSystem;
   }
 
-  public void setExcludedScopes( String[] excludedScopes ) {
-    this.excludedScopes = excludedScopes;
+  public RepositorySystemSession getRepoSession() {
+    return repoSession;
   }
+
+  public List<RemoteRepository> getRemoteRepos() {
+    return remoteRepos;
+  }
+
+  public MavenProject getProject() {
+    return project;
+  }
+
+  public boolean isIncludeOptional() {
+    return includeOptional;
+  }
+
+  public ClashDetectionLevel getClashDetectionLevel() {
+    return detectionLevel;
+  }
+
+  public ArrayList<String> getIncludedScopesList() {
+    return includedScopesList;
+  }
+
+  public ArrayList<String> getExcludedScopesList() {
+    return excludedScopesList;
+  }
+
+    public enum ClashDetectionLevel{
+                      ALL, CRITICAL, DANGEROUS
+
+    }
+
+
 }
 
 

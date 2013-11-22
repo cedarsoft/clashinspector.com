@@ -26,43 +26,38 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.repository.RemoteRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Get all Dependencies of the project
  */
-                //clashinspector
-              //clashfinder
-@Mojo(name = "clashdetectorphase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
-public class ClashPhaseMojo extends AbstractMojo {
 
-  @Component()
-  private RepositorySystem repoSystem;
-
-  @Parameter(defaultValue = "${repositorySystemSession}")
-  private RepositorySystemSession repoSession;
-
-  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
-  private List<RemoteRepository> remoteRepos;
-
-  @Parameter( alias = "includedScopes" , defaultValue ="provided")
-  private String[] includedScopes;
-
-  @Parameter( alias = "excludedScopes" , defaultValue ="provided")
-  private String[] excludedScopes;
+//tree full tree simple
+@Mojo( name = "tree", requiresProject = true, defaultPhase = LifecyclePhase.NONE )
+public class ClashFullTreeMojo extends AbstractClashMojo {
 
 
-  @Parameter(defaultValue = "${project}", readonly = true, required = true)
-  private MavenProject project;
 
+
+  //big tree .. small tree und level mitgeben
   public void execute() throws MojoExecutionException, MojoFailureException {
+
+            super.execute();
+
 
 
     Artifact artifact;
     try {
-      artifact = new DefaultArtifact( project.getArtifact().toString() );
+      artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
-      System.out.println("phaseeeeeeeee mojo started");
+
+      DependencyService dependencyService = new DependencyService();
+
+      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( );
+
+      consoleVisualizer.visualize( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ), this.getClashDetectionLevel(), this );
+
 
     } catch ( IllegalArgumentException e ) {
       throw new MojoFailureException( e.getMessage(), e );
@@ -70,13 +65,6 @@ public class ClashPhaseMojo extends AbstractMojo {
   }
 
 
-  public void setIncludedScopes( String[] includedScopes ) {
-    this.includedScopes = includedScopes;
-  }
-
-  public void setExcludedScopes( String[] excludedScopes ) {
-    this.excludedScopes = excludedScopes;
-  }
 }
 
 

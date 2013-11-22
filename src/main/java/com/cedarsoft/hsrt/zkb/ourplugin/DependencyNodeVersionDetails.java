@@ -1,5 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
 import org.eclipse.aether.version.Version;
 
 import java.util.ArrayList;
@@ -16,16 +17,16 @@ import java.util.List;
 public class DependencyNodeVersionDetails {
   //DependencyNodeVersionDetails
 
-  private ArrayList<VersionWrapper> versions;
+  private ArrayList<VersionWrapper> versionWrapperList;
   private Version nodeVersion;
 
 
   public Version getHighestVersion() {
-    // for(Version version : versions)
+    // for(Version version : versionWrapperList)
 
 
     ArrayList<Version> list = new ArrayList<Version>();
-    for ( VersionWrapper versionWrapper : this.versions ) {
+    for ( VersionWrapper versionWrapper : this.versionWrapperList ) {
       list.add( versionWrapper.getVersion() );
     }
 
@@ -37,7 +38,7 @@ public class DependencyNodeVersionDetails {
 
 
     ArrayList<Version> list = new ArrayList<Version>();
-    for ( VersionWrapper versionWrapper : this.versions ) {
+    for ( VersionWrapper versionWrapper : this.versionWrapperList ) {
       list.add( versionWrapper.getVersion() );
     }
 
@@ -45,32 +46,76 @@ public class DependencyNodeVersionDetails {
     return Collections.min( list );
   }
 
+  /**
+   * Returns true or false if there is a version clash for the specified clashDetectionLevel
+   * @param clashDetectionLevel
+   * @return
+   */
+  public boolean hasVersionClash(AbstractClashMojo.ClashDetectionLevel clashDetectionLevel) {
+
+    //Simple Clash means two different versions
+         boolean result = false;
+
+    switch ( clashDetectionLevel ) {
+      case ALL:
+        if ( this.hasVersionClash() == true ) {
+          result = true;
+        }
+        break;
+      case CRITICAL:
+          if(this.getRelationShipToUsedVersion().equals( RelationShipToUsedVersion.USED_VERSION_LOWER )||this.getRelationShipToUsedVersion().equals( RelationShipToUsedVersion.USED_VERSION_HIGHER ))
+          {
+            result = true;
+          }
+        break;
+      case FATAL:
+        if(this.getRelationShipToUsedVersion().equals( RelationShipToUsedVersion.USED_VERSION_LOWER ))
+        {
+          result = true;
+        }
+        break;
+    }
+
+
+
+    return result;
+  }
+
+  /**
+   * Detects if a version clash exists (Version Clash = two equal artifacts with different versions)
+   * @return
+   */
   public boolean hasVersionClash() {
 
-    if ( this.getAllDifferentVersions().size() > 1 ) {
-      return true;
-    } else {
-      return false;
-    }
+
+        if ( this.getAllDifferentVersions().size() > 1 ) {
+          return true;
+        }
+    else
+        {
+          return false;
+        }
+
+
   }
 
   public Version getInMavenUsedVersion() {
     //TODO Baum chekcen ob wirklihc erste version von maven verwendet wird
 
 
-    return Collections.min( this.versions ).getVersion();
+    return Collections.min( this.versionWrapperList ).getVersion();
   }
 
 
-  public List<VersionWrapper> getVersions() {
-    return Collections.unmodifiableList( versions );
+  public List<VersionWrapper> getVersionWrapperList() {
+    return Collections.unmodifiableList( versionWrapperList );
   }
 
   public List<Version> getAllDifferentVersions() {
 
     ArrayList<Version> differentVersions = new ArrayList<Version>();
 
-    for ( VersionWrapper versionWrapper : versions ) {
+    for ( VersionWrapper versionWrapper : versionWrapperList ) {
       if ( !differentVersions.contains( versionWrapper.getVersion() ) ) {
         differentVersions.add( versionWrapper.getVersion() );
       }
@@ -80,32 +125,29 @@ public class DependencyNodeVersionDetails {
     return Collections.unmodifiableList( differentVersions );
   }
 
-  public void setVersions( ArrayList<VersionWrapper> versions ) {
-    this.versions = versions;
+  public void setVersionWrapperList( ArrayList<VersionWrapper> versionWrapperList ) {
+    this.versionWrapperList = versionWrapperList;
   }
 
-  public ClashType getClashType() {
+  public RelationShipToUsedVersion getRelationShipToUsedVersion() {
     //compare nodeVersion with inMavenUsedVersion
     int clashResult = this.nodeVersion.compareTo( this.getInMavenUsedVersion() );
 
-    if ( !this.hasVersionClash() ) {
-      return ClashType.NONE;
-    }
 
     if ( clashResult < 0 ) {
-      return ClashType.USED_VERSION_HIGHER;
+      return RelationShipToUsedVersion.USED_VERSION_HIGHER;
     } else if ( clashResult > 0 ) {
-      return ClashType.USED_VERSION_LOWER;
+      return RelationShipToUsedVersion.USED_VERSION_LOWER;
     } else {
-      return ClashType.EQUAL;
+      return RelationShipToUsedVersion.EQUAL;
     }
 
 
   }
 
 
-  public enum ClashType {
-    NONE, EQUAL, USED_VERSION_HIGHER, USED_VERSION_LOWER
+  public enum RelationShipToUsedVersion {
+    EQUAL, USED_VERSION_HIGHER, USED_VERSION_LOWER
   }
 
 

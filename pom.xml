@@ -100,11 +100,9 @@
         <artifactId>clashinspector-maven-plugin</artifactId>
         <version>0.1-SNAPSHOT</version>
         <configuration>
-          <includedScopes>
-                      <includedScope>compile</includedScope>
 
-          </includedScopes>
                    <includeOptional>false</includeOptional>
+                    <clashDetectionLevel>ALL</clashDetectionLevel>
         </configuration>
 
 

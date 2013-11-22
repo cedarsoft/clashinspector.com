@@ -117,7 +117,7 @@ public class DependencyService {
       }
 
       DependencyNodeVersionDetails dependencyNodeVersionDetails = new DependencyNodeVersionDetails();
-      dependencyNodeVersionDetails.setVersions( versions );
+      dependencyNodeVersionDetails.setVersionWrapperList( versions );
       dependencyNodeVersionDetails.setNodeVersion( dN.getVersion() );
       dN.setData( "DependencyNodeVersionDetails", dependencyNodeVersionDetails );
 

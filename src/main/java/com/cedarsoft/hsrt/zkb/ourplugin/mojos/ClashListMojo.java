@@ -9,8 +9,8 @@ package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
  */
 
 
-import com.cedarsoft.hsrt.zkb.ourplugin.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.ConsoleVisualizer;
+import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
+import com.cedarsoft.hsrt.zkb.ourplugin.visualize.ConsoleVisualizer;
 import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -28,13 +28,10 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 public class ClashListMojo extends AbstractClashMojo {
 
 
-
-
   //big tree .. small tree und level mitgeben
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-
 
 
     Artifact artifact;
@@ -44,11 +41,11 @@ public class ClashListMojo extends AbstractClashMojo {
 
       DependencyService dependencyService = new DependencyService();
 
-      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer( );
+      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer();
 
-      ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper(dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() )  ) ;
+      ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
 
-      consoleVisualizer.visualize(clashCollectResultWrapper , this.getClashDetectionLevel(), this );
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
 
 
     } catch ( IllegalArgumentException e ) {

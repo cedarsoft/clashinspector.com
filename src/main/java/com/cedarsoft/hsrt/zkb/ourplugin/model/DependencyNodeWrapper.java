@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.hsrt.zkb.ourplugin.model;
 
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
 import org.eclipse.aether.graph.DependencyNode;
@@ -116,8 +116,6 @@ public class DependencyNodeWrapper{
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.dependencySiblings ) {
       list.add( dependencyNodeWrapper.getVersion());
     }
-
-    //list.add( this.getVersion() );
 
     return list;
   }

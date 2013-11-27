@@ -8,7 +8,6 @@ import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.collection.DependencyCollectionException;
 import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
@@ -19,9 +18,7 @@ import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -91,14 +88,9 @@ public class DependencyService {
     //Über alle depependency nodes iterieren und  map mit key und version erstellen
 
 
-
     return collectResult;
 
   }
-
-
-
-
 
 
   /**
@@ -164,8 +156,6 @@ public class DependencyService {
 
     return descriptorResult.getDependencies();
   }
-
-
 
 
 }

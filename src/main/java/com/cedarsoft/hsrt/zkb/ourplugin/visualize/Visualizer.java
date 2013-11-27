@@ -1,5 +1,6 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 

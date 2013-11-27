@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.hsrt.zkb.ourplugin.exceptions;
 
 /**
  * Created with IntelliJ IDEA.

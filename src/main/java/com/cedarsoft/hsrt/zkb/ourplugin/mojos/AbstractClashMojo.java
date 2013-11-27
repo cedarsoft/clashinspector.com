@@ -9,20 +9,14 @@ package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
  */
 
 
-import com.cedarsoft.hsrt.zkb.ourplugin.ConsoleVisualizer;
-import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
-import org.eclipse.aether.artifact.Artifact;
-import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.repository.RemoteRepository;
 
 import java.util.ArrayList;
@@ -35,26 +29,26 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Component()
   private RepositorySystem repoSystem;
 
-  @Parameter( defaultValue = "${repositorySystemSession}" )
+  @Parameter(defaultValue = "${repositorySystemSession}")
   private RepositorySystemSession repoSession;
 
-  @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
+  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepos;
 
 
-  @Parameter( defaultValue = "${project}", readonly = true, required = true )
+  @Parameter(defaultValue = "${project}", readonly = true, required = true)
   private MavenProject project;
 
-  @Parameter( alias = "includedScopes" )
+  @Parameter(alias = "includedScopes")
   private String[] includedScopes;
 
-  @Parameter( alias = "excludedScopes" )
+  @Parameter(alias = "excludedScopes")
   private String[] excludedScopes;
 
-  @Parameter( alias = "includeOptional", defaultValue = "false" )
+  @Parameter(alias = "includeOptional", defaultValue = "false")
   private boolean includeOptional;
 
-  @Parameter( alias = "clashDetectionLevel", defaultValue = "ALL" )
+  @Parameter(alias = "clashDetectionLevel", defaultValue = "ALL")
   private ClashDetectionLevel detectionLevel;
 
   private ArrayList<String> includedScopesList = new ArrayList<String>();
@@ -116,10 +110,10 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    * is crtitical version clashes with higher and lower versions as the used version will be reported.
    * If the level is Fatal only the dependencies with higher version than the used one will be reported.
    */
-    public enum ClashDetectionLevel{
-                      ALL, CRITICAL, FATAL
+  public enum ClashDetectionLevel {
+    ALL, CRITICAL, FATAL
 
-    }
+  }
 
 
 }

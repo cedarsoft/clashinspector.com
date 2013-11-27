@@ -101,8 +101,8 @@
         <version>0.1-SNAPSHOT</version>
         <configuration>
 
-                   <includeOptional>false</includeOptional>
-                    <clashDetectionLevel>CRITICAL</clashDetectionLevel>
+                   <includeOptional>true</includeOptional>
+                    <clashDetectionLevel>ALL</clashDetectionLevel>
         </configuration>
 
 

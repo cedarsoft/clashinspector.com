@@ -1,8 +1,7 @@
 package com.cedarsoft.hsrt.zkb.ourplugin;
 
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashFullTreeMojo;
-import org.eclipse.aether.collection.CollectResult;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +12,6 @@ import org.eclipse.aether.collection.CollectResult;
  */
 public interface Visualizer {
 
-       public void visualize(CollectResult collectResult,AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashFullTreeMojo clashFullTreeMojo )  ;
+       public void visualize(ClashCollectResultWrapper clashCollectResultWrapper,AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashTreeMojo clashTreeMojo )  ;
 
 }

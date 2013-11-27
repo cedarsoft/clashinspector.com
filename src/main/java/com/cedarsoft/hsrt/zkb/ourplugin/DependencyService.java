@@ -90,43 +90,15 @@ public class DependencyService {
     //Fill list of versions for every dependency
     //Über alle depependency nodes iterieren und  map mit key und version erstellen
 
-    Map<String, ArrayList<VersionWrapper>> dependencyMap = new HashMap<String, ArrayList<VersionWrapper>>();
 
-    this.enrichDependencyNodesWithVersionDetails( collectResult.getRoot(), dependencyMap, 0 );
 
     return collectResult;
 
   }
 
-  private void enrichDependencyNodesWithVersionDetails( DependencyNode dependencyNode, Map<String, ArrayList<VersionWrapper>> dependencyMap, int depth ) {
-    ArrayList<VersionWrapper> versions;
-    for ( DependencyNode dN : dependencyNode.getChildren() ) {
-
-      String key = dN.getArtifact().getGroupId() + ":" + dN.getArtifact().getArtifactId();
-
-      if ( dependencyMap.get( key ) == null ) {
-        versions = this.createVersionList();
-        VersionWrapper versionWrapper = new VersionWrapper( dN.getVersion(), depth );
-
-        versions.add( versionWrapper );
-        dependencyMap.put( key, versions );
-
-      } else {
-        versions = dependencyMap.get( key );
-        versions.add( new VersionWrapper( dN.getVersion(), depth ) );
-      }
-
-      DependencyNodeVersionDetails dependencyNodeVersionDetails = new DependencyNodeVersionDetails();
-      dependencyNodeVersionDetails.setVersionWrapperList( versions );
-      dependencyNodeVersionDetails.setNodeVersion( dN.getVersion() );
-      dN.setData( "DependencyNodeVersionDetails", dependencyNodeVersionDetails );
 
 
-      this.enrichDependencyNodesWithVersionDetails( dN, dependencyMap, depth + 1 );
-    }
 
-
-  }
 
 
   /**
@@ -194,8 +166,6 @@ public class DependencyService {
   }
 
 
-  private ArrayList<VersionWrapper> createVersionList() {
-    return new ArrayList<VersionWrapper>();
-  }
+
 
 }

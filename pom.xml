@@ -102,7 +102,7 @@
         <configuration>
 
                    <includeOptional>false</includeOptional>
-                    <clashDetectionLevel>ALL</clashDetectionLevel>
+                    <clashDetectionLevel>CRITICAL</clashDetectionLevel>
         </configuration>
 
 

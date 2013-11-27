@@ -10,15 +10,15 @@ package com.cedarsoft.hsrt.zkb.ourplugin;
 
 import org.eclipse.aether.version.Version;
 
-public class VersionWrapper implements Comparable<VersionWrapper> {
+public class VersionWrapper implements Comparable< VersionWrapper> {
 
 
   private final Version version;
   private final int graphDepth;
 
-  public VersionWrapper( Version version, int grapDepth ) {
+  public VersionWrapper( Version version, int graphDepth ) {
     this.version = version;
-    this.graphDepth = grapDepth;
+    this.graphDepth = graphDepth;
   }
 
   public int getGraphDepth() {
@@ -43,4 +43,6 @@ public class VersionWrapper implements Comparable<VersionWrapper> {
     }
 
   }
+
+
 }

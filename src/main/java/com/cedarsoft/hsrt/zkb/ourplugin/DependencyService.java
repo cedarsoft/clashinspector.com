@@ -52,7 +52,7 @@ public class DependencyService {
     OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
     AndDependencySelector aDS;
-    if ( includeOptional == true ) {
+    if ( includeOptional ) {
       aDS = new AndDependencySelector( sDS );
     } else {
       aDS = new AndDependencySelector( oDS, sDS );
@@ -70,7 +70,7 @@ public class DependencyService {
     CollectRequest collectRequest = new CollectRequest();
 
 
-    collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
+    collectRequest.setRoot( new Dependency( artifact, "" ) );
     collectRequest.setRootArtifact( artifact );
     CollectResult collectResult;
 
@@ -139,7 +139,7 @@ public class DependencyService {
         //this.getAllDependencies( dependency.getArtifact(),depth+1 );
       }
     } catch ( Exception e ) {
-
+      throw new RuntimeException( e );
     }
     return new ArrayList<Dependency>();
   }

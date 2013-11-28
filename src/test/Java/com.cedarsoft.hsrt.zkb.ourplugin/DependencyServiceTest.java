@@ -15,18 +15,15 @@ import org.junit.*;
 public class DependencyServiceTest {
 
 
-
   @Test
-  public void testResolveVersionDetails()
-        {
+  public void testResolveVersionDetails() {
 
-          Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
+    Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
 
-          DefaultDependencyNode defaultDependencyNode = new DefaultDependencyNode(artifact);
+    DefaultDependencyNode defaultDependencyNode = new DefaultDependencyNode( artifact );
 
 
-        }
-
+  }
 
 
 }

@@ -50,16 +50,16 @@
 
     </dependency>
     <dependency>
-    <groupId>org.eclipse.aether</groupId>
-    <artifactId>aether-api</artifactId>
-    <version>0.9.0.M2</version>
-  </dependency>
-  <dependency>
-    <!-- optional helpers, might be superfluous depending on your use case -->
-    <groupId>org.eclipse.aether</groupId>
-    <artifactId>aether-util</artifactId>
-    <version>0.9.0.M2</version>
-  </dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-api</artifactId>
+      <version>0.9.0.M2</version>
+    </dependency>
+    <dependency>
+      <!-- optional helpers, might be superfluous depending on your use case -->
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-util</artifactId>
+      <version>0.9.0.M2</version>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
@@ -103,11 +103,9 @@
         <artifactId>clashinspector-maven-plugin</artifactId>
         <version>0.1-SNAPSHOT</version>
         <configuration>
-
-                   <includeOptional>true</includeOptional>
-                    <clashDetectionLevel>ALL</clashDetectionLevel>
+          <includeOptional>true</includeOptional>
+          <clashDetectionLevel>ALL</clashDetectionLevel>
         </configuration>
-
 
       </plugin>
 

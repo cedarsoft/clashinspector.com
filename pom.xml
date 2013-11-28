@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cedarsoft.hsrt.zkb</groupId>
-  <artifactId>ourplugin-maven-plugin</artifactId>
+  <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>Our Maven Plugin</name>
@@ -50,15 +50,22 @@
 
     </dependency>
     <dependency>
-      <groupId>org.eclipse.aether</groupId>
-      <artifactId>aether-api</artifactId>
-      <version>0.9.0.M2</version>
-    </dependency>
+    <groupId>org.eclipse.aether</groupId>
+    <artifactId>aether-api</artifactId>
+    <version>0.9.0.M2</version>
+  </dependency>
+  <dependency>
+    <!-- optional helpers, might be superfluous depending on your use case -->
+    <groupId>org.eclipse.aether</groupId>
+    <artifactId>aether-util</artifactId>
+    <version>0.9.0.M2</version>
+  </dependency>
+
     <dependency>
-      <!-- optional helpers, might be superfluous depending on your use case -->
-      <groupId>org.eclipse.aether</groupId>
-      <artifactId>aether-util</artifactId>
-      <version>0.9.0.M2</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
     </dependency>
 
 
@@ -88,6 +95,20 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+
+      <plugin>
+        <groupId>com.cedarsoft.hsrt.zkb</groupId>
+        <artifactId>clashinspector-maven-plugin</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <configuration>
+
+                   <includeOptional>true</includeOptional>
+                    <clashDetectionLevel>ALL</clashDetectionLevel>
+        </configuration>
+
+
       </plugin>
 
 

@@ -55,9 +55,6 @@
           <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
-        <ADDITIONAL_INDENT_OPTIONS fileType="groovy">
-          <option name="INDENT_SIZE" value="2" />
-        </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="haml">
           <option name="INDENT_SIZE" value="2" />
         </ADDITIONAL_INDENT_OPTIONS>
@@ -74,6 +71,27 @@
         <ADDITIONAL_INDENT_OPTIONS fileType="yml">
           <option name="INDENT_SIZE" value="2" />
         </ADDITIONAL_INDENT_OPTIONS>
+        <codeStyleSettings language="Groovy">
+          <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+          <option name="SPACE_WITHIN_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_METHOD_CALL_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_IF_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_SYNCHRONIZED_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_CAST_PARENTHESES" value="true" />
+          <option name="SPACE_WITHIN_ANNOTATION_PARENTHESES" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
         <codeStyleSettings language="JAVA">
           <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
           <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />

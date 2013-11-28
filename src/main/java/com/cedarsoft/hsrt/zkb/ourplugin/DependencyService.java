@@ -11,6 +11,9 @@ import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
+import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
+import org.eclipse.aether.util.graph.selector.AndDependencySelector;
+import org.eclipse.aether.util.graph.selector.OptionalDependencySelector;
 import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
@@ -40,29 +43,55 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes, boolean includeOptional ) {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-    //session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
 
-
+    OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
+    AndDependencySelector aDS;
+    if ( includeOptional == true ) {
+      aDS = new AndDependencySelector( sDS );
+    } else {
+      aDS = new AndDependencySelector( oDS, sDS );
+    }
+    session.setDependencySelector( aDS );
 
-    session.setDependencySelector( sDS );
+
+    //ConflictMarker cM = new ConflictMarker();
+    //JavaScopeDeriver jSD = new JavaScopeDeriver();
+    // ConflictResolver cR = new ConflictResolver();
+    // session.setDependencyGraphTransformer(cM  )    ;
+    // session.setDependencyGraphTransformer( cR );
 
 
     CollectRequest collectRequest = new CollectRequest();
+
+
     collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
     collectRequest.setRootArtifact( artifact );
+    CollectResult collectResult;
 
-    CollectResult collectResult = repoSystem.collectDependencies( session, collectRequest );
+    try {
 
-    session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
+      collectResult = repoSystem.collectDependencies( session, collectRequest );
+    } catch ( DependencyCollectionException e ) {
+
+      collectResult = e.getResult();
+
+    }
+
+
+    //Fill list of versions for every dependency
+    //Über alle depependency nodes iterieren und  map mit key und version erstellen
+
 
     return collectResult;
 
   }
+
 
   /**
    * This Method returns a CollectResult which includes the Root-Dependency-Node
@@ -75,7 +104,7 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, boolean includeOptional ) {
 
 
     ArrayList<String> includes = new ArrayList<String>();
@@ -87,7 +116,7 @@ public class DependencyService {
 
     ArrayList<String> excludes = new ArrayList<String>();
 
-    return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes );
+    return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes, includeOptional );
 
   }
 
@@ -115,7 +144,7 @@ public class DependencyService {
     return new ArrayList<Dependency>();
   }
 
-
+  @Deprecated
   public List<Dependency> getDirectDependencies( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws ArtifactDescriptorException {
 
     ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();

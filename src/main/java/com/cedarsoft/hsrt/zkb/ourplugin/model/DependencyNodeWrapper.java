@@ -28,7 +28,7 @@ public class DependencyNodeWrapper{
   private final ArrayList<DependencyNodeWrapper> ancestors = new ArrayList<DependencyNodeWrapper>()  ;
     //Tiefe innerhalb des baumes
   private final int graphDepth;
-  //  Rangfolge innerhalb einer ebene
+  //  Rangfolge innerhalb einer ebene(Tiefe)
        private final int graphLevelOrder;
                 //important for usedversion
   private final int addCounter;

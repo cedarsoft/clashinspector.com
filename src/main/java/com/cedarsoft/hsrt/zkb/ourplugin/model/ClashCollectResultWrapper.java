@@ -8,7 +8,6 @@ package com.cedarsoft.hsrt.zkb.ourplugin.model;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.cedarsoft.hsrt.zkb.ourplugin.model.DependencyNodeWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
@@ -35,8 +34,8 @@ public class ClashCollectResultWrapper {
   private final List<DependencyNodeWrapper> clashListUsedVersionLower = new ArrayList<DependencyNodeWrapper>();
   private final List<DependencyNodeWrapper> clashListUsedVersionEqual = new ArrayList<DependencyNodeWrapper>();
 
-  private DependencyNodeWrapper root;
-  private int dependencyCounter = 0;
+  private final DependencyNodeWrapper root;
+  private int dependencyCounter;
 
   public ClashCollectResultWrapper( CollectResult collectResult ) {
 
@@ -65,25 +64,20 @@ public class ClashCollectResultWrapper {
       if ( dNW.hasVersionClash() ) {
 
 
-        if ( dNW.getRelationShipToUsedVersion().equals( DependencyNodeWrapper.RelationShipToUsedVersion.EQUAL ) ) {
+        if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.EQUAL ) {
           this.clashListUsedVersionEqual.add( dNW );
 
-        } else if ( dNW.getRelationShipToUsedVersion().equals( DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_HIGHER ) ) {
+        } else if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_HIGHER ) {
           this.clashListUsedVersionHigher.add( dNW );
 
-        } else if ( dNW.getRelationShipToUsedVersion().equals( DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_LOWER ) ) {
+        } else if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_LOWER ) {
           this.clashListUsedVersionLower.add( dNW );
-
         }
-
-
       }
-
 
       this.initializeClashCollectResultWrapper( dNW, depth + 1 );
     }
   }
-
 
 
   //Enrich Dependency Node with versiondetails and parent pathMap   buildWrapperGraph
@@ -107,16 +101,14 @@ public class ClashCollectResultWrapper {
 
       }
 
-      dependencyCounter = dependencyCounter + 1;
+      dependencyCounter += 1;
       DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, dependencySiblings, graphDepth, graphLevelOrder, dependencyCounter );
       dependencySiblings.add( dependencyNodeWrapper );
 
-      graphLevelOrder = graphLevelOrder + 1;
+      graphLevelOrder += 1;
       dependencyNodeWrapperOld.addChildren( dependencyNodeWrapper );
       this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, dependencyMap, graphDepth + 1 );
     }
-
-
   }
 
 
@@ -130,7 +122,7 @@ public class ClashCollectResultWrapper {
 
     for ( DependencyNodeWrapper dNW : this.getCompleteClashList() ) {
       if ( dNW.hasVersionClash( clashDetectionLevel ) ) {
-        number = number + 1;
+        number += 1;
       }
     }
 
@@ -206,7 +198,7 @@ public class ClashCollectResultWrapper {
     Map<String, List<DependencyNodeWrapper>> clashMap = new HashMap<String, List<DependencyNodeWrapper>>();
 
     for ( DependencyNodeWrapper dNW : this.getCompleteClashList( clashDetectionLevel ) ) {
-      ArrayList<DependencyNodeWrapper> dependencyNodeList = ( ArrayList ) clashMap.get( dNW.getGroupId() + ":" + dNW.getArtifactId() );
+      List<DependencyNodeWrapper> dependencyNodeList = clashMap.get( dNW.getGroupId() + ":" + dNW.getArtifactId() );
       if ( dependencyNodeList == null ) {
         dependencyNodeList = new ArrayList<DependencyNodeWrapper>();
         dependencyNodeList.add( dNW );
@@ -227,25 +219,13 @@ public class ClashCollectResultWrapper {
 
     switch ( clashDetectionLevel ) {
       case ALL:
-        if ( this.clashListUsedVersionEqual.size() > 0 | this.clashListUsedVersionHigher.size() > 0 | this.clashListUsedVersionLower.size() > 0 ) {
-          result = true;
-        }
-        break;
+        return !this.clashListUsedVersionEqual.isEmpty() || !this.clashListUsedVersionHigher.isEmpty() || !this.clashListUsedVersionLower.isEmpty();
       case CRITICAL:
-        if ( this.clashListUsedVersionHigher.size() > 0 | this.clashListUsedVersionLower.size() > 0 ) {
-          result = true;
-        }
-        break;
+        return !this.clashListUsedVersionHigher.isEmpty() || !this.clashListUsedVersionLower.isEmpty();
       case FATAL:
-        if ( this.clashListUsedVersionLower.size() > 0 ) {
-          result = true;
-        }
-        break;
+        return !this.clashListUsedVersionLower.isEmpty();
     }
 
-
-    return result;
+    throw new IllegalStateException( "Invalid clash detection level " + clashDetectionLevel );
   }
-
-
 }

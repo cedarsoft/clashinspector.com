@@ -43,7 +43,7 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes, boolean includeOptional ) {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, List<String> includedScopes, List<String> excludedScopes, boolean includeOptional ) {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
@@ -52,7 +52,7 @@ public class DependencyService {
     OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
     AndDependencySelector aDS;
-    if ( includeOptional == true ) {
+    if ( includeOptional ) {
       aDS = new AndDependencySelector( sDS );
     } else {
       aDS = new AndDependencySelector( oDS, sDS );
@@ -70,7 +70,7 @@ public class DependencyService {
     CollectRequest collectRequest = new CollectRequest();
 
 
-    collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
+    collectRequest.setRoot( new Dependency( artifact, "" ) );
     collectRequest.setRootArtifact( artifact );
     CollectResult collectResult;
 
@@ -107,14 +107,14 @@ public class DependencyService {
   public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, boolean includeOptional ) {
 
 
-    ArrayList<String> includes = new ArrayList<String>();
+    List<String> includes = new ArrayList<String>();
     includes.add( "provided" );
     includes.add( "test" );
     includes.add( "compile" );
     includes.add( "runtime" );
     includes.add( "system" );
 
-    ArrayList<String> excludes = new ArrayList<String>();
+    List<String> excludes = new ArrayList<String>();
 
     return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes, includeOptional );
 
@@ -139,7 +139,7 @@ public class DependencyService {
         //this.getAllDependencies( dependency.getArtifact(),depth+1 );
       }
     } catch ( Exception e ) {
-
+      throw new RuntimeException( e );
     }
     return new ArrayList<Dependency>();
   }

@@ -98,8 +98,8 @@ public class DependencyNodeWrapper {
     return list;
   }
 
-  public ArrayList<Version> getAllVersions() {
-    ArrayList<Version> list = new ArrayList<Version>();
+  public List<Version> getAllVersions() {
+    List<Version> list = new ArrayList<Version>();
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.dependencySiblings ) {
       list.add( dependencyNodeWrapper.getVersion() );
     }

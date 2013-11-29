@@ -34,8 +34,8 @@ public class ClashCollectResultWrapper {
   private final List<DependencyNodeWrapper> clashListUsedVersionLower = new ArrayList<DependencyNodeWrapper>();
   private final List<DependencyNodeWrapper> clashListUsedVersionEqual = new ArrayList<DependencyNodeWrapper>();
 
-  private DependencyNodeWrapper root;
-  private int dependencyCounter = 0;
+  private final DependencyNodeWrapper root;
+  private int dependencyCounter;
 
   public ClashCollectResultWrapper( CollectResult collectResult ) {
 

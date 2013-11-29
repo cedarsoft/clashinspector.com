@@ -26,7 +26,7 @@ import java.util.List;
 
 public abstract class AbstractClashMojo extends AbstractMojo {
 
-  @Component()
+  @Component
   private RepositorySystem repoSystem;
 
   @Parameter(defaultValue = "${repositorySystemSession}")
@@ -51,8 +51,8 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Parameter(alias = "clashDetectionLevel", defaultValue = "ALL")
   private ClashDetectionLevel detectionLevel;
 
-  private List<String> includedScopesList = new ArrayList<String>();
-  private List<String> excludedScopesList = new ArrayList<String>();
+  private final List<String> includedScopesList = new ArrayList<String>();
+  private final List<String> excludedScopesList = new ArrayList<String>();
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {

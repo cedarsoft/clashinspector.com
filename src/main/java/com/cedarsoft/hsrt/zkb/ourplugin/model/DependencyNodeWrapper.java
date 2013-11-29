@@ -4,6 +4,7 @@ import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.version.Version;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,7 @@ public class DependencyNodeWrapper {
   /**
    * Contains all DependencyWrapper with the same group and artifact id, even the actual one.
    */
+  @Nullable
   private final List<DependencyNodeWrapper> dependencySiblings;
 
   private final List<DependencyNodeWrapper> ancestors = new ArrayList<DependencyNodeWrapper>();
@@ -32,10 +34,12 @@ public class DependencyNodeWrapper {
   private final int graphLevelOrder;
   //important for usedversion
   private final int addCounter;
+
+  @Nullable
   private final DependencyNodeWrapper parent;
 
 
-  public DependencyNodeWrapper( DependencyNode dependencyNode, DependencyNodeWrapper parent, List<DependencyNodeWrapper> dependencySiblings, int graphDepth, int graphLevelOrder, int addCounter ) {
+  public DependencyNodeWrapper( DependencyNode dependencyNode, @Nullable DependencyNodeWrapper parent, @Nullable List<DependencyNodeWrapper> dependencySiblings, int graphDepth, int graphLevelOrder, int addCounter ) {
     this.dependencyNode = dependencyNode;
     this.graphDepth = graphDepth;
     this.dependencySiblings = dependencySiblings;
@@ -75,9 +79,11 @@ public class DependencyNodeWrapper {
   }
 
   public List<DependencyNodeWrapper> getDependencySiblings() {
+    //TODO what happens if this.dependencySiblings is null?
     return Collections.unmodifiableList( this.dependencySiblings );
   }
 
+  @Nullable
   public DependencyNodeWrapper getParent() {
     return this.parent;
   }
@@ -91,6 +97,7 @@ public class DependencyNodeWrapper {
   private List<DependencyNodeWrapper> collectAncestors( List<DependencyNodeWrapper> list ) {
     if ( this.graphDepth != 0 ) {
 
+      //TODO parent might be null!
       this.parent.collectAncestors( list );
       list.add( this );
     }
@@ -100,6 +107,7 @@ public class DependencyNodeWrapper {
 
   public List<Version> getAllVersions() {
     List<Version> list = new ArrayList<Version>();
+    //TODO dependencySiblings might be null
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.dependencySiblings ) {
       list.add( dependencyNodeWrapper.getVersion() );
     }
@@ -160,6 +168,7 @@ public class DependencyNodeWrapper {
     //TODO Baum chekcen ob wirklihc erste version von maven verwendet wird
     DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion = this;
 
+    //TODO dependencySiblings might be null
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.dependencySiblings ) {
       if ( dependencyNodeWrapperWithUsedVersion.graphDepth > dependencyNodeWrapper.graphDepth ) {
         dependencyNodeWrapperWithUsedVersion = dependencyNodeWrapper;

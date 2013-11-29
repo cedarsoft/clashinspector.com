@@ -9,9 +9,9 @@ package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
  */
 
 
+import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.visualize.ConsoleVisualizer;
-import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -29,6 +29,7 @@ public class ClashTreeMojo extends AbstractClashMojo {
 
 
   //big tree .. small tree und level mitgeben
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();

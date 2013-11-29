@@ -51,9 +51,10 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Parameter(alias = "clashDetectionLevel", defaultValue = "ALL")
   private ClashDetectionLevel detectionLevel;
 
-  private ArrayList<String> includedScopesList = new ArrayList<String>();
-  private ArrayList<String> excludedScopesList = new ArrayList<String>();
+  private List<String> includedScopesList = new ArrayList<String>();
+  private List<String> excludedScopesList = new ArrayList<String>();
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if ( this.includedScopes == null || this.includedScopes.length == 0 ) {
       includedScopesList.add( "compile" );
@@ -96,11 +97,11 @@ public abstract class AbstractClashMojo extends AbstractMojo {
     return detectionLevel;
   }
 
-  public ArrayList<String> getIncludedScopesList() {
+  public List<String> getIncludedScopesList() {
     return includedScopesList;
   }
 
-  public ArrayList<String> getExcludedScopesList() {
+  public List<String> getExcludedScopesList() {
     return excludedScopesList;
   }
 

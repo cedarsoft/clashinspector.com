@@ -2,11 +2,12 @@ package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
 
 import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.DependencyNodeWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.model.Project;
+import com.cedarsoft.hsrt.zkb.ourplugin.model.VersionClash;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashListMojo;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashPhaseMojo;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
-import com.cedarsoft.hsrt.zkb.ourplugin.visualize.Visualizer;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.version.Version;
@@ -24,7 +25,7 @@ import java.util.Map;
 public class ConsoleVisualizer implements Visualizer {
 
   private Log log;
-  private AbstractClashMojo.ClashDetectionLevel clashDetectionLevel;
+  private ClashSeverity clashSeverity;
 
   private void printFullTree( DependencyNodeWrapper dependencyNodeWrapper, int depth ) {
 
@@ -41,7 +42,7 @@ public class ConsoleVisualizer implements Visualizer {
         preDependencyString = preDependencyString + "|  ";
       }
       for ( int i = 0; i < depth; i++ ) {
-        preClashString = preClashString + "   ";
+        preClashString = preClashString + "|  ";
       }
       for ( int i = 0; i < depth; i++ ) {
         preVersionString = preVersionString + "|  ";
@@ -50,53 +51,53 @@ public class ConsoleVisualizer implements Visualizer {
       if ( dNW.getChildren().size() > 0 ) {
         preDependencyString = preDependencyString + "+ ";
         preVersionString = preVersionString + "   ";
-        preClashString = preClashString + " ";
+        preClashString = preClashString + "  ";
 
       } else {
         preDependencyString = preDependencyString + "- ";
         preVersionString = preVersionString + "   ";
-        preClashString = preClashString + " ";
+        preClashString = preClashString + "  ";
       }
 
 
       log.info( preDependencyString + dNW.toString() );
 
 
-      if ( dNW.hasVersionClash( this.clashDetectionLevel ) ) {
+      if ( dNW.getProject().hasVersionClashForClashSeverityLevel( this.clashSeverity ) ) {
 
         String clashMessage = "";
-        switch ( dNW.getRelationShipToUsedVersion() ) {
+        switch ( dNW.getRelationShipToUsedVersion().getClashSeverity() ) {
 
 
-          case EQUAL:
+          case SAFE:
             //Eventuell untescheidung hinzufügen wennn die version auch die höchste ist, keine probleme anzeigen
-            clashMessage = "[Version Clash] Details:";
+            clashMessage = "[SAFE Version Clash] Details:";
 
             break;
-          case USED_VERSION_HIGHER:
-            clashMessage = "[CRITICAL Version Clash] Maven is using a higher version.";
+          case UNSAFE:
+            clashMessage = "[UNSAFE Version Clash] Referred Version lower than used Version.";
 
             break;
-          case USED_VERSION_LOWER:
-            clashMessage = "[FATAL Version Clash] Maven is using a lower version.";
+          case CRITICAL:
+            clashMessage = "[CRITICAL Version Clash] Referred Version higher than used Version.";
 
             break;
 
 
         }
-        log.error( preClashString + clashMessage );
+        log.info( preClashString + clashMessage );
 
-        for ( Version version : dNW.getAllDifferentVersions() ) {
+        for ( Version version : dNW.getProject().getAllDifferentVersions() ) {
           String details = "";
 
 
-          if ( version.toString().equals( dNW.getInMavenUsedVersion().toString() ) ) {
+          if ( version.toString().equals( dNW.getProject().getUsedVersion().toString() ) ) {
             details = details + " (used)";
           }
-          if ( version.toString().equals( dNW.getHighestVersion().toString() ) ) {
+          if ( version.toString().equals( dNW.getProject().getHighestVersion().toString() ) ) {
             details = details + " (highest)";
           }
-          if ( version.toString().equals( dNW.getLowestVersion().toString() ) ) {
+          if ( version.toString().equals( dNW.getProject().getLowestVersion().toString() ) ) {
             details = details + " (lowest)";
           }
           if ( version.toString().equals( dNW.getVersion().toString() ) ) {
@@ -113,55 +114,53 @@ public class ConsoleVisualizer implements Visualizer {
   }
 
 
-  private void printList( ClashCollectResultWrapper clashCollectResultWrapper, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel ) {
+
+  private void printListPartHeader(VersionClash versionClash)
+  {
+    log.info( "-------------------------------------" );
+    log.info( "["+versionClash.getWorstClashSeverity()+" Version Clash] " + " " + versionClash.getProject().toString() + "" );
+    log.info( " (used: " + versionClash.getProject().getUsedVersion() + " highest: " + versionClash.getProject().getHighestVersion() + " lowest: " + versionClash.getProject().getLowestVersion() + ")" );
+    log.info( "-------------------------------------" );
+  }
+  private void printListSmallTree(DependencyNodeWrapper dNW)
+  {
+
+    String clashMessage = dNW.getRelationShipToUsedVersion().getClashSeverity().name();
 
 
-    for ( Map.Entry e : clashCollectResultWrapper.getClashMap( clashDetectionLevel ).entrySet() ) {
-
-      log.info( "-------------------------------------" );
-      log.info( "" );
-      log.info( "Different Versions for " + e.getKey().toString() + ":" );
+    log.info( clashMessage );
 
 
-      ArrayList<DependencyNodeWrapper> list = ( ArrayList ) e.getValue();
+    ArrayList<DependencyNodeWrapper> listAncestors = ( ArrayList ) dNW.getAllAncestors();
 
-      log.info( "(used: " + list.get( 0 ).getInMavenUsedVersion() + " highest: " + list.get( 0 ).getHighestVersion() + " lowest: " + list.get( 0 ).getLowestVersion() + ")" );
-      log.info( "" );
+    for ( DependencyNodeWrapper dNWA : listAncestors ) {
+      log.info( Strings.repeat( " ", dNWA.getGraphDepth() ) + dNWA.toString() );
 
-      for ( DependencyNodeWrapper dNW : list ) {
-
-        String clashMessage = "";
-        switch ( dNW.getRelationShipToUsedVersion() ) {
+    }
 
 
-          case EQUAL:
-            //Eventuell untescheidung hinzufügen wennn die version auch die höchste ist, keine probleme anzeigen
-            clashMessage = "[Version Clash]";
+  }
 
-            break;
-          case USED_VERSION_HIGHER:
-            clashMessage = "[CRITICAL Version Clash]";
-
-            break;
-          case USED_VERSION_LOWER:
-            clashMessage = "[FATAL Version Clash]";
-
-            break;
+  private void printList( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {
 
 
-        }
-
-        log.info( clashMessage );
+    for (VersionClash versionClash : clashCollectResultWrapper.getClashList() ) {
 
 
-        ArrayList<DependencyNodeWrapper> listAncestors = ( ArrayList ) dNW.getAllAncestors();
+         if( versionClash.isClashForSeverityLevel( clashSeverity ))
+         {
 
-        for ( DependencyNodeWrapper dNWA : listAncestors ) {
-          log.info( Strings.repeat( " ", dNWA.getGraphDepth() ) + dNWA.toString() );
+               this.printListPartHeader( versionClash );
 
-        }
+                 for(DependencyNodeWrapper dependencyNodeWrapper :versionClash.getDependencyNodeWrapperForClashSeverityLevel( clashSeverity ))
+                 {
+                   this.printListSmallTree( dependencyNodeWrapper );
+                 }
+           log.info( "" );
 
-        log.info( "" );
+
+
+         }
 
 
       }
@@ -169,37 +168,82 @@ public class ConsoleVisualizer implements Visualizer {
     }
 
 
-  }
+
+
+
 
   public void printStatistic( ClashCollectResultWrapper clashCollectResultWrapper ) {
-    log.info( "" );
+   /* log.info( "" );
     log.info( "Statistical information:" );
-    log.info( "Complete Number of Clashes with Detection-Level " + clashDetectionLevel + ": " + clashCollectResultWrapper.getNumberOfClashes( clashDetectionLevel ) );
-    log.info( "Number of Clashes with Version equal with used Version: " + clashCollectResultWrapper.getNumberOfClashesWithUsedVersionEqual() );
-    log.info( "Number of Clashes with Version lower than used Version: " + clashCollectResultWrapper.getNumberOfClashesWithUsedVersionHigher() );
-    log.info( "Number of Clashes with Version higher than used Version: " + clashCollectResultWrapper.getNumberOfClashesWithUsedVersionLower() );
+    log.info( "Number of Clashes with severity SAFE: " + clashCollectResultWrapper.getNumberOfClashes( ClashSeverity.SAFE ) );
+
+
+
+
+    for ( Map.Entry e : clashCollectResultWrapper.getClashMap( ClashSeverity.SAFE ).entrySet() ) {
+      ArrayList<DependencyNodeWrapper> list = ( ArrayList ) e.getValue();
+      String s = list.get( 0 ).getWorstRelationshipToUsedVersion().toString();
+
+      log.info( "["+s+" Version Clash] " + " " + e.getKey().toString() + "" );
+
+
+    }  */
+
+    log.info( "Number of Clashes with severity UNSAFE: " + clashCollectResultWrapper.getNumberOfClashes( ClashSeverity.UNSAFE ) );
+
+    for (VersionClash versionClash : clashCollectResultWrapper.getClashList() ) {
+
+
+      if( versionClash.getWorstClashSeverity().equals( ClashSeverity.UNSAFE ))
+      {
+        log.info( " ["+versionClash.getWorstClashSeverity()+" Version Clash] " + " " + versionClash.getProject().toString() + "" );
+      }
+    }
+
+    log.info( "Number of Clashes with severity CRITICAL: " + clashCollectResultWrapper.getNumberOfClashes( ClashSeverity.CRITICAL ) );
+    for (VersionClash versionClash : clashCollectResultWrapper.getClashList() ) {
+
+
+      if( versionClash.getWorstClashSeverity().equals( ClashSeverity.CRITICAL ))
+      {
+        log.info( " ["+versionClash.getWorstClashSeverity()+" Version Clash] " + " " + versionClash.getProject().toString() + "" );
+      }
+    }
   }
 
-  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashTreeMojo clashTreeMojo ) {
+  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     this.log = clashTreeMojo.getLog();
-    this.clashDetectionLevel = clashDetectionLevel;
+    this.clashSeverity = clashSeverity;
     printFullTree( clashCollectResultWrapper.getRoot(), 0 );
     printStatistic( clashCollectResultWrapper );
 
   }
 
-  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashListMojo clashListMojo ) {
+  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashListMojo clashListMojo ) {
     this.log = clashListMojo.getLog();
-    this.clashDetectionLevel = clashDetectionLevel;
-    printList( clashCollectResultWrapper, clashDetectionLevel );
+    this.clashSeverity = clashSeverity;
+    printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
   }
 
-  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashPhaseMojo clashPhaseMojo ) {
-    this.log = clashPhaseMojo.getLog();
-    this.clashDetectionLevel = clashDetectionLevel;
-    printList( clashCollectResultWrapper, clashDetectionLevel );
-    printStatistic( clashCollectResultWrapper );
+  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashPhaseMojo clashPhaseMojo ) {
+   this.log = clashPhaseMojo.getLog();    /*
+    this.clashSeverity = clashSeverity;
+    printList( clashCollectResultWrapper, clashSeverity );
+    printStatistic( clashCollectResultWrapper );    */
+
+    log.info(String.valueOf( clashCollectResultWrapper.getProjectList().size()) );
+    for(Project project : clashCollectResultWrapper.getProjectList()  )
+    {
+      log.info( project.toString() + " " + project.hasVersionClashForClashSeverityLevel( clashSeverity ) );
+    }
+           log.info("");
+    log.info(String.valueOf( clashCollectResultWrapper.getClashList().size()) );
+    for(VersionClash versionClash : clashCollectResultWrapper.getClashList() )
+    {
+      log.info( versionClash.getProject().toString()+ " worst: " + versionClash.getWorstClashSeverity() );
+    }
+
   }
 
 

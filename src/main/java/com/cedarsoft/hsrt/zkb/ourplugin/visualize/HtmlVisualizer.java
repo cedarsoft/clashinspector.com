@@ -1,6 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import org.eclipse.aether.collection.CollectResult;
 
@@ -15,7 +15,7 @@ public class HtmlVisualizer  {
 
 
 
-  public void visualize( CollectResult collectResult,AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashTreeMojo clashTreeMojo ) {
+  public void visualize( CollectResult collectResult,ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 }

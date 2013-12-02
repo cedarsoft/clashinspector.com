@@ -28,9 +28,9 @@
                 <artifactId>clashinspector-maven-plugin</artifactId>
                 <version>0.1-SNAPSHOT</version>
                 <configuration>
-
+                    <severity>UNSAFE</severity>
                     <includeOptional>false</includeOptional>
-                    <clashDetectionLevel>CRITICAL</clashDetectionLevel>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
         </plugins>

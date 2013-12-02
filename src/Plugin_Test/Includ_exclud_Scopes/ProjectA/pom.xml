@@ -33,13 +33,7 @@
                 <groupId>com.cedarsoft.hsrt.zkb</groupId>
                 <artifactId>clashinspector-maven-plugin</artifactId>
                 <version>0.1-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>listPhase</goal>
-                        </goals>
-                    </execution>
-                </executions>
+
                 <configuration>
                     <includedScopes>
                         <includedScope>compile</includedScope>
@@ -48,8 +42,9 @@
                     <excludedScopes>
                         <excludedScope>test</excludedScope>
                     </excludedScopes>
+                    <severity>SAFE</severity>
                     <includeOptional>false</includeOptional>
-                    <clashDetectionLevel>CRITICAL</clashDetectionLevel>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
         </plugins>

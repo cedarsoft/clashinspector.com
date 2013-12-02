@@ -13,27 +13,16 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 
 public class ClashCollectResultWrapper {
 
   private final CollectResult collectResult;
 
-  /**
-   *   Map to store all clash dependencyNodes for one group- and artifact-id.
-   */
 
-
-  /**
-   * Map to store a list with the clash dependencies with the key of groupd and artifact id
-   */
-
-  private final ArrayList<VersionClash> clashList = new ArrayList <VersionClash>();
+      //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
+  private final ArrayList<OuterVersionClash> outerVersionClashList = new ArrayList <OuterVersionClash>();
   private final ArrayList<Project> projectList = new ArrayList<Project>();
 
 
@@ -69,11 +58,11 @@ public class ClashCollectResultWrapper {
 
       dNW.getProject().init();
 
-      if ( dNW.getProject().hasVersionClash()) {
+      if ( dNW.getProject().hasOuterVersionClash()) {
 
-        if(this.clashList.contains(dNW.getProject().getVersionClash()  )==false)
+        if(this.outerVersionClashList.contains(dNW.getProject().getOuterVersionClash()  )==false)
         {
-          this.clashList.add( dNW.getProject().getVersionClash() )  ;
+          this.outerVersionClashList.add( dNW.getProject().getOuterVersionClash() )  ;
         }
 
 
@@ -122,16 +111,16 @@ public class ClashCollectResultWrapper {
   }
 
 
-  public int getNumberOfClashes() {
-    return this.clashList.size();
+  public int getNumberOfOuterClashes() {
+    return this.outerVersionClashList.size();
   }
 
-    public int getNumberOfClashes(ClashSeverity clashSeverity)
+    public int getNumberOfOuterClashes(ClashSeverity clashSeverity)
     {
       int number =0;
-         for(VersionClash versionClash : this.clashList)
+         for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
          {
-          if(versionClash.hasClashSeverity( clashSeverity ))
+          if( outerVersionClash.getClashSeverity().equals( clashSeverity ))
           {
             number = number +1;
           }
@@ -139,13 +128,35 @@ public class ClashCollectResultWrapper {
       return number;
     }
 
+  public int getNumberOfOuterClashesForSeverityLevel(ClashSeverity clashSeverity)
+  {
+    int number =0;
+    for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
+    {
+      if( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal())
+      {
+        number = number +1;
+      }
+    }
+    return number;
+  }
 
 
 
 
 
-
- /* public boolean hasVersionClash( com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity clashSeverity ) {
+ /* public int getNumberOfOuterClashes(ClashSeverity clashSeverity)
+    {
+      int number =0;
+         for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
+         {
+          if( outerVersionClash.hasClashSeverity( clashSeverity ))
+          {
+            number = number +1;
+          }
+         }
+      return number;
+    }public boolean hasOuterVersionClash( com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity clashSeverity ) {
 
     //Simple Clash means two different versions
     boolean result = false;
@@ -172,11 +183,17 @@ public class ClashCollectResultWrapper {
     return result;
   }    */
 
-  public ArrayList<VersionClash> getClashList() {
-    return clashList;
+  public ArrayList<OuterVersionClash> getOuterVersionClashList() {
+    return outerVersionClashList;
   }
 
   public ArrayList<Project> getProjectList() {
     return projectList;
+  }
+
+
+  public int getNumberOfTotalDependencies()
+  {
+    return this.dependencyCounter;
   }
 }

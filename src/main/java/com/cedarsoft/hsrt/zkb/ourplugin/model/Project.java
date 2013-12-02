@@ -23,13 +23,12 @@ public class Project {
        private Version usedVersion;
       private Version highestVersion;
       private Version lowestVersion;
+       private DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion;
+
        private final ArrayList<DependencyNodeWrapper> projectInstances = new ArrayList<DependencyNodeWrapper>(  );
-       VersionClash versionClash;
+       OuterVersionClash outerVersionClash;
 
   public Project(String groupId, String artifactId ) {
-
-
-
 
 
                   this.groupId = groupId;
@@ -39,20 +38,35 @@ public class Project {
 
   public void init()
   {
-    if(this.getAllDifferentVersions().size()>1)
-    {
-      this.versionClash= new VersionClash(this);
-    }
-
-    this.usedVersion = this.identifyUsedVersion();
+    this.dependencyNodeWrapperWithUsedVersion = this.identifyUsedDependencyNodeWrapper();
+    this.usedVersion = this.identifyUsedDependencyNodeWrapper().getVersion();
     this.highestVersion = this.identifyHighestVersion();
     this.lowestVersion = this.identifyLowestVersion();
+
+    //Detect Clashes for this project first inner than outer
+    if(this.getAllDifferentVersions().size()>1)
+    {
+          ArrayList<InnerVersionClash> innerVersionClashes = new ArrayList<InnerVersionClash>(  );
+
+          for(DependencyNodeWrapper dependencyNodeWrapper:this.projectInstances)
+          {
+                InnerVersionClash innerVersionClash = new InnerVersionClash(this.dependencyNodeWrapperWithUsedVersion,dependencyNodeWrapper );
+                innerVersionClashes.add( innerVersionClash );
+          }
+
+
+      this.outerVersionClash = new OuterVersionClash(this,innerVersionClashes);
+    }
+
+
   }
 
 
-  public boolean hasVersionClash() {
 
-    if(this.versionClash==null)
+
+  public boolean hasOuterVersionClash() {
+
+    if(this.outerVersionClash ==null)
     {
       return false;
     }
@@ -70,15 +84,15 @@ public class Project {
    * @return
    */
 
-  public boolean hasVersionClashForClashSeverityLevel(ClashSeverity clashSeverity) {
+  public boolean hasOuterVersionClashForClashSeverityLevel(ClashSeverity clashSeverity) {
 
-    if(this.versionClash==null)
+    if(this.outerVersionClash ==null)
     {
       return false;
     }
     else
     {
-      return this.versionClash.isClashForSeverityLevel( clashSeverity );
+      return this.outerVersionClash.isClashForSeverityLevel( clashSeverity );
 
 
 
@@ -110,7 +124,7 @@ public class Project {
 
 
 
-     private Version identifyUsedVersion()
+     private DependencyNodeWrapper identifyUsedDependencyNodeWrapper()
      {
        DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion = this.projectInstances.get( 0 );
 
@@ -124,9 +138,7 @@ public class Project {
 
          }
        }
-
-
-       return dependencyNodeWrapperWithUsedVersion.getVersion();
+       return dependencyNodeWrapperWithUsedVersion;
      }
 
   private Version identifyHighestVersion()
@@ -164,8 +176,8 @@ public class Project {
     return projectInstances;
   }
 
-  public VersionClash getVersionClash() {
-    return versionClash;
+  public OuterVersionClash getOuterVersionClash() {
+    return outerVersionClash;
   }
 
   public String toString()

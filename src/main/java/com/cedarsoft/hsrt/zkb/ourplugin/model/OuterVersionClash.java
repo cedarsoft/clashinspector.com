@@ -12,16 +12,21 @@ import java.util.LinkedList;
  * Time: 16:43
  * To change this template use File | Settings | File Templates.
  */
-public class VersionClash {
+public class OuterVersionClash {
 
-  //Severity
+
   private final Project project;
+  //Only unsafe oder CRITICAL possible
+  private final ClashSeverity clashSeverity;
+  private final ArrayList<InnerVersionClash> innerVersionClashes;
 
-  public VersionClash( Project project ) {
+  public OuterVersionClash( Project project,ArrayList<InnerVersionClash> innerVersionClashes ) {
     this.project = project;
+    this.innerVersionClashes = innerVersionClashes;
+    this.clashSeverity = this.detectWorstClashSeverity();
   }
 
-  public ArrayList<DependencyNodeWrapper> getDependencyNodeWrapper( ClashSeverity clashSeverity ) {
+  /*public ArrayList<DependencyNodeWrapper> getDependencyNodeWrapperold( ClashSeverity clashSeverity ) {
     ArrayList<DependencyNodeWrapper> list = new ArrayList<DependencyNodeWrapper>();
 
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.project.getProjectInstances() ) {
@@ -46,38 +51,38 @@ public class VersionClash {
       }
     }
     return list;
-  }
+  }   */
 
-  public LinkedList<DependencyNodeWrapper> getDependencyNodeWrapperForClashSeverityLevel( ClashSeverity clashSeverity ) {
-    ArrayList<DependencyNodeWrapper> safeList = new ArrayList<DependencyNodeWrapper>();
-    ArrayList<DependencyNodeWrapper> unsafeList = new ArrayList<DependencyNodeWrapper>();
-    ArrayList<DependencyNodeWrapper> criticalList = new ArrayList<DependencyNodeWrapper>();
-    for ( DependencyNodeWrapper dependencyNodeWrapper : this.project.getProjectInstances() ) {
+  public LinkedList<InnerVersionClash> getInnerVersionClashForClashSeverityLevel( ClashSeverity clashSeverity ) {
+    ArrayList<InnerVersionClash> safeList = new ArrayList<InnerVersionClash>();
+    ArrayList<InnerVersionClash> unsafeList = new ArrayList<InnerVersionClash>();
+    ArrayList<InnerVersionClash> criticalList = new ArrayList<InnerVersionClash>();
+    for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
 
-      switch ( dependencyNodeWrapper.getRelationShipToUsedVersion() ) {
-        case EQUAL:
+      switch ( innerVersionClash.getClashSeverity() ) {
+        case SAFE:
                 if(clashSeverity.equals( ClashSeverity.SAFE )  )
                 {
-                  safeList.add( dependencyNodeWrapper );
+                  safeList.add( innerVersionClash );
                 }
           break;
-        case USED_VERSION_HIGHER:
+        case UNSAFE:
           if(clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.UNSAFE )  )
           {
-           unsafeList.add( dependencyNodeWrapper );
+           unsafeList.add( innerVersionClash );
           }
           break;
-        case USED_VERSION_LOWER:
+        case CRITICAL:
           if(clashSeverity.equals( ClashSeverity.SAFE )| clashSeverity.equals( ClashSeverity.CRITICAL )| clashSeverity.equals( ClashSeverity.CRITICAL )  )
           {
-            criticalList.add( dependencyNodeWrapper );
+            criticalList.add( innerVersionClash );
           }
           break;
       }
 
 
     }
-   LinkedList<DependencyNodeWrapper> linkedList = new LinkedList<DependencyNodeWrapper>(  );
+   LinkedList<InnerVersionClash> linkedList = new LinkedList<InnerVersionClash>(  );
 
     linkedList.addAll( safeList );
     linkedList.addAll( unsafeList );
@@ -85,11 +90,12 @@ public class VersionClash {
     return linkedList;
   }
 
-  public ClashSeverity getWorstClashSeverity() {
+  private ClashSeverity detectWorstClashSeverity() {
     ClashSeverity worstClashSeverity = ClashSeverity.SAFE;
-    for ( DependencyNodeWrapper dNW : this.project.getProjectInstances() ) {
-      if ( worstClashSeverity.ordinal() < dNW.getRelationShipToUsedVersion().ordinal() )
-        worstClashSeverity = dNW.getRelationShipToUsedVersion().getClashSeverity();
+    for (InnerVersionClash innerVersionClash : this.innerVersionClashes) {
+
+      if ( worstClashSeverity.ordinal() < innerVersionClash.getClashSeverity().ordinal() )
+        worstClashSeverity = innerVersionClash.getClashSeverity();
 
 
     }
@@ -97,9 +103,9 @@ public class VersionClash {
   }
 
 
-  public boolean hasClashSeverity( ClashSeverity clashSeverity ) {
-    for ( DependencyNodeWrapper dependencyNodeWrapper : this.project.getProjectInstances() ) {
-      if ( dependencyNodeWrapper.getRelationShipToUsedVersion().getClashSeverity().toString().equals( clashSeverity.toString() ) ) {
+  public boolean hasInnerClashesWithSeverity( ClashSeverity clashSeverity ) {
+    for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
+      if ( innerVersionClash.getClashSeverity().toString().equals( clashSeverity.toString() ) ) {
         return true;
       }
     }
@@ -107,7 +113,7 @@ public class VersionClash {
   }
 
   public boolean isClashForSeverityLevel( ClashSeverity clashSeverity ) {
-    if ( this.getWorstClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
+    if ( this.clashSeverity.ordinal() >= clashSeverity.ordinal() ) {
       return true;
     } else {
       return false;
@@ -115,23 +121,14 @@ public class VersionClash {
   }
 
 
-  public boolean hasClashSeverities( ClashSeverity... clashSeverity ) {
 
 
-    for ( ClashSeverity clashSeverity1 : clashSeverity ) {
+  public ClashSeverity getClashSeverity() {
+    return clashSeverity;
+  }
 
-
-      for ( DependencyNodeWrapper dependencyNodeWrapper : this.project.getProjectInstances() ) {
-        if ( dependencyNodeWrapper.getRelationShipToUsedVersion().getClashSeverity().toString().equals( clashSeverity.toString() ) ) {
-          return true;
-        }
-      }
-
-
-    }
-
-
-    return false;
+  public ArrayList<InnerVersionClash> getInnerVersionClashes() {
+    return innerVersionClashes;
   }
 
   public Project getProject() {
@@ -144,9 +141,9 @@ public class VersionClash {
     boolean result = false;
 
 
-    if ( object instanceof VersionClash ) {
+    if ( object instanceof OuterVersionClash ) {
 
-      VersionClash vC = ( VersionClash ) object;
+      OuterVersionClash vC = ( OuterVersionClash ) object;
 
 
       if ( vC.getProject().getGroupId().equals( this.getProject().getGroupId() ) && vC.getProject().getArtifactId().equals( this.getProject().getArtifactId() ) ) {

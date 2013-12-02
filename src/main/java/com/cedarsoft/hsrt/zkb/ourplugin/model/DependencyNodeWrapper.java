@@ -15,7 +15,7 @@ import java.util.List;
  * Time: 11:00
  * To change this template use File | Settings | File Templates.
  */
-public class DependencyNodeWrapper {
+public class DependencyNodeWrapper  {
   //DependencyNodeVersionDetails
 
   private final DependencyNode dependencyNode;
@@ -141,7 +141,9 @@ public class DependencyNodeWrapper {
     return project;
   }
 
-      public enum RelationshipToUsedVersion
+
+
+  public enum RelationshipToUsedVersion
       {
         EQUAL(ClashSeverity.SAFE),USED_VERSION_HIGHER(ClashSeverity.UNSAFE),USED_VERSION_LOWER(ClashSeverity.CRITICAL)     ;
 

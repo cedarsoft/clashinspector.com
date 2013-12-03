@@ -1,7 +1,7 @@
 package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
 
 import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 
 /**
@@ -13,6 +13,6 @@ import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
  */
 public interface Visualizer {
 
-  void visualize( ClashCollectResultWrapper clashCollectResultWrapper, AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashTreeMojo clashTreeMojo );
+       public void visualize(ClashCollectResultWrapper clashCollectResultWrapper,ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo )  ;
 
 }

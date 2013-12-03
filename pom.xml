@@ -66,12 +66,36 @@
       <version>${aetherVersion}</version>
     </dependency>
 
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-connector-basic</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-file</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-http</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+
 
 
   </dependencies>
@@ -108,8 +132,9 @@
         <artifactId>clashinspector-maven-plugin</artifactId>
         <version>0.1-SNAPSHOT</version>
         <configuration>
-          <includeOptional>true</includeOptional>
-          <clashDetectionLevel>ALL</clashDetectionLevel>
+          <severity>SAFE</severity>
+        <includeOptional>false</includeOptional>
+            <failOnError>false</failOnError>
         </configuration>
 
       </plugin>

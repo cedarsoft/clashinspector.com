@@ -4,9 +4,9 @@ import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.DependencyNodeWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.InnerVersionClash;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.OuterVersionClash;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashListMojo;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashPhaseMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
@@ -113,16 +113,14 @@ public class ConsoleVisualizer implements Visualizer {
   }
 
 
-
-  private void printListPartHeader(OuterVersionClash outerVersionClash )
-  {
+  private void printListPartHeader( OuterVersionClash outerVersionClash ) {
     log.info( "-------------------------------------" );
-    log.info( "["+ outerVersionClash.getClashSeverity()+" Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
+    log.info( "[" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
     log.info( " (used: " + outerVersionClash.getProject().getUsedVersion() + " highest: " + outerVersionClash.getProject().getHighestVersion() + " lowest: " + outerVersionClash.getProject().getLowestVersion() + ")" );
     log.info( "-------------------------------------" );
   }
-  private void printListSmallTree(DependencyNodeWrapper dNW)
-  {
+
+  private void printListSmallTree( DependencyNodeWrapper dNW ) {
 
     String clashMessage = dNW.getRelationShipToUsedVersion().getClashSeverity().name();
 
@@ -143,32 +141,25 @@ public class ConsoleVisualizer implements Visualizer {
   private void printList( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {
 
 
-    for (OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
+    for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
-         if( outerVersionClash.isClashForSeverityLevel( clashSeverity ))
-         {
+      if ( outerVersionClash.isClashForSeverityLevel( clashSeverity ) ) {
 
-               this.printListPartHeader( outerVersionClash );
+        this.printListPartHeader( outerVersionClash );
 
-                 for(InnerVersionClash innerVersionClash : outerVersionClash.getInnerVersionClashForClashSeverityLevel( clashSeverity ))
-                 {
-                   this.printListSmallTree( innerVersionClash.getReferredDependencyNodeWrapper() );
-                 }
-           log.info( "" );
-
-
-
-         }
+        for ( InnerVersionClash innerVersionClash : outerVersionClash.getInnerVersionClashForClashSeverityLevel( clashSeverity ) ) {
+          this.printListSmallTree( innerVersionClash.getReferredDependencyNodeWrapper() );
+        }
+        log.info( "" );
 
 
       }
 
+
     }
 
-
-
-
+  }
 
 
   public void printStatistic( ClashCollectResultWrapper clashCollectResultWrapper ) {
@@ -187,26 +178,24 @@ public class ConsoleVisualizer implements Visualizer {
 
 
     }  */
-    log.info("");
+    log.info( "" );
     log.info( "-------------------Start of Statistics-------------------" );
     log.info( "Number of Clashes with severity UNSAFE: " + clashCollectResultWrapper.getNumberOfOuterClashes( ClashSeverity.UNSAFE ) );
 
-    for (OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
+    for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
-      if( outerVersionClash.getClashSeverity().equals( ClashSeverity.UNSAFE ))
-      {
-        log.info( " ["+ outerVersionClash.getClashSeverity()+" Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
+      if ( outerVersionClash.getClashSeverity().equals( ClashSeverity.UNSAFE ) ) {
+        log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
 
     log.info( "Number of Clashes with severity CRITICAL: " + clashCollectResultWrapper.getNumberOfOuterClashes( ClashSeverity.CRITICAL ) );
-    for (OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
+    for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
-      if( outerVersionClash.getClashSeverity().equals( ClashSeverity.CRITICAL ))
-      {
-        log.info( " ["+ outerVersionClash.getClashSeverity()+" Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
+      if ( outerVersionClash.getClashSeverity().equals( ClashSeverity.CRITICAL ) ) {
+        log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
     log.info( "-------------------End of Statistics-------------------" );
@@ -232,7 +221,6 @@ public class ConsoleVisualizer implements Visualizer {
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
-
 
 
   }

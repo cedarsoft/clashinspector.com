@@ -19,7 +19,7 @@ public class InnerVersionClash {
     this.usedDependencyNodeWrapper = usedDependencyNodeWrapper;
     this.referredDependencyNodeWrapper = referredDependencyNodeWrapper;
 
-    this.clashSeverity =  this.referredDependencyNodeWrapper.getRelationShipToUsedVersion().getClashSeverity();
+    this.clashSeverity = this.referredDependencyNodeWrapper.getRelationShipToUsedVersion().getClashSeverity();
 
   }
 

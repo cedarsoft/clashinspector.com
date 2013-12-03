@@ -29,26 +29,26 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Component
   private RepositorySystem repoSystem;
 
-  @Parameter(defaultValue = "${repositorySystemSession}")
+  @Parameter( defaultValue = "${repositorySystemSession}" )
   private RepositorySystemSession repoSession;
 
-  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
+  @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
   private List<RemoteRepository> remoteRepos;
 
 
-  @Parameter(defaultValue = "${project}", readonly = true, required = true)
+  @Parameter( defaultValue = "${project}", readonly = true, required = true )
   private MavenProject project;
 
-  @Parameter(alias = "includedScopes")
+  @Parameter( alias = "includedScopes" )
   private String[] includedScopes;
 
-  @Parameter(alias = "excludedScopes")
+  @Parameter( alias = "excludedScopes" )
   private String[] excludedScopes;
 
-  @Parameter(alias = "includeOptional", defaultValue = "false")
+  @Parameter( alias = "includeOptional", defaultValue = "false" )
   private boolean includeOptional;
 
-  @Parameter(alias = "severity", defaultValue = "SAFE")
+  @Parameter( alias = "severity", defaultValue = "SAFE" )
   private ClashSeverity detectionLevel;
 
   private final List<String> includedScopesList = new ArrayList<String>();

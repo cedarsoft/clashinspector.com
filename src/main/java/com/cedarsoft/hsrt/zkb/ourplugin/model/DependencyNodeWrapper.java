@@ -15,7 +15,7 @@ import java.util.List;
  * Time: 11:00
  * To change this template use File | Settings | File Templates.
  */
-public class DependencyNodeWrapper  {
+public class DependencyNodeWrapper {
   //DependencyNodeVersionDetails
 
   private final DependencyNode dependencyNode;
@@ -32,7 +32,7 @@ public class DependencyNodeWrapper  {
   private final DependencyNodeWrapper parent;
   private Project project;
 
-   //relationship to used version
+  //relationship to used version
 
 
   public DependencyNodeWrapper( DependencyNode dependencyNode, DependencyNodeWrapper parent, Project project, int graphDepth, int graphLevelOrder, int addCounter ) {
@@ -99,7 +99,6 @@ public class DependencyNodeWrapper  {
   }
 
 
-
   public RelationshipToUsedVersion getRelationShipToUsedVersion() {
     //compare nodeVersion with inMavenUsedVersion
     int clashResult = this.getVersion().compareTo( this.project.getUsedVersion() );
@@ -142,21 +141,19 @@ public class DependencyNodeWrapper  {
   }
 
 
+  public enum RelationshipToUsedVersion {
+    EQUAL( ClashSeverity.SAFE ), USED_VERSION_HIGHER( ClashSeverity.UNSAFE ), USED_VERSION_LOWER( ClashSeverity.CRITICAL );
 
-  public enum RelationshipToUsedVersion
-      {
-        EQUAL(ClashSeverity.SAFE),USED_VERSION_HIGHER(ClashSeverity.UNSAFE),USED_VERSION_LOWER(ClashSeverity.CRITICAL)     ;
+    private ClashSeverity clashSeverity;
 
-        private ClashSeverity clashSeverity;
+    private RelationshipToUsedVersion( ClashSeverity clashSeverity ) {
+      this.clashSeverity = clashSeverity;
+    }
 
-        private RelationshipToUsedVersion( ClashSeverity clashSeverity ) {
-          this.clashSeverity = clashSeverity;
-        }
-
-        public ClashSeverity getClashSeverity() {
-          return clashSeverity;
-        }
-      }
+    public ClashSeverity getClashSeverity() {
+      return clashSeverity;
+    }
+  }
 
 
 }

@@ -21,8 +21,8 @@ public class ClashCollectResultWrapper {
   private final CollectResult collectResult;
 
 
-      //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
-  private final ArrayList<OuterVersionClash> outerVersionClashList = new ArrayList <OuterVersionClash>();
+  //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
+  private final ArrayList<OuterVersionClash> outerVersionClashList = new ArrayList<OuterVersionClash>();
   private final ArrayList<Project> projectList = new ArrayList<Project>();
 
 
@@ -54,17 +54,13 @@ public class ClashCollectResultWrapper {
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
 
 
-
-
       dNW.getProject().init();
 
-      if ( dNW.getProject().hasOuterVersionClash()) {
+      if ( dNW.getProject().hasOuterVersionClash() ) {
 
-        if(this.outerVersionClashList.contains(dNW.getProject().getOuterVersionClash()  )==false)
-        {
-          this.outerVersionClashList.add( dNW.getProject().getOuterVersionClash() )  ;
+        if ( this.outerVersionClashList.contains( dNW.getProject().getOuterVersionClash() ) == false ) {
+          this.outerVersionClashList.add( dNW.getProject().getOuterVersionClash() );
         }
-
 
 
       }
@@ -73,7 +69,6 @@ public class ClashCollectResultWrapper {
       this.initializeClashCollectResultWrapper( dNW, depth + 1 );
     }
   }
-
 
 
   //Enrich Dependency Node with versiondetails and parent pathMap   buildWrapperGraph
@@ -91,7 +86,7 @@ public class ClashCollectResultWrapper {
       if ( project == null ) {
 
 
-        project = new Project(dN.getArtifact().getGroupId(),dN.getArtifact().getArtifactId());
+        project = new Project( dN.getArtifact().getGroupId(), dN.getArtifact().getArtifactId() );
 
         this.projectList.add( project );
         projectMap.put( key, project );
@@ -115,27 +110,21 @@ public class ClashCollectResultWrapper {
     return this.outerVersionClashList.size();
   }
 
-    public int getNumberOfOuterClashes(ClashSeverity clashSeverity)
-    {
-      int number =0;
-         for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
-         {
-          if( outerVersionClash.getClashSeverity().equals( clashSeverity ))
-          {
-            number = number +1;
-          }
-         }
-      return number;
+  public int getNumberOfOuterClashes( ClashSeverity clashSeverity ) {
+    int number = 0;
+    for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
+      if ( outerVersionClash.getClashSeverity().equals( clashSeverity ) ) {
+        number = number + 1;
+      }
     }
+    return number;
+  }
 
-  public int getNumberOfOuterClashesForSeverityLevel(ClashSeverity clashSeverity)
-  {
-    int number =0;
-    for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
-    {
-      if( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal())
-      {
-        number = number +1;
+  public int getNumberOfOuterClashesForSeverityLevel( ClashSeverity clashSeverity ) {
+    int number = 0;
+    for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
+      if ( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
+        number = number + 1;
       }
     }
     return number;
@@ -192,8 +181,7 @@ public class ClashCollectResultWrapper {
   }
 
 
-  public int getNumberOfTotalDependencies()
-  {
+  public int getNumberOfTotalDependencies() {
     return this.dependencyCounter;
   }
 }

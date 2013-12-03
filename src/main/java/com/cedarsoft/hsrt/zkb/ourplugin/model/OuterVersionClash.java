@@ -20,7 +20,7 @@ public class OuterVersionClash {
   private final ClashSeverity clashSeverity;
   private final ArrayList<InnerVersionClash> innerVersionClashes;
 
-  public OuterVersionClash( Project project,ArrayList<InnerVersionClash> innerVersionClashes ) {
+  public OuterVersionClash( Project project, ArrayList<InnerVersionClash> innerVersionClashes ) {
     this.project = project;
     this.innerVersionClashes = innerVersionClashes;
     this.clashSeverity = this.detectWorstClashSeverity();
@@ -61,20 +61,17 @@ public class OuterVersionClash {
 
       switch ( innerVersionClash.getClashSeverity() ) {
         case SAFE:
-                if(clashSeverity.equals( ClashSeverity.SAFE )  )
-                {
-                  safeList.add( innerVersionClash );
-                }
+          if ( clashSeverity.equals( ClashSeverity.SAFE ) ) {
+            safeList.add( innerVersionClash );
+          }
           break;
         case UNSAFE:
-          if(clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.UNSAFE )  )
-          {
-           unsafeList.add( innerVersionClash );
+          if ( clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.UNSAFE ) ) {
+            unsafeList.add( innerVersionClash );
           }
           break;
         case CRITICAL:
-          if(clashSeverity.equals( ClashSeverity.SAFE )| clashSeverity.equals( ClashSeverity.CRITICAL )| clashSeverity.equals( ClashSeverity.CRITICAL )  )
-          {
+          if ( clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.CRITICAL ) | clashSeverity.equals( ClashSeverity.CRITICAL ) ) {
             criticalList.add( innerVersionClash );
           }
           break;
@@ -82,7 +79,7 @@ public class OuterVersionClash {
 
 
     }
-   LinkedList<InnerVersionClash> linkedList = new LinkedList<InnerVersionClash>(  );
+    LinkedList<InnerVersionClash> linkedList = new LinkedList<InnerVersionClash>();
 
     linkedList.addAll( safeList );
     linkedList.addAll( unsafeList );
@@ -92,7 +89,7 @@ public class OuterVersionClash {
 
   private ClashSeverity detectWorstClashSeverity() {
     ClashSeverity worstClashSeverity = ClashSeverity.SAFE;
-    for (InnerVersionClash innerVersionClash : this.innerVersionClashes) {
+    for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
 
       if ( worstClashSeverity.ordinal() < innerVersionClash.getClashSeverity().ordinal() )
         worstClashSeverity = innerVersionClash.getClashSeverity();
@@ -119,8 +116,6 @@ public class OuterVersionClash {
       return false;
     }
   }
-
-
 
 
   public ClashSeverity getClashSeverity() {

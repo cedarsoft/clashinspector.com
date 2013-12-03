@@ -9,9 +9,9 @@ package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
  */
 
 
+import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
 import com.cedarsoft.hsrt.zkb.ourplugin.visualize.ConsoleVisualizer;
-import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -25,10 +25,10 @@ import org.eclipse.aether.artifact.DefaultArtifact;
  */
 //clashinspector
 //clashfinder
-@Mojo( name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE )
+@Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
 public class ClashPhaseMojo extends AbstractClashMojo {
 
-  @Parameter(alias = "failOnError", defaultValue = "true")
+  @Parameter( alias = "failOnError", defaultValue = "true" )
   private boolean failOnError;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -48,9 +48,8 @@ public class ClashPhaseMojo extends AbstractClashMojo {
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
 
 
-
-        consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
-      if ( this.failOnError==true) {
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
+      if ( this.failOnError == true ) {
         throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getClashDetectionLevel() + " detected!!" );
 
 

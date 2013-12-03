@@ -1,5 +1,8 @@
 package com.cedarsoft.hsrt.zkb.ourplugin.model;
 
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
+import org.eclipse.aether.version.Version;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,66 +15,55 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
-import org.eclipse.aether.version.Version;
-
 //dachdependency   ein projekt wird identifiziert durch groupid nd artifact id
 public class Project {
 
-       private final String groupId;
-       private final String artifactId;
-       private Version usedVersion;
-      private Version highestVersion;
-      private Version lowestVersion;
-       private DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion;
+  private final String groupId;
+  private final String artifactId;
+  private Version usedVersion;
+  private Version highestVersion;
+  private Version lowestVersion;
+  private DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion;
 
-       private final ArrayList<DependencyNodeWrapper> projectInstances = new ArrayList<DependencyNodeWrapper>(  );
-       OuterVersionClash outerVersionClash;
+  private final ArrayList<DependencyNodeWrapper> projectInstances = new ArrayList<DependencyNodeWrapper>();
+  OuterVersionClash outerVersionClash;
 
-  public Project(String groupId, String artifactId ) {
+  public Project( String groupId, String artifactId ) {
 
 
-                  this.groupId = groupId;
-                     this.artifactId = artifactId;
+    this.groupId = groupId;
+    this.artifactId = artifactId;
 
   }
 
-  public void init()
-  {
+  public void init() {
     this.dependencyNodeWrapperWithUsedVersion = this.identifyUsedDependencyNodeWrapper();
     this.usedVersion = this.identifyUsedDependencyNodeWrapper().getVersion();
     this.highestVersion = this.identifyHighestVersion();
     this.lowestVersion = this.identifyLowestVersion();
 
     //Detect Clashes for this project first inner than outer
-    if(this.getAllDifferentVersions().size()>1)
-    {
-          ArrayList<InnerVersionClash> innerVersionClashes = new ArrayList<InnerVersionClash>(  );
+    if ( this.getAllDifferentVersions().size() > 1 ) {
+      ArrayList<InnerVersionClash> innerVersionClashes = new ArrayList<InnerVersionClash>();
 
-          for(DependencyNodeWrapper dependencyNodeWrapper:this.projectInstances)
-          {
-                InnerVersionClash innerVersionClash = new InnerVersionClash(this.dependencyNodeWrapperWithUsedVersion,dependencyNodeWrapper );
-                innerVersionClashes.add( innerVersionClash );
-          }
+      for ( DependencyNodeWrapper dependencyNodeWrapper : this.projectInstances ) {
+        InnerVersionClash innerVersionClash = new InnerVersionClash( this.dependencyNodeWrapperWithUsedVersion, dependencyNodeWrapper );
+        innerVersionClashes.add( innerVersionClash );
+      }
 
 
-      this.outerVersionClash = new OuterVersionClash(this,innerVersionClashes);
+      this.outerVersionClash = new OuterVersionClash( this, innerVersionClashes );
     }
 
 
   }
 
 
-
-
   public boolean hasOuterVersionClash() {
 
-    if(this.outerVersionClash ==null)
-    {
+    if ( this.outerVersionClash == null ) {
       return false;
-    }
-    else
-    {
+    } else {
       return true;
     }
 
@@ -80,20 +72,17 @@ public class Project {
   /**
    * Attention, this method is considering the sequence of ClashSeverityLevel. It returns true if the clashSeverity is higher then the parameter severity
    * Alle methoden mit forClashSeverity berücksichtigen für ihr ergebnis die reihenfolge
+   *
    * @param clashSeverity
    * @return
    */
 
-  public boolean hasOuterVersionClashForClashSeverityLevel(ClashSeverity clashSeverity) {
+  public boolean hasOuterVersionClashForClashSeverityLevel( ClashSeverity clashSeverity ) {
 
-    if(this.outerVersionClash ==null)
-    {
+    if ( this.outerVersionClash == null ) {
       return false;
-    }
-    else
-    {
+    } else {
       return this.outerVersionClash.isClashForSeverityLevel( clashSeverity );
-
 
 
     }
@@ -119,35 +108,31 @@ public class Project {
       }
 
     }
-    return  differentVersions ;
+    return differentVersions;
   }
 
 
+  private DependencyNodeWrapper identifyUsedDependencyNodeWrapper() {
+    DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion = this.projectInstances.get( 0 );
 
-     private DependencyNodeWrapper identifyUsedDependencyNodeWrapper()
-     {
-       DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion = this.projectInstances.get( 0 );
+    for ( DependencyNodeWrapper dependencyNodeWrapper : this.projectInstances ) {
+      if ( dependencyNodeWrapperWithUsedVersion.getGraphDepth() > dependencyNodeWrapper.getGraphDepth() ) {
+        dependencyNodeWrapperWithUsedVersion = dependencyNodeWrapper;
+      } else if ( dependencyNodeWrapperWithUsedVersion.getGraphDepth() == dependencyNodeWrapper.getGraphDepth() ) {
+        if ( dependencyNodeWrapperWithUsedVersion.getAddCounter() > dependencyNodeWrapper.getAddCounter() ) {
+          dependencyNodeWrapperWithUsedVersion = dependencyNodeWrapper;
+        }
 
-       for ( DependencyNodeWrapper dependencyNodeWrapper : this.projectInstances ) {
-         if ( dependencyNodeWrapperWithUsedVersion.getGraphDepth() > dependencyNodeWrapper.getGraphDepth() ) {
-           dependencyNodeWrapperWithUsedVersion = dependencyNodeWrapper;
-         } else if ( dependencyNodeWrapperWithUsedVersion.getGraphDepth() == dependencyNodeWrapper.getGraphDepth() ) {
-           if ( dependencyNodeWrapperWithUsedVersion.getAddCounter() > dependencyNodeWrapper.getAddCounter() ) {
-             dependencyNodeWrapperWithUsedVersion = dependencyNodeWrapper;
-           }
+      }
+    }
+    return dependencyNodeWrapperWithUsedVersion;
+  }
 
-         }
-       }
-       return dependencyNodeWrapperWithUsedVersion;
-     }
-
-  private Version identifyHighestVersion()
-  {
+  private Version identifyHighestVersion() {
     return Collections.max( this.getAllVersions() );
   }
 
-  private Version identifyLowestVersion()
-  {
+  private Version identifyLowestVersion() {
     return Collections.min( this.getAllVersions() );
   }
 
@@ -180,33 +165,27 @@ public class Project {
     return outerVersionClash;
   }
 
-  public String toString()
-  {
-    return this.getGroupId()+":"+this.artifactId;
+  public String toString() {
+    return this.getGroupId() + ":" + this.artifactId;
   }
 
-  public void addInstance(DependencyNodeWrapper dependencyNodeWrapper)
-  {
-        this.projectInstances.add( dependencyNodeWrapper );
+  public void addInstance( DependencyNodeWrapper dependencyNodeWrapper ) {
+    this.projectInstances.add( dependencyNodeWrapper );
   }
 
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals( Object object ) {
     boolean result = false;
 
-    if(object instanceof Project)
-    {
-      if(((Project) object).toString().equals( this.toString() ) )
-      {
+    if ( object instanceof Project ) {
+      if ( ( ( Project ) object ).toString().equals( this.toString() ) ) {
         result = true;
       }
     }
-    if(object instanceof String)
-    {
-      String s = (String) object;
-      if(this.toString().equals( object.toString() ))
-      {
+    if ( object instanceof String ) {
+      String s = ( String ) object;
+      if ( this.toString().equals( object.toString() ) ) {
         result = true;
       }
 

@@ -19,7 +19,7 @@ public class DependencyNodeWrapper {
   //DependencyNodeVersionDetails
 
   private final DependencyNode dependencyNode;
-  private final ArrayList<DependencyNodeWrapper> children = new ArrayList<DependencyNodeWrapper>();
+  private final List<DependencyNodeWrapper> children = new ArrayList<DependencyNodeWrapper>();
 
 
   //private final ArrayList<DependencyNodeWrapper> ancestors = new ArrayList<DependencyNodeWrapper>()  ;

@@ -11,9 +11,9 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.repository.LocalRepository;
 import org.junit.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,8 +27,8 @@ public class DependencyServiceTest {
   private Artifact artifact;
   private DefaultRepositorySystemSession repoSession;
   private RepositorySystem repoSystem;
-  private ArrayList<String> includedScopes;
-  private java.util.ArrayList<String> excludedScopes;
+  private List<String> includedScopes;
+  private List<String> excludedScopes;
   private boolean includeOptional;
   DependencyService dependencyService = new DependencyService();
 

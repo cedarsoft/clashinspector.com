@@ -4,6 +4,7 @@ import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,9 +19,9 @@ public class OuterVersionClash {
   private final Project project;
   //Only unsafe oder CRITICAL possible
   private final ClashSeverity clashSeverity;
-  private final ArrayList<InnerVersionClash> innerVersionClashes;
+  private final List<InnerVersionClash> innerVersionClashes;
 
-  public OuterVersionClash( Project project, ArrayList<InnerVersionClash> innerVersionClashes ) {
+  public OuterVersionClash( Project project, List<InnerVersionClash> innerVersionClashes ) {
     this.project = project;
     this.innerVersionClashes = innerVersionClashes;
     this.clashSeverity = this.detectWorstClashSeverity();
@@ -54,9 +55,9 @@ public class OuterVersionClash {
   }   */
 
   public LinkedList<InnerVersionClash> getInnerVersionClashForClashSeverityLevel( ClashSeverity clashSeverity ) {
-    ArrayList<InnerVersionClash> safeList = new ArrayList<InnerVersionClash>();
-    ArrayList<InnerVersionClash> unsafeList = new ArrayList<InnerVersionClash>();
-    ArrayList<InnerVersionClash> criticalList = new ArrayList<InnerVersionClash>();
+    List<InnerVersionClash> safeList = new ArrayList<InnerVersionClash>();
+    List<InnerVersionClash> unsafeList = new ArrayList<InnerVersionClash>();
+    List<InnerVersionClash> criticalList = new ArrayList<InnerVersionClash>();
     for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
 
       switch ( innerVersionClash.getClashSeverity() ) {
@@ -122,7 +123,7 @@ public class OuterVersionClash {
     return clashSeverity;
   }
 
-  public ArrayList<InnerVersionClash> getInnerVersionClashes() {
+  public List<InnerVersionClash> getInnerVersionClashes() {
     return innerVersionClashes;
   }
 
@@ -135,17 +136,12 @@ public class OuterVersionClash {
   public boolean equals( Object object ) {
     boolean result = false;
 
-
     if ( object instanceof OuterVersionClash ) {
-
       OuterVersionClash vC = ( OuterVersionClash ) object;
-
 
       if ( vC.getProject().getGroupId().equals( this.getProject().getGroupId() ) && vC.getProject().getArtifactId().equals( this.getProject().getArtifactId() ) ) {
         result = true;
       }
-
-
     }
 
     return result;

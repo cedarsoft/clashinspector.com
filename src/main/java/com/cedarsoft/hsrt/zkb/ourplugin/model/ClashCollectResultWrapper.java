@@ -14,6 +14,7 @@ import org.eclipse.aether.graph.DependencyNode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClashCollectResultWrapper {
@@ -22,8 +23,8 @@ public class ClashCollectResultWrapper {
 
 
   //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
-  private final ArrayList<OuterVersionClash> outerVersionClashList = new ArrayList<OuterVersionClash>();
-  private final ArrayList<Project> projectList = new ArrayList<Project>();
+  private final List<OuterVersionClash> outerVersionClashList = new ArrayList<OuterVersionClash>();
+  private final List<Project> projectList = new ArrayList<Project>();
 
 
   private DependencyNodeWrapper root;
@@ -172,11 +173,11 @@ public class ClashCollectResultWrapper {
     return result;
   }    */
 
-  public ArrayList<OuterVersionClash> getOuterVersionClashList() {
+  public List<OuterVersionClash> getOuterVersionClashList() {
     return outerVersionClashList;
   }
 
-  public ArrayList<Project> getProjectList() {
+  public List<Project> getProjectList() {
     return projectList;
   }
 

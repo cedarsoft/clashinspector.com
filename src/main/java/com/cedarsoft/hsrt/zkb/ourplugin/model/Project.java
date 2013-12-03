@@ -25,8 +25,8 @@ public class Project {
   private Version lowestVersion;
   private DependencyNodeWrapper dependencyNodeWrapperWithUsedVersion;
 
-  private final ArrayList<DependencyNodeWrapper> projectInstances = new ArrayList<DependencyNodeWrapper>();
-  OuterVersionClash outerVersionClash;
+  private final List<DependencyNodeWrapper> projectInstances = new ArrayList<DependencyNodeWrapper>();
+  private OuterVersionClash outerVersionClash;
 
   public Project( String groupId, String artifactId ) {
 
@@ -44,7 +44,7 @@ public class Project {
 
     //Detect Clashes for this project first inner than outer
     if ( this.getAllDifferentVersions().size() > 1 ) {
-      ArrayList<InnerVersionClash> innerVersionClashes = new ArrayList<InnerVersionClash>();
+      List<InnerVersionClash> innerVersionClashes = new ArrayList<InnerVersionClash>();
 
       for ( DependencyNodeWrapper dependencyNodeWrapper : this.projectInstances ) {
         InnerVersionClash innerVersionClash = new InnerVersionClash( this.dependencyNodeWrapperWithUsedVersion, dependencyNodeWrapper );
@@ -90,8 +90,8 @@ public class Project {
   }
 
 
-  public ArrayList<Version> getAllVersions() {
-    ArrayList<Version> list = new ArrayList<Version>();
+  public List<Version> getAllVersions() {
+    List<Version> list = new ArrayList<Version>();
     for ( DependencyNodeWrapper dependencyNodeWrapper : this.projectInstances ) {
       list.add( dependencyNodeWrapper.getVersion() );
     }
@@ -99,8 +99,7 @@ public class Project {
   }
 
   public List<Version> getAllDifferentVersions() {
-
-    ArrayList<Version> differentVersions = new ArrayList<Version>();
+    List<Version> differentVersions = new ArrayList<Version>();
 
     for ( Version version : this.getAllVersions() ) {
       if ( !differentVersions.contains( version ) ) {
@@ -157,7 +156,7 @@ public class Project {
     return lowestVersion;
   }
 
-  public ArrayList<DependencyNodeWrapper> getProjectInstances() {
+  public List<DependencyNodeWrapper> getProjectInstances() {
     return projectInstances;
   }
 

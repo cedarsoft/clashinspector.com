@@ -12,8 +12,6 @@ import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.version.Version;
 
-import java.util.ArrayList;
-
 /**
  * Created with IntelliJ IDEA.
  * User: m
@@ -127,15 +125,9 @@ public class ConsoleVisualizer implements Visualizer {
 
     log.info( clashMessage );
 
-
-    ArrayList<DependencyNodeWrapper> listAncestors = ( ArrayList ) dNW.getAllAncestors();
-
-    for ( DependencyNodeWrapper dNWA : listAncestors ) {
+    for ( DependencyNodeWrapper dNWA : dNW.getAllAncestors() ) {
       log.info( Strings.repeat( " ", dNWA.getGraphDepth() ) + dNWA.toString() );
-
     }
-
-
   }
 
   private void printList( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {

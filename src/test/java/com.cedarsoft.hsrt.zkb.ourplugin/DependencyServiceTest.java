@@ -40,7 +40,7 @@ public class DependencyServiceTest {
 
     this.repoSession = MavenRepositorySystemUtils.newSession();
 
-    LocalRepository localRepo = new LocalRepository( "C:\\Users\\m\\.m2\\repository" );
+    LocalRepository localRepo = new LocalRepository( "target/local-repo" );
     this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
 
     //session.setTransferListener( new ConsoleTransferListener() );

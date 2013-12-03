@@ -96,8 +96,6 @@
     </dependency>
 
 
-
-
   </dependencies>
 
 
@@ -133,8 +131,8 @@
         <version>0.1-SNAPSHOT</version>
         <configuration>
           <severity>SAFE</severity>
-        <includeOptional>false</includeOptional>
-            <failOnError>false</failOnError>
+          <includeOptional>false</includeOptional>
+          <failOnError>false</failOnError>
         </configuration>
 
       </plugin>

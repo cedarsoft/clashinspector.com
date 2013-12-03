@@ -8,12 +8,11 @@ package com.cedarsoft.hsrt.zkb.ourplugin.model;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,33 +21,28 @@ public class ClashCollectResultWrapper {
 
   private final CollectResult collectResult;
 
-  /**
-   *   Map to store all clash dependencyNodes for one group- and artifact-id.
-   */
 
+  //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
+  private final List<OuterVersionClash> outerVersionClashList = new ArrayList<OuterVersionClash>();
+  private final List<Project> projectList = new ArrayList<Project>();
 
-  /**
-   * Map to store a list with the clash dependencies with the key of groupd and artifact id
-   */
-  private final List<DependencyNodeWrapper> clashListUsedVersionHigher = new ArrayList<DependencyNodeWrapper>();
-  private final List<DependencyNodeWrapper> clashListUsedVersionLower = new ArrayList<DependencyNodeWrapper>();
-  private final List<DependencyNodeWrapper> clashListUsedVersionEqual = new ArrayList<DependencyNodeWrapper>();
 
   private final DependencyNodeWrapper root;
-  private int dependencyCounter;
+  private int dependencyCounter = 0;
 
   public ClashCollectResultWrapper( CollectResult collectResult ) {
 
     this.collectResult = collectResult;
 
-    Map<String, ArrayList<DependencyNodeWrapper>> dependencyMap = new LinkedHashMap<String, ArrayList<DependencyNodeWrapper>>();
+    Map<String, Project> projectMap = new LinkedHashMap<String, Project>();
 
-    this.root = new DependencyNodeWrapper( collectResult.getRoot() );
+    this.root = new DependencyNodeWrapper( this.collectResult.getRoot() );
 
-    this.buildDependencyNodeWrapperGraph( this.root, dependencyMap, 1 );
+    this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1 );
 
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
+
   }
 
 
@@ -61,19 +55,17 @@ public class ClashCollectResultWrapper {
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
 
 
-      if ( dNW.hasVersionClash() ) {
+      dNW.getProject().init();
 
+      if ( dNW.getProject().hasOuterVersionClash() ) {
 
-        if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.EQUAL ) {
-          this.clashListUsedVersionEqual.add( dNW );
-
-        } else if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_HIGHER ) {
-          this.clashListUsedVersionHigher.add( dNW );
-
-        } else if ( dNW.getRelationShipToUsedVersion() == DependencyNodeWrapper.RelationShipToUsedVersion.USED_VERSION_LOWER ) {
-          this.clashListUsedVersionLower.add( dNW );
+        if ( !this.outerVersionClashList.contains( dNW.getProject().getOuterVersionClash() ) ) {
+          this.outerVersionClashList.add( dNW.getProject().getOuterVersionClash() );
         }
+
+
       }
+
 
       this.initializeClashCollectResultWrapper( dNW, depth + 1 );
     }
@@ -81,7 +73,7 @@ public class ClashCollectResultWrapper {
 
 
   //Enrich Dependency Node with versiondetails and parent pathMap   buildWrapperGraph
-  private void buildDependencyNodeWrapperGraph( DependencyNodeWrapper dependencyNodeWrapperOld, Map<String, ArrayList<DependencyNodeWrapper>> dependencyMap, int graphDepth ) {
+  private void buildDependencyNodeWrapperGraph( DependencyNodeWrapper dependencyNodeWrapperOld, Map<String, Project> projectMap, int graphDepth ) {
 
     int graphLevelOrder = 0;
 
@@ -90,142 +82,107 @@ public class ClashCollectResultWrapper {
 
 
       String key = dN.getArtifact().getGroupId() + ":" + dN.getArtifact().getArtifactId();
-      ArrayList<DependencyNodeWrapper> dependencySiblings = dependencyMap.get( key );
-      if ( dependencySiblings == null ) {
+      Project project = projectMap.get( key );
+
+      if ( project == null ) {
 
 
-        dependencySiblings = new ArrayList<DependencyNodeWrapper>();
+        project = new Project( dN.getArtifact().getGroupId(), dN.getArtifact().getArtifactId() );
 
-
-        dependencyMap.put( key, dependencySiblings );
+        this.projectList.add( project );
+        projectMap.put( key, project );
 
       }
 
       dependencyCounter += 1;
-      DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, dependencySiblings, graphDepth, graphLevelOrder, dependencyCounter );
-      dependencySiblings.add( dependencyNodeWrapper );
+      DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrder, dependencyCounter );
+      project.addInstance( dependencyNodeWrapper );
 
       graphLevelOrder += 1;
       dependencyNodeWrapperOld.addChildren( dependencyNodeWrapper );
-      this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, dependencyMap, graphDepth + 1 );
+      this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, projectMap, graphDepth + 1 );
     }
+
+
   }
 
 
-  public int getNumberOfClashes() {
-    return this.clashListUsedVersionLower.size() + this.clashListUsedVersionHigher.size() + this.clashListUsedVersionEqual.size();
+  public int getNumberOfOuterClashes() {
+    return this.outerVersionClashList.size();
   }
 
-  public int getNumberOfClashes( AbstractClashMojo.ClashDetectionLevel clashDetectionLevel ) {
+  public int getNumberOfOuterClashes( ClashSeverity clashSeverity ) {
     int number = 0;
-
-
-    for ( DependencyNodeWrapper dNW : this.getCompleteClashList() ) {
-      if ( dNW.hasVersionClash( clashDetectionLevel ) ) {
+    for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
+      if ( outerVersionClash.getClashSeverity() == clashSeverity ) {
         number += 1;
       }
     }
-
     return number;
   }
 
-  //Critical
-  public int getNumberOfClashesWithUsedVersionHigher() {
-    return this.clashListUsedVersionHigher.size();
-  }
-
-  //Fatal
-  public int getNumberOfClashesWithUsedVersionLower() {
-    return this.clashListUsedVersionLower.size();
-
-  }
-
-  public int getNumberOfClashesWithUsedVersionEqual() {
-
-
-    return this.clashListUsedVersionEqual.size();
-  }
-
-  public List<DependencyNodeWrapper> getClashListUsedVersionHigher() {
-    return clashListUsedVersionHigher;
-  }
-
-  public List<DependencyNodeWrapper> getClashListUsedVersionLower() {
-    return clashListUsedVersionLower;
-  }
-
-  public List<DependencyNodeWrapper> getClashListUsedVersionEqual() {
-    return clashListUsedVersionEqual;
-  }
-
-  public List<DependencyNodeWrapper> getCompleteClashList() {
-
-    ArrayList<DependencyNodeWrapper> clashList = new ArrayList<DependencyNodeWrapper>();
-    clashList.addAll( this.clashListUsedVersionLower );
-    clashList.addAll( this.clashListUsedVersionHigher );
-    clashList.addAll( this.clashListUsedVersionEqual );
-
-    return clashList;
-  }
-
-  public List<DependencyNodeWrapper> getCompleteClashList( AbstractClashMojo.ClashDetectionLevel clashDetectionLevel ) {
-    ArrayList<DependencyNodeWrapper> list = new ArrayList<DependencyNodeWrapper>();
-
-    switch ( clashDetectionLevel ) {
-      case ALL:
-        list.addAll( this.clashListUsedVersionEqual );
-        list.addAll( this.clashListUsedVersionLower );
-        list.addAll( this.clashListUsedVersionHigher );
-        break;
-      case CRITICAL:
-        list.addAll( this.clashListUsedVersionLower );
-        list.addAll( this.clashListUsedVersionHigher );
-        break;
-      case FATAL:
-        list.addAll( this.clashListUsedVersionLower );
-        break;
-    }
-    return list;
-  }
-
-  /**
-   * Returns a map with key (group and artifact id)  and a belonging list wit all nodeWrapper
-   *
-   * @return
-   */
-  public Map<String, List<DependencyNodeWrapper>> getClashMap( AbstractClashMojo.ClashDetectionLevel clashDetectionLevel ) {
-
-    Map<String, List<DependencyNodeWrapper>> clashMap = new HashMap<String, List<DependencyNodeWrapper>>();
-
-    for ( DependencyNodeWrapper dNW : this.getCompleteClashList( clashDetectionLevel ) ) {
-      List<DependencyNodeWrapper> dependencyNodeList = clashMap.get( dNW.getGroupId() + ":" + dNW.getArtifactId() );
-      if ( dependencyNodeList == null ) {
-        dependencyNodeList = new ArrayList<DependencyNodeWrapper>();
-        dependencyNodeList.add( dNW );
-        clashMap.put( dNW.getGroupId() + ":" + dNW.getArtifactId(), dependencyNodeList );
-      } else {
-        dependencyNodeList.add( dNW );
+  public int getNumberOfOuterClashesForSeverityLevel( ClashSeverity clashSeverity ) {
+    int number = 0;
+    for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
+      if ( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
+        number += 1;
       }
     }
-
-
-    return clashMap;
+    return number;
   }
 
-  public boolean hasVersionClash( AbstractClashMojo.ClashDetectionLevel clashDetectionLevel ) {
+
+
+
+
+ /* public int getNumberOfOuterClashes(ClashSeverity clashSeverity)
+    {
+      int number =0;
+         for(OuterVersionClash outerVersionClash : this.outerVersionClashList )
+         {
+          if( outerVersionClash.hasClashSeverity( clashSeverity ))
+          {
+            number = number +1;
+          }
+         }
+      return number;
+    }public boolean hasOuterVersionClash( com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity clashSeverity ) {
 
     //Simple Clash means two different versions
     boolean result = false;
 
-    switch ( clashDetectionLevel ) {
-      case ALL:
-        return !this.clashListUsedVersionEqual.isEmpty() || !this.clashListUsedVersionHigher.isEmpty() || !this.clashListUsedVersionLower.isEmpty();
+    switch ( clashSeverity ) {
+      case SAFE:
+        if ( this.clashListUsedVersionEqual.size() > 0 | this.clashListUsedVersionHigher.size() > 0 | this.clashListUsedVersionLower.size() > 0 ) {
+          result = true;
+        }
+        break;
+      case UNSAFE:
+        if ( this.clashListUsedVersionHigher.size() > 0 | this.clashListUsedVersionLower.size() > 0 ) {
+          result = true;
+        }
+        break;
       case CRITICAL:
-        return !this.clashListUsedVersionHigher.isEmpty() || !this.clashListUsedVersionLower.isEmpty();
-      case FATAL:
-        return !this.clashListUsedVersionLower.isEmpty();
+        if ( this.clashListUsedVersionLower.size() > 0 ) {
+          result = true;
+        }
+        break;
     }
 
-    throw new IllegalStateException( "Invalid clash detection level " + clashDetectionLevel );
+
+    return result;
+  }    */
+
+  public List<OuterVersionClash> getOuterVersionClashList() {
+    return outerVersionClashList;
+  }
+
+  public List<Project> getProjectList() {
+    return projectList;
+  }
+
+
+  public int getNumberOfTotalDependencies() {
+    return this.dependencyCounter;
   }
 }

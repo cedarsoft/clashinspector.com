@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cedarsoft.hsrt.zkb</groupId>
+  <groupId>com.cedarsoft</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
@@ -66,10 +66,32 @@
       <version>${aetherVersion}</version>
     </dependency>
 
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-connector-basic</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-file</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-http</artifactId>
+      <version>0.9.0.M3</version>
       <scope>test</scope>
     </dependency>
 
@@ -104,16 +126,15 @@
 
 
       <plugin>
-        <groupId>com.cedarsoft.hsrt.zkb</groupId>
+        <groupId>com.cedarsoft</groupId>
         <artifactId>clashinspector-maven-plugin</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
         <configuration>
-          <includeOptional>true</includeOptional>
-          <clashDetectionLevel>ALL</clashDetectionLevel>
+          <severity>SAFE</severity>
+          <includeOptional>false</includeOptional>
+          <failOnError>false</failOnError>
         </configuration>
-
       </plugin>
-
 
     </plugins>
   </build>

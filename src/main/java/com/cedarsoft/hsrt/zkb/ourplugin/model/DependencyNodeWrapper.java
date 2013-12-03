@@ -30,7 +30,7 @@ public class DependencyNodeWrapper {
   //important for usedversion
   private final int addCounter;
   private final DependencyNodeWrapper parent;
-  private Project project;
+  private final Project project;
 
   //relationship to used version
 
@@ -144,9 +144,9 @@ public class DependencyNodeWrapper {
   public enum RelationshipToUsedVersion {
     EQUAL( ClashSeverity.SAFE ), USED_VERSION_HIGHER( ClashSeverity.UNSAFE ), USED_VERSION_LOWER( ClashSeverity.CRITICAL );
 
-    private ClashSeverity clashSeverity;
+    private final ClashSeverity clashSeverity;
 
-    private RelationshipToUsedVersion( ClashSeverity clashSeverity ) {
+    RelationshipToUsedVersion( ClashSeverity clashSeverity ) {
       this.clashSeverity = clashSeverity;
     }
 

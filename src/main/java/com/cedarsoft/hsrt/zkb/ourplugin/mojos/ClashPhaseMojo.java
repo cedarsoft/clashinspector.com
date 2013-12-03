@@ -31,6 +31,7 @@ public class ClashPhaseMojo extends AbstractClashMojo {
   @Parameter( alias = "failOnError", defaultValue = "true" )
   private boolean failOnError;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
@@ -49,7 +50,7 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
 
       consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
-      if ( this.failOnError == true ) {
+      if ( this.failOnError ) {
         throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getClashDetectionLevel() + " detected!!" );
 
 

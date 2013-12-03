@@ -174,17 +174,17 @@ public class Project {
 
 
   @Override
-  public boolean equals( Object object ) {
+  public boolean equals( Object obj ) {
     boolean result = false;
 
-    if ( object instanceof Project ) {
-      if ( ( ( Project ) object ).toString().equals( this.toString() ) ) {
+    if ( obj instanceof Project ) {
+      if ( obj.toString().equals( this.toString() ) ) {
         result = true;
       }
     }
-    if ( object instanceof String ) {
-      String s = ( String ) object;
-      if ( this.toString().equals( object.toString() ) ) {
+    if ( obj instanceof String ) {
+      String s = ( String ) obj;
+      if ( this.toString().equals( obj.toString() ) ) {
         result = true;
       }
 

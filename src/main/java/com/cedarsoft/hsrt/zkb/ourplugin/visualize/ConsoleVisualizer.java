@@ -36,24 +36,24 @@ public class ConsoleVisualizer implements Visualizer {
 
 
       for ( int i = 0; i < depth; i++ ) {
-        preDependencyString = preDependencyString + "|  ";
+        preDependencyString += "|  ";
       }
       for ( int i = 0; i < depth; i++ ) {
-        preClashString = preClashString + "|  ";
+        preClashString += "|  ";
       }
       for ( int i = 0; i < depth; i++ ) {
-        preVersionString = preVersionString + "|  ";
+        preVersionString += "|  ";
       }
 
-      if ( dNW.getChildren().size() > 0 ) {
-        preDependencyString = preDependencyString + "+ ";
-        preVersionString = preVersionString + "   ";
-        preClashString = preClashString + "  ";
+      if ( !dNW.getChildren().isEmpty() ) {
+        preDependencyString += "+ ";
+        preVersionString += "   ";
+        preClashString += "  ";
 
       } else {
-        preDependencyString = preDependencyString + "- ";
-        preVersionString = preVersionString + "   ";
-        preClashString = preClashString + "  ";
+        preDependencyString += "- ";
+        preVersionString += "   ";
+        preClashString += "  ";
       }
 
 
@@ -89,16 +89,16 @@ public class ConsoleVisualizer implements Visualizer {
 
 
           if ( version.toString().equals( dNW.getProject().getUsedVersion().toString() ) ) {
-            details = details + " (used)";
+            details += " (used)";
           }
           if ( version.toString().equals( dNW.getProject().getHighestVersion().toString() ) ) {
-            details = details + " (highest)";
+            details += " (highest)";
           }
           if ( version.toString().equals( dNW.getProject().getLowestVersion().toString() ) ) {
-            details = details + " (lowest)";
+            details += " (lowest)";
           }
           if ( version.toString().equals( dNW.getVersion().toString() ) ) {
-            details = details + " <- referred";
+            details += " <- referred";
           }
 
           log.info( preVersionString + version.toString() + details );
@@ -177,7 +177,7 @@ public class ConsoleVisualizer implements Visualizer {
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
-      if ( outerVersionClash.getClashSeverity().equals( ClashSeverity.UNSAFE ) ) {
+      if ( outerVersionClash.getClashSeverity() == ClashSeverity.UNSAFE ) {
         log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
@@ -186,13 +186,14 @@ public class ConsoleVisualizer implements Visualizer {
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
-      if ( outerVersionClash.getClashSeverity().equals( ClashSeverity.CRITICAL ) ) {
+      if ( outerVersionClash.getClashSeverity() == ClashSeverity.CRITICAL ) {
         log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
     log.info( "-------------------End of Statistics-------------------" );
   }
 
+  @Override
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     this.log = clashTreeMojo.getLog();
     this.clashSeverity = clashSeverity;

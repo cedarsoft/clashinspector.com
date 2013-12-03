@@ -27,7 +27,7 @@ public class ClashCollectResultWrapper {
   private final List<Project> projectList = new ArrayList<Project>();
 
 
-  private DependencyNodeWrapper root;
+  private final DependencyNodeWrapper root;
   private int dependencyCounter = 0;
 
   public ClashCollectResultWrapper( CollectResult collectResult ) {
@@ -59,7 +59,7 @@ public class ClashCollectResultWrapper {
 
       if ( dNW.getProject().hasOuterVersionClash() ) {
 
-        if ( this.outerVersionClashList.contains( dNW.getProject().getOuterVersionClash() ) == false ) {
+        if ( !this.outerVersionClashList.contains( dNW.getProject().getOuterVersionClash() ) ) {
           this.outerVersionClashList.add( dNW.getProject().getOuterVersionClash() );
         }
 
@@ -94,11 +94,11 @@ public class ClashCollectResultWrapper {
 
       }
 
-      dependencyCounter = dependencyCounter + 1;
+      dependencyCounter += 1;
       DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrder, dependencyCounter );
       project.addInstance( dependencyNodeWrapper );
 
-      graphLevelOrder = graphLevelOrder + 1;
+      graphLevelOrder += 1;
       dependencyNodeWrapperOld.addChildren( dependencyNodeWrapper );
       this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, projectMap, graphDepth + 1 );
     }
@@ -114,8 +114,8 @@ public class ClashCollectResultWrapper {
   public int getNumberOfOuterClashes( ClashSeverity clashSeverity ) {
     int number = 0;
     for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
-      if ( outerVersionClash.getClashSeverity().equals( clashSeverity ) ) {
-        number = number + 1;
+      if ( outerVersionClash.getClashSeverity() == clashSeverity ) {
+        number += 1;
       }
     }
     return number;
@@ -125,7 +125,7 @@ public class ClashCollectResultWrapper {
     int number = 0;
     for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
       if ( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
-        number = number + 1;
+        number += 1;
       }
     }
     return number;

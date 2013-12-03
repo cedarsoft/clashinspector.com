@@ -13,6 +13,6 @@ import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
  */
 public interface Visualizer {
 
-  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo );
+  void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo );
 
 }

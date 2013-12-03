@@ -127,7 +127,6 @@ public class DependencyService {
       for ( Dependency dependency : getDirectDependencies( artifact, repoSession, repoSystem ) ) {
 
         if ( dependency.getScope().equals( "test" ) || dependency.isOptional() || dependency.getScope().equals( "provided" ) ) {
-          continue;
         }
         // System.out.println("-------------------------------------------------");
 

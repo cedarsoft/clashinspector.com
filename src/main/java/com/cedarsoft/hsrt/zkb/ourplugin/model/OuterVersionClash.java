@@ -62,17 +62,17 @@ public class OuterVersionClash {
 
       switch ( innerVersionClash.getClashSeverity() ) {
         case SAFE:
-          if ( clashSeverity.equals( ClashSeverity.SAFE ) ) {
+          if ( clashSeverity == ClashSeverity.SAFE ) {
             safeList.add( innerVersionClash );
           }
           break;
         case UNSAFE:
-          if ( clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.UNSAFE ) ) {
+          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.UNSAFE ) {
             unsafeList.add( innerVersionClash );
           }
           break;
         case CRITICAL:
-          if ( clashSeverity.equals( ClashSeverity.SAFE ) | clashSeverity.equals( ClashSeverity.CRITICAL ) | clashSeverity.equals( ClashSeverity.CRITICAL ) ) {
+          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.CRITICAL | clashSeverity == ClashSeverity.CRITICAL ) {
             criticalList.add( innerVersionClash );
           }
           break;
@@ -92,8 +92,9 @@ public class OuterVersionClash {
     ClashSeverity worstClashSeverity = ClashSeverity.SAFE;
     for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
 
-      if ( worstClashSeverity.ordinal() < innerVersionClash.getClashSeverity().ordinal() )
+      if ( worstClashSeverity.ordinal() < innerVersionClash.getClashSeverity().ordinal() ) {
         worstClashSeverity = innerVersionClash.getClashSeverity();
+      }
 
 
     }
@@ -133,11 +134,11 @@ public class OuterVersionClash {
 
 
   @Override
-  public boolean equals( Object object ) {
+  public boolean equals( Object obj ) {
     boolean result = false;
 
-    if ( object instanceof OuterVersionClash ) {
-      OuterVersionClash vC = ( OuterVersionClash ) object;
+    if ( obj instanceof OuterVersionClash ) {
+      OuterVersionClash vC = ( OuterVersionClash ) obj;
 
       if ( vC.getProject().getGroupId().equals( this.getProject().getGroupId() ) && vC.getProject().getArtifactId().equals( this.getProject().getArtifactId() ) ) {
         result = true;

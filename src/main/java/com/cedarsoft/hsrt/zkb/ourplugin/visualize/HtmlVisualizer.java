@@ -1,6 +1,6 @@
 package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.AbstractClashMojo;
+import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
 import org.eclipse.aether.collection.CollectResult;
 
@@ -11,11 +11,10 @@ import org.eclipse.aether.collection.CollectResult;
  * Time: 12:05
  * To change this template use File | Settings | File Templates.
  */
-public class HtmlVisualizer  {
+public class HtmlVisualizer {
 
 
-
-  public void visualize( CollectResult collectResult,AbstractClashMojo.ClashDetectionLevel clashDetectionLevel, ClashTreeMojo clashTreeMojo ) {
+  public void visualize( CollectResult collectResult, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 }

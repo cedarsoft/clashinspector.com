@@ -29,27 +29,27 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Component
   private RepositorySystem repoSystem;
 
-  @Parameter(defaultValue = "${repositorySystemSession}")
+  @Parameter( defaultValue = "${repositorySystemSession}" )
   private RepositorySystemSession repoSession;
 
-  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
+  @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
   private List<RemoteRepository> remoteRepos;
 
 
-  @Parameter(defaultValue = "${project}", readonly = true, required = true)
+  @Parameter( defaultValue = "${project}", readonly = true, required = true )
   private MavenProject project;
 
-  @Parameter(alias = "includedScopes")
+  @Parameter( alias = "includedScopes" )
   private String[] includedScopes;
 
-  @Parameter(alias = "excludedScopes")
+  @Parameter( alias = "excludedScopes" )
   private String[] excludedScopes;
 
-  @Parameter(alias = "includeOptional", defaultValue = "false")
+  @Parameter( alias = "includeOptional", defaultValue = "false" )
   private boolean includeOptional;
 
-  @Parameter(alias = "clashDetectionLevel", defaultValue = "ALL")
-  private ClashDetectionLevel detectionLevel;
+  @Parameter( alias = "severity", defaultValue = "SAFE" )
+  private ClashSeverity detectionLevel;
 
   private final List<String> includedScopesList = new ArrayList<String>();
   private final List<String> excludedScopesList = new ArrayList<String>();
@@ -93,7 +93,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
     return includeOptional;
   }
 
-  public ClashDetectionLevel getClashDetectionLevel() {
+  public ClashSeverity getClashDetectionLevel() {
     return detectionLevel;
   }
 
@@ -103,17 +103,6 @@ public abstract class AbstractClashMojo extends AbstractMojo {
 
   public List<String> getExcludedScopesList() {
     return excludedScopesList;
-  }
-
-  /**
-   * The Clash Detection level is responsible for the detection of Version clashes. If the level is all then
-   * there will be a clash if there are two different versions for the same dependency. If the level
-   * is crtitical version clashes with higher and lower versions as the used version will be reported.
-   * If the level is Fatal only the dependencies with higher version than the used one will be reported.
-   */
-  public enum ClashDetectionLevel {
-    ALL, CRITICAL, FATAL
-
   }
 
 

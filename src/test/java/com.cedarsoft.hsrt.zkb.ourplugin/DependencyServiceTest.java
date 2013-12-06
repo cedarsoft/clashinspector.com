@@ -11,6 +11,7 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.repository.LocalRepository;
 import org.junit.*;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -40,8 +41,12 @@ public class DependencyServiceTest {
 
     this.repoSession = MavenRepositorySystemUtils.newSession();
 
-    LocalRepository localRepo = new LocalRepository( "C:\\Users\\m\\.m2\\repository" );
-    this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
+     File userHome = new File( System.getProperty( "user.home" ) );
+     File repo = new File( userHome, ".m2/repository" );
+
+     LocalRepository localRepo = new LocalRepository( repo );
+     //    LocalRepository localRepo = new LocalRepository( "src/test/repo" );
+     this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
 
     //session.setTransferListener( new ConsoleTransferListener() );
     // session.setRepositoryListener( new ConsoleRepositoryListener() );

@@ -49,7 +49,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   private boolean includeOptional;
 
   @Parameter( alias = "severity", defaultValue = "SAFE" )
-  private ClashSeverity detectionLevel;
+  private ClashSeverity clashSeverity;
 
   private final List<String> includedScopesList = new ArrayList<String>();
   private final List<String> excludedScopesList = new ArrayList<String>();
@@ -93,8 +93,8 @@ public abstract class AbstractClashMojo extends AbstractMojo {
     return includeOptional;
   }
 
-  public ClashSeverity getClashDetectionLevel() {
-    return detectionLevel;
+  public ClashSeverity getClashSeverity() {
+    return clashSeverity;
   }
 
   public List<String> getIncludedScopesList() {

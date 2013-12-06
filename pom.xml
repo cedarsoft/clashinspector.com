@@ -132,7 +132,7 @@
         <configuration>
           <severity>SAFE</severity>
           <includeOptional>false</includeOptional>
-          <failOnError>false</failOnError>
+          <failOnError>true</failOnError>
         </configuration>
       </plugin>
 

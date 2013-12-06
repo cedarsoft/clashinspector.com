@@ -34,13 +34,13 @@ public class DependencyServiceTest {
 
   //Nicht vergessen, dass die scopes etc. mitgegeben werden sollen
 
-  @Before
+   @Before
   public void init() {
     this.repoSystem = ManualRepositorySystemFactory.newRepositorySystem();
 
     this.repoSession = MavenRepositorySystemUtils.newSession();
 
-    LocalRepository localRepo = new LocalRepository( "target/local-repo" );
+    LocalRepository localRepo = new LocalRepository( "C:\\Users\\m\\.m2\\repository" );
     this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
 
     //session.setTransferListener( new ConsoleTransferListener() );
@@ -48,7 +48,7 @@ public class DependencyServiceTest {
 
   }
 
-  @Test
+    @Test
   public void testTestprojekt1() {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );

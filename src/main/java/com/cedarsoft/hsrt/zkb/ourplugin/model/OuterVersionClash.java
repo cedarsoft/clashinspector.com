@@ -134,17 +134,25 @@ public class OuterVersionClash {
 
 
   @Override
-  public boolean equals( Object obj ) {
-    boolean result = false;
+  public boolean equals( Object o ) {
+    if ( this == o ) return true;
+    if ( !( o instanceof OuterVersionClash ) ) return false;
 
-    if ( obj instanceof OuterVersionClash ) {
-      OuterVersionClash vC = ( OuterVersionClash ) obj;
+    OuterVersionClash that = ( OuterVersionClash ) o;
 
-      if ( vC.getProject().getGroupId().equals( this.getProject().getGroupId() ) && vC.getProject().getArtifactId().equals( this.getProject().getArtifactId() ) ) {
-        result = true;
-      }
-    }
+    if ( clashSeverity != that.clashSeverity ) return false;
+    if ( innerVersionClashes != null ? !innerVersionClashes.equals( that.innerVersionClashes ) : that.innerVersionClashes != null )
+      return false;
+    if ( project != null ? !project.equals( that.project ) : that.project != null ) return false;
 
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = project != null ? project.hashCode() : 0;
+    result = 31 * result + ( clashSeverity != null ? clashSeverity.hashCode() : 0 );
+    result = 31 * result + ( innerVersionClashes != null ? innerVersionClashes.hashCode() : 0 );
     return result;
   }
 }

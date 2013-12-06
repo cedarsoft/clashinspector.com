@@ -4,6 +4,8 @@ import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.version.Version;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +31,9 @@ public class DependencyNodeWrapper {
   private final int graphLevelOrder;
   //important for usedversion
   private final int addCounter;
+  @Nullable
   private final DependencyNodeWrapper parent;
+  @Nullable
   private final Project project;
 
   //relationship to used version
@@ -78,6 +82,7 @@ public class DependencyNodeWrapper {
   }
 
 
+  @Nullable
   public DependencyNodeWrapper getParent() {
     return this.parent;
   }
@@ -90,7 +95,7 @@ public class DependencyNodeWrapper {
 
   private List<DependencyNodeWrapper> collectAncestors( List<DependencyNodeWrapper> list ) {
     if ( this.graphDepth != 0 ) {
-
+      assert parent != null;
       this.parent.collectAncestors( list );
       list.add( this );
     }
@@ -100,6 +105,10 @@ public class DependencyNodeWrapper {
 
 
   public RelationshipToUsedVersion getRelationShipToUsedVersion() {
+    if ( this.project == null ) {
+      throw new UnsupportedOperationException( "Not allowed on root node" );
+    }
+
     //compare nodeVersion with inMavenUsedVersion
     int clashResult = this.getVersion().compareTo( this.project.getUsedVersion() );
 
@@ -119,7 +128,7 @@ public class DependencyNodeWrapper {
   }
 
 
-  public void addChildren( DependencyNodeWrapper dependencyNodeWrapper ) {
+  public void addChildren( @Nonnull DependencyNodeWrapper dependencyNodeWrapper ) {
     this.children.add( dependencyNodeWrapper );
   }
 
@@ -136,6 +145,7 @@ public class DependencyNodeWrapper {
   }
 
 
+  @Nullable
   public Project getProject() {
     return project;
   }

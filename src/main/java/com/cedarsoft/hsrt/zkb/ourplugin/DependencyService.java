@@ -8,10 +8,12 @@ import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.collection.DependencyCollectionException;
 import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
 import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
+import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
+import org.eclipse.aether.util.graph.selector.AndDependencySelector;
+import org.eclipse.aether.util.graph.selector.OptionalDependencySelector;
 import org.eclipse.aether.util.graph.selector.ScopeDependencySelector;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
@@ -32,7 +34,7 @@ public class DependencyService {
    * This Method returns a CollectResult which includes the Root-Dependency-Node
    * with all transitive Dependency-Nodes with a scope specified by the included and excluded scope list.
    *
-   * @param artifact  The root-Node for the tree.
+   * @param artifact       The root-Node for the tree.
    * @param repoSession
    * @param repoSystem
    * @param includedScopes
@@ -41,29 +43,55 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree(Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, ArrayList<String> includedScopes, ArrayList<String> excludedScopes ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, List<String> includedScopes, List<String> excludedScopes, boolean includeOptional ) {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 
     session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
-    //session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
+    session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );
 
-
+    OptionalDependencySelector oDS = new OptionalDependencySelector();
     ScopeDependencySelector sDS = new ScopeDependencySelector( includedScopes, excludedScopes );
+    AndDependencySelector aDS;
+    if ( includeOptional ) {
+      aDS = new AndDependencySelector( sDS );
+    } else {
+      aDS = new AndDependencySelector( oDS, sDS );
+    }
+    session.setDependencySelector( aDS );
 
-    session.setDependencySelector( sDS );
+
+    //ConflictMarker cM = new ConflictMarker();
+    //JavaScopeDeriver jSD = new JavaScopeDeriver();
+    // ConflictResolver cR = new ConflictResolver();
+    // session.setDependencyGraphTransformer(cM  )    ;
+    // session.setDependencyGraphTransformer( cR );
 
 
     CollectRequest collectRequest = new CollectRequest();
-    collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, "" ) );
+
+
+    collectRequest.setRoot( new Dependency( artifact, "" ) );
     collectRequest.setRootArtifact( artifact );
+    CollectResult collectResult;
 
-    CollectResult collectResult = repoSystem.collectDependencies( session, collectRequest );
+    try {
 
-    session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, false );
+      collectResult = repoSystem.collectDependencies( session, collectRequest );
+    } catch ( DependencyCollectionException e ) {
+
+      collectResult = e.getResult();
+
+    }
+
+
+    //Fill list of versions for every dependency
+    //Über alle depependency nodes iterieren und  map mit key und version erstellen
+
 
     return collectResult;
 
   }
+
 
   /**
    * This Method returns a CollectResult which includes the Root-Dependency-Node
@@ -76,19 +104,19 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws DependencyCollectionException {
+  public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, boolean includeOptional ) {
 
 
-    ArrayList<String> includes = new ArrayList<String>();
+    List<String> includes = new ArrayList<String>();
     includes.add( "provided" );
     includes.add( "test" );
     includes.add( "compile" );
     includes.add( "runtime" );
     includes.add( "system" );
 
-    ArrayList<String> excludes = new ArrayList<String>();
+    List<String> excludes = new ArrayList<String>();
 
-    return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes );
+    return this.getDependencyTree( artifact, repoSession, repoSystem, includes, excludes, includeOptional );
 
   }
 
@@ -99,7 +127,6 @@ public class DependencyService {
       for ( Dependency dependency : getDirectDependencies( artifact, repoSession, repoSystem ) ) {
 
         if ( dependency.getScope().equals( "test" ) || dependency.isOptional() || dependency.getScope().equals( "provided" ) ) {
-          continue;
         }
         // System.out.println("-------------------------------------------------");
 
@@ -111,12 +138,12 @@ public class DependencyService {
         //this.getAllDependencies( dependency.getArtifact(),depth+1 );
       }
     } catch ( Exception e ) {
-
+      throw new RuntimeException( e );
     }
     return new ArrayList<Dependency>();
   }
 
-
+  @Deprecated
   public List<Dependency> getDirectDependencies( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem ) throws ArtifactDescriptorException {
 
     ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();

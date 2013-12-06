@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cedarsoft.hsrt.zkb</groupId>
-  <artifactId>ourplugin-maven-plugin</artifactId>
+  <groupId>com.cedarsoft.maven</groupId>
+  <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>Our Maven Plugin</name>
@@ -14,12 +14,20 @@
     <url>http://www.reutlingen-university.de/</url>
   </organization>
 
+  <prerequisites>
+    <maven>3.1.1</maven>
+  </prerequisites>
 
-             <properties >
-                          <aetherVersion>0.9.0.M3</aetherVersion>
-               </properties>
+  <properties>
+    <aetherVersion>0.9.0.M3</aetherVersion>
+  </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>2.0.2</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -43,22 +51,49 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>14.0.1</version>
+      <version>15.0</version>
 
     </dependency>
     <dependency>
-    <groupId>org.eclipse.aether</groupId>
-    <artifactId>aether-api</artifactId>
-    <version>0.9.0.M2</version>
-  </dependency>
-  <dependency>
-    <!-- optional helpers, might be superfluous depending on your use case -->
-    <groupId>org.eclipse.aether</groupId>
-    <artifactId>aether-util</artifactId>
-    <version>0.9.0.M2</version>
-  </dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-api</artifactId>
+      <version>${aetherVersion}</version>
+    </dependency>
+    <dependency>
+      <!-- optional helpers, might be superfluous depending on your use case -->
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-util</artifactId>
+      <version>${aetherVersion}</version>
+    </dependency>
 
 
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-connector-basic</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-file</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-transport-http</artifactId>
+      <version>0.9.0.M3</version>
+      <scope>test</scope>
+    </dependency>
 
 
   </dependencies>
@@ -89,6 +124,17 @@
         </executions>
       </plugin>
 
+
+      <plugin>
+        <groupId>com.cedarsoft.maven</groupId>
+        <artifactId>clashinspector-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <severity>SAFE</severity>
+          <includeOptional>false</includeOptional>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
 
     </plugins>
   </build>

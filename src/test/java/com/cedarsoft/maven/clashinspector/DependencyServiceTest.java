@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -56,6 +57,10 @@ public class DependencyServiceTest {
 
   @Nonnull
   private static File findRepoLocation() {
+    for ( Map.Entry<Object, Object> entry : System.getProperties().entrySet() ) {
+      System.out.println( "--> " + entry.getKey() + ":\t" + entry.getValue() );
+    }
+
     @Nullable String repoConfig = System.getProperty( "maven.repo.local" );
     if ( repoConfig != null ) {
       System.out.println( "repoConfig = " + repoConfig );

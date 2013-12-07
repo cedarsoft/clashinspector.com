@@ -22,7 +22,7 @@ function inner {
 
     cd $dir
 #    mvn install -Dmaven.repo.local=${localRepo} || failed $1
-    mvn install -Dmaven.repo.local=${localRepo} > /dev/null || failed $1
+    mvn install -Dmaven.repo.local="${localRepo}" > /dev/null || failed $1
     cd ..
 
   done

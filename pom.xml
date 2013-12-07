@@ -79,21 +79,21 @@
     <dependency>
       <groupId>org.eclipse.aether</groupId>
       <artifactId>aether-connector-basic</artifactId>
-      <version>0.9.0.M3</version>
+      <version>${aetherVersion}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.aether</groupId>
       <artifactId>aether-transport-file</artifactId>
-      <version>0.9.0.M3</version>
+      <version>${aetherVersion}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.aether</groupId>
       <artifactId>aether-transport-http</artifactId>
-      <version>0.9.0.M3</version>
+      <version>${aetherVersion}</version>
       <scope>test</scope>
     </dependency>
 

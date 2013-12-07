@@ -15,7 +15,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -52,24 +51,17 @@ public class DependencyServiceTest {
 
     //session.setTransferListener( new ConsoleTransferListener() );
     // session.setRepositoryListener( new ConsoleRepositoryListener() );
-
   }
 
   @Nonnull
   private static File findRepoLocation() {
-    for ( Map.Entry<Object, Object> entry : System.getProperties().entrySet() ) {
-      System.out.println( "--> " + entry.getKey() + ":\t" + entry.getValue() );
-    }
-
     @Nullable String repoConfig = System.getProperty( "maven.repo.local" );
     if ( repoConfig != null ) {
-      System.out.println( "repoConfig = " + repoConfig );
       return new File( repoConfig );
     }
 
     @Nullable String workspace = System.getProperty( "WORKSPACE" );
     if ( workspace != null ) {
-      System.out.println( "workspace = " + workspace );
       return new File( workspace + "/.repository" );
     }
 

@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.maven.clashinspector;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;

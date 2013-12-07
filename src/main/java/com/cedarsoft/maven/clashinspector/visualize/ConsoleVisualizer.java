@@ -1,13 +1,13 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
+package com.cedarsoft.maven.clashinspector.visualize;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.model.DependencyNodeWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.model.InnerVersionClash;
-import com.cedarsoft.hsrt.zkb.ourplugin.model.OuterVersionClash;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashListMojo;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashPhaseMojo;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
+import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
+import com.cedarsoft.maven.clashinspector.model.DependencyNodeWrapper;
+import com.cedarsoft.maven.clashinspector.model.InnerVersionClash;
+import com.cedarsoft.maven.clashinspector.model.OuterVersionClash;
+import com.cedarsoft.maven.clashinspector.mojos.ClashListMojo;
+import com.cedarsoft.maven.clashinspector.mojos.ClashPhaseMojo;
+import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.cedarsoft.maven.clashinspector.mojos.ClashTreeMojo;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.version.Version;

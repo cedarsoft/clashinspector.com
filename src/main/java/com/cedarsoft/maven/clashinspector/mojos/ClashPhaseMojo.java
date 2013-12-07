@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
+package com.cedarsoft.maven.clashinspector.mojos;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,42 +9,58 @@ package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
  */
 
 
-import com.cedarsoft.hsrt.zkb.ourplugin.DependencyService;
-import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.visualize.ConsoleVisualizer;
-import com.cedarsoft.hsrt.zkb.ourplugin.visualize.Visualizer;
+import com.cedarsoft.maven.clashinspector.DependencyService;
+import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
+import com.cedarsoft.maven.clashinspector.visualize.ConsoleVisualizer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
  * Get all Dependencies of the project
  */
+//clashinspector
+//clashfinder
+@Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
+public class ClashPhaseMojo extends AbstractClashMojo {
 
-//tree full tree simple
-@Mojo(name = "tree", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
-public class ClashTreeMojo extends AbstractClashMojo {
+  @Parameter( alias = "failOnError", defaultValue = "true" )
+  private boolean failOnError;
 
-
-  //big tree .. small tree und level mitgeben
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
+
     super.execute();
 
+
+    Artifact artifact;
     try {
-      Artifact artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
+      artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
+
 
       DependencyService dependencyService = new DependencyService();
-      Visualizer consoleVisualizer = new ConsoleVisualizer();
+
+      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer();
 
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
+
+
       consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
+      if ( this.failOnError ) {
+        throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getClashDetectionLevel() + " detected!!" );
+
+
+      }
+
+
     } catch ( IllegalArgumentException e ) {
       throw new MojoFailureException( e.getMessage(), e );
     }
+
   }
 
 

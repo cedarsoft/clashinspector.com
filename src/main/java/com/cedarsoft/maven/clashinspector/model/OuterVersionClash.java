@@ -1,6 +1,6 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.model;
+package com.cedarsoft.maven.clashinspector.model;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
+import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,7 +1,7 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.maven.clashinspector;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
+import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
+import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;

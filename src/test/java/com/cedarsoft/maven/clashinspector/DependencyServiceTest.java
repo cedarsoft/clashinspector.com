@@ -11,6 +11,8 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.repository.LocalRepository;
 import org.junit.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.List;
 
@@ -35,25 +37,40 @@ public class DependencyServiceTest {
 
   //Nicht vergessen, dass die scopes etc. mitgegeben werden sollen
 
-   @Before
+  @Before
   public void init() {
     this.repoSystem = ManualRepositorySystemFactory.newRepositorySystem();
 
     this.repoSession = MavenRepositorySystemUtils.newSession();
 
-     File userHome = new File( System.getProperty( "user.home" ) );
-     File repo = new File( userHome, ".m2/repository" );
+    File repo = findRepoLocation();
 
-     LocalRepository localRepo = new LocalRepository( repo );
-     //    LocalRepository localRepo = new LocalRepository( "src/test/repo" );
-     this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
+    LocalRepository localRepo = new LocalRepository( repo );
+    //    LocalRepository localRepo = new LocalRepository( "src/test/repo" );
+    this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
 
     //session.setTransferListener( new ConsoleTransferListener() );
     // session.setRepositoryListener( new ConsoleRepositoryListener() );
-
   }
 
-    @Test
+  @Nonnull
+  private static File findRepoLocation() {
+    @Nullable String repoConfig = System.getProperty( "maven.repo.local" );
+    if ( repoConfig != null ) {
+      return new File( repoConfig );
+    }
+
+    @Nullable String workspace = System.getProperty( "WORKSPACE" );
+    if ( workspace != null ) {
+      return new File( workspace + "/.repository" );
+    }
+
+    //Fallback
+    File userHome = new File( System.getProperty( "user.home" ) );
+    return new File( userHome, ".m2/repository" );
+  }
+
+  @Test
   public void testTestprojekt1() {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );

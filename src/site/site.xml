@@ -5,9 +5,15 @@
 
   <bannerLeft>
     <name>${project.name}</name>
-    <src>../serialization.jpg</src>
+    <src>../clash-inspector.jpg</src>
     <href>index.html</href>
   </bannerLeft>
+
+  <bannerRight>
+    <name>${project.name}</name>
+    <src>../clash-inspector.jpg</src>
+    <href>index.html</href>
+  </bannerRight>
 
   <body>
     <menu name="Overview">

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- Testprojekt5_A ist abängig von Testprojekt5_B(1.1.0) , Testprojekt5_C(2.0.0) und Testprojekt5_D(1.0.0).
+     Testprojekt5_B(1.1.0) ist abhängig von Testprojekt5_C(1.0.0).
+     Testprojekt5_C(2.0.0) ist abhängig von Testprojekt5_B(2.1.0).
+     Testprojekt5_D(1.0.0) ist abhängig von Testprojekt5_C(3.0.0).
+     Ergebnis: UNSAFE Clash:1; CRITICAL Clash:2
+     -->
+    <groupId>Testprojekt5</groupId>
+    <artifactId>Testprojekt5_A</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>Testprojekt5</groupId>
+            <artifactId>Testprojekt5_B</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>Testprojekt5</groupId>
+            <artifactId>Testprojekt5_C</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>Testprojekt5</groupId>
+            <artifactId>Testprojekt5_D</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.cedarsoft.hsrt.zkb</groupId>
+                <artifactId>clashinspector-maven-plugin</artifactId>
+                <version>0.1-SNAPSHOT</version>
+                <configuration>
+                    <severity>SAFE</severity>
+                    <includeOptional>false</includeOptional>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

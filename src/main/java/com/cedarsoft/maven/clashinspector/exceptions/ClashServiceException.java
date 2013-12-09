@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.exceptions;
+package com.cedarsoft.maven.clashinspector.exceptions;
 
 /**
  * Created with IntelliJ IDEA.

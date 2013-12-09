@@ -1,7 +1,7 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.visualize;
+package com.cedarsoft.maven.clashinspector.visualize;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashTreeMojo;
+import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.cedarsoft.maven.clashinspector.mojos.ClashTreeMojo;
 import org.eclipse.aether.collection.CollectResult;
 
 /**

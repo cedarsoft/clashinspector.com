@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
+package com.cedarsoft.maven.clashinspector.mojos;
 
 /**
  * The Clash Detection level is responsible for the detection of Version clashes. If the level is all then

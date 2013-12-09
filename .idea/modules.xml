@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_A/Testprojekt1_A.iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_A/Testprojekt1_A.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_B/Testprojekt1_B.iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_B/Testprojekt1_B.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_C/Testprojekt1_C.iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt1/Testprojekt1_C/Testprojekt1_C.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_A/Testprojekt2_A.iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_A/Testprojekt2_A.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_B/Testprojekt2_B.iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_B/Testprojekt2_B.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_C_1.0.0/Testprojekt2_C (1).iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_C_1.0.0/Testprojekt2_C (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_C_2.0.0/Testprojekt2_C (2).iml" filepath="$PROJECT_DIR$/Plugin_Test/Testprojekt2/Testprojekt2_C_2.0.0/Testprojekt2_C (2).iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-director.iml" filepath="$PROJECT_DIR$/maven-director.iml" />
     </modules>
   </component>

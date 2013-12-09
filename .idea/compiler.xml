@@ -23,8 +23,18 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="maven-director" />
+        <module name="Testprojekt1_A" />
+        <module name="Testprojekt1_B" />
+        <module name="Testprojekt1_C" />
+        <module name="Testprojekt2_A" />
+        <module name="Testprojekt2_B" />
+        <module name="Testprojekt2_C (1)" />
+        <module name="Testprojekt2_C (2)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="maven-director" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 

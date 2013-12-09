@@ -9,10 +9,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cedarsoft.maven</groupId>
-  <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <artifactId>deps-maven-plugin</artifactId>
+  <version>0.7</version>
   <packaging>maven-plugin</packaging>
-  <name>Clashinspector Plugin</name>
+  <name>Maven Deps Plugin</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
 
   <organization>

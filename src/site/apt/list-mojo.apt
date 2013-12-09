@@ -1,0 +1,18 @@
+
+deps:list
+
+  <<Full name:>>
+
+  com.cedarsoft.maven:deps-maven-plugin:0.7:list
+
+  <<Description:>>
+
+  Displays the dependencies with version clashes and a summary of the clashes.
+
+  <<Attributes:>>
+
+  * Requires a Maven project to be executed.
+
+  * Requires dependency resolution of artifacts in scope: <<<compile>>>.
+
+  * Since version: <<<0.7>>>.

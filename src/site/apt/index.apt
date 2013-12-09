@@ -1,4 +1,20 @@
 
-Clashinspectur Plugin
+Maven Deps Plugin
 
-  Lore Ipsum....
+  The Deps Plugin provides the ability to analyze the dependencies, especially dependency version clashes of a project.
+
+* Goals Overview
+
+  The Deps Plugin has following goals:
+
+  * <<{{{./list-mojo.html}deps:list}} >> displays the dependencies with version clashes and a summary of the clashes.
+
+  * <<{{{./tree-mojo.html}deps:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
+
+* Usage
+
+  General instructions on how to use the Deps Plugin can be found on the {{{./usage.html}usage}} page.
+
+
+* Examples
+

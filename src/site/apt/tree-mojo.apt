@@ -1,0 +1,45 @@
+
+deps:tree
+
+  <<Full name:>>
+
+  com.cedarsoft.maven:deps-maven-plugin:0.7:tree
+
+  <<Description:>>
+
+  Displays the dependency tree for this project. The tree also shows version clashes.
+
+  <<Attributes:>>
+
+  * Requires a Maven project to be executed.
+
+  * Requires dependency resolution of artifacts in scope: <<<compile>>>.
+
+  * Since version: <<<0.7>>>.
+
+
+* Optional Parameters
+
+*---------------------------------------------+--------------+-------------+-------------------------------------------------+
+ <<Name>>                                     | <<Type>>     | <<Since>>   | <<Description>>
+*---------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{scope}scope}}                             | String       | 0.7         | Defines the scope for displayed version clashes.
+*---------------------------------------------+--------------+-------------+-------------------------------------------------+
+
+* Parameter Details
+
+  {<<scope:>>}
+
+  The scope to filter by when resolving the dependency tree, or null to include dependencies only with scope <<<compile>>>.
+
+  * <<Type:>> <<<java.lang.String>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<scope>>>
+
+
+
+

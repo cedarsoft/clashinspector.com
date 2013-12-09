@@ -1,4 +1,4 @@
-package com.cedarsoft.hsrt.zkb.ourplugin.mojos;
+package com.cedarsoft.maven.clashinspector.mojos;
 
 /**
  * Created with IntelliJ IDEA.

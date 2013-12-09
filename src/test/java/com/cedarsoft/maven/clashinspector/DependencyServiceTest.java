@@ -1,7 +1,7 @@
-package com.cedarsoft.hsrt.zkb.ourplugin;
+package com.cedarsoft.maven.clashinspector;
 
-import com.cedarsoft.hsrt.zkb.ourplugin.model.ClashCollectResultWrapper;
-import com.cedarsoft.hsrt.zkb.ourplugin.mojos.ClashSeverity;
+import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
+import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;
@@ -11,6 +11,9 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.repository.LocalRepository;
 import org.junit.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -40,12 +43,31 @@ public class DependencyServiceTest {
 
     this.repoSession = MavenRepositorySystemUtils.newSession();
 
-    LocalRepository localRepo = new LocalRepository( "target/local-repo" );
+    File repo = findRepoLocation();
+
+    LocalRepository localRepo = new LocalRepository( repo );
+    //    LocalRepository localRepo = new LocalRepository( "src/test/repo" );
     this.repoSession.setLocalRepositoryManager( this.repoSystem.newLocalRepositoryManager( this.repoSession, localRepo ) );
 
     //session.setTransferListener( new ConsoleTransferListener() );
     // session.setRepositoryListener( new ConsoleRepositoryListener() );
+  }
 
+  @Nonnull
+  private static File findRepoLocation() {
+    @Nullable String repoConfig = System.getProperty( "maven.repo.local" );
+    if ( repoConfig != null ) {
+      return new File( repoConfig );
+    }
+
+    @Nullable String workspace = System.getProperty( "WORKSPACE" );
+    if ( workspace != null ) {
+      return new File( workspace + "/.repository" );
+    }
+
+    //Fallback
+    File userHome = new File( System.getProperty( "user.home" ) );
+    return new File( userHome, ".m2/repository" );
   }
 
   @Test

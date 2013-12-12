@@ -3,6 +3,10 @@ Maven Deps Plugin
 
   The Deps Plugin provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
+  (Das Plugin erlaubt es Ihnen ihre Projekt Dependencies zu analysieren und
+  unsichere und kritische version clashes zu finden. -> Grund: Fehlern ausweichen)
+
+
 * Goals Overview
 
   The Deps Plugin has following goals:
@@ -15,6 +19,9 @@ Maven Deps Plugin
 
   General instructions on how to use the Deps Plugin can be found on the {{{./usage.html}usage}} page.
 
+* Version History
+
+  The {{{./version.html}version history}} page lists the version history of Deps Plugin releases.
 
 * Examples
 

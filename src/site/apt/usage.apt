@@ -1,23 +1,53 @@
 
 Usage
 
-  Some use-cases for the goals.
+  Definitions and use-cases for the goals.
 
-* Version Clash Types
+* Version Clash
 
-  * Outter Version Clash Type
+  There are two kinds of version clashes.
 
-    * <<UNSAFE VERSION CLASH:>>
+  [Picture 1: Inner and Outer Clash]
 
-    * <<CRITICAL VERSION CLASH:>>
+  + Description
 
-  * Inner Version Clash Type
 
-    * <<SAFE>>
 
-    * <<UNSAFE:>>
+  Option 1: If a project has a dependency type <<(groupId:artifactId)>> at least twice - irrespective of their versions -
+  a version clash appears for every associated dependency <<(groupId:artifactId:version)>>.
 
-    * <<CRITICAL:>>
+  Option 2: If a project <<(groupId:artifactId)>> has a dependency on another project at least twice,
+  a version clash will be detected.
+
+  Following the version clash types:
+
+  //Typen vereinheitlichen fuer tree und list
+
+  * deps:tree
+
+      * <<SAFE VERSION CLASH:>> The referred dependency has the same version as the dependency which is used of Maven.
+
+      * <<UNSAFE VERSION CLASH:>> The referred dependency has a lower version than the dependency which is used of Maven.
+
+      * <<CRITICAL VERSION CLASH:>>  The referred dependency has a higher version than the dependency which is used of Maven.
+
+  * deps:list
+
+    * Inner Version Clash Type
+
+      * <<SAFE:>> The referred dependency has the same version as the dependency which is used of Maven.
+
+      * <<UNSAFE:>> The referred dependency has a lower version than the dependency which is used of Maven.
+
+      * <<CRITICAL:>>  The referred dependency has a higher version than the dependency which is used of Maven.
+
+    * Outter Version Clash Type
+
+      * <<SAFE VERSION CLASH:>> All dependencies of the dependency type are <<<SAFE>>>.
+
+      * <<UNSAFE VERSION CLASH:>> At least one dependency of the dependency type is <<<UNSAFE>>>.
+
+      * <<CRITICAL VERSION CLASH:>> At least one dependency of the dependency type is <<<CRITICAL>>>.
 
 * The <deps:list> Mojo
 
@@ -63,8 +93,53 @@ Usage
 
 * The <deps:tree> Mojo
 
+  Tree Legend
+
+*---------------------------------------------+------------------------------------------------------+
+ ---                                          | root project
+*---------------------------------------------+------------------------------------------------------+
+ +                                            | dependency with sub-dependencies
+*---------------------------------------------+------------------------------------------------------+
+ -                                            | dependency without sub-dependencies
+*---------------------------------------------+------------------------------------------------------+
+ \|                                           | ledger line
+*---------------------------------------------+------------------------------------------------------+
+ (highest)                                    | highest version of a dependency type which is embedded
+                                              | to this root project
+*---------------------------------------------+------------------------------------------------------+
+ (lowest)                                     | lowest version of a dependency type which is embedded
+                                              | to this root project
+*---------------------------------------------+------------------------------------------------------+
+ (used)                                       | used dependency version of Maven
+*---------------------------------------------+------------------------------------------------------+
+ referred                                     | Specifies the version to which the version clash is
+                                              | associated
+*---------------------------------------------+------------------------------------------------------+
+
+  The tree starts with the root project, which is this project. Following on it shows the dependencies
+  and their scope (e.g. compile, test). The order of the dependencies is based on the pom.xml of the root project.
+  If a dependency has a version clash, details about the clash will be displayed after the dependency. It shows the version clash type and
+  all available versions of a dependency in this project.
+
 +---+
-  sdsdsd
-  sdsdsd
-  sdsdsss
+  [INFO] --- deps-maven-plugin:0.7:tree (default-cli) @ Testprojekt2_A ---
+  [INFO] + Testprojekt2:Testprojekt2_B:jar:1.1.0 (compile)
+  [INFO] |  - Testprojekt2:Testprojekt2_C:jar:2.0.0 (compile)
+  [INFO] |    [CRITICAL Version Clash] Referred Version higher than used Version.
+  [INFO] |     2.0.0 (highest) <- referred
+  [INFO] |     1.0.0 (used) (lowest)
+  [INFO] - Testprojekt2:Testprojekt2_C:jar:1.0.0 (compile)
+  [INFO]   [SAFE Version Clash] Details:
+  [INFO]    2.0.0 (highest)
+  [INFO]    1.0.0 (used) (lowest) <- referred
++---+
+
+  Finally there will be displayed a statistical summary of all clashes classified by the clash type: <<<UNSAFE>>> and <<<CRITICAL>>>.
+
++---+
+  [INFO] -------------------Start of Statistics-------------------
+  [INFO] Number of Clashes with severity UNSAFE: 0
+  [INFO] Number of Clashes with severity CRITICAL: 1
+  [INFO]  [CRITICAL Version Clash]  Testprojekt2:Testprojekt2_C
+  [INFO] -------------------End of Statistics-------------------
 +---+

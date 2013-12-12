@@ -69,7 +69,6 @@ public abstract class AbstractClashMojo extends AbstractMojo {
       excludedScopesList.addAll( Arrays.asList( this.excludedScopes ) );
     }
 
-
   }
 
 

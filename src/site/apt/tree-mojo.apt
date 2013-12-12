@@ -20,17 +20,34 @@ deps:tree
 
 * Optional Parameters
 
-*---------------------------------------------+--------------+-------------+-------------------------------------------------+
- <<Name>>                                     | <<Type>>     | <<Since>>   | <<Description>>
-*---------------------------------------------+--------------+-------------+-------------------------------------------------+
- {{{scope}scope}}                             | String       | 0.7         | Defines the scope for displayed version clashes.
-*---------------------------------------------+--------------+-------------+-------------------------------------------------+
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ <<Name>>                                    | <<Type>>     | <<Since>>   | <<Description>>
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{includedScopes:}includedScopes}}          | String       | 0.7         | Defines the included dependency scopes.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<compile>>>.
+                                             |              |             |
+                                             |              |             | <<User property is:>> ?
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{excludedScopes:}excludedScopes}}          | String       | 0.7         | Defines the excluded dependency scopes.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<null>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{includeOptional:}includeOptional}}       | boolean      | 0.7         | Defines if optional dependencies will be included
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<false>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{severity:}severity}}                     | ClashSeverity| 0.7         | Defines which version clashes will be shown.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<SAFE>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
 
-* Parameter Details
+  {<<includedScopes:>>}
 
-  {<<scope:>>}
-
-  The scope to filter by when resolving the dependency tree, or null to include dependencies only with scope <<<compile>>>.
+  The scopes which will be included when resolving the dependency tree, or null to include dependencies only with scope <<<compile>>>.
 
   * <<Type:>> <<<java.lang.String>>>
 
@@ -38,8 +55,54 @@ deps:tree
 
   * <<Required:>> <<<No>>>
 
-  * <<User Property:>> <<<scope>>>
+  * <<User Property:>> <<<includedScopes>>>
 
+  []
 
+  {<<excludedScopes:>>}
 
+  The scopes which will be excluded when resolving the dependency tree.
 
+  * <<Type:>> <<<java.lang.String>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<excludedScopes>>>
+
+  []
+
+  {<<includeOptional:>>}
+
+  Defines if optional dependencies will be included when resolving the dependency tree.
+
+  * <<Type:>> <<<boolean>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<includeOptional>>>
+
+  []
+
+  {<<severity:>>}
+
+  The severity of the displayed version clashes.
+
+  <<SAFE>>: Displays <<<SAFE>>>, <<<UNSAFE>>> and <<<CRITICAL>>> version clashes.
+
+  <<UNSAFE>>: Displays <<<UNSAFE>>> and <<<CRITICAL>>> version clashes.
+
+  <<CRITICAL>>: Displays <<<CRITICAL>>> version clashes.
+
+  * <<Type:>> <<<ClashSeverity>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<severity>>>
+
+  []

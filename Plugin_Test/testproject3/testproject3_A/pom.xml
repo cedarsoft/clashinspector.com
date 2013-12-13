@@ -8,20 +8,20 @@
      Testprojekt3_B(1.1.0) ist abhängig von Testprojekt3_C(1.0.0).
      Ergebnis: UNSAFE Clash:1
      -->
-    <groupId>Testprojekt3</groupId>
-    <artifactId>Testprojekt3_A</artifactId>
+    <groupId>testproject3</groupId>
+    <artifactId>testproject33_A</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
 
         <dependency>
-            <groupId>Testprojekt3</groupId>
-            <artifactId>Testprojekt3_B</artifactId>
+            <groupId>testproject3</groupId>
+            <artifactId>testproject3_B</artifactId>
             <version>1.1.0</version>
         </dependency>
         <dependency>
-            <groupId>Testprojekt3</groupId>
-            <artifactId>Testprojekt3_C</artifactId>
+            <groupId>testproject3</groupId>
+            <artifactId>testproject3_C</artifactId>
             <version>2.0.0</version>
         </dependency>
     </dependencies>

@@ -185,4 +185,12 @@ public class ClashCollectResultWrapper {
   public int getNumberOfTotalDependencies() {
     return this.dependencyCounter;
   }
+
+
+  public List<Exception> getExceptions() {
+    return this.collectResult.getExceptions();
+
+  }
+
+
 }

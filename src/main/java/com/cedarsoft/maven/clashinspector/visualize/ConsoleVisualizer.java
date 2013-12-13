@@ -200,6 +200,14 @@ public class ConsoleVisualizer implements Visualizer {
     printFullTree( clashCollectResultWrapper.getRoot(), 0 );
     printStatistic( clashCollectResultWrapper );
 
+
+    printErrors( clashCollectResultWrapper );
+  }
+
+  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ) {
+    for ( Exception exception : clashCollectResultWrapper.getExceptions() ) {
+      log.info( exception.getMessage() );
+    }
   }
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashListMojo clashListMojo ) {
@@ -207,6 +215,7 @@ public class ConsoleVisualizer implements Visualizer {
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper );
   }
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashPhaseMojo clashPhaseMojo ) {
@@ -214,6 +223,7 @@ public class ConsoleVisualizer implements Visualizer {
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper );
 
 
   }

@@ -49,9 +49,9 @@ public class ClashPhaseMojo extends AbstractClashMojo {
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
 
 
-      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
-      if ( this.failOnError ) {
-        throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getClashDetectionLevel() + " detected!!" );
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
+      if ( this.failOnError && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity())>0 ) {
+        throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getSeverity() + " detected!!" );
 
 
       }

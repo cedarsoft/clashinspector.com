@@ -41,7 +41,7 @@ public class ClashTreeMojo extends AbstractClashMojo {
       Visualizer consoleVisualizer = new ConsoleVisualizer();
 
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
-      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
     } catch ( IllegalArgumentException e ) {
       throw new MojoFailureException( e.getMessage(), e );
     }

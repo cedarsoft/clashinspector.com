@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <!--parent>
-    <groupId>com.cedarsoft</groupId>
-    <artifactId>open</artifactId>
-    <version>60</version>
-  </parent-->
+
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cedarsoft.maven</groupId>
-  <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <artifactId>deps-maven-plugin</artifactId>
+  <version>0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>Clashinspector Plugin</name>
+  <name>Maven Deps Plugin</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
 
   <organization>
     <name>Hochschule Reutlingen</name>
     <url>http://www.reutlingen-university.de/</url>
   </organization>
+
+
 
   <developers>
     <!--TODO add developers-->
@@ -30,6 +28,9 @@
   </issueManagement>
 
   <inceptionYear>2013</inceptionYear>
+
+
+
 
   <prerequisites>
     <maven>3.1.1</maven>
@@ -86,8 +87,8 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
       <version>4.11</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -120,7 +121,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.2</version>
         <configuration>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
@@ -161,20 +162,16 @@
         </configuration>
       </plugin>
 
-
-      <plugin>
-        <groupId>com.cedarsoft.maven</groupId>
-        <artifactId>clashinspector-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <severity>SAFE</severity>
-          <includeOptional>false</includeOptional>
-          <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
-
     </plugins>
   </build>
-
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>

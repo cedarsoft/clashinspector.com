@@ -92,7 +92,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
     return includeOptional;
   }
 
-  public ClashSeverity getClashDetectionLevel() {
+  public ClashSeverity getSeverity() {
     return severity;
   }
 

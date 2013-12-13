@@ -29,7 +29,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Component
   private RepositorySystem repoSystem;
 
-  @Parameter( defaultValue = "${repositorySystemSession}" )
+  @Parameter( defaultValue = "${repositorySystemSession}", readonly = true )
   private RepositorySystemSession repoSession;
 
   @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
@@ -49,7 +49,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   private boolean includeOptional;
 
   @Parameter( alias = "severity", defaultValue = "SAFE" )
-  private ClashSeverity detectionLevel;
+  private ClashSeverity severity;
 
   private final List<String> includedScopesList = new ArrayList<String>();
   private final List<String> excludedScopesList = new ArrayList<String>();
@@ -93,7 +93,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
   public ClashSeverity getClashDetectionLevel() {
-    return detectionLevel;
+    return severity;
   }
 
   public List<String> getIncludedScopesList() {

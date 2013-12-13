@@ -2,22 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a5c5548-4078-4699-aff9-ff353a5cca31" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/site/apt/version.apt" />
-      <change type="MOVED" beforePath="C:\Users\Martin\maven-director\src\site\apt\goals.apt" afterPath="$PROJECT_DIR$/src/site/apt/plugin-info.apt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/site/apt/tree-mojo2.apt" />
+      <change type="DELETED" beforePath="C:\Users\Martin\maven-director\src\site\apt\tree-mojo.apt" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Martin\maven-director\src\site\apt\list-mojo.apt" afterPath="$PROJECT_DIR$/src/site/apt/list-mojo2.apt" />
+      <change type="MOVED" beforePath="C:\Users\Martin\maven-director\src\site\apt\plugin-info.apt" afterPath="$PROJECT_DIR$/src/site/apt/plugin-info2.apt" />
+      <change type="MOVED" beforePath="C:\Users\Martin\maven-director\src\site\apt\usage.apt" afterPath="$PROJECT_DIR$/src/site/apt/usage2.apt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java" afterPath="$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/apt/index.apt" afterPath="$PROJECT_DIR$/src/site/apt/index.apt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/apt/list-mojo.apt" afterPath="$PROJECT_DIR$/src/site/apt/list-mojo.apt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/site.xml" afterPath="$PROJECT_DIR$/src/site/site.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/apt/tree-mojo.apt" afterPath="$PROJECT_DIR$/src/site/apt/tree-mojo.apt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/apt/usage.apt" afterPath="$PROJECT_DIR$/src/site/apt/usage.apt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maven-director.iml" afterPath="$PROJECT_DIR$/maven-director.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/apt/version.apt" afterPath="$PROJECT_DIR$/src/site/apt/version.apt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="maven-director.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386838431061" ignored="false" />
+    <file path="/Dummy.txt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386930692417" ignored="false" />
     <file path="$USER_HOME$/MichiProb/src/main/java/MichiProblem.java" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386543463473" ignored="false" />
     <file path="/MichiProblem.java" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386543458743" ignored="false" />
-    <file path="/pom.xml" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386598708012" ignored="false" />
+    <file path="/pom.xml" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386936243535" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/com/cedarsoft/maven/clashinspector-maven-plugin/0.1-SNAPSHOT/clashinspector-maven-plugin-0.1-SNAPSHOT.jar!/META-INF/maven/plugin.xml" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386589716135" ignored="false" />
     <file path="/index.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386870467209" ignored="false" />
     <file path="/site.xml" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386870456701" ignored="false" />
@@ -25,7 +26,7 @@
     <file path="/tree-mojo.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386869167298" ignored="false" />
     <file path="/list-mojo.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386598958586" ignored="false" />
     <file path="/usage.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386869487518" ignored="false" />
-    <file path="/version.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386870358911" ignored="false" />
+    <file path="/version.apt" changelist="8a5c5548-4078-4699-aff9-ff353a5cca31" time="1386931362381" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +41,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <method_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/DependencyService.java" line="40" class="com.cedarsoft.maven.clashinspector.DependencyService" package="com.cedarsoft.maven.clashinspector">
         <option name="WATCH_ENTRY" value="true" />
@@ -96,6 +96,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -105,10 +106,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.apt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/index.apt">
+      <file leaf-file-name="AbstractClashMojo.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="39" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
+            <state line="47" column="74" selection-start="1446" selection-end="1446" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,61 +118,7 @@
       <file leaf-file-name="version.apt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/site/apt/version.apt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="33" selection-end="33" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list-mojo.apt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/list-mojo.apt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="45" selection-start="1873" selection-end="1873" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plugin-info.apt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/plugin-info.apt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="36" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="usage.apt" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/usage.apt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="2" selection-start="152" selection-end="152" vertical-scroll-proportion="0.6561403">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tree-mojo.apt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/tree-mojo.apt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="45" selection-start="2398" selection-end="2398" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractClashMojo.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="38" selection-start="1548" selection-end="1562" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="site.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/site.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="48" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -180,7 +127,25 @@
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="20" selection-start="3282" selection-end="3301" vertical-scroll-proportion="0.0">
+            <state line="168" column="46" selection-start="4600" selection-end="4600" vertical-scroll-proportion="-104.04">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClashSeverity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/ClashSeverity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="56" selection-start="317" selection-end="317" vertical-scroll-proportion="0.11258278">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list-mojo2.apt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/site/apt/list-mojo2.apt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -205,15 +170,15 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/maven-director.iml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/site/apt/goals.apt" />
-        <option value="$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java" />
         <option value="$PROJECT_DIR$/src/site/apt/tree-mojo.apt" />
         <option value="$PROJECT_DIR$/src/site/apt/list-mojo.apt" />
-        <option value="$PROJECT_DIR$/src/site/apt/version.apt" />
-        <option value="$PROJECT_DIR$/src/site/site.xml" />
         <option value="$PROJECT_DIR$/src/site/apt/index.apt" />
         <option value="$PROJECT_DIR$/src/site/apt/usage.apt" />
+        <option value="$PROJECT_DIR$/src/site/apt/version.apt" />
+        <option value="$PROJECT_DIR$/src/site/site.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java" />
       </list>
     </option>
   </component>
@@ -290,7 +255,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -530,24 +494,41 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="111" />
     <property name="project.structure.proportion" value="0.0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="129" />
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="133" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="136" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="808" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="815" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="128" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="122" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="FullScreen" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
@@ -592,19 +573,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -630,6 +598,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -714,13 +695,13 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3821656" sideWeight="0.12884927" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21904762" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.54761904" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11750405" sideWeight="0.54761904" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.0" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1191248" sideWeight="0.7809524" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24311183" sideWeight="0.54761904" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45238096" sideWeight="0.87115073" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3119935" sideWeight="0.7809524" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12698413" sideWeight="0.87115073" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -795,11 +776,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/maven-director.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="24" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.028145695" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/DependencyService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="32" selection-start="1592" selection-end="1592" vertical-scroll-proportion="-3.0826666">
@@ -837,56 +813,19 @@
     </entry>
     <entry file="file://$MAVEN_REPOSITORY$/org/apache/maven/plugins/maven-plugin-plugin/3.1/maven-plugin-plugin-3.1.pom">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="35" selection-start="1271" selection-end="1295" vertical-scroll-proportion="0.2887139">
-          <folding />
-        </state>
+        <state line="28" column="35" selection-start="1271" selection-end="1295" vertical-scroll-proportion="0.2887139" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="20" selection-start="3282" selection-end="3301" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="38" selection-start="1548" selection-end="1562" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/apt/plugin-info.apt">
+    <entry file="file://$PROJECT_DIR$/src/site/apt/plugin-info2.apt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="36" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/apt/tree-mojo.apt">
+    <entry file="file://$PROJECT_DIR$/src/site/apt/tree-mojo2.apt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="45" selection-start="2398" selection-end="2398" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/site.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="48" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/apt/version.apt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="33" selection-end="33" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/apt/list-mojo.apt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="45" selection-start="1873" selection-end="1873" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -898,9 +837,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/apt/usage.apt">
+    <entry file="file://$PROJECT_DIR$/src/site/apt/usage2.apt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="2" selection-start="152" selection-end="152" vertical-scroll-proportion="0.6561403">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/site/apt/list-mojo2.apt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/AbstractClashMojo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="74" selection-start="1446" selection-end="1446" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="168" column="46" selection-start="4600" selection-end="4600" vertical-scroll-proportion="-104.04">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/site/apt/version.apt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/site/site.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="20" selection-start="941" selection-end="985" vertical-scroll-proportion="0.5902778">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/cedarsoft/maven/clashinspector/mojos/ClashSeverity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="56" selection-start="317" selection-end="317" vertical-scroll-proportion="0.11258278">
           <folding />
         </state>
       </provider>

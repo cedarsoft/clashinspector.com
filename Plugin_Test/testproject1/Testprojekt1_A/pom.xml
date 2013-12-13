@@ -18,19 +18,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.cedarsoft.hsrt.zkb</groupId>
-                <artifactId>clashinspector-maven-plugin</artifactId>
-                <version>0.1-SNAPSHOT</version>
-                <configuration>
-                    <severity>SAFE</severity>
-                    <includeOptional>false</includeOptional>
-                    <failOnError>false</failOnError>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

@@ -39,8 +39,6 @@ Version Clash
 
     * Outter Version Clash Type
 
-      * <<SAFE VERSION CLASH:>> All dependencies of the dependency type are <<<SAFE>>>.
-
       * <<UNSAFE VERSION CLASH:>> At least one dependency of the dependency type is <<<UNSAFE>>>.
 
       * <<CRITICAL VERSION CLASH:>> At least one dependency of the dependency type is <<<CRITICAL>>>.

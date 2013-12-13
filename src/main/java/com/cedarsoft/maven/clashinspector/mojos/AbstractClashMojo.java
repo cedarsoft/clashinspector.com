@@ -35,19 +35,43 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
   private List<RemoteRepository> remoteRepos;
 
-
   @Parameter( defaultValue = "${project}", readonly = true, required = true )
   private MavenProject project;
 
-  @Parameter( alias = "includedScopes" )
+  //TODO (how) is it possible to add multiple scopes via console?
+  /**
+   * Defines the included dependency scopes.
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "includedScopes", defaultValue = "compile" )
   private String[] includedScopes;
 
-  @Parameter( alias = "excludedScopes" )
+  /**
+   * Defines the excluded dependency scopes.
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "excludedScopes", defaultValue = "null" )
   private String[] excludedScopes;
 
+  /**
+   * Defines if optional dependencies will be included.
+   *
+   * @since 0.3
+   */
   @Parameter( alias = "includeOptional", defaultValue = "false" )
   private boolean includeOptional;
 
+  /**
+   * <p>Defines which version clashes will be displayed depending on their severity.</p>
+   * <p/>
+   * <li><b>SAFE</b>: Displays <code>SAFE</code>, <code>UNSAFE</code> and <code>CRITICAL</code> version clashes.</li>
+   * <li><b>UNSAFE</b>: Displays <code>UNSAFE</code> and <code>CRITICAL</code> version clashes.</li>
+   * <li><b>CRITICAL</b>: Displays only <code>CRITICAL</code> version clashes.</li>
+   *
+   * @since 0.3
+   */
   @Parameter( alias = "severity", defaultValue = "SAFE" )
   private ClashSeverity severity;
 

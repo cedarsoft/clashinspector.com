@@ -20,10 +20,10 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * Displays the dependencies with version clashes and a statistical summary of the clashes.
+ *
+ * @since 0.3
  */
-
-//tree full tree simple
 @Mojo(name = "list", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
 public class ClashListMojo extends AbstractClashMojo {
 

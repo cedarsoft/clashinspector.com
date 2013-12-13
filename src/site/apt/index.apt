@@ -15,13 +15,19 @@ Maven Deps Plugin
 
   * <<{{{./tree-mojo.html}deps:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
 
+* Version Clash
+
+  Dependency version clashes can lead to unpredictable (critical) software problems during development and after deployment.
+  That's why it is so important to recognize version clashes early and to fix them, before they make trouble. Read more about how we define
+  Maven dependency version clashes on the {{{./version_clash.html}version clash}} page.
+
 * Usage
 
   General instructions on how to use the Deps Plugin can be found on the {{{./usage.html}usage}} page.
 
-* Version History
+* Version Preview & History
 
-  The {{{./version.html}version history}} page lists the version history of Deps Plugin releases.
+  The {{{./version.html}version preview & history}} page lists the version history of Deps Plugin releases and shows what's comming soon.
 
 * Examples
 

@@ -1,44 +1,42 @@
 
 Version Clash
 
-  There are two kinds of version clashes.
+  On this page we will give you a quick introduction about the Maven dependency mediation and
+  show you how we defined Maven dependency version clashes.
 
-  [Picture 1: Inner and Outer Clash]
+  First of all it is important to know that Maven always uses the version of the closest dependency to your project in
+  the tree of dependencies and not necessarily the highest version! Maven defines this as the "nearest definition" which
+  is the only available dependency mediation since Maven 2.0.9. For details visit the official Maven page
+  {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}Introduction to the Dependency Mechanism}}.
 
-  + Description
+  Following examples will help you to understand how this dependency mediation can lead to <<<CRITICAL>>>, <<<UNSAFE>>> or <<<SAFE>>> conditions.
+
+* Example 1: Critical
+
+  Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
+  <<<subproject:1.0>>>. <<<subproject:1.0>>> has a dependency on <<<com.google.guava:guava:14.0.1>>>. As mentioned before, Maven will use the closest dependency in the tree
+  which is <<<com.google.guava:guava:13.0.1>>>, the lower version. In this case all changes from version <<<13.0.1>>> to <<<14.0.1>>> will  be lost.
+  It is understandable that if <<<subproject:1.0>>> is using a class or a method which only exists in version <<<14.0.1>>> it will lead to problems.
+  We call this a critical condition or a critical version clash.
+
+[../../src/main/resources/figure/CRITICAL.png] Critical
 
 
+* Example 2: Unsafe
 
-  Option 1: If a project has a dependency type <<(groupId:artifactId)>> at least twice - irrespective of their versions -
-  a version clash appears for every associated dependency <<(groupId:artifactId:version)>>.
+  Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<subproject:1.0>>> uses a lower version <<<13.0.1>>>.
+  We define this case as an unsafe condition or an unsafe version clash. Imagine <<<subproject:1.0>>> uses a deprecated class or method which was deleted from
+  version <<<13.0.1>>> to <<<14.0.1>>> it would also lead to problems.
 
-  Option 2: If a project <<(groupId:artifactId)>> has a dependency on another project at least twice,
-  a version clash will be detected.
+[../../src/main/resources/figure/UNSAFE.png] Unsafe
 
-  Following the version clash types:
 
-  //Typen vereinheitlichen fuer tree und list
+* Example 3: Safe
 
-  * deps:tree
+  We have a safe condition, if all versions of an artifact in the tree are the same.
 
-      * <<SAFE VERSION CLASH:>> The referred dependency has the same version as the dependency which is used of Maven.
+[../../src/main/resources/figure/SAFE.png] Safe
 
-      * <<UNSAFE VERSION CLASH:>> The referred dependency has a lower version than the dependency which is used of Maven.
+===
 
-      * <<CRITICAL VERSION CLASH:>>  The referred dependency has a higher version than the dependency which is used of Maven.
-
-  * deps:list
-
-    * Inner Version Clash Type
-
-      * <<SAFE:>> The referred dependency has the same version as the dependency which is used of Maven.
-
-      * <<UNSAFE:>> The referred dependency has a lower version than the dependency which is used of Maven.
-
-      * <<CRITICAL:>>  The referred dependency has a higher version than the dependency which is used of Maven.
-
-    * Outter Version Clash Type
-
-      * <<UNSAFE VERSION CLASH:>> At least one dependency of the dependency type is <<<UNSAFE>>>.
-
-      * <<CRITICAL VERSION CLASH:>> At least one dependency of the dependency type is <<<CRITICAL>>>.
+  For detailed information about version clashes visit {{{./version_clash_details.html}version clash details}}.

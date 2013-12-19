@@ -1,14 +1,19 @@
 
 Version Clash Details
 
-
-* Multi-Version Clash
-
 * Inner and Outer Version Clash
 
   We define two kinds of version clashes in our Plugin.
 
-  [Picture 1: Inner and Outer Clash]
+[../../src/main/resources/figure/Inner&OuterClashModel.png] Inner & Outer Clash Model
+
+
+* Multi-Version Clash
+
+[../../src/main/resources/figure/multiClash.png] Multi-Version Clash
+
+
+* Ablage
 
   + Description
 

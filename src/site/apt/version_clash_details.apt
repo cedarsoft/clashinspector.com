@@ -1,7 +1,12 @@
 
-Version Clash
+Version Clash Details
 
-  There are two kinds of version clashes.
+
+* Multi-Version Clash
+
+* Inner and Outer Version Clash
+
+  We define two kinds of version clashes in our Plugin.
 
   [Picture 1: Inner and Outer Clash]
 

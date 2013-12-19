@@ -38,6 +38,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Parameter( defaultValue = "${project}", readonly = true, required = true )
   private MavenProject project;
 
+  //TODO parameterübergabe per console geht nicht (beispiel severity)
   //TODO (how) is it possible to add multiple scopes via console?
   /**
    * Defines the included dependency scopes.

@@ -21,7 +21,7 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * [Definition of Phase Mojo]
  */
 //clashinspector
 //clashfinder

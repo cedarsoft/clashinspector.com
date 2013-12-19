@@ -2,6 +2,7 @@ package com.cedarsoft.maven.clashinspector.model;
 
 import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 
+import javax.xml.transform.sax.SAXSource;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

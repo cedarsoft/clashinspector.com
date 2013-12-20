@@ -118,14 +118,14 @@
 
   <build>
     <plugins>
-      <plugin>
+      <!--plugin>
         <groupId>com.cedarsoft.maven</groupId>
         <artifactId>deps-maven-plugin</artifactId>
         <version>0.3-SNAPSHOT</version>
         <configuration>
           <severity>UNSAFE</severity>
         </configuration>
-      </plugin>
+      </plugin-->
 
 
       <plugin>

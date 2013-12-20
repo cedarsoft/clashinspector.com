@@ -45,7 +45,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "includedScopes", defaultValue = "compile" )
+  @Parameter( alias = "includedScopes", defaultValue = "compile")
   private String[] includedScopes;
 
   /**
@@ -61,8 +61,8 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "includeOptional", defaultValue = "false" )
-  private boolean includeOptional;
+  @Parameter( alias = "includeOptional", defaultValue = "false", property = "includeOptional")
+  private String includeOptional;
 
   /**
    * <p>Defines which version clashes will be displayed depending on their severity.</p>
@@ -73,8 +73,8 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "severity", defaultValue = "SAFE" )
-  private ClashSeverity severity;
+  @Parameter( alias = "severity", defaultValue = "UNSAFE", property = "severity")
+  private String severity;
 
   private final List<String> includedScopesList = new ArrayList<String>();
   private final List<String> excludedScopesList = new ArrayList<String>();
@@ -114,11 +114,11 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
   public boolean isIncludeOptional() {
-    return includeOptional;
+    return Boolean.valueOf(includeOptional);
   }
 
   public ClashSeverity getSeverity() {
-    return severity;
+    return ClashSeverity.valueOf(severity);
   }
 
   public List<String> getIncludedScopesList() {

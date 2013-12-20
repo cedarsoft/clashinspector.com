@@ -74,7 +74,7 @@ public class DependencyServiceTest {
   public void testTestprojekt1() {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
-    Artifact artifact = new DefaultArtifact( "Testprojekt1:Testprojekt1_A:1.0-SNAPSHOT" );
+    Artifact artifact = new DefaultArtifact( "testproject1:testproject1_A:1.0-SNAPSHOT" );
     CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
 
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );
@@ -90,7 +90,7 @@ public class DependencyServiceTest {
   public void testTestprojekt2() {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
-    Artifact artifact = new DefaultArtifact( "Testprojekt2:Testprojekt2_A:1.0-SNAPSHOT" );
+    Artifact artifact = new DefaultArtifact( "testproject2:testproject2_A:1.0-SNAPSHOT" );
     CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
 
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );

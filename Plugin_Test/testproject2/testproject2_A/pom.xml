@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+    Testprojekt2_A ist abängig von Testprojekt2_B(1.1.0) und Testprojekt2_C(1.0.0).
+    Testprojekt2_B(1.1.0) ist abhängig von Testprojekt2_C(2.0.0).
+    Ergebnis: CRITICAL Clash:1
+    -->
+    <groupId>testproject2</groupId>
+    <artifactId>testproject2_A</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>testproject2</groupId>
+            <artifactId>testproject2_B</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>testproject2</groupId>
+            <artifactId>testproject2_C</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+
+
+</project>

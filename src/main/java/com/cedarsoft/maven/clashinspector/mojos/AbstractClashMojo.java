@@ -130,6 +130,29 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
 
+  public String getStartParameter()
+  {
+    String includedOptionalStr = "includedOptional = " + this.isIncludeOptional();
+    String severityStr = "severity= " + this.getSeverity();
+    String includedScopesStr="includedScopes = ";
+
+    for(String s: this.getIncludedScopesList())
+    {
+      includedScopesStr = includedScopesStr + " "+ s;
+    }
+
+    String excludedScopesStr="excludedScopes=";
+
+    for(String s: this.getExcludedScopesList())
+    {
+      excludedScopesStr = excludedScopesStr + " "+ s;
+    }
+
+    return severityStr + includedScopesStr+ excludedScopesStr+ includedOptionalStr;
+
+  }
+
+
 }
 
 

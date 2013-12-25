@@ -37,6 +37,9 @@ public class ClashListMojo extends AbstractClashMojo {
 
     Artifact artifact;
     try {
+
+      this.getLog().info( "Starting goal 'list' with parameter: " +  super.getStartParameter());
+
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 

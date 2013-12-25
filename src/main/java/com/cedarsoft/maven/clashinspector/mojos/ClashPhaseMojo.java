@@ -39,6 +39,9 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
     Artifact artifact;
     try {
+      this.getLog().info( "Starting goal 'listPhase' with parameter: " +  super.getStartParameter());
+
+
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 

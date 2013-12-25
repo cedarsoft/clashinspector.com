@@ -154,6 +154,9 @@ public class ConsoleVisualizer implements Visualizer {
   }
 
 
+
+
+
   public void printStatistic( ClashCollectResultWrapper clashCollectResultWrapper ) {
    /* log.info( "" );
     log.info( "Statistical information:" );
@@ -193,6 +196,27 @@ public class ConsoleVisualizer implements Visualizer {
     log.info( "-------------------End of Statistics-------------------" );
   }
 
+  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ,String errorMessage) {
+
+
+    if(clashCollectResultWrapper.getExceptions().size()>0)
+    {
+      log.info( "" );
+      log.info( "-------------------Start of error information-------------------" );
+      log.info( "Attention!!! Following Errors occured while dependency-resolving." + errorMessage );
+      for ( Exception exception : clashCollectResultWrapper.getExceptions() ) {
+        log.info( exception.getMessage() );
+      }
+      log.info( "-------------------End of error information-------------------" );
+    }
+
+
+
+
+  }
+
+
+
   @Override
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     this.log = clashTreeMojo.getLog();
@@ -201,21 +225,17 @@ public class ConsoleVisualizer implements Visualizer {
     printStatistic( clashCollectResultWrapper );
 
 
-    printErrors( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper,"Tree potentially incomplete!" );
   }
 
-  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ) {
-    for ( Exception exception : clashCollectResultWrapper.getExceptions() ) {
-      log.info( exception.getMessage() );
-    }
-  }
+
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashListMojo clashListMojo ) {
     this.log = clashListMojo.getLog();
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
-    printErrors( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper,"List potentially incomplete!" );
   }
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashPhaseMojo clashPhaseMojo ) {
@@ -223,7 +243,7 @@ public class ConsoleVisualizer implements Visualizer {
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printStatistic( clashCollectResultWrapper );
-    printErrors( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper, "List potentially incomplete!" );
 
 
   }

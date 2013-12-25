@@ -35,6 +35,9 @@ public class ClashTreeMojo extends AbstractClashMojo {
     super.execute();
 
     try {
+
+      this.getLog().info( "Starting goal 'tree' with parameter: " +  super.getStartParameter());
+
       Artifact artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
       DependencyService dependencyService = new DependencyService();

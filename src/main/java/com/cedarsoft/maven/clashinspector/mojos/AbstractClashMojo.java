@@ -132,9 +132,9 @@ public abstract class AbstractClashMojo extends AbstractMojo {
 
   public String getStartParameter()
   {
-    String includedOptionalStr = "includedOptional = " + this.isIncludeOptional();
+    String includedOptionalStr = "includeOptional = " + this.isIncludeOptional();
     String severityStr = "severity= " + this.getSeverity();
-    String includedScopesStr="includedScopes = ";
+    String includedScopesStr="includedScopes =";
 
     for(String s: this.getIncludedScopesList())
     {
@@ -148,10 +148,25 @@ public abstract class AbstractClashMojo extends AbstractMojo {
       excludedScopesStr = excludedScopesStr + " "+ s;
     }
 
-    return severityStr + includedScopesStr+ excludedScopesStr+ includedOptionalStr;
+    return severityStr + " | " + includedScopesStr+ " | "+ excludedScopesStr+" | "+ includedOptionalStr;
 
   }
 
+     public void printStartParameter(String goalName,String additionalParameters)
+     {
+       this.getLog().info("");
+       this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter() + " | " + additionalParameters);
+       this.getLog().info("");
+
+     }
+
+  public void printStartParameter(String goalName)
+  {
+    this.getLog().info("");
+    this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter());
+    this.getLog().info("");
+
+  }
 
 }
 

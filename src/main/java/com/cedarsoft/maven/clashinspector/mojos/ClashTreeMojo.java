@@ -33,10 +33,9 @@ public class ClashTreeMojo extends AbstractClashMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     super.execute();
+    super.printStartParameter( "tree" );
 
     try {
-
-      this.getLog().info( "Starting goal 'tree' with parameter: " +  super.getStartParameter());
 
       Artifact artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 

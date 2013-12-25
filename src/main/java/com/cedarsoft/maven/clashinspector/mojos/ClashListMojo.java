@@ -33,12 +33,10 @@ public class ClashListMojo extends AbstractClashMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-
+       super.printStartParameter( "list" );
 
     Artifact artifact;
     try {
-
-      this.getLog().info( "Starting goal 'list' with parameter: " +  super.getStartParameter());
 
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 

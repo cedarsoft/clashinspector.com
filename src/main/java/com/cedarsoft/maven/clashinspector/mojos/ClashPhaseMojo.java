@@ -35,12 +35,13 @@ public class ClashPhaseMojo extends AbstractClashMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-
+    super.printStartParameter( "listPhase" , "failOnError = " +this.getFailOnError() );
 
     Artifact artifact;
     try {
-      this.getLog().info( "Starting goal 'listPhase' with parameter: " +  super.getStartParameter());
-
+      this.getLog().info("");
+      this.getLog().info( "Starting goal :listPhase with parameters: " +  super.getStartParameter());
+      this.getLog().info("");
 
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 

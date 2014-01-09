@@ -5,7 +5,7 @@ Version Clash
   show you how we defined Maven dependency version clashes.
 
   First of all it is important to know that Maven always uses the version of the closest dependency to your project in
-  the tree of dependencies and not necessarily the highest version! Maven defines this as the "nearest definition" which
+  the tree of dependencies and not necessarily the highest version! Maven defines this as the <<"nearest definition">> which
   is the only available dependency mediation since Maven 2.0.9. For details visit the official Maven page
   {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}Introduction to the Dependency Mechanism}}.
 

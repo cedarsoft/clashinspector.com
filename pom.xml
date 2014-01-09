@@ -17,8 +17,34 @@
   </organization>
 
 
-
   <developers>
+    <developer>
+      <name>
+        Michael Behr
+      </name>
+      <email>Michael.Behr@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Martin Kampa
+      </name>
+      <email>Martin.Kampa@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Huina Zhu
+      </name>
+      <email>Huina.Zhu@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Johannes Schneider
+
+      </name>
+      <organization>cedarsoft</organization>
+      <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
+      <email>info@cedarsoft.de</email>
+    </developer>
     <!--TODO add developers-->
   </developers>
 
@@ -28,8 +54,6 @@
   </issueManagement>
 
   <inceptionYear>2013</inceptionYear>
-
-
 
 
   <prerequisites>
@@ -118,14 +142,7 @@
 
   <build>
     <plugins>
-      <!--plugin>
-        <groupId>com.cedarsoft.maven</groupId>
-        <artifactId>deps-maven-plugin</artifactId>
-        <version>0.3-SNAPSHOT</version>
-        <configuration>
-          <severity>UNSAFE</severity>
-        </configuration>
-      </plugin-->
+
 
 
       <plugin>

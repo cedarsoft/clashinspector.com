@@ -1,15 +1,11 @@
 
-Maven Deps Plugin
+${project.name}
 
-  The Deps Plugin provides the ability to analyze the dependencies, especially dependency version clashes of a project.
-
-  (Das Plugin erlaubt es Ihnen ihre Projekt Dependencies zu analysieren und
-  unsichere und kritische version clashes zu finden. -> Grund: Fehlern ausweichen)
-
+  The ClashInspector Plugin provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
 * Goals Overview
 
-  The Deps Plugin has following goals:
+  The ClashInspector Plugin has following goals:
 
   * <<{{{./list-mojo.html}deps:list}} >> displays the dependencies with version clashes and a summary of the clashes.
 
@@ -23,11 +19,11 @@ Maven Deps Plugin
 
 * Usage
 
-  General instructions on how to use the Deps Plugin can be found on the {{{./usage.html}usage}} page.
+  General instructions on how to use the ClashInspector Plugin can be found on the {{{./usage.html}usage}} page.
 
 * Version Preview & History
 
-  The {{{./version.html}version preview & history}} page lists the version history of Deps Plugin releases and shows what's comming soon.
+  The {{{./version.html}version preview & history}} page lists the version history of ClashInspector Plugin releases and shows what's comming soon.
 
 * Examples
 

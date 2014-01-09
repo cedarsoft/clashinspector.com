@@ -1,8 +1,8 @@
 
 Version Preview & History
 
-  Release 0.7:
+  Release 0.3:
 
-  - <<{{{./list-mojo.html}deps:list}} >> goal added
+  - <<{{{./list-mojo.html}clashinspector:list}} >> goal added
 
-  - <<{{{./tree-mojo.html}deps:tree}} >> goal added
+  - <<{{{./tree-mojo.html}clashinspector:tree}} >> goal added

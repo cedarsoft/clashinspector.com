@@ -5,7 +5,7 @@ Usage
 
 
 
-* The <deps:list> Mojo
+* The <clashinspector:list> Mojo
 
   <//Als Beispiele anstatt der Testprojekte lieber echte Projekte nehmen...>
 
@@ -47,7 +47,7 @@ Usage
   [INFO] -------------------End of Statistics-------------------
 +---+
 
-* The <deps:tree> Mojo
+* The <clashinspector:tree> Mojo
 
   Tree Legend
 

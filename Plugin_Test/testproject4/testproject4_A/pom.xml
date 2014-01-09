@@ -4,10 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!--
-    Testprojekt6_A ist abhängig von Testprojekt6_B(1.1.0) und Testprojekt6_C(1.0.0).
-    Testprojekt6_B(1.1.0) ist abhängig von guava(13.0.1).
-    Testprojekr6_C(1.0.0) ist abhängig von Testprojekt6_B(2.1.0).
-    Testprojekt6_B(2.1.0) ist abhängig von guava(14.0.1)
+    Testprojekt4_A ist abhängig von Testprojekt4_B(1.1.0).
+    Testprojekt4_B(1.1.0) ist abhängig von guava(13.0.1),  Testprojekt4_C(1.0.0) und Testprojekt4_D(1.0.0).
+    Testprojekr4_C(1.0.0) ist abhängig von guava(14.0.1).
+    Testprojekt4_D(1.0.0) ist abhängig von guava (11.0.1)
+
      Ergebnis: Ergebnis: CRITICAL Clash:1
      -->
     <groupId>testproject4</groupId>

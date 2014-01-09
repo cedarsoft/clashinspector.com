@@ -9,7 +9,7 @@
     Testprojekr4_C(1.0.0) ist abhängig von guava(14.0.1).
     Testprojekt4_D(1.0.0) ist abhängig von guava (11.0.1)
 
-     Ergebnis: Ergebnis: CRITICAL Clash:1
+
      -->
     <groupId>testproject4</groupId>
     <artifactId>testproject4_A</artifactId>

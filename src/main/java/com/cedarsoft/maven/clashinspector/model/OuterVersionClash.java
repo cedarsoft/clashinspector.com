@@ -73,7 +73,7 @@ public class OuterVersionClash {
           }
           break;
         case CRITICAL:
-          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.CRITICAL | clashSeverity == ClashSeverity.CRITICAL ) {
+          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.UNSAFE | clashSeverity == ClashSeverity.CRITICAL  ) {
             criticalList.add( innerVersionClash );
           }
           break;

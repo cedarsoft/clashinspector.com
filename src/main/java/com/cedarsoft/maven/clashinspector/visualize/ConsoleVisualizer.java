@@ -193,7 +193,7 @@ public class ConsoleVisualizer implements Visualizer {
         log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
-    log.info( "-------------------End of Statistics-------------------" );
+    log.info( "--------------------End of Statistics--------------------" );
   }
 
   private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ,String errorMessage) {

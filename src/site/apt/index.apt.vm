@@ -5,7 +5,7 @@ ${project.name}
 
 * Goals Overview
 
-  The ClashInspector Plugin has following goals:
+  The ClashInspector Plugin has the following goals:
 
   * <<{{{./list-mojo.html}${project.artifactId}:list}} >> displays the dependencies with version clashes and a summary of the clashes.
 
@@ -19,21 +19,20 @@ ${project.name}
 
 * Usage
 
-  We found out that a frequently used dependency <<"com.google.guava:guava">> leeds to critical conditions if a project
-  uses different versions of it.
-
-  As mentioned on {{{https://code.google.com/p/guava-libraries/wiki/Release14}Guava Release 14.0: Release Notes}}
-  Release 14 brought up some significant API changes.
+  Even big projects like <<"com.google.guava:guava">> can leed to critical conditions if a project
+  uses different versions of it. As mentioned on {{{https://code.google.com/p/guava-libraries/wiki/Release14}Guava Release 14.0: Release Notes}}
+  release 14 brought up some significant API changes.
   One of it is: <<"The static methods in Equivalences have been moved into Equivalence.">>
 
   Assume a project <<ProjectA>> uses <<<com.google.guava:guava:13.0.1>>> and its subproject <<ProjectB>> uses
   <<<com.google.guava:guava:14.0.1>>>. Because of the {{{./version_clash.html}nearest definiton}} Maven will use
   version <<<13.0.1>>> for the whole project. This leeds to the critical condition that <<ProjectB>> is not able anymore
-  to call the methods in <<<Equivalence>>> which where moved from <<<Equivalences>>>.
+  to call the methods in <<<Equivalence>>> which has been moved from <<<Equivalences>>>.
 
-  Finding this version clashes early should be the goal of every software developer.
+  Recognizing version clashes early should be the goal of every software developer.
+  Following snippets show how it's possible to detect those version clashes with ${project.name}.
 
-  Our Plugin provides ....
+  The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
   c:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:list
@@ -61,14 +60,9 @@ ${project.name}
   [INFO] Number of Clashes with severity CRITICAL: 1
   [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
   [INFO] --------------------End of Statistics--------------------
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Total time: 2.281s
-  [INFO] Finished at: Thu Jan 09 19:54:51 CET 2014
-  [INFO] Final Memory: 6M/98M
-  [INFO] ------------------------------------------------------------------------
 +---+
+
+  The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+
   c:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:tree
@@ -97,13 +91,6 @@ ${project.name}
   [INFO] Number of Clashes with severity CRITICAL: 1
   [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
   [INFO] --------------------End of Statistics--------------------
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Total time: 1.541s
-  [INFO] Finished at: Thu Jan 09 19:57:26 CET 2014
-  [INFO] Final Memory: 7M/98M
-  [INFO] ------------------------------------------------------------------------
 +---+
 
 
@@ -111,7 +98,5 @@ ${project.name}
 
 * Version Preview & History
 
-  The {{{./version.html}version preview & history}} page lists the version history of ClashInspector Plugin releases and shows what's comming soon.
-
-* Examples
+  The {{{./version.html}version preview & history}} page lists the version history of &{project.name} releases and shows what's comming soon.
 

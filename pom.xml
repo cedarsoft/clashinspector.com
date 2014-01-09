@@ -8,7 +8,7 @@
   <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>Maven ClashInspector Plugin</name>
+  <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
 
   <organization>

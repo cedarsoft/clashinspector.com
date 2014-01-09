@@ -19,13 +19,17 @@
     <menu name="Overview">
       <item name="Introduction" href="index.html" />
       <item name="Goals" href="plugin-info.html" />
-      <item name="Version Clash" href="version_clash.html" />
+      <item name="Version Clash" href="version_clash.html" collapse="true" >
+        <item name="Basics" href="version_clash.html" />
+        <item name="Details" href="version_clash_details.html" />
+      </item>
       <item name="Usage" href="usage.html" />
+      <item name="Motivation" href="motivation.html" />
       <item name="Version History" href="version.html" />
     </menu>
 
     <menu name="Examples">
-      <item name="Example1" href="example1.html" />
+      <!--item name="Example1" href="example1.html" /-->
     </menu>
 
 

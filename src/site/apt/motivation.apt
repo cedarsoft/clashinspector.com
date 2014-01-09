@@ -1,1 +1,16 @@
-* Motivation
+
+Motivation
+
+  We are a study group of three students (Michael Behr, {https://www.xing.com/profiles/Martin_Kampa3}
+  Martin Kampa and {https://www.xing.com/profiles/Huina_Zhu2}Huina Zhu)
+  from the university of reutlingen (Germany). The ${project.name} results
+  out of a project on our university supervised by our mentor
+  {http://www.xing.com/profiles/Johannes_Schneider14} Johannes Schneider.
+  The vision is to provide a Maven-Plugin that enables you to detect
+  Version Clashes in your java-projects and visualize them in different formates.
+  So far for our first Release it is possible to visualize the results in the console.
+  Next steps will be the development of a phase Plugin for detecting the Clashes
+  automatically and the development of a HTML-visualization that will enable
+  you to inspect the version clashes in the browser.
+
+  For the improvement of our plugin we rely on your feedback. So feel free to contact us in any case of questions, ideas, erros and so on.

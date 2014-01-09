@@ -52,8 +52,6 @@ Usage
   Tree Legend
 
 *---------------------------------------------+------------------------------------------------------+
- ---                                          | root project
-*---------------------------------------------+------------------------------------------------------+
  +                                            | dependency with sub-dependencies
 *---------------------------------------------+------------------------------------------------------+
  -                                            | dependency without sub-dependencies
@@ -72,9 +70,8 @@ Usage
                                               | associated
 *---------------------------------------------+------------------------------------------------------+
 
-  The tree starts with the root project, which is this project. Following on it shows the dependencies
-  and their scope (e.g. compile, test). The order of the dependencies is based on the pom.xml of the root project.
-  If a dependency has a version clash, details about the clash will be displayed after the dependency. It shows the version clash type and
+  The tree shows the dependencies - enriched with their scopes (e.g. compile, test) - in the appropriate depth. The order of the dependencies is based on the pom.xml of the root project.
+  If a dependency has a version clash, details about the clash will be displayed under the dependency. It shows the version clash type and
   all available versions of a dependency in this project.
 
 +---+
@@ -90,7 +87,7 @@ Usage
   [INFO]    1.0.0 (used) (lowest) <- referred
 +---+
 
-  Finally there will be displayed a statistical summary of all clashes classified by the clash type: <<<UNSAFE>>> and <<<CRITICAL>>>.
+  Finally there is a statistical summary of all clashes classified by the clash type: <<<UNSAFE>>> and <<<CRITICAL>>>.
 
 +---+
   [INFO] -------------------Start of Statistics-------------------

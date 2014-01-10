@@ -18,5 +18,10 @@
             <artifactId>testproject4_C</artifactId>
             <version>1.0.0</version>
         </dependency>
+      <dependency>
+        <groupId>testproject4</groupId>
+        <artifactId>testproject4_D</artifactId>
+        <version>1.0.0</version>
+      </dependency>
     </dependencies>
 </project>

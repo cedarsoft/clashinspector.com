@@ -95,6 +95,7 @@ public class ClashCollectResultWrapper {
       }
 
       dependencyCounter += 1;
+
       DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrder, dependencyCounter );
       project.addInstance( dependencyNodeWrapper );
 
@@ -186,6 +187,10 @@ public class ClashCollectResultWrapper {
     return this.dependencyCounter;
   }
 
+  //Projects are defined by their group and artifactid (not by their version)
+  public int getNumberOfTotalProjects() {
+    return this.projectList.size();
+  }
 
   public List<Exception> getExceptions() {
     return this.collectResult.getExceptions();

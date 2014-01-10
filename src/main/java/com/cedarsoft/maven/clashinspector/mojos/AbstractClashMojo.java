@@ -9,6 +9,7 @@ package com.cedarsoft.maven.clashinspector.mojos;
  */
 
 
+import com.cedarsoft.maven.clashinspector.visualize.util.ConsoleVisualizeHelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -154,8 +155,12 @@ public abstract class AbstractClashMojo extends AbstractMojo {
 
      public void printStartParameter(String goalName,String additionalParameters)
      {
+
+
        this.getLog().info("");
-       this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter() + " | " + additionalParameters);
+       this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) ) ;
+       this.getLog().info("");
+       this.getLog().info(  this.getStartParameter() + " | " + additionalParameters);
        this.getLog().info("");
 
      }
@@ -163,7 +168,9 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   public void printStartParameter(String goalName)
   {
     this.getLog().info("");
-    this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter());
+    this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) ) ;
+    this.getLog().info("");
+    this.getLog().info(  this.getStartParameter());
     this.getLog().info("");
 
   }

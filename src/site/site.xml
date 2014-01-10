@@ -5,14 +5,14 @@
 
   <bannerLeft>
     <name>${project.name}</name>
-    <src>../clash-inspector.jpg</src>
+    <src>../../src/site/resources/images/clashinspector-logo.jpg</src>
     <href>index.html</href>
   </bannerLeft>
 
   <bannerRight>
     <name>${project.name}</name>
-    <src>../clash-inspector.jpg</src>
-    <href>index.html</href>
+    <src>../../src/site/resources/images/FHRT_logo.jpg</src>
+    <href>http://www.reutlingen-university.de/</href>
   </bannerRight>
 
   <body>

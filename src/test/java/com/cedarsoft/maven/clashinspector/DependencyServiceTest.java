@@ -14,6 +14,7 @@ import org.junit.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -30,12 +31,16 @@ public class DependencyServiceTest {
   private Artifact artifact;
   private DefaultRepositorySystemSession repoSession;
   private RepositorySystem repoSystem;
-  private List<String> includedScopes;
-  private List<String> excludedScopes;
+
   private boolean includeOptional;
   DependencyService dependencyService = new DependencyService();
 
   //Nicht vergessen, dass die scopes etc. mitgegeben werden sollen
+
+
+
+
+
 
   @Before
   public void init() {
@@ -52,6 +57,23 @@ public class DependencyServiceTest {
     //session.setTransferListener( new ConsoleTransferListener() );
     // session.setRepositoryListener( new ConsoleRepositoryListener() );
   }
+
+  //Unterschiedliche Ausführungsfälle für parameter sammeln
+
+  //includedScopes: compile  excludedScopes:  includeOptional: false
+  private CollectResult executionCase1(Artifact artifact)
+  {
+
+     List<String> includedScopes = new ArrayList<String>();
+     List<String> excludedScopes = new ArrayList<String>();
+
+     includedScopes.add( "compile" );
+
+
+    return dependencyService.getDependencyTree( artifact, this.repoSession, this.repoSystem, includedScopes, excludedScopes,false );
+  }
+
+
 
   @Nonnull
   private static File findRepoLocation() {
@@ -75,9 +97,12 @@ public class DependencyServiceTest {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
     Artifact artifact = new DefaultArtifact( "testproject1:testproject1_A:1.0-SNAPSHOT" );
-    CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
+    CollectResult collectResult = this.executionCase1( artifact);
 
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );
+
+    //Anzahl aller Projekte
+    assertEquals( "Wrong number of total projects", 2, clashCollectResultWrapper.getNumberOfTotalProjects() );
 
     //Anzahl aller Dependencies
     assertEquals( "Wrong number of total dependencies", 2, clashCollectResultWrapper.getNumberOfTotalDependencies() );
@@ -96,6 +121,8 @@ public class DependencyServiceTest {
     assertEquals( "Number of Clashes with Severity for Critical wrong.", 0, clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( ClashSeverity.CRITICAL ) );
 
 
+
+
   }
 
   @Test
@@ -103,10 +130,12 @@ public class DependencyServiceTest {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
     Artifact artifact = new DefaultArtifact( "testproject2:testproject2_A:1.0-SNAPSHOT" );
-    CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
 
+    CollectResult collectResult = this.executionCase1( artifact);
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );
 
+    //Anzahl aller Projekte
+    assertEquals( "Wrong number of total projects", 2, clashCollectResultWrapper.getNumberOfTotalProjects() );
 
     //Anzahl aller Dependencies
     assertEquals( "Wrong number of total dependencies", 3, clashCollectResultWrapper.getNumberOfTotalDependencies() );
@@ -132,9 +161,12 @@ public class DependencyServiceTest {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
     Artifact artifact = new DefaultArtifact( "testproject3:testproject3_A:1.0-SNAPSHOT" );
-    CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
+    CollectResult collectResult = this.executionCase1( artifact);
 
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );
+
+    //Anzahl aller Projekte
+    assertEquals( "Wrong number of total projects", 2, clashCollectResultWrapper.getNumberOfTotalProjects() );
 
 
     //Anzahl aller Dependencies
@@ -162,13 +194,16 @@ public class DependencyServiceTest {
 
     //Artifact artifact = new DefaultArtifact( "com.cedarsoft.hsrt.zkb:ourplugin-maven-plugin:maven-plugin:0.1-SNAPSHOT" );
     Artifact artifact = new DefaultArtifact( "testproject4:testproject4_A:1.0-SNAPSHOT" );
-    CollectResult collectResult = dependencyService.getDependencyTree( artifact, repoSession, repoSystem, false );
+    CollectResult collectResult = this.executionCase1( artifact);
 
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( collectResult );
 
+    //Anzahl aller Projekte
+    assertEquals( "Wrong number of total projects", 4, clashCollectResultWrapper.getNumberOfTotalProjects() );
+
 
     //Anzahl aller Dependencies
-    assertEquals( "Wrong number of total dependencies", 5, clashCollectResultWrapper.getNumberOfTotalDependencies() );
+    assertEquals( "Wrong number of total dependencies", 6, clashCollectResultWrapper.getNumberOfTotalDependencies() );
 
     //Anzahl der Clashes  auf Projektebene (Anzahl aller Outer-Clashes)
     assertEquals( "Wrong number of total project clashes", 1, clashCollectResultWrapper.getNumberOfOuterClashes() );

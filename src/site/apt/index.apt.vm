@@ -3,13 +3,6 @@ ${project.name}
 
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
-* Goals Overview
-
-  The ClashInspector Plugin has the following goals:
-
-  * <<{{{./list-mojo.html}${project.artifactId}:list}} >> displays the dependencies with version clashes and a summary of the clashes.
-
-  * <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
 
 * Version Clash
 
@@ -17,7 +10,7 @@ ${project.name}
   That's why it is so important to recognize version clashes early and to fix them, before they make trouble. Read more about how we define
   Maven dependency version clashes on the {{{./version_clash.html}version clash}} page.
 
-* Usage
+* Quick Start
 
   Even big projects like <<"com.google.guava:guava">> can leed to critical conditions if a project
   uses different versions of it. As mentioned on {{{https://code.google.com/p/guava-libraries/wiki/Release14}Guava Release 14.0: Release Notes}}
@@ -30,12 +23,12 @@ ${project.name}
   to call the methods in <<<Equivalence>>> which has been moved from <<<Equivalences>>>.
 
   Recognizing version clashes early should be the goal of every software developer.
-  Following snippets show how it's possible to detect those version clashes with ${project.name}.
+  Following snippets show how it's possible to detect those version clashes with the ${project.name} Plugin.
 
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
-  c:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:list
+  C:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:list
   [INFO] Scanning for projects...
   [INFO]
   [INFO] ------------------------------------------------------------------------
@@ -44,7 +37,11 @@ ${project.name}
   [INFO]
   [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:list (default-cli) @ projectA ---
   [INFO]
-  [INFO] Starting goal :list with parameters: severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+  [INFO] --------------------------- start-parameters ---------------------------
+  [INFO]
+  [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+  [INFO]
+  [INFO] --------------------------------- list ---------------------------------
   [INFO]
   [INFO] -------------------------------------
   [INFO] [CRITICAL Version Clash]  com.google.guava:guava
@@ -54,47 +51,61 @@ ${project.name}
   [INFO]  project:projectB:jar:1.0.0 (compile)
   [INFO]   com.google.guava:guava:jar:14.0.1 (compile)
   [INFO]
+  [INFO] ------------------------------- summary -------------------------------
   [INFO]
-  [INFO] -------------------Start of Statistics-------------------
   [INFO] Number of Clashes with severity UNSAFE: 0
   [INFO] Number of Clashes with severity CRITICAL: 1
   [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
-  [INFO] --------------------End of Statistics--------------------
+  [INFO]
 +---+
 
   The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+
-  c:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:tree
-  [INFO] Scanning for projects...
-  [INFO]
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Building projectA 1.0.0
-  [INFO] ------------------------------------------------------------------------
-  [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:tree (default-cli) @ projectA ---
-  [INFO]
-  [INFO] Starting goal :tree with parameters: severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
-  [INFO]
-  [INFO] + project:projectB:jar:1.0.0 (compile)
-  [INFO] |  - com.google.guava:guava:jar:14.0.1 (compile)
-  [INFO] |	[CRITICAL Version Clash] Referred Version higher than used Version.
-  [INFO] | 	14.0.1 (highest) <- referred
-  [INFO] | 	13.0.1 (used) (lowest)
-  [INFO] - com.google.guava:guava:jar:13.0.1 (compile)
-  [INFO]   [SAFE Version Clash] Details:
-  [INFO]	14.0.1 (highest)
-  [INFO]	13.0.1 (used) (lowest) <- referred
-  [INFO]
-  [INFO] -------------------Start of Statistics-------------------
-  [INFO] Number of Clashes with severity UNSAFE: 0
-  [INFO] Number of Clashes with severity CRITICAL: 1
-  [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
-  [INFO] --------------------End of Statistics--------------------
+    C:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:tree
+      [INFO] Scanning for projects...
+      [INFO]
+      [INFO] ------------------------------------------------------------------------
+      [INFO] Building projectA 1.0.0
+      [INFO] ------------------------------------------------------------------------
+      [INFO]
+      [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:tree (default-cli) @ projectA ---
+      [INFO]
+      [INFO] --------------------------- start-parameters ---------------------------
+      [INFO]
+      [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+      [INFO]
+      [INFO] --------------------------------- tree ---------------------------------
+      [INFO]
+      [INFO] + project:projectB:jar:1.0.0 (compile)
+      [INFO] |  - com.google.guava:guava:jar:14.0.1 (compile)
+      [INFO] |    [CRITICAL Version Clash] Referred Version higher than used Version.
+      [INFO] |     14.0.1 (highest) <- referred
+      [INFO] |     13.0.1 (used) (lowest)
+      [INFO] - com.google.guava:guava:jar:13.0.1 (compile)
+      [INFO]   [SAFE Version Clash] Details:
+      [INFO]    14.0.1 (highest)
+      [INFO]    13.0.1 (used) (lowest) <- referred
+      [INFO]
+      [INFO] ------------------------------- summary -------------------------------
+      [INFO]
+      [INFO] Number of Clashes with severity UNSAFE: 0
+      [INFO] Number of Clashes with severity CRITICAL: 1
+      [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
+      [INFO]
 +---+
 
 
   General instructions how to use the ClashInspector Plugin can be found on the {{{./usage.html}usage}} page.
+
+* Goals Overview
+
+  The ClashInspector Plugin has the following goals:
+
+  * <<{{{./list-mojo.html}${project.artifactId}:list}} >> displays the dependencies with version clashes and a summary of the clashes.
+
+  * <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
+
 
 * Version Preview & History
 

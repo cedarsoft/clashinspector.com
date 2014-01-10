@@ -21,24 +21,28 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * [Definition of Phase Mojo]
  */
 //clashinspector
 //clashfinder
 @Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
 public class ClashPhaseMojo extends AbstractClashMojo {
 
-  @Parameter( alias = "failOnError", defaultValue = "true" )
-  private boolean failOnError;
+  @Parameter( alias = "failOnError", defaultValue = "true", property = "failOnError")
+  private String failOnError;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-
+    super.printStartParameter( "listPhase" , "failOnError = " +this.getFailOnError() );
 
     Artifact artifact;
     try {
+      this.getLog().info("");
+      this.getLog().info( "Starting goal :listPhase with parameters: " +  super.getStartParameter());
+      this.getLog().info("");
+
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 
@@ -50,7 +54,7 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
 
       consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
-      if ( this.failOnError && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity())>0 ) {
+      if ( this.getFailOnError() && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity())>0 ) {
         throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getSeverity() + " detected!!" );
 
 
@@ -63,6 +67,9 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
   }
 
+  public boolean getFailOnError(){
+    return Boolean.valueOf(failOnError);
+  }
 
 }
 

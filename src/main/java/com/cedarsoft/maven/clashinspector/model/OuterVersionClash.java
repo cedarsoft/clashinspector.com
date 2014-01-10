@@ -2,6 +2,7 @@ package com.cedarsoft.maven.clashinspector.model;
 
 import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 
+import javax.xml.transform.sax.SAXSource;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class OuterVersionClash {
           }
           break;
         case CRITICAL:
-          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.CRITICAL | clashSeverity == ClashSeverity.CRITICAL ) {
+          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.UNSAFE | clashSeverity == ClashSeverity.CRITICAL  ) {
             criticalList.add( innerVersionClash );
           }
           break;

@@ -21,10 +21,10 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * Displays the dependency tree for this project. The tree also shows version clashes.
+ *
+ * @since 0.3
  */
-
-//tree full tree simple
 @Mojo(name = "tree", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
 public class ClashTreeMojo extends AbstractClashMojo {
 
@@ -33,8 +33,10 @@ public class ClashTreeMojo extends AbstractClashMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     super.execute();
+    super.printStartParameter( "tree" );
 
     try {
+
       Artifact artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
       DependencyService dependencyService = new DependencyService();

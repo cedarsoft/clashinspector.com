@@ -1,0 +1,42 @@
+
+Version Clash
+
+  On this page we will give you a quick introduction about the Maven dependency mediation and
+  show you how we defined Maven dependency version clashes.
+
+  First of all it is important to know that Maven always uses the version of the closest dependency to your project in
+  the tree of dependencies and not necessarily the highest version! Maven defines this as the "nearest definition" which
+  is the only available dependency mediation since Maven 2.0.9. For details visit the official Maven page
+  {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}Introduction to the Dependency Mechanism}}.
+
+  Following examples will help you to understand how this dependency mediation can lead to <<<CRITICAL>>>, <<<UNSAFE>>> or <<<SAFE>>> conditions.
+
+* Example 1: Critical
+
+  Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
+  <<<subproject:1.0>>>. <<<subproject:1.0>>> has a dependency on <<<com.google.guava:guava:14.0.1>>>. As mentioned before, Maven will use the closest dependency in the tree
+  which is <<<com.google.guava:guava:13.0.1>>>, the lower version. In this case all changes from version <<<13.0.1>>> to <<<14.0.1>>> will  be lost.
+  It is understandable that if <<<subproject:1.0>>> is using a class or a method which only exists in version <<<14.0.1>>> it will lead to problems.
+  We call this a critical condition or a critical version clash.
+
+[../../src/main/resources/figure/CRITICAL.png] Critical
+
+
+* Example 2: Unsafe
+
+  Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<subproject:1.0>>> uses a lower version <<<13.0.1>>>.
+  We define this case as an unsafe condition or an unsafe version clash. Imagine <<<subproject:1.0>>> uses a deprecated class or method which was deleted from
+  version <<<13.0.1>>> to <<<14.0.1>>> it would also lead to problems.
+
+[../../src/main/resources/figure/UNSAFE.png] Unsafe
+
+
+* Example 3: Safe
+
+  We have a safe condition, if all versions of an artifact in the tree are the same.
+
+[../../src/main/resources/figure/SAFE.png] Safe
+
+===
+
+  For detailed information about version clashes visit {{{./version_clash_details.html}version clash details}}.

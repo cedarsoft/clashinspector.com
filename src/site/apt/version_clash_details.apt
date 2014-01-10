@@ -1,0 +1,54 @@
+
+Version Clash Details
+
+* Inner and Outer Version Clash
+
+  We define two kinds of version clashes in our Plugin.
+
+[../../src/main/resources/figure/Inner&OuterClashModel.png] Inner & Outer Clash Model
+
+
+* Multi-Version Clash
+
+[../../src/main/resources/figure/multiClash.png] Multi-Version Clash
+
+
+* Ablage
+
+  + Description
+
+
+
+  Option 1: If a project has a dependency type <<(groupId:artifactId)>> at least twice - irrespective of their versions -
+  a version clash appears for every associated dependency <<(groupId:artifactId:version)>>.
+
+  Option 2: If a project <<(groupId:artifactId)>> has a dependency on another project at least twice,
+  a version clash will be detected.
+
+  Following the version clash types:
+
+  //Typen vereinheitlichen fuer tree und list
+
+  * deps:tree
+
+      * <<SAFE VERSION CLASH:>> The referred dependency has the same version as the dependency which is used of Maven.
+
+      * <<UNSAFE VERSION CLASH:>> The referred dependency has a lower version than the dependency which is used of Maven.
+
+      * <<CRITICAL VERSION CLASH:>>  The referred dependency has a higher version than the dependency which is used of Maven.
+
+  * deps:list
+
+    * Inner Version Clash Type
+
+      * <<SAFE:>> The referred dependency has the same version as the dependency which is used of Maven.
+
+      * <<UNSAFE:>> The referred dependency has a lower version than the dependency which is used of Maven.
+
+      * <<CRITICAL:>>  The referred dependency has a higher version than the dependency which is used of Maven.
+
+    * Outter Version Clash Type
+
+      * <<UNSAFE VERSION CLASH:>> At least one dependency of the dependency type is <<<UNSAFE>>>.
+
+      * <<CRITICAL VERSION CLASH:>> At least one dependency of the dependency type is <<<CRITICAL>>>.

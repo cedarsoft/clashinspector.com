@@ -35,21 +35,46 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
   private List<RemoteRepository> remoteRepos;
 
-
   @Parameter( defaultValue = "${project}", readonly = true, required = true )
   private MavenProject project;
 
-  @Parameter( alias = "includedScopes" )
+  //TODO parameterübergabe per console geht nicht (beispiel severity)
+  //TODO (how) is it possible to add multiple scopes via console?
+  /**
+   * Defines the included dependency scopes.
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "includedScopes", defaultValue = "compile")
   private String[] includedScopes;
 
-  @Parameter( alias = "excludedScopes" )
+  /**
+   * Defines the excluded dependency scopes.
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "excludedScopes", defaultValue = "null" )
   private String[] excludedScopes;
 
-  @Parameter( alias = "includeOptional", defaultValue = "false" )
-  private boolean includeOptional;
+  /**
+   * Defines if optional dependencies will be included.
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "includeOptional", defaultValue = "false", property = "includeOptional")
+  private String includeOptional;
 
-  @Parameter( alias = "severity", defaultValue = "SAFE" )
-  private ClashSeverity severity;
+  /**
+   * <p>Defines which version clashes will be displayed depending on their severity.</p>
+   * <p/>
+   * <li><b>SAFE</b>: Displays <code>SAFE</code>, <code>UNSAFE</code> and <code>CRITICAL</code> version clashes.</li>
+   * <li><b>UNSAFE</b>: Displays <code>UNSAFE</code> and <code>CRITICAL</code> version clashes.</li>
+   * <li><b>CRITICAL</b>: Displays only <code>CRITICAL</code> version clashes.</li>
+   *
+   * @since 0.3
+   */
+  @Parameter( alias = "severity", defaultValue = "UNSAFE", property = "severity")
+  private String severity;
 
   private final List<String> includedScopesList = new ArrayList<String>();
   private final List<String> excludedScopesList = new ArrayList<String>();
@@ -89,11 +114,11 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
   public boolean isIncludeOptional() {
-    return includeOptional;
+    return Boolean.valueOf(includeOptional);
   }
 
   public ClashSeverity getSeverity() {
-    return severity;
+    return ClashSeverity.valueOf(severity);
   }
 
   public List<String> getIncludedScopesList() {
@@ -104,6 +129,44 @@ public abstract class AbstractClashMojo extends AbstractMojo {
     return excludedScopesList;
   }
 
+
+  public String getStartParameter()
+  {
+    String includedOptionalStr = "includeOptional = " + this.isIncludeOptional();
+    String severityStr = "severity = " + this.getSeverity();
+    String includedScopesStr="includedScopes =";
+
+    for(String s: this.getIncludedScopesList())
+    {
+      includedScopesStr = includedScopesStr + " "+ s;
+    }
+
+    String excludedScopesStr="excludedScopes =";
+
+    for(String s: this.getExcludedScopesList())
+    {
+      excludedScopesStr = excludedScopesStr + " "+ s;
+    }
+
+    return severityStr + " | " + includedScopesStr+ " | "+ excludedScopesStr+" | "+ includedOptionalStr;
+
+  }
+
+     public void printStartParameter(String goalName,String additionalParameters)
+     {
+       this.getLog().info("");
+       this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter() + " | " + additionalParameters);
+       this.getLog().info("");
+
+     }
+
+  public void printStartParameter(String goalName)
+  {
+    this.getLog().info("");
+    this.getLog().info( "Starting goal :"+goalName+" with parameters: " +  this.getStartParameter());
+    this.getLog().info("");
+
+  }
 
 }
 

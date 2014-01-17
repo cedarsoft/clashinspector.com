@@ -5,7 +5,7 @@ Usage
 
   Every goal-execution starts with a <start-parameters>-section followed by the specific goal-section and finished with a <summary>-section.
 
-* Command Line Sections
+* Introduction: Command Line Output
 
 ** <start-parameters> - section
 
@@ -53,7 +53,7 @@ Usage
   []
 
 +---+
-  C:\maven-director>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3-SNAPSHOT
   [INFO] ------------------------------------------------------------------------
@@ -184,7 +184,7 @@ Usage
   all available versions of a dependency in this project.
 
 +---+
-  C:\maven-director>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3-SNAPSHOT
   [INFO] ------------------------------------------------------------------------

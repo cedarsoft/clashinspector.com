@@ -15,7 +15,10 @@ Usage
   [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
 +---+
 
-   Every goal is executed with several start-parameters: <<<severity>>>, <<<includedScopes>>>, <<<excludedScopes>>> and <<<includeOptional>>>. Additional parameters for a specific goal are explained at the appropriate goal-explanation. If you're not initializing the parameters explicitly, pre-defined values (Default-Values) will be used. (<<<severity>>>=<<<unsafe>>>, <<<includedScopes>>>=<<<compile>>>, <<<includeOptional>>>=<<<false>>>)
+   Every goal is executed with several start-parameters: <<<severity>>>, <<<includedScopes>>>, <<<excludedScopes>>>
+   and <<<includeOptional>>>. Additional parameters for a specific goal are explained at the appropriate goal-explanation.
+   If you're not initializing the parameters explicitly, pre-defined values (Default-Values) will be used. (<<<severity>>>=<<<unsafe>>>,
+   <<<includedScopes>>>=<<<compile>>>, <<<includeOptional>>>=<<<false>>>)
 
 ** <goal> - section
 
@@ -53,7 +56,7 @@ Usage
   []
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentVersion}:list
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3-SNAPSHOT
   [INFO] ------------------------------------------------------------------------
@@ -179,12 +182,13 @@ Usage
                                               | associated
 *---------------------------------------------+------------------------------------------------------+
 
-  The tree shows the dependencies - enriched with their scopes (e.g. compile, test) - in the appropriate depth. The order of the dependencies is based on the pom.xml of the root project.
+  The tree shows the dependencies - enriched with their scopes (e.g. compile, test) - in the appropriate depth. The order of the dependencies
+  is based on the pom.xml of the root project.
   If a dependency has a version clash, details about the clash will be displayed under the dependency. It shows the version clash type and
   all available versions of a dependency in this project.
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentVersion}:tree
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3-SNAPSHOT
   [INFO] ------------------------------------------------------------------------

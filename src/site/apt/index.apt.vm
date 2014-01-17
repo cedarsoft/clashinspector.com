@@ -1,8 +1,8 @@
 
-${project.name}
+Maven ${project.name} Plugin
 
-  The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
-
+  The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.\
+  Download {{{./download.html}here}}.
 
 * Version Clash
 

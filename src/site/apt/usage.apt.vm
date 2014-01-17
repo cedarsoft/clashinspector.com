@@ -15,7 +15,7 @@ Usage
   [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
 +---+
 
-   Every goal is executed with several start-parameters: severity, includedScopes, excludedScopes and includeOptional. Additional parameters for a specific goal are explained at the appropriate goal-explanation. If you're not initialize the parameters explicitly, pre-defined values (Default-Values) will be used. (severity=unsafe, includedScopes=compile, includeOptional=false)
+   Every goal is executed with several start-parameters: <<<severity>>>, <<<includedScopes>>>, <<<excludedScopes>>> and <<<includeOptional>>>. Additional parameters for a specific goal are explained at the appropriate goal-explanation. If you're not initializing the parameters explicitly, pre-defined values (Default-Values) will be used. (<<<severity>>>=<<<unsafe>>>, <<<includedScopes>>>=<<<compile>>>, <<<includeOptional>>>=<<<false>>>)
 
 ** <goal> - section
 
@@ -46,9 +46,9 @@ Usage
 
   For every single version clash there will be displayed
 
-  [[1]] a quick information about the version clash (surrounded by horizontal lines) and
+  [[1]] quick information about the version clash (surrounded by horizontal lines) and
 
-  [[2]] a detailed information about every single dependency which is involved in the version clash.
+  [[2]] detailed information about every single dependency which is involved in the version clash.
 
   []
 

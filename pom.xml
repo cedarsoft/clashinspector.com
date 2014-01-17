@@ -10,6 +10,7 @@
   <packaging>maven-plugin</packaging>
   <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
+  <inceptionYear>2014</inceptionYear>
 
   <organization>
     <name>Hochschule Reutlingen</name>
@@ -59,8 +60,6 @@
     <url>https://github.com/cedarsoft/maven-director/issues</url>
   </issueManagement>
 
-  <inceptionYear>2013</inceptionYear>
-
 
   <prerequisites>
     <maven>3.1.1</maven>
@@ -68,6 +67,7 @@
 
   <properties>
     <aetherVersion>0.9.0.M3</aetherVersion>
+    <currentVersion>0.3</currentVersion>
   </properties>
 
   <dependencies>

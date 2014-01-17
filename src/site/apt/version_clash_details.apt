@@ -1,54 +1,68 @@
 
 Version Clash Details
 
+  This chapter gives you more details about our definition of version clashes.
+
+* Example 4: Multiple Version Clashes
+
+[../../src/site/resources/images/multipleClash.png] Multi-Version Clash
+
+  \
+  The figure above shows the dependencies of the project <<<testproject:1.0>>>. This project and its dependencies
+  refers to several versions of <<<com.google.guava:guava>>>.
+  Maven uses <<<com.google.guava:guava:13.0.1>>> (directly located in <<<testproject:1.0>>>), because of the {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}"nearest definition"}}-approach.
+  This situation leeds us to define two different version clashes:
+  {{{Inner Version Clashes}<Inner Version Clashes>}} and {{{Outer Version Clashes}<Outer Version Clashes>}}.
+
 * Inner and Outer Version Clash
 
-  We define two kinds of version clashes in our Plugin.
+** Inner Version Clashes
 
-[../../src/main/resources/figure/Inner&OuterClashModel.png] Inner & Outer Clash Model
+  If a project <<(groupId:artifactId)>> has a dependency on another project at least twice,
+  a <Inner Version Clash> will be detected. A <Inner Version Clash> could be also seen as the relationship to the used version. There are three different types of <Inner Version Clashes>:
 
+  * <<SAFE:>> The referred dependency has the same version as the dependency which is used by Maven.
 
-* Multi-Version Clash
+  * <<UNSAFE:>> The referred dependency has a lower version than the dependency which is used by Maven.
 
-[../../src/main/resources/figure/multiClash.png] Multi-Version Clash
+  * <<CRITICAL:>> The referred dependency has a higher version than the dependency which is used by Maven.
 
+  []
 
-* Ablage
+  In {{{Example 4: Multiple Version Clashes}Example 4}} three <Inner Version Clashes> appear for the <<<com.google.guava:guava>>>-project.
 
-  + Description
+  * <<SAFE:>>\
+    The dependency <<<dependency4:1.0>>> -> <<<com.google.guava:guava:13.0.1>>> is <<<SAFE>>> because its
+    version equals to the version which is used by Maven.
 
+  []
 
+  * <<UNSAFE:>>\
+    The dependency <<<dependency2:1.0>>> -> <<<dependency3:1.0>>> -> <<<com.google.guava:guava:12>>> is <<<UNSAFE>>> because its
+    version is higher than the version which is used by Maven.
 
-  Option 1: If a project has a dependency type <<(groupId:artifactId)>> at least twice - irrespective of their versions -
-  a version clash appears for every associated dependency <<(groupId:artifactId:version)>>.
+  []
 
-  Option 2: If a project <<(groupId:artifactId)>> has a dependency on another project at least twice,
-  a version clash will be detected.
+  * <<CRITICAL:>>\
+    The dependency <<<dependency:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>> because its
+    version is lower than the version which is used by Maven.
 
-  Following the version clash types:
+  []
 
-  //Typen vereinheitlichen fuer tree und list
+** Outer Version Clashes
 
-  * deps:tree
+  If there is at least one <<<UNSAFE>>> or <<<CRITICAL>>> <Inner Version Clash> in a project, we define an <Outer Version Clash>.
+  There are two different types of <Outer Version Clashes>:
 
-      * <<SAFE VERSION CLASH:>> The referred dependency has the same version as the dependency which is used of Maven.
+  * <<UNSAFE:>> At least one <Inner Version Clash> is <<<UNSAFE>>>.
 
-      * <<UNSAFE VERSION CLASH:>> The referred dependency has a lower version than the dependency which is used of Maven.
+  * <<CRITICAL:>> At least one <Inner Version Clash> is <<<CRITICAL>>>.
 
-      * <<CRITICAL VERSION CLASH:>>  The referred dependency has a higher version than the dependency which is used of Maven.
+  []
 
-  * deps:list
+  In {{{Example 4: Multiple Version Clashes}Example 4}} a <<<CRITICAL>>> <Outer Version Clash>
+  appears because <<<dependency:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>>.
 
-    * Inner Version Clash Type
+  The following figure illustrates the version clash types.
 
-      * <<SAFE:>> The referred dependency has the same version as the dependency which is used of Maven.
-
-      * <<UNSAFE:>> The referred dependency has a lower version than the dependency which is used of Maven.
-
-      * <<CRITICAL:>>  The referred dependency has a higher version than the dependency which is used of Maven.
-
-    * Outter Version Clash Type
-
-      * <<UNSAFE VERSION CLASH:>> At least one dependency of the dependency type is <<<UNSAFE>>>.
-
-      * <<CRITICAL VERSION CLASH:>> At least one dependency of the dependency type is <<<CRITICAL>>>.
+[../../src/site/resources/images/Inner&OuterClashModel.png] Inner & Outer Clash Model

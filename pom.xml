@@ -5,10 +5,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cedarsoft.maven</groupId>
-  <artifactId>deps-maven-plugin</artifactId>
+  <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>Maven Deps Plugin</name>
+  <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
 
   <organization>
@@ -17,8 +17,34 @@
   </organization>
 
 
-
   <developers>
+    <developer>
+      <name>
+        Michael Behr
+      </name>
+      <email>Michael.Behr@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Martin Kampa
+      </name>
+      <email>Martin.Kampa@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Huina Zhu
+      </name>
+      <email>Huina.Zhu@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Johannes Schneider
+
+      </name>
+      <organization>cedarsoft</organization>
+      <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
+      <email>info@cedarsoft.de</email>
+    </developer>
     <!--TODO add developers-->
   </developers>
 
@@ -28,8 +54,6 @@
   </issueManagement>
 
   <inceptionYear>2013</inceptionYear>
-
-
 
 
   <prerequisites>
@@ -118,6 +142,9 @@
 
   <build>
     <plugins>
+
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -168,10 +195,64 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+          <reports>
+            <report>dependencies</report>
+            <report>project-team</report>
+            <report>license</report>
+          </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <!--plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.2</version>
       </plugin>
     </plugins>
   </reporting>
+  <!--reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+      </plugin>
+    </plugins>
+  </reporting-->
 
+  <distributionManagement>
+    <!--repository>
+      <id>clashinspector.repo</id>
+      <name>MyCo Internal Repository</name>
+      <url>http://clashinspector.com/</url>
+    </repository-->
+    <site>
+      <id>clashinspector.repo</id>
+      <name>ClashInspector Repository</name>
+      <url>http://clashinspector.com/</url>
+    </site>
+  </distributionManagement>
 </project>

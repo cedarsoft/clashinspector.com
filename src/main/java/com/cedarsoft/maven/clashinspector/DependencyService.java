@@ -79,11 +79,12 @@ public class DependencyService {
       collectResult = repoSystem.collectDependencies( session, collectRequest );
     } catch ( DependencyCollectionException e ) {
 
+
       collectResult = e.getResult();
 
     }
 
-
+            //System.out.println("Errrrors: "+ collectResult.getExceptions().size());
     //Fill list of versions for every dependency
     //Über alle depependency nodes iterieren und  map mit key und version erstellen
 

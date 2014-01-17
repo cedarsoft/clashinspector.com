@@ -56,12 +56,12 @@ Usage
   []
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentVersion}:list
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
   [INFO] ------------------------------------------------------------------------
-  [INFO] Building ClashInspector 0.3-SNAPSHOT
+  [INFO] Building ClashInspector 0.3
   [INFO] ------------------------------------------------------------------------
   [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:list (default-cli) @ clashinspector-maven-plugin ---
+  [INFO] --- clashinspector-maven-plugin:0.3:list (default-cli) @ clashinspector-maven-plugin ---
   [INFO]
   [INFO] --------------------------- start-parameters ---------------------------
   [INFO]
@@ -188,12 +188,12 @@ Usage
   all available versions of a dependency in this project.
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentVersion}:tree
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
   [INFO] ------------------------------------------------------------------------
-  [INFO] Building ClashInspector 0.3-SNAPSHOT
+  [INFO] Building ClashInspector 0.3
   [INFO] ------------------------------------------------------------------------
   [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:tree (default-cli) @ clashinspector-maven-plugin ---
+  [INFO] --- clashinspector-maven-plugin:0.3:tree (default-cli) @ clashinspector-maven-plugin ---
   [INFO]
   [INFO] --------------------------- start-parameters ---------------------------
   [INFO]

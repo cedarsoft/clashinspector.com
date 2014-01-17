@@ -67,7 +67,6 @@
 
   <properties>
     <aetherVersion>0.9.0.M3</aetherVersion>
-    <currentVersion>0.3</currentVersion>
   </properties>
 
   <dependencies>

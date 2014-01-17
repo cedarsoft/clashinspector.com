@@ -231,15 +231,20 @@
   </reporting-->
 
   <distributionManagement>
-    <!--repository>
-      <id>clashinspector.repo</id>
-      <name>MyCo Internal Repository</name>
-      <url>http://clashinspector.com/</url>
-    </repository-->
+    <snapshotRepository>
+      <id>clashinspectorSnapshot</id>
+      <name>OSS Sonatype Snapshot</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>clashinspectorRepo</id>
+      <name>OSS Sonatype Release</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <site>
-      <id>clashinspector.site</id>
-      <name>ClashInspector Repository</name>
-      <url>http://clashinspector.com/</url>
+      <id>clashinspectorWeb</id>
+      <name>ClashInspector Web</name>
+      <url>scpexe://clashinspector.com/var/www/clashinspector.com</url>
     </site>
   </distributionManagement>
 </project>

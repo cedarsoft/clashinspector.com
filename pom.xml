@@ -4,7 +4,7 @@
 
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cedarsoft.maven</groupId>
+  <groupId>com.clashinspector</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
   <version>0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
@@ -16,6 +16,13 @@
     <url>http://www.reutlingen-university.de/</url>
   </organization>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <developers>
     <developer>
@@ -39,9 +46,8 @@
     <developer>
       <name>
         Johannes Schneider
-
       </name>
-      <organization>cedarsoft</organization>
+      <organization>cedarsoft GmbH</organization>
       <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
       <email>info@cedarsoft.de</email>
     </developer>
@@ -168,26 +174,7 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>com.cedarsoft</groupId>
-        <artifactId>osgi-validator-maven-plugin</artifactId>
-        <configuration>
-          <skippedFiles>
-            <file>**/HelpMojo.java</file>
-          </skippedFiles>
-          <prohibitedPackages>
-            <package>.internal.</package>
-          </prohibitedPackages>
-          <packagePartsToSkip>
-            <skip>common</skip>
-            <skip>commons</skip>
-            <skip>test</skip>
-            <skip>tests</skip>
-            <skip>maven</skip>
-            <skip>plugin</skip>
-          </packagePartsToSkip>
-        </configuration>
-      </plugin>
+
 
     </plugins>
   </build>
@@ -250,7 +237,7 @@
       <url>http://clashinspector.com/</url>
     </repository-->
     <site>
-      <id>clashinspector.repo</id>
+      <id>clashinspector.site</id>
       <name>ClashInspector Repository</name>
       <url>http://clashinspector.com/</url>
     </site>

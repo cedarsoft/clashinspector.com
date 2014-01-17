@@ -17,17 +17,17 @@ Version Clash
 
   \
   Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
-  <<<subproject:1.0>>>. <<<subproject:1.0>>> has a dependency on <<<com.google.guava:guava:14.0.1>>>. As mentioned before, Maven will use the closest dependency in the tree
+  <<<dependency:1.0>>>. <<<dependency:1.0>>> has a dependency on <<<com.google.guava:guava:14.0.1>>>. As mentioned before, Maven will use the closest dependency in the tree
   which is <<<com.google.guava:guava:13.0.1>>>, the lower version. In this case all changes from version <<<13.0.1>>> to <<<14.0.1>>> will  be lost.
-  If <<<subproject:1.0>>> is using a class or a method which only exists in version <<<14.0.1>>> there will be problems. We call this a critical condition or a critical version clash.
+  If <<<dependency:1.0>>> is using a class or a method which only exists in version <<<14.0.1>>> there will be problems. We call this a critical condition or a critical version clash.
 
 * Example 2: Unsafe
 
 [../../src/site/resources/images/UNSAFE.png] Unsafe
 
   \
-  Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<subproject:1.0>>> uses a lower version <<<13.0.1>>>.
-  We define this case as an unsafe condition or an unsafe version clash. Imagine <<<subproject:1.0>>> uses a deprecated class or method which was deleted from
+  Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<dependency:1.0>>> uses a lower version <<<13.0.1>>>.
+  We define this case as an unsafe condition or an unsafe version clash. Imagine <<<dependency:1.0>>> uses a deprecated class or method which was deleted from
   version <<<13.0.1>>> to <<<14.0.1>>> it would also lead to problems.
 
 

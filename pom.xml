@@ -242,4 +242,17 @@
       </plugin>
     </plugins>
   </reporting-->
+
+  <distributionManagement>
+    <!--repository>
+      <id>clashinspector.repo</id>
+      <name>MyCo Internal Repository</name>
+      <url>http://clashinspector.com/</url>
+    </repository-->
+    <site>
+      <id>clashinspector.repo</id>
+      <name>ClashInspector Repository</name>
+      <url>http://clashinspector.com/</url>
+    </site>
+  </distributionManagement>
 </project>

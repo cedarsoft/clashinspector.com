@@ -17,7 +17,7 @@ ${project.name}
   release 14 brought up some significant API changes.
   One of it is: <<"The static methods in Equivalences have been moved into Equivalence.">>
 
-  Assume a project <<ProjectA>> uses <<<com.google.guava:guava:13.0.1>>> and its subproject <<ProjectB>> uses
+  Assume a project <<ProjectA>> uses <<<com.google.guava:guava:13.0.1>>> and its dependency <<ProjectB>> uses
   <<<com.google.guava:guava:14.0.1>>>. Because of the {{{./version_clash.html}nearest definiton}} Maven will use
   version <<<13.0.1>>> for the whole project. This leeds to the critical condition that <<ProjectB>> is not able anymore
   to call the methods in <<<Equivalence>>> which has been moved from <<<Equivalences>>>.
@@ -28,7 +28,7 @@ ${project.name}
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
-  C:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:list
+  C:\project_A>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
   [INFO] Scanning for projects...
   [INFO]
   [INFO] ------------------------------------------------------------------------
@@ -62,7 +62,7 @@ ${project.name}
   The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+
-    C:\project_A>mvn com.cedarsoft.maven:clashinspector-maven-plugin:0.3-SNAPSHOT:tree
+    C:\project_A>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
       [INFO] Scanning for projects...
       [INFO]
       [INFO] ------------------------------------------------------------------------

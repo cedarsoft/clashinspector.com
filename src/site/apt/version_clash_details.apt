@@ -32,19 +32,19 @@ Version Clash Details
   In {{{Example 4: Multiple Version Clashes}Example 4}} three <Inner Version Clashes> appear for the <<<com.google.guava:guava>>>-project.
 
   * <<SAFE:>>\
-    The dependency <<<subproject4:1.0>>> -> <<<com.google.guava:guava:13.0.1>>> is <<<SAFE>>> because its
+    The dependency <<<dependency4:1.0>>> -> <<<com.google.guava:guava:13.0.1>>> is <<<SAFE>>> because its
     version equals to the version which is used by Maven.
 
   []
 
   * <<UNSAFE:>>\
-    The dependency <<<subproject2:1.0>>> -> <<<subproject3:1.0>>> -> <<<com.google.guava:guava:12>>> is <<<UNSAFE>>> because its
+    The dependency <<<dependency2:1.0>>> -> <<<dependency3:1.0>>> -> <<<com.google.guava:guava:12>>> is <<<UNSAFE>>> because its
     version is higher than the version which is used by Maven.
 
   []
 
   * <<CRITICAL:>>\
-    The dependency <<<subproject:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>> because its
+    The dependency <<<dependency:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>> because its
     version is lower than the version which is used by Maven.
 
   []
@@ -54,14 +54,14 @@ Version Clash Details
   If there is at least one <<<UNSAFE>>> or <<<CRITICAL>>> <Inner Version Clash> in a project, we define an <Outer Version Clash>.
   There are two different types of <Outer Version Clashes>:
 
-  * <<UNSAFE:>> At least one Inner Version Clash is <<<UNSAFE>>>.
+  * <<UNSAFE:>> At least one <Inner Version Clash> is <<<UNSAFE>>>.
 
-  * <<CRITICAL:>> At least one Inner Version Clash is <<<CRITICAL>>>.
+  * <<CRITICAL:>> At least one <Inner Version Clash> is <<<CRITICAL>>>.
 
   []
 
   In {{{Example 4: Multiple Version Clashes}Example 4}} a <<<CRITICAL>>> <Outer Version Clash>
-  appears because <<<subproject:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>>.
+  appears because <<<dependency:1.0>>> -> <<<com.google.guava:guava:14.0.1>>> is <<<CRITICAL>>>.
 
   The following figure illustrates the version clash types.
 

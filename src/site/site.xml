@@ -15,7 +15,14 @@
     <href>http://www.reutlingen-university.de/</href>
   </bannerRight>
 
+  <publishDate position="left"/>
+  <version position="left"/>
+
   <body>
+    <links>
+      <item  name="Impressum" href="impressum.html"/>
+    </links>
+
     <menu name="Overview">
       <item name="Introduction" href="index.html" />
       <item name="Goals" href="plugin-info.html" />

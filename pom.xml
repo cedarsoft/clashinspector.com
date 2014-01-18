@@ -52,8 +52,14 @@
       <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
       <email>info@cedarsoft.de</email>
     </developer>
-    <!--TODO add developers-->
   </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/cedarsoft/clashinspector.com.git</connection>
+    <developerConnection>scm:git:git@github.com:cedarsoft/clashinspector.com.git</developerConnection>
+    <url>https://github.com/jschneider/com.cedarsoft.open</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <issueManagement>
     <system>GitHub</system>

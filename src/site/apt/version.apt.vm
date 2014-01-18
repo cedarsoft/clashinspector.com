@@ -1,0 +1,8 @@
+
+Version Preview & History
+
+  Release 0.3:
+
+  - <<{{{./list-mojo.html}${project.artifactId}:list}} >> goal added
+
+  - <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> goal added

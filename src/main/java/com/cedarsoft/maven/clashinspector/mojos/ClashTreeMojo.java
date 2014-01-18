@@ -1,11 +1,19 @@
 package com.cedarsoft.maven.clashinspector.mojos;
 
 /**
- * Created with IntelliJ IDEA.
- * User: m
- * Date: 25.10.13
- * Time: 20:26
- * To change this template use File | Settings | File Templates.
+ * Copyright 2014 Behr Michael, Kampa Martin, Schneider Johannes, Zhu Huina
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 
@@ -21,10 +29,10 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * Displays the dependency tree for this project. The tree also shows version clashes.
+ *
+ * @since 0.3
  */
-
-//tree full tree simple
 @Mojo(name = "tree", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
 public class ClashTreeMojo extends AbstractClashMojo {
 
@@ -33,15 +41,17 @@ public class ClashTreeMojo extends AbstractClashMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     super.execute();
+    super.printStartParameter( "tree" );
 
     try {
+
       Artifact artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
       DependencyService dependencyService = new DependencyService();
       Visualizer consoleVisualizer = new ConsoleVisualizer();
 
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
-      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
     } catch ( IllegalArgumentException e ) {
       throw new MojoFailureException( e.getMessage(), e );
     }

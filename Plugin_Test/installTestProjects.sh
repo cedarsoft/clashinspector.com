@@ -14,7 +14,7 @@ function failed {
 function inner {
   cd $1
 
-  files=(Testprojekt*)
+  files=(testproject*)
   for ((i=${#files[@]}-1; i>=0; i--));
   do
     dir=${files[$i]}
@@ -35,7 +35,7 @@ localRepo=$1
 echo "Using local repository: <$localRepo>"
 
 
-for f in ./Testprojekt*
+for f in ./testproject*
 do
   echo "Installing <$f>"
   inner $f

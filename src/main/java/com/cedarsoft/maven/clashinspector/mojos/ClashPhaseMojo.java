@@ -1,11 +1,19 @@
 package com.cedarsoft.maven.clashinspector.mojos;
 
 /**
- * Created with IntelliJ IDEA.
- * User: m
- * Date: 25.10.13
- * Time: 20:26
- * To change this template use File | Settings | File Templates.
+ * Copyright 2014 Behr Michael, Kampa Martin, Schneider Johannes, Zhu Huina
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 
@@ -21,24 +29,28 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
 /**
- * Get all Dependencies of the project
+ * [Definition of Phase Mojo]
  */
 //clashinspector
 //clashfinder
 @Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
 public class ClashPhaseMojo extends AbstractClashMojo {
 
-  @Parameter( alias = "failOnError", defaultValue = "true" )
-  private boolean failOnError;
+  @Parameter( alias = "failOnError", defaultValue = "true", property = "failOnError")
+  private String failOnError;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-
+    super.printStartParameter( "listPhase" , "failOnError = " +this.getFailOnError() );
 
     Artifact artifact;
     try {
+      this.getLog().info("");
+      this.getLog().info( "Starting goal :listPhase with parameters: " +  super.getStartParameter());
+      this.getLog().info("");
+
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 
@@ -49,9 +61,9 @@ public class ClashPhaseMojo extends AbstractClashMojo {
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
 
 
-      consoleVisualizer.visualize( clashCollectResultWrapper, this.getClashDetectionLevel(), this );
-      if ( this.failOnError ) {
-        throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getClashDetectionLevel() + " detected!!" );
+      consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
+      if ( this.getFailOnError() && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity())>0 ) {
+        throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getSeverity() + " detected!!" );
 
 
       }
@@ -63,6 +75,9 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
   }
 
+  public boolean getFailOnError(){
+    return Boolean.valueOf(failOnError);
+  }
 
 }
 

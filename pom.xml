@@ -1,26 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <groupId>com.cedarsoft</groupId>
-    <artifactId>open</artifactId>
-    <version>60</version>
-  </parent>
+
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cedarsoft.maven</groupId>
+  <groupId>com.clashinspector</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>Clashinspector Plugin</name>
+  <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
+  <inceptionYear>2014</inceptionYear>
 
   <organization>
     <name>Hochschule Reutlingen</name>
     <url>http://www.reutlingen-university.de/</url>
   </organization>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <developers>
+    <developer>
+      <name>
+        Michael Behr
+      </name>
+      <email>Michael.Behr@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Martin Kampa
+      </name>
+      <email>Martin.Kampa@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Huina Zhu
+      </name>
+      <email>Huina.Zhu@student.reutlingen-university.de</email>
+    </developer>
+    <developer>
+      <name>
+        Johannes Schneider
+      </name>
+      <organization>cedarsoft GmbH</organization>
+      <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
+      <email>info@cedarsoft.de</email>
+    </developer>
     <!--TODO add developers-->
   </developers>
 
@@ -29,7 +60,6 @@
     <url>https://github.com/cedarsoft/maven-director/issues</url>
   </issueManagement>
 
-  <inceptionYear>2013</inceptionYear>
 
   <prerequisites>
     <maven>3.1.1</maven>
@@ -43,6 +73,7 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <version>2.0.2</version>
     </dependency>
 
     <dependency>
@@ -67,6 +98,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <version>15.0</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.aether</groupId>
@@ -84,6 +116,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
 
@@ -114,10 +147,13 @@
 
   <build>
     <plugins>
+
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.2</version>
         <configuration>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
@@ -137,41 +173,77 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>com.cedarsoft</groupId>
-        <artifactId>osgi-validator-maven-plugin</artifactId>
-        <configuration>
-          <skippedFiles>
-            <file>**/HelpMojo.java</file>
-          </skippedFiles>
-          <prohibitedPackages>
-            <package>.internal.</package>
-          </prohibitedPackages>
-          <packagePartsToSkip>
-            <skip>common</skip>
-            <skip>commons</skip>
-            <skip>test</skip>
-            <skip>tests</skip>
-            <skip>maven</skip>
-            <skip>plugin</skip>
-          </packagePartsToSkip>
-        </configuration>
-      </plugin>
 
-
-      <plugin>
-        <groupId>com.cedarsoft.maven</groupId>
-        <artifactId>clashinspector-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <severity>SAFE</severity>
-          <includeOptional>false</includeOptional>
-          <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
 
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+          <reports>
+            <report>dependencies</report>
+            <report>project-team</report>
+            <report>license</report>
+          </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <!--plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  <!--reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+      </plugin>
+    </plugins>
+  </reporting-->
 
-
+  <distributionManagement>
+    <snapshotRepository>
+      <id>clashinspectorSnapshot</id>
+      <name>OSS Sonatype Snapshot</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>clashinspectorRepo</id>
+      <name>OSS Sonatype Release</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <site>
+      <id>clashinspectorWeb</id>
+      <name>ClashInspector Web</name>
+      <url>scpexe://clashinspector.com/var/www/clashinspector.com</url>
+    </site>
+  </distributionManagement>
 </project>

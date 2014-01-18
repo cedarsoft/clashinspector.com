@@ -8,16 +8,25 @@ import com.cedarsoft.maven.clashinspector.mojos.ClashListMojo;
 import com.cedarsoft.maven.clashinspector.mojos.ClashPhaseMojo;
 import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
 import com.cedarsoft.maven.clashinspector.mojos.ClashTreeMojo;
+import com.cedarsoft.maven.clashinspector.visualize.util.ConsoleVisualizeHelper;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.version.Version;
 
 /**
- * Created with IntelliJ IDEA.
- * User: m
- * Date: 01.11.13
- * Time: 12:05
- * To change this template use File | Settings | File Templates.
+ * Copyright 2014 Behr Michael, Kampa Martin, Schneider Johannes, Zhu Huina
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 public class ConsoleVisualizer implements Visualizer {
 
@@ -25,6 +34,15 @@ public class ConsoleVisualizer implements Visualizer {
   private ClashSeverity clashSeverity;
 
   private void printFullTree( DependencyNodeWrapper dependencyNodeWrapper, int depth ) {
+
+
+    if(depth==0)
+    {
+
+      log.info( ConsoleVisualizeHelper.createSectionHeader( " tree " , ConsoleVisualizeHelper.LogLevel.INFO));
+      log.info("");
+    }
+
 
 
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
@@ -107,7 +125,9 @@ public class ConsoleVisualizer implements Visualizer {
 
 
       this.printFullTree( dNW, depth + 1 );
+
     }
+
   }
 
 
@@ -133,6 +153,8 @@ public class ConsoleVisualizer implements Visualizer {
   private void printList( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {
 
 
+    log.info( ConsoleVisualizeHelper.createSectionHeader( " list " , ConsoleVisualizeHelper.LogLevel.INFO));
+    log.info("");
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
@@ -154,7 +176,10 @@ public class ConsoleVisualizer implements Visualizer {
   }
 
 
-  public void printStatistic( ClashCollectResultWrapper clashCollectResultWrapper ) {
+
+
+
+  public void printSummary( ClashCollectResultWrapper clashCollectResultWrapper ) {
    /* log.info( "" );
     log.info( "Statistical information:" );
     log.info( "Number of Clashes with severity SAFE: " + clashCollectResultWrapper.getNumberOfOuterClashes( ClashSeverity.SAFE ) );
@@ -170,8 +195,9 @@ public class ConsoleVisualizer implements Visualizer {
 
 
     }  */
-    log.info( "" );
-    log.info( "-------------------Start of Statistics-------------------" );
+
+    log.info( ConsoleVisualizeHelper.createSectionHeader( " summary ", ConsoleVisualizeHelper.LogLevel.INFO));
+    log.info("");
     log.info( "Number of Clashes with severity UNSAFE: " + clashCollectResultWrapper.getNumberOfOuterClashes( ClashSeverity.UNSAFE ) );
 
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
@@ -190,30 +216,59 @@ public class ConsoleVisualizer implements Visualizer {
         log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
-    log.info( "-------------------End of Statistics-------------------" );
+    log.info("");
   }
+
+  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ,String errorMessage) {
+
+
+    if(clashCollectResultWrapper.getExceptions().size()>0)
+    {
+      log.info("");
+      log.info( ConsoleVisualizeHelper.createSectionHeader( " error information " , ConsoleVisualizeHelper.LogLevel.INFO));
+      log.info("");
+      log.info( "Attention!!! Following Errors occured while dependency-resolving." + errorMessage );
+      for ( Exception exception : clashCollectResultWrapper.getExceptions() ) {
+        log.info( exception.getMessage() );
+      }
+
+    }
+
+
+
+
+  }
+
+
 
   @Override
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashTreeMojo clashTreeMojo ) {
     this.log = clashTreeMojo.getLog();
     this.clashSeverity = clashSeverity;
     printFullTree( clashCollectResultWrapper.getRoot(), 0 );
-    printStatistic( clashCollectResultWrapper );
+                                     log.info( "" );
+    printSummary( clashCollectResultWrapper );
 
+
+    printErrors( clashCollectResultWrapper,"Tree potentially incomplete!" );
   }
+
+
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashListMojo clashListMojo ) {
     this.log = clashListMojo.getLog();
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
-    printStatistic( clashCollectResultWrapper );
+    printSummary( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper,"List potentially incomplete!" );
   }
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashPhaseMojo clashPhaseMojo ) {
     this.log = clashPhaseMojo.getLog();
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
-    printStatistic( clashCollectResultWrapper );
+    printSummary( clashCollectResultWrapper );
+    printErrors( clashCollectResultWrapper, "List potentially incomplete!" );
 
 
   }

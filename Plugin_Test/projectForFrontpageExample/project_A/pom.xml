@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>project</groupId>
+    <artifactId>projectA</artifactId>
+    <version>1.0.0</version>
+    <!-- Testprojekt1_A ist abhängig von Testprojekt1_B(1.1.0).
+    Testprojekt1_B(1.1.0) ist abhängig von Testprojekt1_C(1.0-SNAPSHOT).
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>project</groupId>
+            <artifactId>projectB</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>13.0.1</version>
+      </dependency>
+    </dependencies>
+
+
+</project>

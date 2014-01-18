@@ -73,6 +73,26 @@
     </mailingList>
   </mailingLists>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>OSS Sonatype Snapshot</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>OSS Sonatype Release</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+
+    <site>
+      <id>clashinspectorSite</id>
+      <name>clashinspector.com Web</name>
+      <url>scpexe://clashinspector.com/var/www/clashinspector.com</url>
+    </site>
+  </distributionManagement>
+
   <prerequisites>
     <maven>3.1.1</maven>
   </prerequisites>

@@ -203,8 +203,43 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.5.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <nexusUrl>https://oss.sonatype.org</nexusUrl>
+          <serverId>sonatype-nexus-staging</serverId>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-jgitflow-plugin</artifactId>
+        <version>1.0-alpha27</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <enableFeatureVersions>true</enableFeatureVersions>
+          <enableSshAgent>true</enableSshAgent>
+          <localOnly>true</localOnly>
+        </configuration>
+      </plugin>
+
     </plugins>
+
+    <!--This extension is used for ssh-exe-->
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.2</version>
+      </extension>
+    </extensions>
   </build>
+
+
   <reporting>
     <plugins>
       <plugin>

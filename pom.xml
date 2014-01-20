@@ -240,11 +240,11 @@
 
       <plugin>
         <groupId>com.mycila</groupId>
-        <artifactId>maven-license-plugin</artifactId>
+        <artifactId>license-maven-plugin</artifactId>
         <version>2.5</version>
         <configuration>
           <strictCheck>true</strictCheck>
-          <header>${license.header.url}</header>
+          <header>http://cedarsoft.org/apache2.header</header>
           <failIfMissing>false</failIfMissing>
           <aggregate>true</aggregate>
           <excludes>
@@ -263,11 +263,6 @@
             <exclude>**/*.cr2</exclude>
             <exclude>**/*.xcf</exclude>
           </excludes>
-
-          <mapping>
-            <fx>JAVADOC_STYLE</fx>
-            <ufraw>XML_STYLE</ufraw>
-          </mapping>
         </configuration>
       </plugin>
 

@@ -227,6 +227,17 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.4</version>
+
+        <configuration>
+          <useAgent>true</useAgent>
+          <keyname>7B42FE9D</keyname>
+        </configuration>
+      </plugin>
+
     </plugins>
 
     <!--This extension is used for ssh-exe-->

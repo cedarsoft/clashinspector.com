@@ -1,0 +1,124 @@
+~~
+~~ Copyright (C) cedarsoft GmbH.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~         http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+
+deps:tree
+
+  <<Full name:>>
+
+  com.cedarsoft.maven:deps-maven-plugin:0.7:tree
+
+  <<Description:>>
+
+  Displays the dependency tree for this project. The tree also shows version clashes.
+
+  <<Attributes:>>
+
+  * Requires a Maven project to be executed.
+
+  * Requires dependency resolution of artifacts in scope: <<<compile>>>.
+
+  * Since version: <<<0.7>>>.
+
+
+* Optional Parameters
+
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ <<Name>>                                    | <<Type>>     | <<Since>>   | <<Description>>
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{includedScopes:}includedScopes}}          | String       | 0.7         | Defines the included dependency scopes.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<compile>>>.
+                                             |              |             |
+                                             |              |             | <<User property is:>> ?
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{excludedScopes:}excludedScopes}}          | String       | 0.7         | Defines the excluded dependency scopes.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<null>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{includeOptional:}includeOptional}}       | boolean      | 0.7         | Defines if optional dependencies will be included
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<false>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+ {{{severity:}severity}}                     | ClashSeverity| 0.7         | Defines which version clashes will be shown.
+                                             |              |             |
+                                             |              |             | <<Default value is:>> <<<SAFE>>>.
+                                             |              |             |
+*--------------------------------------------+--------------+-------------+-------------------------------------------------+
+
+  {<<includedScopes:>>}
+
+  The scopes which will be included when resolving the dependency tree, or null to include dependencies only with scope <<<compile>>>.
+
+  * <<Type:>> <<<java.lang.String>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<includedScopes>>>
+
+  []
+
+  {<<excludedScopes:>>}
+
+  The scopes which will be excluded when resolving the dependency tree.
+
+  * <<Type:>> <<<java.lang.String>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<excludedScopes>>>
+
+  []
+
+  {<<includeOptional:>>}
+
+  Defines if optional dependencies will be included when resolving the dependency tree.
+
+  * <<Type:>> <<<boolean>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<includeOptional>>>
+
+  []
+
+  {<<severity:>>}
+
+  The severity of the displayed version clashes.
+
+  <<SAFE>>: Displays <<<SAFE>>>, <<<UNSAFE>>> and <<<CRITICAL>>> version clashes.
+
+  <<UNSAFE>>: Displays <<<UNSAFE>>> and <<<CRITICAL>>> version clashes.
+
+  <<CRITICAL>>: Displays <<<CRITICAL>>> version clashes.
+
+  * <<Type:>> <<<ClashSeverity>>>
+
+  * <<Since:>> <<<0.7>>>
+
+  * <<Required:>> <<<No>>>
+
+  * <<User Property:>> <<<severity>>>
+
+  []

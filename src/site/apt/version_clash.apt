@@ -1,0 +1,60 @@
+~~
+~~ Copyright (C) cedarsoft GmbH.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~         http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+
+Version Clash
+
+  On this page we will give you a quick introduction about the Maven dependency mediation and
+  show you how we defined Maven dependency version clashes.
+
+  First of all it is important to know that Maven always uses the version of the closest dependency to your project in
+  the tree of dependencies and not necessarily the highest version! Maven defines this as the <<"nearest definition">> which
+  is the only available dependency mediation since Maven 2.0.9. For details visit the official Maven page
+  {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}Introduction to the Dependency Mechanism}}.
+
+  Following examples will help you to understand how this dependency mediation can lead to <<<CRITICAL>>>, <<<UNSAFE>>> or <<<SAFE>>> conditions.
+
+* Example 1: Critical
+
+[../../src/site/resources/images/CRITICAL.png] Critical
+
+  \
+  Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
+  <<<dependency:1.0>>>. <<<dependency:1.0>>> has a dependency on <<<com.google.guava:guava:14.0.1>>>. As mentioned before, Maven will use the closest dependency in the tree
+  which is <<<com.google.guava:guava:13.0.1>>>, the lower version. In this case all changes from version <<<13.0.1>>> to <<<14.0.1>>> will  be lost.
+  If <<<dependency:1.0>>> is using a class or a method which only exists in version <<<14.0.1>>> there will be problems. We call this a critical condition or a critical version clash.
+
+* Example 2: Unsafe
+
+[../../src/site/resources/images/UNSAFE.png] Unsafe
+
+  \
+  Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<dependency:1.0>>> uses a lower version <<<13.0.1>>>.
+  We define this case as an unsafe condition or an unsafe version clash. Imagine <<<dependency:1.0>>> uses a deprecated class or method which was deleted from
+  version <<<13.0.1>>> to <<<14.0.1>>> it would also lead to problems.
+
+
+* Example 3: Safe
+
+[../../src/site/resources/images/SAFE.png] Safe
+
+  \
+  We have a safe condition, if all versions of an artifact in the tree are the same.
+
+
+===
+
+  For a further example with multiple version clashes and a deeper insight visit {{{./version_clash_details.html}version clash details}}.

@@ -52,9 +52,9 @@
       <item name="Version History" href="version.html" />
     </menu>
 
-    <menu name="Examples">
-      <!--item name="Example1" href="example1.html" /-->
-    </menu>
+    <!--<menu name="Examples">-->
+    <!--&lt;!&ndash;item name="Example1" href="example1.html" /&ndash;&gt;-->
+    <!--</menu>-->
 
 
     <!--menu ref="modules" inherit="bottom" /-->

@@ -42,7 +42,7 @@ Maven ${project.name} Plugin
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
-  mvn ${project.groupId}:${project.artifactId}:${last.stable.version}:list
+  mvn ${project.groupId}:${project.artifactId}:${currentStableVersion}:list
 +---+
 
 +---+
@@ -79,7 +79,7 @@ Maven ${project.name} Plugin
   The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+
-  mvn ${project.groupId}:${project.artifactId}:${last.stable.version}:tree
+  mvn ${project.groupId}:${project.artifactId}:${currentStableVersion}:tree
 +---+
 
 +---+

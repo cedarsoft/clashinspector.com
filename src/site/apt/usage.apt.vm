@@ -71,7 +71,7 @@ Usage
   []
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${last.stable.version}:list
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentStableVersion}:list
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3
   [INFO] ------------------------------------------------------------------------
@@ -203,7 +203,7 @@ Usage
   all available versions of a dependency in this project.
 
 +---+
-  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${last.stable.version}:tree
+  C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${currentStableVersion}:tree
   [INFO] ------------------------------------------------------------------------
   [INFO] Building ClashInspector 0.3
   [INFO] ------------------------------------------------------------------------

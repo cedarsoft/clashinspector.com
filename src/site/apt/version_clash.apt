@@ -13,7 +13,7 @@ Version Clash
 
 * Example 1: Critical
 
-[../../src/site/resources/images/CRITICAL.png] Critical
+[images/CRITICAL.png] Critical
 
   \
   Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
@@ -23,7 +23,7 @@ Version Clash
 
 * Example 2: Unsafe
 
-[../../src/site/resources/images/UNSAFE.png] Unsafe
+[images/UNSAFE.png] Unsafe
 
   \
   Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<dependency:1.0>>> uses a lower version <<<13.0.1>>>.
@@ -33,7 +33,7 @@ Version Clash
 
 * Example 3: Safe
 
-[../../src/site/resources/images/SAFE.png] Safe
+[images/SAFE.png] Safe
 
   \
   We have a safe condition, if all versions of an artifact in the tree are the same.

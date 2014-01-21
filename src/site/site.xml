@@ -11,13 +11,13 @@
 
   <bannerLeft>
     <name>${project.name}</name>
-    <src>../../src/site/resources/images/clashinspector-logo.jpg</src>
+    <src>images/clashinspector-logo.jpg</src>
     <href>index.html</href>
   </bannerLeft>
 
   <bannerRight>
     <name>${project.name}</name>
-    <src>../../src/site/resources/images/FHRT_logo.jpg</src>
+    <src>images/FHRT_logo.jpg</src>
     <href>http://www.reutlingen-university.de/</href>
   </bannerRight>
 

@@ -4,10 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
 
 
-  <head>
-    <meta name="keywords" content="Maven Version Clash,Dependency Version Clash,Maven Multiple Versions, Version Clash,Dependency Conflict " />
-    <meta name="description" content="The Maven-Plugin ClashInspector enables you to find and analyze dependency conflicts (Version-Clashes) in your Java projects." />
-  </head>
+
 
   <bannerLeft>
     <name>${project.name}</name>
@@ -25,6 +22,10 @@
   <version position="left"/>
 
   <body>
+    <head>
+      <meta name="keywords" content="Maven Version Clash,Dependency Version Clash,Maven Multiple Versions, Version Clash,Dependency Conflict " />
+      <meta name="description" content="The Maven-Plugin ClashInspector enables you to find and analyze dependency conflicts (Version-Clashes) in your Java projects." />
+    </head>
     <links>
       <item  name="Impressum" href="impressum.html"/>
     </links>

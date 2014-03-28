@@ -2,10 +2,7 @@ package com.cedarsoft.maven.clashinspector.visualize;
 
 import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
 import com.cedarsoft.maven.clashinspector.model.DependencyNodeWrapper;
-import com.cedarsoft.maven.clashinspector.mojos.ClashHtmlMojo;
 import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
-import com.cedarsoft.maven.clashinspector.visualize.htmlDatamodels.HtmlInformationWrapper;
-import com.cedarsoft.maven.clashinspector.visualize.htmlDatamodels.TestDataModelGenerator;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -24,7 +21,7 @@ import java.util.Map;
 
 
 public class HtmlVisualizer {
-  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashHtmlMojo clashHtmlMojo ) {
+  public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {
 
     System.out.println( "Opening Html Analysis..." );
 
@@ -38,8 +35,8 @@ public class HtmlVisualizer {
 
     // for htmlMain.html
 
-         HtmlInformationWrapper infWrap = new HtmlInformationWrapper(clashCollectResultWrapper, clashSeverity, clashHtmlMojo);
-         HashMap root = infWrap.getRoot();
+    //     HtmlInformationWrapper infWrap = new HtmlInformationWrapper(clashCollectResultWrapper, clashSeverity, clashHtmlMojo);
+    //     HashMap root = infWrap.getRoot();
 
 
     generateFullTreeDataModel( clashCollectResultWrapper.getRoot(), 0 );
@@ -56,7 +53,7 @@ public class HtmlVisualizer {
       FileWriter out = new FileWriter("C:/Users/Martin/maven-director/src/main/java/com/cedarsoft/maven/clashinspector/visualize/htmlOutput/htmlMain.html");
       // TODO für den relativen Pfad System.getProperty( "user.home" )
       // Merging the template with the data-model and generating output
-      temp.process(root, out);
+      //temp.process(root, out);
 
       //open html file
       File htmlFile = new File("C:/Users/Martin/maven-director/src/main/java/com/cedarsoft/maven/clashinspector/visualize/htmlOutput/htmlMain.html");
@@ -64,7 +61,7 @@ public class HtmlVisualizer {
 
     } catch ( IOException e ) {
       e.printStackTrace();
-    } catch ( TemplateException e ) {
+   // } catch ( TemplateException e ) {
       e.printStackTrace();
     }
   }

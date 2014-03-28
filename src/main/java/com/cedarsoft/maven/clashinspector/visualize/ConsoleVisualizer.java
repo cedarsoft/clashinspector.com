@@ -22,13 +22,11 @@ public class ConsoleVisualizer implements Visualizer {
   private void printFullTree( DependencyNodeWrapper dependencyNodeWrapper, int depth ) {
 
 
-    if(depth==0)
-    {
+    if ( depth == 0 ) {
 
-      log.info( ConsoleVisualizeHelper.createSectionHeader( " tree " , ConsoleVisualizeHelper.LogLevel.INFO));
-      log.info("");
+      log.info( ConsoleVisualizeHelper.createSectionHeader( " tree ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+      log.info( "" );
     }
-
 
 
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
@@ -139,8 +137,8 @@ public class ConsoleVisualizer implements Visualizer {
   private void printList( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity ) {
 
 
-    log.info( ConsoleVisualizeHelper.createSectionHeader( " list " , ConsoleVisualizeHelper.LogLevel.INFO));
-    log.info("");
+    log.info( ConsoleVisualizeHelper.createSectionHeader( " list ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+    log.info( "" );
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
 
@@ -162,9 +160,6 @@ public class ConsoleVisualizer implements Visualizer {
   }
 
 
-
-
-
   public void printSummary( ClashCollectResultWrapper clashCollectResultWrapper ) {
    /* log.info( "" );
     log.info( "Statistical information:" );
@@ -182,8 +177,8 @@ public class ConsoleVisualizer implements Visualizer {
 
     }  */
 
-    log.info( ConsoleVisualizeHelper.createSectionHeader( " summary ", ConsoleVisualizeHelper.LogLevel.INFO));
-    log.info("");
+    log.info( ConsoleVisualizeHelper.createSectionHeader( " summary ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+    log.info( "" );
     log.info( "Number of Clashes with severity UNSAFE: " + clashCollectResultWrapper.getNumberOfOuterClashes( ClashSeverity.UNSAFE ) );
 
     for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
@@ -202,17 +197,16 @@ public class ConsoleVisualizer implements Visualizer {
         log.info( " [" + outerVersionClash.getClashSeverity() + " Version Clash] " + " " + outerVersionClash.getProject().toString() + "" );
       }
     }
-    log.info("");
+    log.info( "" );
   }
 
-  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper ,String errorMessage) {
+  private void printErrors( ClashCollectResultWrapper clashCollectResultWrapper, String errorMessage ) {
 
 
-    if(clashCollectResultWrapper.getExceptions().size()>0)
-    {
-      log.info("");
-      log.info( ConsoleVisualizeHelper.createSectionHeader( " error information " , ConsoleVisualizeHelper.LogLevel.INFO));
-      log.info("");
+    if ( clashCollectResultWrapper.getExceptions().size() > 0 ) {
+      log.info( "" );
+      log.info( ConsoleVisualizeHelper.createSectionHeader( " error information ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+      log.info( "" );
       log.info( "Attention!!! Following Errors occured while dependency-resolving." + errorMessage );
       for ( Exception exception : clashCollectResultWrapper.getExceptions() ) {
         log.info( exception.getMessage() );
@@ -221,10 +215,7 @@ public class ConsoleVisualizer implements Visualizer {
     }
 
 
-
-
   }
-
 
 
   @Override
@@ -232,13 +223,12 @@ public class ConsoleVisualizer implements Visualizer {
     this.log = clashTreeMojo.getLog();
     this.clashSeverity = clashSeverity;
     printFullTree( clashCollectResultWrapper.getRoot(), 0 );
-                                     log.info( "" );
+    log.info( "" );
     printSummary( clashCollectResultWrapper );
 
 
-    printErrors( clashCollectResultWrapper,"Tree potentially incomplete!" );
+    printErrors( clashCollectResultWrapper, "Tree potentially incomplete!" );
   }
-
 
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashListMojo clashListMojo ) {
@@ -246,7 +236,7 @@ public class ConsoleVisualizer implements Visualizer {
     this.clashSeverity = clashSeverity;
     printList( clashCollectResultWrapper, clashSeverity );
     printSummary( clashCollectResultWrapper );
-    printErrors( clashCollectResultWrapper,"List potentially incomplete!" );
+    printErrors( clashCollectResultWrapper, "List potentially incomplete!" );
   }
 
   public void visualize( ClashCollectResultWrapper clashCollectResultWrapper, ClashSeverity clashSeverity, ClashPhaseMojo clashPhaseMojo ) {

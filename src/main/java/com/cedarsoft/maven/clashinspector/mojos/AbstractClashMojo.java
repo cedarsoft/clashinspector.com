@@ -159,6 +159,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
 
      }
 
+  //TODO goalName is not in use
   public void printStartParameter(String goalName)
   {
     this.getLog().info("");

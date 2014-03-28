@@ -1,4 +1,4 @@
-package com.cedarsoft.maven.clashinspector.exceptions;
+package com.clashinspector.exceptions;
 
 public class ClashServiceException extends Exception {
 

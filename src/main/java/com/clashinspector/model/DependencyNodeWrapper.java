@@ -1,6 +1,6 @@
-package com.cedarsoft.maven.clashinspector.model;
+package com.clashinspector.model;
 
-import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.clashinspector.mojos.ClashSeverity;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.version.Version;
 

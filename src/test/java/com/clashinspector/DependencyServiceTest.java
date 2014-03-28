@@ -1,9 +1,9 @@
 
-package com.cedarsoft.maven.clashinspector;
+package com.clashinspector;
 
 
-import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
-import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.clashinspector.model.ClashCollectResultWrapper;
+import com.clashinspector.mojos.ClashSeverity;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;

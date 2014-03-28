@@ -1,12 +1,11 @@
-package com.cedarsoft.maven.clashinspector.visualize;
+package com.clashinspector.visualize;
 
-import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
-import com.cedarsoft.maven.clashinspector.model.DependencyNodeWrapper;
-import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.clashinspector.model.ClashCollectResultWrapper;
+import com.clashinspector.model.DependencyNodeWrapper;
+import com.clashinspector.mojos.ClashSeverity;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.Version;
 

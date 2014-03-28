@@ -1,4 +1,4 @@
-package com.cedarsoft.maven.clashinspector.visualize.util;
+package com.clashinspector.visualize.util;
 
 import com.google.common.base.Strings;
 

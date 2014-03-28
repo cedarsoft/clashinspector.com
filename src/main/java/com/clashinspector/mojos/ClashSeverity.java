@@ -1,4 +1,4 @@
-package com.cedarsoft.maven.clashinspector.mojos;
+package com.clashinspector.mojos;
 
 
 /*

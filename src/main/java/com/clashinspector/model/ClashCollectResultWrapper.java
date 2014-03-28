@@ -1,7 +1,7 @@
-package com.cedarsoft.maven.clashinspector.model;
+package com.clashinspector.model;
 
 
-import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
+import com.clashinspector.mojos.ClashSeverity;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
 
@@ -140,7 +140,7 @@ public class ClashCollectResultWrapper {
           }
          }
       return number;
-    }public boolean hasOuterVersionClash( com.cedarsoft.maven.clashinspector.mojos.ClashSeverity clashSeverity ) {
+    }public boolean hasOuterVersionClash( com.clashinspector.mojos.ClashSeverity clashSeverity ) {
 
     //Simple Clash means two different versions
     boolean result = false;

@@ -1,9 +1,9 @@
-package com.cedarsoft.maven.clashinspector.mojos;
+package com.clashinspector.mojos;
 
 
 
 
-import com.cedarsoft.maven.clashinspector.visualize.util.ConsoleVisualizeHelper;
+import com.clashinspector.visualize.util.ConsoleVisualizeHelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;

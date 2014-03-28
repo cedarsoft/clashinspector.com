@@ -1,14 +1,14 @@
-package com.cedarsoft.maven.clashinspector.visualize;
+package com.clashinspector.visualize;
 
-import com.cedarsoft.maven.clashinspector.model.ClashCollectResultWrapper;
-import com.cedarsoft.maven.clashinspector.model.DependencyNodeWrapper;
-import com.cedarsoft.maven.clashinspector.model.InnerVersionClash;
-import com.cedarsoft.maven.clashinspector.model.OuterVersionClash;
-import com.cedarsoft.maven.clashinspector.mojos.ClashListMojo;
-import com.cedarsoft.maven.clashinspector.mojos.ClashPhaseMojo;
-import com.cedarsoft.maven.clashinspector.mojos.ClashSeverity;
-import com.cedarsoft.maven.clashinspector.mojos.ClashTreeMojo;
-import com.cedarsoft.maven.clashinspector.visualize.util.ConsoleVisualizeHelper;
+import com.clashinspector.model.ClashCollectResultWrapper;
+import com.clashinspector.model.DependencyNodeWrapper;
+import com.clashinspector.model.InnerVersionClash;
+import com.clashinspector.model.OuterVersionClash;
+import com.clashinspector.mojos.ClashListMojo;
+import com.clashinspector.mojos.ClashPhaseMojo;
+import com.clashinspector.mojos.ClashSeverity;
+import com.clashinspector.mojos.ClashTreeMojo;
+import com.clashinspector.visualize.util.ConsoleVisualizeHelper;
 import com.google.common.base.Strings;
 import org.apache.maven.plugin.logging.Log;
 import org.eclipse.aether.version.Version;

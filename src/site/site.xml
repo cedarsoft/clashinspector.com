@@ -33,7 +33,7 @@
     <menu name="Overview">
       <item name="Introduction" href="index.html" />
       <item name="Goals" href="plugin-info.html" />
-      <item name="Version Clash" href="version_clash.html" collapse="true" >
+      <item name="Dependency Version Clash" href="version_clash.html" collapse="true" >
         <item name="Basics" href="version_clash.html" />
         <item name="Details" href="version_clash_details.html" />
       </item>

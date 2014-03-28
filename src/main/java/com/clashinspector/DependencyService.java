@@ -1,6 +1,6 @@
 
 
-package com.cedarsoft.maven.clashinspector;
+package com.clashinspector;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;

@@ -40,7 +40,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "includedScopes", defaultValue = "compile")
+  @Parameter( alias = "includedScopes")
   private String[] includedScopes;
 
   /**
@@ -48,7 +48,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "excludedScopes", defaultValue = "null" )
+  @Parameter( alias = "excludedScopes" )
   private String[] excludedScopes;
 
   /**
@@ -83,7 +83,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
       includedScopesList.addAll( Arrays.asList( this.includedScopes ) );
     }
 
-    if ( this.excludedScopes == null ) {
+    if ( this.excludedScopes == null || this.excludedScopes.length == 0 ) {
 
     } else {
       excludedScopesList.addAll( Arrays.asList( this.excludedScopes ) );

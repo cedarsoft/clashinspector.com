@@ -25,5 +25,42 @@
     </dependencies>
 
 
+  <build>
+    <plugins>
 
+      <plugin>
+        <groupId>com.clashinspector</groupId>
+        <artifactId>clashinspector-maven-plugin</artifactId>
+        <version>0.3-SNAPSHOT</version>
+        <configuration>
+
+
+
+          <whiteList>
+            <whiteListDependency>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+              <version>13.0.1</version>
+            </whiteListDependency>
+          </whiteList>
+
+
+
+
+
+
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>listPhase</goal>
+            </goals>
+
+          </execution>
+        </executions>
+
+      </plugin>
+
+    </plugins>
+  </build>
 </project>

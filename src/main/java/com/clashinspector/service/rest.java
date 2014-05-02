@@ -1,4 +1,4 @@
-package com.clashinspector.mojos;
+package com.clashinspector.service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,15 +12,17 @@ import javax.ws.rs.core.MediaType;
  * Time: 12:31
  * To change this template use File | Settings | File Templates.
  */
-@Path( "test" )
+@Path( "dependencies" )
 public class rest {
 
   @GET
-  @Path( "serverinfo" )
   @Produces( MediaType.TEXT_PLAIN )
   public String serverinfo()
   {
-    return "working";
+    return "alle Dependencies";
   }
+
+
+
 }
 

@@ -13,11 +13,11 @@ import javax.ws.rs.core.MediaType;
  * To change this template use File | Settings | File Templates.
  */
 @Path( "dependencies" )
-public class rest {
+public class DependencyService {
 
   @GET
-  @Produces( MediaType.TEXT_PLAIN )
-  public String serverinfo()
+  @Produces( MediaType.APPLICATION_JSON)
+  public String getAllDependencies()
   {
     return "alle Dependencies";
   }

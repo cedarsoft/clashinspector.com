@@ -1,6 +1,9 @@
 package com.clashinspector.model;
 
 import com.clashinspector.mojos.ClashSeverity;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.version.Version;
 
@@ -56,31 +59,38 @@ public class DependencyNodeWrapper {
     return dependencyNode;
   }
 
+
   public String getGroupId() {
 
     return this.dependencyNode.getArtifact().getGroupId();
 
   }
 
+
   public String getArtifactId() {
     return this.dependencyNode.getArtifact().getArtifactId();
   }
-
+  @JsonIgnore
   public Version getVersion() {
     return this.dependencyNode.getVersion();
   }
 
+  @Deprecated
+  @JsonProperty("version")
+  public String getVersionAsString() {
+    return this.dependencyNode.getVersion().toString();
+  }
 
   public List<DependencyNodeWrapper> getChildren() {
     return Collections.unmodifiableList( this.children );
   }
 
-
+   @JsonIgnore
   @Nullable
   public DependencyNodeWrapper getParent() {
     return this.parent;
   }
-
+   @JsonIgnore
   public List<DependencyNodeWrapper> getAllAncestors() {
     List<DependencyNodeWrapper> list = new ArrayList<DependencyNodeWrapper>();
     return this.collectAncestors( list );
@@ -97,7 +107,7 @@ public class DependencyNodeWrapper {
     return list;
   }
 
-
+   @JsonIgnore
   public RelationshipToUsedVersion getRelationShipToUsedVersion() {
     if ( this.project == null ) {
       throw new UnsupportedOperationException( "Not allowed on root node" );
@@ -125,20 +135,20 @@ public class DependencyNodeWrapper {
   public void addChildren( @Nonnull DependencyNodeWrapper dependencyNodeWrapper ) {
     this.children.add( dependencyNodeWrapper );
   }
-
+   @JsonIgnore
   public int getGraphDepth() {
     return graphDepth;
   }
-
+   @JsonIgnore
   public int getGraphLevelOrder() {
     return graphLevelOrder;
   }
-
+   @JsonIgnore
   public int getAddCounter() {
     return addCounter;
   }
 
-
+   @JsonIgnore
   @Nullable
   public Project getProject() {
     return project;
@@ -153,7 +163,7 @@ public class DependencyNodeWrapper {
     RelationshipToUsedVersion( ClashSeverity clashSeverity ) {
       this.clashSeverity = clashSeverity;
     }
-
+    @JsonIgnore
     public ClashSeverity getClashSeverity() {
       return clashSeverity;
     }

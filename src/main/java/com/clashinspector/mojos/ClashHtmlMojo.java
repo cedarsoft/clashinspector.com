@@ -3,25 +3,29 @@ package com.clashinspector.mojos;
 
 
 
-import com.clashinspector.DependencyService;
-import com.clashinspector.model.ClashCollectResultWrapper;
-import com.clashinspector.visualize.ConsoleVisualizer;
-import com.clashinspector.visualize.Visualizer;
+import com.clashinspector.service.rest;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.jersey.api.core.DefaultResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jndi.toolkit.url.Uri;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.eclipse.aether.artifact.Artifact;
-import org.eclipse.aether.artifact.DefaultArtifact;
-import javax.ws.rs.*;
-import javax.swing.JOptionPane;
+
+
+import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Files;
 
 /**
  * Displays the dependency tree for this project. The tree also shows version clashes.
@@ -43,19 +47,44 @@ public class ClashHtmlMojo extends AbstractClashMojo {
     try
     {
 
-      //ResourceConfig config = new DefaultResourceConfig(rest.class);
+      BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
-
-      HttpServer server = HttpServerFactory.create( "http://localhost:8080/test/" );
+      ResourceConfig config = new DefaultResourceConfig(rest.class);
+      HttpServer server = HttpServerFactory.create( "http://localhost:8080/" ,config);
       server.start();
 
+      if (Desktop.isDesktopSupported())
+      {
+        Desktop desktop=Desktop.getDesktop();
+
+
+        this.transferResourceToTmp( "clashInspectorStyle", "css" );
+        this.transferResourceToTmp( "jquery-1.11.0", "js" );
+        this.transferResourceToTmp( "main", "js" );
+
+
+        desktop.browse(this.transferResourceToTmp( "clashInspector", "html" ));
+      }
 
 
 
-      super.getLog().info( "To stop server press enter" );
+      // Browse a URL, say google.com
 
+     // URL resourceUrl = getClass().getClassLoader().getResource("main.js");
 
-      BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
+      //InputStream inputStream =
+       // getClass().getClassLoader().getResourceAsStream("config.properties");
+
+      //prop.load(inputStream);
+      //filePath = prop.getProperty("json.filepath");
+      //getClass().getResourceAsStream(  )
+     // File htmlFile = new File(resourceUrl.toURI());
+    //  Desktop.getDesktop().browse(new URI("/src/main/resources/main.js"));
+     // d.browse(new URI(resourceUrl.toString()));
+
+      //d.open( new URI( resourceUrl.toString() ) );
+      super.getLog().info( "To stop local ClashInspector-Server press enter." );
+
 
       String inLine = in.readLine();
       server.stop( 0 );
@@ -70,6 +99,57 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
 
   }
+
+
+
+
+
+
+
+
+     private URI transferResourceToTmp(String fileName,String fileEnding)
+     {
+       fileEnding = fileEnding.replace( ".","" );
+            fileEnding = "."+fileEnding;
+
+       InputStream resource = getClass().getResourceAsStream("/"+fileName+fileEnding );
+
+       try
+       {
+
+         String tDir = System.getProperty("java.io.tmpdir");
+
+         File file = new File(tDir+fileName+fileEnding);
+
+         if(file.exists())
+         {
+           file.delete();
+         }
+
+
+
+
+
+         file.deleteOnExit();
+         Files.copy( resource, file.toPath() );
+
+         resource.close();
+
+         return file.toURI();
+       }
+       catch (IOException ioe)
+       {
+         super.getLog().error( ioe );
+         return null;
+       }
+
+
+     }
+
+
+
+
+
 
 
 }

@@ -237,9 +237,6 @@
         </whiteList>
 
 
-
-
-
         </configuration>
         <executions>
           <execution>

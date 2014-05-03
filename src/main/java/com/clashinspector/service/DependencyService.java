@@ -1,8 +1,13 @@
 package com.clashinspector.service;
 
+import com.clashinspector.model.ClashCollectResultWrapper;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.glassfish.jersey.server.JSONP;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -15,14 +20,32 @@ import javax.ws.rs.core.MediaType;
 @Path( "dependencies" )
 public class DependencyService {
 
+  private static ClashCollectResultWrapper clashCollectResultWrapper;
+
   @GET
-  @Produces( MediaType.APPLICATION_JSON)
-  public String getAllDependencies()
+  @JSONP(queryParam="callback")
+  @Produces("application/x-javascript")
+  public String getAllDependencies(@QueryParam("callback") String callback)
   {
-    return "alle Dependencies";
+    ObjectMapper mapper = new ObjectMapper(  );
+    //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
+    //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+    String value = "";
+    try
+    {
+      value = mapper.writeValueAsString( clashCollectResultWrapper.getRoot() );
+
+    }
+    catch (Exception e)
+    {
+      System.out.println(e);
+    }
+
+    return value;
   }
 
-
-
+  public static void setClashCollectResultWrapper( ClashCollectResultWrapper clashCollectResultWrapper ) {
+    DependencyService.clashCollectResultWrapper = clashCollectResultWrapper;
+  }
 }
 

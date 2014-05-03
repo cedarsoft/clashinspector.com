@@ -1,4 +1,8 @@
 
+   *{ margin:0; padding:0;    border-color: #808080;list-style:none;}
+
+
+
 body.topBarDisabled {
     padding-top: 20px;
 }
@@ -9,6 +13,8 @@ body {
     font-size: 14px;
     line-height: 20px;
     margin: 0;
+
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333;
 }
 
 
@@ -130,9 +136,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 
 
-    *{ margin:0; padding:0;    border-color: #808080;list-style:none;} 
-	body{overflow-y:hidden;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333;}
-   
+
 	#nav{padding:10px;border: 1px solid #E3E3E3;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
@@ -216,19 +220,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 
 #main{
+position: relative;
     min-height: 200px;
 }
 	
 .depNode{
     border-radius: 4px;
     display: block;
-    font-size: 14px;
-    line-height: 24px;
+    font-size: 12px;
+
     padding: 8px 15px;
     text-decoration: none;
     width: 180px;
     word-wrap: break-word;
 	background-color: #F5F5F5;
+	margin-bottom: 15px;
 }
 .depNode hr{
     border-style: solid none;
@@ -242,3 +248,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 
 
 
+     .clearing
+     {
+     clear: both;
+     }

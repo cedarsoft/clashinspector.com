@@ -6,9 +6,7 @@ package com.clashinspector.mojos;
 import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.service.DependencyService;
 import com.clashinspector.visualize.ConsoleVisualizer;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import com.sun.jersey.api.core.DefaultResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
+
 import com.sun.net.httpserver.HttpServer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -20,6 +18,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
+import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 
 import java.awt.Desktop;
@@ -60,26 +60,16 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
       //consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
 
-       ObjectMapper mapper = new ObjectMapper(  );
-      //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
-      //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+      DependencyService.setClashCollectResultWrapper( clashCollectResultWrapper );
 
-      try
-      {
-         String value = mapper.writeValueAsString( clashCollectResultWrapper.getRoot() );
-          System.out.println(value);
-      }
-      catch (Exception e)
-      {
-             System.out.println(e);
-      }
 
+             //TODO port eventuell variabel machen
 
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
-      ResourceConfig config = new DefaultResourceConfig(DependencyService.class);
-      HttpServer server = HttpServerFactory.create( "http://localhost:8080/" ,config);
-      server.start();
+      ResourceConfig config = new ResourceConfig(DependencyService.class);
+      HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:8080/"), config );
+
 
       if (Desktop.isDesktopSupported())
       {

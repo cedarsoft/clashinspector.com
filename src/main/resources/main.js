@@ -5,7 +5,7 @@
 
 $( document ).ready(function() {
 
-doGet("http://localhost:8080/dependencies",buildTree);
+doGet("http://localhost:8080/dependencies",drawTree);
 
 
 
@@ -44,21 +44,44 @@ function doGet(url,callbackFunction)
 
 }
 
+ function drawTree(data)
+ {
+
+ var html = buildTree(data);
+
+ $("#leftMain").html( html);
+
+ }
+
 function buildTree(data)
-{                alert("jo");
-       	alert(data.artifactId);
+{        //console.log("jo2" + html)
+         var html=drawDependency(data.groupId,data.artifactId,data.version);
 
 
-    var html =    '<ul>' ;
+          // console.log("jo3" + html)
+
+      if(data.children.length >0)
+      {          // console.log("jo4" + html)
+         html = html +    '<ul>' ;
 
                for(var i=0;i<data.children.length;i++){
-                 html = html + drawDependency(data.children[i].groupId,data.children[i].artifactId,data.children[i].version);
+
+
+
+                 html = html + buildTree(data.children[i]);
                }
 
+
             html = html + '</ul>' ;
+            html = html + '</li>';
+       }
+       else
+       {
+       html = html +'</li>' ;
+       }
 
-     $("#leftMain").html( html);
 
+         return html;
 
 
 
@@ -67,13 +90,12 @@ function buildTree(data)
 function drawDependency(groupId,artifactId,version)
     {
 
-    return '<li class="depNode">\
+    return '<li class="depNodeLi"><div class="depNode">\
                                              <span class="groupId" title="groupId">'+groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+artifactId+'</span>   \
                                              <hr>                                      \
-                                             <span class="version" title="version">'+version+'</span>  \
-                                         </li>         ' ;
+                                             <span class="version" title="version">'+version+'</span>  \  </div>    ' ;
     }
 
     function drawMainDependency(data)

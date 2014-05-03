@@ -1,6 +1,10 @@
 
-   *{ margin:0; padding:0;    border-color: #808080;list-style:none;}
-
+*{
+margin:0;
+padding:0;
+border-color: #808080;
+list-style:none;
+}
 
 
 body.topBarDisabled {
@@ -11,51 +15,34 @@ body {
     color: #333333;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
-    line-height: 20px;
     margin: 0;
-
-    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333;
-}
+ }
 
 
-
-.container-fluid:before, .container-fluid:after {
-    content: "";
-    display: table;
-    line-height: 0;
-}
-.container-fluid:after {
-    clear: both;
-}
-.container-fluid:before, .container-fluid:after {
-    content: "";
-    display: table;
-    line-height: 0;
-}
 .container-fluid {
     padding-left: 20px;
     padding-right: 20px;
 }
 
 
-
-
-.pull-left {
+.banner-left {
     padding-bottom: 10px;
     padding-left: 10px;
 	float: left;
 }
 
-.pull-right {
+.banner-right {
     padding-bottom: 10px;
     padding-right: 10px;
 	float: right;
 }
 
-.clear {
-    clear: both;
-    visibility: hidden;
-}
+  .clearing
+     {
+     clear: both;
+      visibility: hidden;
+     }
+
 
 a {
     color: #0088CC;
@@ -69,9 +56,7 @@ img {
     vertical-align: middle;
 }
 
-.clear hr {
-    display: none;
-}
+
 
 hr {
     -moz-border-bottom-colors: none;
@@ -86,6 +71,71 @@ hr {
     border-width: 1px 0;
     margin: 20px 0;
 }
+
+      .depNodeLi{
+
+      }
+      .depNode hr{
+          border-style: solid none;
+          border-width: 1px 0;
+          margin: 1px 0;
+      }
+      .depNode span{
+          width: 100%;
+      	display: block;
+      }
+
+      .depNode{
+           border-radius: 4px;
+               display: block;
+               font-size: 12px;
+
+               padding: 8px 15px;
+               text-decoration: none;
+               width: 180px;
+               word-wrap: break-word;
+           	background-color: #F5F5F5;
+           	margin-bottom: 15px;
+
+      }
+
+    #leftMain{
+    	float: left;
+    	width: 70%;
+    }
+
+    #rightMain{
+    	float: right;
+    	width: 30%;
+    }
+
+    #main{
+    position: relative;
+        min-height: 200px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .breadcrumb {
     background-color: #F5F5F5;
@@ -209,46 +259,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 		border-color:#FC0;
 	}
 	
-#leftMain{
-	float: left;
-	width: 70%;
-}
 
-#rightMain{
-	float: right;
-	width: 30%;
-}
-
-#main{
-position: relative;
-    min-height: 200px;
-}
 	
-.depNode{
-    border-radius: 4px;
-    display: block;
-    font-size: 12px;
-
-    padding: 8px 15px;
-    text-decoration: none;
-    width: 180px;
-    word-wrap: break-word;
-	background-color: #F5F5F5;
-	margin-bottom: 15px;
-}
-.depNode hr{
-    border-style: solid none;
-    border-width: 1px 0;
-    margin: 1px 0;
-}
-.depNode span{
-    width: 100%;
-	display: block;
-}
 
 
 
-     .clearing
-     {
-     clear: both;
-     }

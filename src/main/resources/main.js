@@ -3,6 +3,8 @@
  var dependencyNodeWrapperRoot;
           //Eigenes objekt erstellen mit verweis auf guielement damit ausblenden etc.
 
+
+
 $( document ).ready(function() {
 
 doGet("http://localhost:8080/dependencies",drawTree);
@@ -47,7 +49,12 @@ function doGet(url,callbackFunction)
  function drawTree(data)
  {
 
- var html = buildTree(data);
+ var html = "<ul id='dependencyTree'>" +   buildTree(data);
+
+ html = html + "</ul>";
+
+
+
 
  $("#leftMain").html( html);
 

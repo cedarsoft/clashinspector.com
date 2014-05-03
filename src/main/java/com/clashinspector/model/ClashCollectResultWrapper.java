@@ -17,12 +17,7 @@ import java.util.Map;
 
 public class ClashCollectResultWrapper {
 
-
-
-
-
   private final CollectResult collectResult;
-
 
   //This list cotains all projectVersionClashes ... im gegesatz steht dependencyVersionClash
   private final List<OuterVersionClash> outerVersionClashList = new ArrayList<OuterVersionClash>();

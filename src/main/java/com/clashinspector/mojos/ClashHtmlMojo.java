@@ -3,28 +3,32 @@ package com.clashinspector.mojos;
 
 
 
-import com.clashinspector.service.rest;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import com.sun.jersey.api.core.DefaultResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jndi.toolkit.url.Uri;
+import com.clashinspector.model.ClashCollectResultWrapper;
+import com.clashinspector.service.DependencyService;
+import com.clashinspector.visualize.ConsoleVisualizer;
+
 import com.sun.net.httpserver.HttpServer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
 
 /**
@@ -42,16 +46,30 @@ public class ClashHtmlMojo extends AbstractClashMojo {
     super.execute();
     super.printStartParameter( "html" );
 
+    Artifact artifact;
+    try {
+
+      artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 
-    try
-    {
+      com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
+
+      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer();
+
+      ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
+
+      //consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
+
+      DependencyService.setClashCollectResultWrapper( clashCollectResultWrapper );
+
+
+             //TODO port eventuell variabel machen
 
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
-      ResourceConfig config = new DefaultResourceConfig(rest.class);
-      HttpServer server = HttpServerFactory.create( "http://localhost:8080/" ,config);
-      server.start();
+      ResourceConfig config = new ResourceConfig(DependencyService.class);
+      HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:8080/"), config );
+
 
       if (Desktop.isDesktopSupported())
       {
@@ -65,24 +83,12 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
         desktop.browse(this.transferResourceToTmp( "clashInspector", "html" ));
       }
+      else
+      {
+        super.getLog().warn( "Couldn't open File with default-browser. Please open file manually under: " + System.getProperty("java.io.tmpdir")+"clashInspector.html" );
+      }
 
 
-
-      // Browse a URL, say google.com
-
-     // URL resourceUrl = getClass().getClassLoader().getResource("main.js");
-
-      //InputStream inputStream =
-       // getClass().getClassLoader().getResourceAsStream("config.properties");
-
-      //prop.load(inputStream);
-      //filePath = prop.getProperty("json.filepath");
-      //getClass().getResourceAsStream(  )
-     // File htmlFile = new File(resourceUrl.toURI());
-    //  Desktop.getDesktop().browse(new URI("/src/main/resources/main.js"));
-     // d.browse(new URI(resourceUrl.toString()));
-
-      //d.open( new URI( resourceUrl.toString() ) );
       super.getLog().info( "To stop local ClashInspector-Server press enter." );
 
 
@@ -91,10 +97,9 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
 
     }
-    catch(Exception e)
-      {
-                     super.getLog().error( e );
-      }
+    catch ( Exception e ) {
+      throw new MojoFailureException( e.getMessage(), e );
+    }
 
 
 
@@ -106,7 +111,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
 
 
-
+       //Puts file into tmp-folder
      private URI transferResourceToTmp(String fileName,String fileEnding)
      {
        fileEnding = fileEnding.replace( ".","" );
@@ -125,9 +130,6 @@ public class ClashHtmlMojo extends AbstractClashMojo {
          {
            file.delete();
          }
-
-
-
 
 
          file.deleteOnExit();

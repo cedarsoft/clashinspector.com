@@ -145,14 +145,14 @@ function buildGuiDependency(dependencyNodeObject)
 
         $(document).on('click', '.depNode', function(){
 
-
+                   $(this).next("ul").toggle();
 
 
         });
 
          $(document).on('mouseenter', '.depNode', function(){
 
-                              $(this).next("ul").show();
+
                                $(this).children(".depMenu").show();
 
 

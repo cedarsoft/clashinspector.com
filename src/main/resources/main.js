@@ -65,7 +65,9 @@ function doGet(url,callbackFunction)
  {
 
 
-   //drawMainDependency(data.groupId,data.artifactId,data.version);
+
+
+ $("#analyzedDep").html("analyzed dependency: "+ data.groupId+":"+data.artifactId+":"+data.version);
 
  var html = "<ul id='dependencyTree'>" +   buildTree(data,0,1);
 
@@ -140,7 +142,7 @@ function buildGuiDependency(dependencyNodeObject)
     function drawMainDependency(groupId,artifactId,version)
         {
 
-         $("#analyzedDep").html( groupId+":"+artifact+":"+version);
+
         }
 
         $(document).on('click', '.depNode', function(){

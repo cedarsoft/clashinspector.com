@@ -5,6 +5,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.version.Version;
 
 import javax.annotation.Nonnull;
@@ -65,7 +66,27 @@ public class DependencyNodeWrapper {
     return this.dependencyNode.getArtifact().getGroupId();
 
   }
+  @JsonProperty("extension")
+  public String getExtension()
+  {
+    return this.dependencyNode.getArtifact().getExtension();
+  }
+  @JsonProperty("repository")
+  public String getRepository()
+  {
+                //TODO entsprechendes Repositoriy zurück geben und nicht nur erstes (wird benötigt für link in html seite)
 
+    if(this.dependencyNode.getRepositories().size()>0)
+    {
+      return   this.dependencyNode.getRepositories().get( 0 ).getHost();
+    }
+    else
+    {
+      return   "";
+    }
+
+
+  }
 
   public String getArtifactId() {
     return this.dependencyNode.getArtifact().getArtifactId();

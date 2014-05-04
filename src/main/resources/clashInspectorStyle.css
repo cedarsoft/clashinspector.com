@@ -25,17 +25,23 @@ body {
 }
 
 
-.banner-left {
+ .pull-right
+ {
+      	float: right;
+ }
+
+ .pull-left
+ {
+     	float: left;
+ }
+
+.banner {
     padding-bottom: 10px;
     padding-left: 10px;
-	float: left;
+
 }
 
-.banner-right {
-    padding-bottom: 10px;
-    padding-right: 10px;
-	float: right;
-}
+
 
   .clearing
      {
@@ -76,8 +82,9 @@ hr {
 
       }
       .depNode hr{
-          border-style: solid none;
-          border-width: 1px 0;
+         border: none;
+         height: 1px;
+         background-color: white;
           margin: 1px 0;
       }
       .depNode span{
@@ -87,10 +94,11 @@ hr {
       }
 
       .depNode{
+      position: relative;
            border-radius: 4px;
                display: block;
                font-size: 12px;
-
+                      float:left;
                padding: 8px;
                text-decoration: none;
                width: 180px;
@@ -100,9 +108,15 @@ hr {
 
       }
 
-#dependencyTree ul
+#h1v1
 {
-margin-left: 200px;
+  display:none;
+}
+
+#dependencyTree ul li ul
+{
+     margin-left: 200px;
+
 }
 
 
@@ -152,6 +166,21 @@ margin-left: 200px;
 	
 
 	
+ .depMenu {
+ display:none;
+    background-color: #FFFFFF;
+        border-radius: 4px;
+        color: #0088CC;
+        font-size: 95%;
+        padding: 3px;
+        position: absolute;
+        right: 5px;
+        top: -12px;
 
+
+     -moz-box-shadow:    2px 2px 2px 1px #CCCCCC;
+       -webkit-box-shadow: 2px 2px 2px 1px #CCCCCC;
+       box-shadow:         2px 2px 2px 1px #CCCCCC;
+ }
 
 

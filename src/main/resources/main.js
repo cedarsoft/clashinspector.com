@@ -145,24 +145,19 @@ function buildGuiDependency(dependencyNodeObject)
 
         }
 
-        $(document).on('click', '.depNode', function(){
-
-                   $(this).next("ul").toggle();
-
+        $(document).on('click', 'div.depNode', function(){
+                   $(this).next("ul").toggle()
+                          .children(".depNodeLi").children("ul").toggle();
 
         });
 
          $(document).on('mouseenter', '.depNode', function(){
+               $(this).children(".depMenu").show();
 
+         });
 
-                               $(this).children(".depMenu").show();
+        $(document).on('mouseleave', '.depNode', function(){
 
+             $(this).children(".depMenu").hide();
 
-                });
-
-                  $(document).on('mouseleave', '.depNode', function(){
-
-                                          $(this).children(".depMenu").hide();
-
-
-                                });
+        });

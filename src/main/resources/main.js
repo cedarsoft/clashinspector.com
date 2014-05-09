@@ -1,7 +1,24 @@
 
  //Vllt doch besser objekte ohne rest einzuschreiben ??
- var dependencyNodeWrapperRoot;
+function DependencyNodeObject(dependencyNodeWrapper,guiElementId)
+{
+
+
+    this.dependencyNodeWrapper = dependencyNodeWrapper;
+    this.guiElementId =  guiElementId;
+
+
+}
           //Eigenes objekt erstellen mit verweis auf guielement damit ausblenden etc.
+
+
+       var dependencyNodeObjectList = {};
+
+
+
+
+
+
 
 $( document ).ready(function() {
 
@@ -47,57 +64,105 @@ function doGet(url,callbackFunction)
  function drawTree(data)
  {
 
- var html = buildTree(data);
+
+
+
+ $("#analyzedDep").html("analyzed dependency: "+ data.groupId+":"+data.artifactId+":"+data.version);
+
+ var html = "<ul id='dependencyTree'>" +   buildTree(data,0,1);
+
+ html = html + "</ul>";
+
+
+
 
  $("#leftMain").html( html);
 
  }
 
-function buildTree(data)
+function buildTree(data,horDepth,verDepth)
 {        //console.log("jo2" + html)
-         var html=drawDependency(data.groupId,data.artifactId,data.version);
+      horDepth = horDepth + 1;
 
+var id =   "h"+horDepth+"v"+verDepth;
 
-          // console.log("jo3" + html)
-
+             var dep = new DependencyNodeObject(data,id);
+                      dependencyNodeObjectList[id] = dep;
+                       var html=buildGuiDependency(dep);
       if(data.children.length >0)
-      {          // console.log("jo4" + html)
-         html = html +    '<ul>' ;
+      {
+      var display = "display:block;";
+          if(horDepth==2)
+          {
+                display="display:none;"
+          }
+
+         html = html +    '<ul style="'+display+'">' ;
 
                for(var i=0;i<data.children.length;i++){
 
 
-
-                 html = html + buildTree(data.children[i]);
+                 verDepth = verDepth +1;
+                 html = html + buildTree(data.children[i],horDepth,verDepth);
                }
 
 
             html = html + '</ul>' ;
-            html = html + '</li>';
+            html = html + ' <div class="clearing"></div></li>';
        }
        else
        {
-       html = html +'</li>' ;
+       html = html +' <div class="clearing"></div></li>' ;
        }
 
 
          return html;
 
 
-
 }
 
-function drawDependency(groupId,artifactId,version)
+function buildGuiDependency(dependencyNodeObject)
     {
+        if(dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" )
+                                {
+                                      var mavenCentralHref =  "http://search.maven.org/#artifactdetails|"+dependencyNodeObject.dependencyNodeWrapper.groupId+"|"+dependencyNodeObject.dependencyNodeWrapper.artifactId+"|"+dependencyNodeObject.dependencyNodeWrapper.version+"|"+dependencyNodeObject.dependencyNodeWrapper.extension;
+                                      var  mavenCentralLink   = '<a href="'+mavenCentralHref+'" target="_blank"> maven-central </a>';
 
-    return '<li class="depNodeLi"><div class="depNode">\
-                                             <span class="groupId" title="groupId">'+groupId+'</span>     \
+                                }
+
+
+    return '<li class="depNodeLi"  ><div id="'+dependencyNodeObject.guiElementId+'" class="depNode">\
+                                             <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
-                                             <span class="artifactId" title="artifactId">'+artifactId+'</span>   \
+                                             <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
-                                             <span class="version" title="version">'+version+'</span>  \  </div>    ' ;
+                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span> <div class="depMenu"><a>details</a> | '+mavenCentralLink+' </div> </div>    ' ;
     }
 
-    function drawMainDependency(data)
+    function drawMainDependency(groupId,artifactId,version)
         {
+
+
         }
+
+        $(document).on('click', '.depNode', function(){
+
+                   $(this).next("ul").toggle();
+
+
+        });
+
+         $(document).on('mouseenter', '.depNode', function(){
+
+
+                               $(this).children(".depMenu").show();
+
+
+                });
+
+                  $(document).on('mouseleave', '.depNode', function(){
+
+                                          $(this).children(".depMenu").hide();
+
+
+                                });

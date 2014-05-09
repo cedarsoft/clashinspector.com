@@ -20,7 +20,7 @@ import org.eclipse.aether.transport.file.FileTransporterFactory;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
 
 /*
- * A factory for repository system instances that employs Aether's built-in service locator infrastructure to wire up
+ * A factory for repository system instances that employs Aether's built-in rest locator infrastructure to wire up
  * the system's components.
  */
 public class ManualRepositorySystemFactory {

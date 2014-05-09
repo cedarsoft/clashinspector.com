@@ -97,7 +97,7 @@ var id =   "h"+horDepth+"v"+verDepth;
                 display="display:none;"
           }
 
-         html = html +    '<ul style="'+display+'">' ;
+         html = html +    '<ul class="depNodeUl" style="'+display+'">' ;
 
                for(var i=0;i<data.children.length;i++){
 
@@ -145,12 +145,44 @@ function buildGuiDependency(dependencyNodeObject)
 
         }
 
+
+        var time = 300, clickNumber = 0, timer = null;
+
         $(document).on('click', '.depNode', function(){
 
-                   $(this).next("ul").toggle();
+             clickNumber++;
+
+                   if(clickNumber === 1) {
+
+                       timer = setTimeout(function() {
+                       $(this).next("ul").toggle()
+                                           .children(".depNodeLi").children("ul").toggle();
+
+
+                           clickNumber = 0;
+
+                       }, time);
+
+                   } else {
+
+                           $(this).next("ul").toggle()
+                                                                      .children(".depNodeLi").toggle();
+                       clearTimeout(timer);
+
+                       clickNumber = 0;
+                   }
+
+
 
 
         });
+
+        $(document).on('dbclick', '.depNode', function(){
+
+                     e.preventDefault();
+
+
+                });
 
          $(document).on('mouseenter', '.depNode', function(){
 

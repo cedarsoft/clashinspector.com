@@ -1,4 +1,4 @@
-package com.clashinspector.service;
+package com.clashinspector.rest;
 
 import com.clashinspector.model.ClashCollectResultWrapper;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,7 +8,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +17,7 @@ import javax.ws.rs.core.MediaType;
  * To change this template use File | Settings | File Templates.
  */
 @Path( "dependencies" )
-public class DependencyService {
+public class DependencyRestService {
 
   private static ClashCollectResultWrapper clashCollectResultWrapper;
 
@@ -69,7 +68,7 @@ public class DependencyService {
 
 
   public static void setClashCollectResultWrapper( ClashCollectResultWrapper clashCollectResultWrapper ) {
-    DependencyService.clashCollectResultWrapper = clashCollectResultWrapper;
+    DependencyRestService.clashCollectResultWrapper = clashCollectResultWrapper;
   }
 
 }

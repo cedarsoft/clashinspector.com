@@ -4,7 +4,7 @@ package com.clashinspector.mojos;
 
 
 import com.clashinspector.model.ClashCollectResultWrapper;
-import com.clashinspector.service.DependencyService;
+import com.clashinspector.rest.DependencyRestService;
 import com.clashinspector.visualize.ConsoleVisualizer;
 
 import com.sun.net.httpserver.HttpServer;
@@ -12,10 +12,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
@@ -60,14 +56,14 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
       //consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
 
-      DependencyService.setClashCollectResultWrapper( clashCollectResultWrapper );
+      DependencyRestService.setClashCollectResultWrapper( clashCollectResultWrapper );
 
 
              //TODO port eventuell variabel machen
 
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
-      ResourceConfig config = new ResourceConfig(DependencyService.class);
+      ResourceConfig config = new ResourceConfig(DependencyRestService.class);
       HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:8080/"), config );
 
 

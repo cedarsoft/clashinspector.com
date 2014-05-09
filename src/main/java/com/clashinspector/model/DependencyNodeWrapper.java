@@ -71,6 +71,7 @@ public class DependencyNodeWrapper {
   {
     return this.dependencyNode.getArtifact().getExtension();
   }
+
   @JsonProperty("repository")
   public String getRepository()
   {

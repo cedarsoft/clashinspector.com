@@ -43,29 +43,6 @@ public class DependencyRestService {
     return value;
   }
 
-  @Path("project/{projectid}")
-  @GET
-  @JSONP(queryParam="callback")
-  @Produces("application/x-javascript")
-  public String getAllDependenciesProject(@QueryParam("callback") String callback)
-  {
-    ObjectMapper mapper = new ObjectMapper(  );
-    //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
-    //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-    String value = "";
-    try
-    {
-      value = mapper.writeValueAsString( clashCollectResultWrapper.getRoot() );
-
-    }
-    catch (Exception e)
-    {
-      System.out.println(e);
-    }
-
-    return value;
-  }
-
 
   public static void setClashCollectResultWrapper( ClashCollectResultWrapper clashCollectResultWrapper ) {
     DependencyRestService.clashCollectResultWrapper = clashCollectResultWrapper;

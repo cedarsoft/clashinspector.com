@@ -150,13 +150,15 @@ function buildGuiDependency(dependencyNodeObject)
 
         $(document).on('click', '.depNode', function(){
 
+ $(this).next("ul").toggle()
+                                           .children(".depNodeLi").children("ul").toggle();
+
              clickNumber++;
 
                    if(clickNumber === 1) {
 
                        timer = setTimeout(function() {
-                       $(this).next("ul").toggle()
-                                           .children(".depNodeLi").children("ul").toggle();
+
 
 
                            clickNumber = 0;

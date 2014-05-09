@@ -108,7 +108,7 @@ hr {
 
       }
 
-#h1v1
+#d0r0a0
 {
   display:none;
 }
@@ -184,3 +184,8 @@ hr {
  }
 
 
+       .javascriptWarning
+       {
+       color: red;
+       font-weight: bold;
+       }

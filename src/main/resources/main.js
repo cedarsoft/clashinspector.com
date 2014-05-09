@@ -22,9 +22,10 @@ function DependencyNodeObject(dependencyNodeWrapper,guiElementId)
 
 $( document ).ready(function() {
 
+
+$(".javascriptWarning").hide();
+
 doGet("http://localhost:8080/dependencies",drawTree);
-
-
 
 
 
@@ -69,7 +70,7 @@ function doGet(url,callbackFunction)
 
  $("#analyzedDep").html("analyzed dependency: "+ data.groupId+":"+data.artifactId+":"+data.version);
 
- var html = "<ul id='dependencyTree'>" +   buildTree(data,0,1);
+ var html = "<ul id='dependencyTree'>" +   buildTree(data);
 
  html = html + "</ul>";
 
@@ -80,19 +81,23 @@ function doGet(url,callbackFunction)
 
  }
 
-function buildTree(data,horDepth,verDepth)
+function buildTree(data)
 {        //console.log("jo2" + html)
-      horDepth = horDepth + 1;
 
-var id =   "h"+horDepth+"v"+verDepth;
+
+              var id =   "d"+data.graphDepth+"r"+data.graphLevelOrderRelative+"a"+data.graphLevelOrderAbsolute;
+
+
+
 
              var dep = new DependencyNodeObject(data,id);
                       dependencyNodeObjectList[id] = dep;
                        var html=buildGuiDependency(dep);
+
       if(data.children.length >0)
       {
       var display = "display:block;";
-          if(horDepth==2)
+          if(dep.dependencyNodeWrapper.graphDepth>0)
           {
                 display="display:none;"
           }
@@ -102,8 +107,8 @@ var id =   "h"+horDepth+"v"+verDepth;
                for(var i=0;i<data.children.length;i++){
 
 
-                 verDepth = verDepth +1;
-                 html = html + buildTree(data.children[i],horDepth,verDepth);
+
+                 html = html + buildTree(data.children[i]);
                }
 
 
@@ -146,34 +151,31 @@ function buildGuiDependency(dependencyNodeObject)
         }
 
 
-        var time = 300, clickNumber = 0, timer = null;
+        var delayTime = 200, clickNumber = 0, timer = null;
 
         $(document).on('click', '.depNode', function(){
 
- $(this).next("ul").toggle()
-                                           .children(".depNodeLi").children("ul").toggle();
+    var thisVar = $(this);
 
-             clickNumber++;
+          clickNumber++;
 
-                   if(clickNumber === 1) {
+        if(clickNumber === 1) {
 
-                       timer = setTimeout(function() {
+            timer = setTimeout(function() {
 
+               thisVar.next("ul").toggle();
 
+                clickNumber = 0;
 
-                           clickNumber = 0;
+            }, delayTime);
 
-                       }, time);
+        } else {
 
-                   } else {
-
-                           $(this).next("ul").toggle()
-                                                                      .children(".depNodeLi").toggle();
-                       clearTimeout(timer);
-
-                       clickNumber = 0;
-                   }
-
+            clearTimeout(timer);
+            thisVar.next("ul").show();
+            thisVar.next("ul").find("ul").show();
+            clickNumber = 0;
+        }
 
 
 
@@ -200,3 +202,10 @@ function buildGuiDependency(dependencyNodeObject)
 
 
                                 });
+
+
+
+                                function markClashes()
+                                {
+
+                                }

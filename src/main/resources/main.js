@@ -145,17 +145,16 @@ function buildGuiDependency(dependencyNodeObject)
 
         }
 
-<<<<<<< HEAD
-        $(document).on('click', 'div.depNode', function(){
-                   $(this).next("ul").toggle()
-                          .children(".depNodeLi").children("ul").toggle();
-=======
+
+
+
 
         var time = 300, clickNumber = 0, timer = null;
 
         $(document).on('click', '.depNode', function(){
 
              clickNumber++;
+
 
                    if(clickNumber === 1) {
 
@@ -179,7 +178,40 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
->>>>>>> b7e7ab5cd9819171b380207df0b5de9df82fbaef
+
+                   if(clickNumber === 1) {
+
+                       timer = setTimeout(function() {
+                       $(this).next("ul").toggle()
+                                           .children(".depNodeLi").children("ul").toggle();
+
+
+
+                           clickNumber = 0;
+
+                       }, time);
+
+                   } else {
+
+                           $(this).next("ul").toggle()
+                                                                      .children(".depNodeLi").toggle();
+                       clearTimeout(timer);
+
+                       clickNumber = 0;
+                   }
+
+        $(document).on('dbclick', '.depNode', function(){
+
+                     e.preventDefault();
+
+
+                });
+
+         $(document).on('mouseenter', '.depNode', function(){
+
+
+
+
 
         });
 

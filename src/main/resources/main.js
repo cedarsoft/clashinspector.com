@@ -145,6 +145,11 @@ function buildGuiDependency(dependencyNodeObject)
 
         }
 
+<<<<<<< HEAD
+        $(document).on('click', 'div.depNode', function(){
+                   $(this).next("ul").toggle()
+                          .children(".depNodeLi").children("ul").toggle();
+=======
 
         var time = 300, clickNumber = 0, timer = null;
 
@@ -174,6 +179,7 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
+>>>>>>> b7e7ab5cd9819171b380207df0b5de9df82fbaef
 
         });
 
@@ -185,16 +191,12 @@ function buildGuiDependency(dependencyNodeObject)
                 });
 
          $(document).on('mouseenter', '.depNode', function(){
+               $(this).children(".depMenu").show();
 
+         });
 
-                               $(this).children(".depMenu").show();
+        $(document).on('mouseleave', '.depNode', function(){
 
+             $(this).children(".depMenu").hide();
 
-                });
-
-                  $(document).on('mouseleave', '.depNode', function(){
-
-                                          $(this).children(".depMenu").hide();
-
-
-                                });
+        });

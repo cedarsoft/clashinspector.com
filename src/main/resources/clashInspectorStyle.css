@@ -89,14 +89,16 @@ hr {
            border-radius: 4px;
                display: block;
                font-size: 12px;
-
                padding: 8px 15px;
                text-decoration: none;
                width: 180px;
                word-wrap: break-word;
            	background-color: #F5F5F5;
            	margin-bottom: 15px;
-
+           	box-shadow: 0 0 5px grey;
+      }
+      .depNode:hover{
+        box-shadow: 0 0 7px red;
       }
 
     #leftMain{

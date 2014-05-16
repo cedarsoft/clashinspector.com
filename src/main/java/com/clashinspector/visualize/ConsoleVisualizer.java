@@ -59,7 +59,7 @@ public class ConsoleVisualizer implements Visualizer {
       }
 
 
-      log.info( preDependencyString + dNW.toString() );
+      log.info( preDependencyString + dNW.toString());
 
 
       if ( dNW.getProject().hasOuterVersionClashForClashSeverityLevel( this.clashSeverity ) ) {

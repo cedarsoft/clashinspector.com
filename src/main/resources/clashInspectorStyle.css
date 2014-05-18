@@ -115,10 +115,15 @@ hr {
 
 #dependencyTree ul li ul
 {
-     margin-left: 200px;
+     margin-left: 10px;
 
 }
 
+#dependencyTree ul
+{
+float: left;
+
+}
 
 
     #leftMain{
@@ -189,3 +194,26 @@ hr {
        color: red;
        font-weight: bold;
        }
+
+
+       .details
+       {
+       position: relative;
+       height: auto;
+       display: none;
+       background-color: white;
+        border-radius: inherit;
+        padding: 2px;
+        margin-top: 5px;
+       }
+
+       .details span
+        {
+           font-size: 84%;
+        }
+
+              #detailsButton
+              {
+                cursor: pointer;
+
+              }

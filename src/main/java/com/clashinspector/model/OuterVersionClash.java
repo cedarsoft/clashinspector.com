@@ -2,6 +2,7 @@ package com.clashinspector.model;
 
 import com.clashinspector.mojos.ClashSeverity;
 import com.clashinspector.mojos.WhiteListDependency;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

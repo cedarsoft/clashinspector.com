@@ -246,9 +246,7 @@
         </configuration>
         <executions>
           <execution>
-            <goals>
-              <goal>listPhase</goal>
-            </goals>
+
 
           </execution>
         </executions>

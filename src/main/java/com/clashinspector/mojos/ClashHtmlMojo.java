@@ -5,6 +5,8 @@ package com.clashinspector.mojos;
 
 import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.rest.DependencyRestService;
+import com.clashinspector.rest.UserParameterWrapper;
+import com.clashinspector.rest.ViewScopeManager;
 import com.clashinspector.visualize.ConsoleVisualizer;
 
 import com.sun.net.httpserver.HttpServer;
@@ -48,18 +50,12 @@ public class ClashHtmlMojo extends AbstractClashMojo {
       artifact = new DefaultArtifact( this.getProject().getArtifact().toString() );
 
 
-      com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
 
-      ConsoleVisualizer consoleVisualizer = new ConsoleVisualizer();
+      UserParameterWrapper userParameterWrapper = new UserParameterWrapper(this.getIncludedScopesList(),this.getExcludedScopesList(),this.isIncludeOptional()  );
+        //ViewScopeManager initialisieren
+      ViewScopeManager.init( artifact,this.getRepoSystem(),this.getRepoSession(), userParameterWrapper );
 
-      ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( artifact, this.getRepoSession(), this.getRepoSystem(), this.getIncludedScopesList(), this.getExcludedScopesList(), this.isIncludeOptional() ) );
-
-      //consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
-
-      DependencyRestService.setClashCollectResultWrapper( clashCollectResultWrapper );
-
-
-             //TODO port eventuell variabel machen
+      //TODO port eventuell variabel machen
 
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 

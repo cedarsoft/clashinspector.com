@@ -48,14 +48,14 @@ public class DependencyNodeWrapper {
     this.project = project;
   }
 
-  public DependencyNodeWrapper( DependencyNode dependencyNode ) {
+  public DependencyNodeWrapper( DependencyNode dependencyNode,Project project ) {
     this.dependencyNode = dependencyNode;
     this.graphDepth = 0;
     this.graphLevelOrderRelative = 0;
     this.graphLevelOrderAbsolute =0;
     this.parent = null;
     this.addCounter = 0;
-    this.project = null;
+    this.project = project;
   }
 
 
@@ -176,7 +176,7 @@ public class DependencyNodeWrapper {
     return addCounter;
   }
 
-   @JsonIgnore
+
   @Nullable
   public Project getProject() {
     return project;
@@ -197,5 +197,10 @@ public class DependencyNodeWrapper {
     }
   }
 
+
+  public String getId()
+  {
+    return "d"+this.getGraphDepth() +"r"+ this.getGraphLevelOrderRelative() +"a"+ this.graphLevelOrderAbsolute ;
+  }
 
 }

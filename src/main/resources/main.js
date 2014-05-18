@@ -12,7 +12,7 @@ function DependencyNodeObject(dependencyNodeWrapper)
           //Eigenes objekt erstellen mit verweis auf guielement damit ausblenden etc.
 
 
-       var dependencyNodeObjectList = {};
+       var dependencyNodeObjectList = new Array();
         var viewId =0;
 
 
@@ -60,13 +60,15 @@ function buildTree(data)
 {        //console.log("jo2" + html)
 
 
-              //var id =   "d"+data.graphDepth+"r"+data.graphLevelOrderRelative+"a"+data.graphLevelOrderAbsolute;
+              var id =   "d"+data.graphDepth+"r"+data.graphLevelOrderRelative+"a"+data.graphLevelOrderAbsolute;
 
 
 
 
              var dep = new DependencyNodeObject(data);
-                      dependencyNodeObjectList[data.id] = dep;
+                      dependencyNodeObjectList[id] = dep;
+
+
                        var html=buildGuiDependency(dep);
 
       if(data.children.length >0)
@@ -110,6 +112,9 @@ function buildGuiDependency(dependencyNodeObject)
 
                                 }
 
+                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependency(dependencyNodeObjectList['+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'].dependencyNodeWrapper,&quot;highlightSearch&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+                               //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+
 
     return '<li class="depNodeLi"  ><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
@@ -117,14 +122,10 @@ function buildGuiDependency(dependencyNodeObject)
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span> \
-                                              <div class="details"><span title="from maven used version of this project">used version:  </span><hr><span title="highest version of this project included in the analyzed dependency">highest version: </span><hr><span title="lowest version of this project included in the analyzed dependency">lowest version: '+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span><hr><span>number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div> <div class="depMenu"><a id="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
+                                              <div class="details"><span title="from maven used version of this project">used version: '+usedVersionLink+'  </span><hr><span title="highest version of this project included in the analyzed dependency">highest version: '+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+' </span><hr><span title="lowest version of this project included in the analyzed dependency">lowest version: '+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span><hr><span title="number of direct dependencies">number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
     }
 
-    function drawMainDependency(groupId,artifactId,version)
-        {
 
-
-        }
 
 
         var delayTime = 200, clickNumber = 0, timer = null;
@@ -181,13 +182,10 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
-                                function markClashes()
-                                {
-
-                                }
 
 
-                            $(document).on('click', '#detailsButton', function(){
+
+                            $(document).on('click', '.detailsButton', function(){
 
                                                  $(this).parent(".depMenu").prev(".details").toggle();
 
@@ -197,7 +195,14 @@ function buildGuiDependency(dependencyNodeObject)
 
                                            });
 
+                                        $(document).on('click', '.details', function(){
 
+
+                                                                                        e.stopPropagation();
+
+
+
+                                                                                   });
 
 
 
@@ -242,3 +247,125 @@ function buildGuiDependency(dependencyNodeObject)
 
                                                         callbackFunction.call( this, responseObject.result );
                                         }
+
+
+
+
+
+
+
+
+
+
+
+                               function searchForDependencies(groupId,artifactId,version)
+                                        {
+                                                          //  alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length)
+                                                          var result =  jQuery.extend({}, dependencyNodeObjectList);
+
+                                            if(groupId != undefined && groupId!="" )
+                                            {
+                                                              alert("groupId: " + groupId);
+
+                                                            for(var index in result) {
+
+                                                             //  alert(result[index].dependencyNodeWrapper.groupId) ;
+                                                              if(result[index].dependencyNodeWrapper.groupId!=groupId)
+                                                               {
+
+                                                                  delete result[index];
+                                                               }
+
+
+                                                                                                                                    }
+
+
+
+
+
+
+                                            }
+                                            if(artifactId != undefined  && artifactId!="")
+                                            {
+                                                     alert("artifactId: " +artifactId )  ;
+                                                   for(var index in result) {
+                                           if(result[index].dependencyNodeWrapper.artifactId!=artifactId)
+                                                                                                        {
+
+                                                                                                           delete result[index];
+                                                                                                        }
+
+                                                                                                                                                                                      }
+
+
+                                            }
+                                             if(version != undefined && version!="")
+                                            {
+                                                       alert("version: " +version )  ;
+                                                 for(var index in result) {
+
+                                                          if(result[index].dependencyNodeWrapper.version!=version)
+                                                                                                                       {
+
+                                                                                                                          delete result[index];
+                                                                                                                       }
+                                                                                                                                                                                    }
+
+                                            }
+
+
+
+                                               alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length) ;
+                                                alert("result length: " + Object.keys(result).length)     ;
+
+
+                                          return result;
+
+
+                                        }
+
+
+
+
+ function highlightDependency(dependencyNodeWrapper,clazz)
+                                        {
+
+                                            $("#"+dependencyNodeWrapper.id).addClass(clazz);
+
+                                        }
+
+                                         function highlightDependencies(dependencyNodeWrapperList,clazz)
+                                              {
+
+                                                 for(var index in dependencyNodeWrapperList) {
+
+                                                   // $("#dependencyTree").children("ul").hide();
+                                                  $("#"+dependencyNodeWrapperList[index].dependencyNodeWrapper.id).addClass(clazz);
+
+
+                                                   $("#"+dependencyNodeWrapperList[index].dependencyNodeWrapper.id).parents("ul").show();
+                                                 }
+                                              }
+
+
+                                                 function undoSearchHighlight()
+                                                 {
+                                                      $(".highlightSearch").removeClass("highlightSearch");
+
+                                                 }
+
+
+
+
+                                                 function searchAndHighlightDependency(groupId,artifactId,version,clazz,undoSearch)
+                                                                                {
+
+                                                                                      if(undoSearch==true)
+                                                                                      {
+                                                                                         undoSearchHighlight();
+                                                                                      }
+
+                                                                                     var result =  searchForDependencies(groupId,artifactId,version) ;
+
+                                                                                     highlightDependencies(result,clazz);
+                                                                                }

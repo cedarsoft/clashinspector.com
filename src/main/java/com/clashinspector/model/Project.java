@@ -32,8 +32,11 @@ public class Project {
 
   public void init() {
     this.dependencyNodeWrapperWithUsedVersion = this.identifyUsedDependencyNodeWrapper();
+
     this.usedVersion = this.identifyUsedDependencyNodeWrapper().getVersion();
+
     this.highestVersion = this.identifyHighestVersion();
+
     this.lowestVersion = this.identifyLowestVersion();
 
     //Detect Clashes for this project first inner than outer

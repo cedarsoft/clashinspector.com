@@ -35,17 +35,18 @@ public class ClashCollectResultWrapper {
     Map<Integer, Integer> graphLevelOrderAbsoluteMap = new LinkedHashMap<Integer, Integer>();
 
 
-
+      //Create Project for Root DependenciyWrapper ... this project is needed in html
     //TODO hier project vllt wieder entfernen
-    Project    project = new Project( this.collectResult.getRoot().getArtifact().getGroupId(), this.collectResult.getRoot().getArtifact().getArtifactId() );
-    String key =  this.collectResult.getRoot().getArtifact().getGroupId() + ":" +  this.collectResult.getRoot().getArtifact().getArtifactId();
-      projectMap.put( key,project );
+    Project    project = new Project( this.collectResult.getRoot().getArtifact().getGroupId(), this.collectResult.getRoot().getArtifact().getArtifactId() );    //
+    String key =  this.collectResult.getRoot().getArtifact().getGroupId() + ":" +  this.collectResult.getRoot().getArtifact().getArtifactId();              //
+    projectMap.put( key,project ); //
 
     this.root = new DependencyNodeWrapper( this.collectResult.getRoot(),project );
 
     this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1,graphLevelOrderAbsoluteMap );
 
-    this.root.getProject().init();
+         project.addInstance( this.root );
+    this.root.getProject().init();      //
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 

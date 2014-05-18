@@ -99,12 +99,13 @@ hr {
                display: block;
                font-size: 12px;
                       float:left;
-               padding: 8px;
+               padding: 6px;
                text-decoration: none;
                width: 180px;
                word-wrap: break-word;
            	background-color: #F5F5F5;
            	margin-bottom: 15px;
+           	    border: 2px solid #F5F5F5;
 
       }
 
@@ -209,11 +210,41 @@ float: left;
 
        .details span
         {
+
            font-size: 84%;
         }
 
-              #detailsButton
+              .detailsButton
               {
                 cursor: pointer;
 
               }
+
+
+
+
+              .highlightSearch
+              {
+                  border-color : #0088CC;
+              }
+
+
+              .usedVersionLink
+              {
+              font-color: #0088CC;
+              cursor: pointer;
+
+              }
+               .highestVersionLink
+                            {
+                            font-color: #0088CC;
+                            cursor: pointer;
+
+                            }
+
+                             .lowestVersionLink
+                                          {
+                                          font-color: #0088CC;
+                                          cursor: pointer;
+
+                                          }

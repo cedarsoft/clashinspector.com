@@ -31,17 +31,17 @@ public class ProjectSerializerForDependencyNodeWrapper extends JsonSerializer<Pr
       throws IOException, JsonProcessingException {
 
       jgen.writeStartObject();
-      System.out.println("Serializer1");
+
                             jgen.writeStringField( "groupId", value.getGroupId() );
-      System.out.println("Serializer2");
+
       jgen.writeStringField( "artifactId", value.getArtifactId() );
-      System.out.println("Serializer3");
+
       jgen.writeStringField( "usedVersion", value.getUsedVersion().toString() );
-      System.out.println("Serializer4");
+
       jgen.writeStringField( "highestVersion", value.getHighestVersion().toString()  );
-      System.out.println("Serializer5");
+
       jgen.writeStringField( "lowestVersion", value.getLowestVersion().toString()  );
-      System.out.println("Serializer6");
+
 
       jgen.writeStringField( "dependencyNodeWrapperWithUsedVersionId", value.getDependencyNodeWrapperWithUsedVersion().getId() );
 

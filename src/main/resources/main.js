@@ -112,7 +112,13 @@ function buildGuiDependency(dependencyNodeObject)
 
                                 }
 
-                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependency(dependencyNodeObjectList['+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'].dependencyNodeWrapper,&quot;highlightSearch&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+                                  var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'</span>';
+                                  var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span>';
+
+
+
+
                                //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
 
 
@@ -122,7 +128,7 @@ function buildGuiDependency(dependencyNodeObject)
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span> \
-                                              <div class="details"><span title="from maven used version of this project">used version: '+usedVersionLink+'  </span><hr><span title="highest version of this project included in the analyzed dependency">highest version: '+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+' </span><hr><span title="lowest version of this project included in the analyzed dependency">lowest version: '+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span><hr><span title="number of direct dependencies">number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
+                                              <div class="details"><div><span title="from maven used version of this project">used version:  </span>'+usedVersionLink+'</div> <hr><div><span title="highest version of this project included in the analyzed dependency">highest version:  </span>'+highestVersionLink+'</div><hr><div><span title="lowest version of this project included in the analyzed dependency">lowest version: </span>'+lowestVersionLink+'</div><hr><div><span title="number of direct dependencies">number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
     }
 
 
@@ -157,6 +163,26 @@ function buildGuiDependency(dependencyNodeObject)
 
 
         });
+
+
+
+$(document).on('click', '#searchButton', function(){
+
+                          var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
+                              $(this).html("search <span>("+Object.keys(result).length+" results)</span>");
+
+                });
+
+$(document).on('input', '.searchInput', function(){
+
+                           $("#searchButton").html("search");
+
+                });
+
+ $(document).on('click', '.openSearchButton', function(){
+                            $("#searchContainer").toggle();
+
+                });
 
         $(document).on('dbclick', '.depNode', function(){
 
@@ -254,11 +280,14 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
+                               function searchForDependencyById(id)
+                                                                       {
+                                                  return   dependencyNodeObjectList[id].dependencyNodeWrapper;
+                                                                       }
 
 
 
-
-                               function searchForDependencies(groupId,artifactId,version)
+                               function searchForDependenciesByCoordinates(groupId,artifactId,version)
                                         {
                                                           //  alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length)
                                                           var result =  jQuery.extend({}, dependencyNodeObjectList);
@@ -315,8 +344,6 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
-                                               alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length) ;
-                                                alert("result length: " + Object.keys(result).length)     ;
 
 
                                           return result;
@@ -327,45 +354,57 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
- function highlightDependency(dependencyNodeWrapper,clazz)
+ function highlightDependency(dependencyNodeWrapper,highlightClazz,openPath)
                                         {
 
-                                            $("#"+dependencyNodeWrapper.id).addClass(clazz);
+
+
+                                            $("#"+dependencyNodeWrapper.id).addClass(highlightClazz);
+
+
+
+                                           if(openPath == true)
+                                           {
+                                                           $("#"+dependencyNodeWrapper.id).parents("ul").show();
+
+                                           }
 
                                         }
 
-                                         function highlightDependencies(dependencyNodeWrapperList,clazz)
-                                              {
 
+function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPath)
+                                        {
+
+                                            $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
+                                            highlightDependency(dependencyNodeObjectList[id].dependencyNodeWrapper,highlightClazz,openPath);
+
+                                        }
+
+                                         function highlightDependencies(dependencyNodeWrapperList,highlightClazz,highlightClazzToDelete,openPath)
+                                              {
+                                                 $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
                                                  for(var index in dependencyNodeWrapperList) {
 
-                                                   // $("#dependencyTree").children("ul").hide();
-                                                  $("#"+dependencyNodeWrapperList[index].dependencyNodeWrapper.id).addClass(clazz);
+                                                      highlightDependency(dependencyNodeWrapperList[index].dependencyNodeWrapper,highlightClazz,openPath);
 
 
-                                                   $("#"+dependencyNodeWrapperList[index].dependencyNodeWrapper.id).parents("ul").show();
                                                  }
                                               }
 
 
-                                                 function undoSearchHighlight()
-                                                 {
-                                                      $(".highlightSearch").removeClass("highlightSearch");
-
-                                                 }
 
 
 
 
-                                                 function searchAndHighlightDependency(groupId,artifactId,version,clazz,undoSearch)
+
+                                                 function searchAndHighlightDependencyByCoordinates(groupId,artifactId,version,highlightClazz,highlightClazzToDelete,openPath)
                                                                                 {
 
-                                                                                      if(undoSearch==true)
-                                                                                      {
-                                                                                         undoSearchHighlight();
-                                                                                      }
 
-                                                                                     var result =  searchForDependencies(groupId,artifactId,version) ;
 
-                                                                                     highlightDependencies(result,clazz);
+                                                                                     var result =  searchForDependenciesByCoordinates(groupId,artifactId,version) ;
+
+                                                                                     highlightDependencies(result,highlightClazz,highlightClazzToDelete,openPath);
+
+                                                                                     return result;
                                                                                 }

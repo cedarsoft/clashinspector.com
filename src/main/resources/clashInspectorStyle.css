@@ -2,7 +2,7 @@
 *{
 margin:0;
 padding:0;
-border-color: #808080;
+/*border-color: #808080;    */
 list-style:none;
 }
 
@@ -12,10 +12,11 @@ body.topBarDisabled {
 }
 body {
     background-color: #FFFFFF;
-    color: #333333;
+    /*color: #333333; */
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     margin: 0;
+    min-width: 800px;
  }
 
 
@@ -25,12 +26,12 @@ body {
 }
 
 
- .pull-right
+ .pullRight
  {
       	float: right;
  }
 
- .pull-left
+ .pullLeft
  {
      	float: left;
  }
@@ -140,20 +141,77 @@ float: left;
     #main{
     position: relative;
         min-height: 200px;
+        padding-top: 20px;
     }
 
-.menu1 {
-    background-color: #F5F5F5;
-    border-radius: 4px;
+ .topContainer
+ {
+      background-color: #F5F5F5;
+        border-radius: 4px;
+         padding: 8px 15px;
+ }
+
+#menuContainer {
+
     list-style: none outside none;
-    margin: 0 0 20px;
-    padding: 8px 15px;
+    margin: 0px;
+
 }
 
-.menu1 li {
-    display: inline-block;
-    text-shadow: 0 1px 0 #FFFFFF;
+#searchContainer {
+
+    margin: 0px;
+
+    margin-top: 10px;
+    display: none;
 }
+
+ #searchButton
+ {
+ position: relative;
+      border:none;
+       background-color: #0088CC;
+        color: white;
+        padding: 2px 8px 2px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+ }
+   #searchButton  span
+   {
+   font-weight: normal;
+   font-size: 12px;
+
+   }
+
+  .searchInput
+  {
+              color: #0088CC;
+  margin-right: 8px;
+         border: 1px solid  white;
+      padding: 2px;
+      border-radius: 4px;
+
+  }
+
+  .searchInputLabel
+  {
+       color: grey;
+            font-size: 12px;
+  }
+
+   #settingsContainer
+   {
+
+           margin: 0px;
+
+           margin-top: 10px;
+           display: none;
+
+   }
+
+
+
 	.details{
 		height:150px;
 		}
@@ -210,7 +268,7 @@ float: left;
 
        .details span
         {
-
+              display:inline;
            font-size: 84%;
         }
 
@@ -231,20 +289,20 @@ float: left;
 
               .usedVersionLink
               {
-              font-color: #0088CC;
+              color: #0088CC;
               cursor: pointer;
 
               }
                .highestVersionLink
                             {
-                            font-color: #0088CC;
+                            color: #0088CC;
                             cursor: pointer;
 
                             }
 
                              .lowestVersionLink
                                           {
-                                          font-color: #0088CC;
+                                          color: #0088CC;
                                           cursor: pointer;
 
                                           }

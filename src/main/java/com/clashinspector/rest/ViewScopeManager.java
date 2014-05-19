@@ -41,7 +41,7 @@ public class ViewScopeManager {
     {
       Date now= new Date();
 
-      if (now.getTime() - entry.getValue().getLastUsed().getTime() >= 15*60*1000)
+      if (now.getTime() - entry.getValue().getLastUsed().getTime() >=60000 /*15*60*1000*/)
       {
 
         System.out.println("ViewScope with id " + entry.getKey()+ " deleted.");

@@ -43,7 +43,7 @@ doGet("http://localhost:8080/dependencies",drawTree);
 
 
 
- $("#analyzedDep").html("<b>"+ result.groupId+":"+result.artifactId+":"+result.version + "</b>");
+ $("#analyzedDep").html("<h2>"+ result.groupId+":"+result.artifactId+":"+result.version + "</h2>");
 
  var html = "<ul id='dependencyTree'>" +   buildTree(result);
 
@@ -176,20 +176,25 @@ $(document).on('click', '#searchButton', function(){
                                                                                           else
                                                                                                                                                     {
                                                                                                                                                         $("#searchButton").html("no results");
+
                                                                                                                                                     }
 
                 });
 
+
+
+
 $(document).on('input', '.searchInput', function(){
                                   var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
 
-                                                           if(Object.keys(result).length>0)
+                                                           if(Object.keys(result).length>0 )
                                                            {
                                                                $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
                                                            }
                                                            else
                                                            {
                                                                $("#searchButton").html("no results");
+
                                                            }
 
 
@@ -197,6 +202,11 @@ $(document).on('input', '.searchInput', function(){
 
  $(document).on('click', '.openSearchButton', function(){
                             $("#searchContainer").toggle();
+
+                });
+
+ $(document).on('click', '.openSettingsButton', function(){
+                            $("#settingsFilterContainer").toggle();
 
                 });
 
@@ -285,7 +295,7 @@ $(document).on('input', '.searchInput', function(){
                                         {
                                         //set View Id
                                         viewId =   responseObject.viewId;
-
+                                                                    alert("viewId " + viewId);
 
                                                         callbackFunction.call( this, responseObject.result );
                                         }
@@ -357,7 +367,11 @@ $(document).on('input', '.searchInput', function(){
                                                                                                                                                                                     }
 
                                             }
+                                                if((groupId == undefined || groupId=="") && (artifactId == undefined || artifactId=="") && (version == undefined || version==""))
+                                                {
 
+                                                      result = new Array();
+                                                }
 
 
 

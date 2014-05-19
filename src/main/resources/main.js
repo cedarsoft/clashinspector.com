@@ -43,7 +43,7 @@ doGet("http://localhost:8080/dependencies",drawTree);
 
 
 
- $("#analyzedDep").html("analyzed dependency: <b>"+ result.groupId+":"+result.artifactId+":"+result.version + "</b>");
+ $("#analyzedDep").html("<b>"+ result.groupId+":"+result.artifactId+":"+result.version + "</b>");
 
  var html = "<ul id='dependencyTree'>" +   buildTree(result);
 
@@ -128,7 +128,7 @@ function buildGuiDependency(dependencyNodeObject)
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span> \
-                                              <div class="details"><div><span title="from maven used version of this project">used version:  </span>'+usedVersionLink+'</div> <hr><div><span title="highest version of this project included in the analyzed dependency">highest version:  </span>'+highestVersionLink+'</div><hr><div><span title="lowest version of this project included in the analyzed dependency">lowest version: </span>'+lowestVersionLink+'</div><hr><div><span title="number of direct dependencies">number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div><hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>    ' ;
     }
 
 
@@ -169,13 +169,29 @@ function buildGuiDependency(dependencyNodeObject)
 $(document).on('click', '#searchButton', function(){
 
                           var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
-                              $(this).html("search <span>("+Object.keys(result).length+" results)</span>");
+                               if(Object.keys(result).length>0)
+                                                                                         {
+                                                                                             $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
+                                                                                         }
+                                                                                          else
+                                                                                                                                                    {
+                                                                                                                                                        $("#searchButton").html("no results");
+                                                                                                                                                    }
 
                 });
 
 $(document).on('input', '.searchInput', function(){
+                                  var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
 
-                           $("#searchButton").html("search");
+                                                           if(Object.keys(result).length>0)
+                                                           {
+                                                               $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
+                                                           }
+                                                           else
+                                                           {
+                                                               $("#searchButton").html("no results");
+                                                           }
+
 
                 });
 
@@ -294,7 +310,7 @@ $(document).on('input', '.searchInput', function(){
 
                                             if(groupId != undefined && groupId!="" )
                                             {
-                                                              alert("groupId: " + groupId);
+
 
                                                             for(var index in result) {
 
@@ -316,7 +332,7 @@ $(document).on('input', '.searchInput', function(){
                                             }
                                             if(artifactId != undefined  && artifactId!="")
                                             {
-                                                     alert("artifactId: " +artifactId )  ;
+
                                                    for(var index in result) {
                                            if(result[index].dependencyNodeWrapper.artifactId!=artifactId)
                                                                                                         {
@@ -330,7 +346,7 @@ $(document).on('input', '.searchInput', function(){
                                             }
                                              if(version != undefined && version!="")
                                             {
-                                                       alert("version: " +version )  ;
+
                                                  for(var index in result) {
 
                                                           if(result[index].dependencyNodeWrapper.version!=version)

@@ -9,7 +9,19 @@ function DependencyNodeObject(dependencyNodeWrapper)
 
 
 }
-          //Eigenes objekt erstellen mit verweis auf guielement damit ausblenden etc.
+
+
+function UserSettingsWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity)
+{
+
+this.includedScopes = includedScopes;
+this.excludedScopes = excludedScopes;
+this.includeOptional = includeOptional;
+this.clashSeverity = clashSeverity;
+
+}
+
+
 
 
        var dependencyNodeObjectList = new Array();
@@ -72,8 +84,24 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
    }
 
    function buildClashListEntry(outerVersionClash)
-   {                console.log("buildClashListEntry for" + outerVersionClash.project.groupId+ ":" +outerVersionClash.project.artifactId);
-           var html = "<li><span>"+outerVersionClash.project.groupId+"</span>:<span>"+outerVersionClash.project.artifactId+"</span><ul>";
+   {
+   var idList = "";
+   for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
+       idList = idList + "'"+outerVersionClash.innerVersionClashes[i].referredDependencyNodeWrapperId+"'";
+
+       if(i<outerVersionClash.innerVersionClashes.length-1)
+       {
+         idList = idList + ",";
+       }
+   }
+
+
+             console.log(idList);
+          var versionsLink = '<span  onclick="highlightDependencyByIds(['+idList+'],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);"><span>'+outerVersionClash.project.groupId+"</span>:<span>"+outerVersionClash.project.artifactId+'</span></span>';
+
+
+
+           var html = "<li>"+versionsLink+"<ul>";
                                  console.log("outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length);
                               for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
                               var innerVersionClash =  outerVersionClash.innerVersionClashes[i];
@@ -87,10 +115,13 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
                                                                                                                     clashSeverityClass = "clashSeverityCritical" ;
                                                                                                                   }
 
-                                         if(innerVersionClash.clashSeverity!="SAFE")
-                                         {
-                                               html=html + "<li class='"+clashSeverityClass+"'>" + dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version + "</li>";
-                                         }
+
+                                                var versionLink = '<span  onclick="highlightDependencyById(&quot;'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.id+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version+'</span>';
+
+
+
+                                               html=html + "<li class='"+clashSeverityClass+"'>" + versionLink + "</li>";
+
                               console.log("innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId);
 
                               }
@@ -178,7 +209,7 @@ function buildGuiDependency(dependencyNodeObject)
 
                                 }
 
-                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
                                   var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'</span>';
                                   var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span>';
 
@@ -369,7 +400,12 @@ $(document).on('input', '.searchInput', function(){
                                                                     console.log('[' + new Date().toUTCString() + '] ' +"received viewId " + viewId);
 
                                                         callbackFunction.call( this, responseObject.result );
-                                                        syncCallFunction.call();
+
+                                                        if(syncCallFunction!=undefined && syncCallFunction !="")
+                                                        {
+                                                            syncCallFunction.call();
+                                                        }
+
 
                                         }
 
@@ -457,7 +493,7 @@ $(document).on('input', '.searchInput', function(){
 
 
 
- function highlightDependency(dependencyNodeWrapper,highlightClazz,openPath)
+ function highlightDependency(dependencyNodeWrapper,highlightClazz,openPath,jumpTo)
                                         {
 
 
@@ -467,19 +503,40 @@ $(document).on('input', '.searchInput', function(){
 
 
                                            if(openPath == true)
-                                           {
-                                                           $("#"+dependencyNodeWrapper.id).parents("ul").show();
+                                                                                       {
+                                                                                                       $("#"+dependencyNodeWrapper.id).parents("ul").show();
 
-                                           }
+                                                                                       }
+
+                                                                                         if(jumpTo == true)
+                                                                                                                                  {
+                                                                                                                                                  location.href = "#"+dependencyNodeWrapper.id;
+
+                                                                                                                                  }
 
                                         }
 
 
-function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPath)
+function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPath,jumpTo)
                                         {
 
                                             $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
-                                            highlightDependency(dependencyNodeObjectList[id].dependencyNodeWrapper,highlightClazz,openPath);
+
+                                            highlightDependency(dependencyNodeObjectList[id].dependencyNodeWrapper,highlightClazz,openPath,jumpTo);
+
+                                        }
+                                        function highlightDependencyByIds(ids,highlightClazz,highlightClazzToDelete,openPath)
+                                        {
+                                                        alert("jo");
+                                            $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
+
+
+                                                 for(var i=0;i<ids.length;i++){
+                                                         alert("id: " + ids[i]);
+
+                                                        highlightDependency(dependencyNodeObjectList[ids[i]].dependencyNodeWrapper,highlightClazz,openPath,false);
+                                                    }
+
 
                                         }
 

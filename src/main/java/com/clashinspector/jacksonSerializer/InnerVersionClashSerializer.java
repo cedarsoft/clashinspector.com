@@ -1,8 +1,7 @@
 package com.clashinspector.jacksonSerializer;
 
-import com.clashinspector.model.DependencyNodeWrapper;
 import com.clashinspector.model.InnerVersionClash;
-import com.clashinspector.model.Project;
+import com.clashinspector.model.OuterVersionClash;
 import com.clashinspector.mojos.ClashSeverity;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
@@ -20,11 +19,13 @@ import java.io.IOException;
  */
 
 
-public class InnerVersionClashSerializerForOuterVersionClash extends JsonSerializer<InnerVersionClash> {
+public class InnerVersionClashSerializer extends JsonSerializer<InnerVersionClash> {
 
 
 
-    @Override
+
+
+  @Override
     public void serialize(InnerVersionClash value, JsonGenerator jgen, SerializerProvider provider)
       throws IOException, JsonProcessingException {
 
@@ -32,18 +33,11 @@ public class InnerVersionClashSerializerForOuterVersionClash extends JsonSeriali
 
 
 
-
       jgen.writeStartObject();
 
-
-
-      jgen.writeStringField( "usedDependencyNodeWrapperId", value.getUsedDependencyNodeWrapper().getId());
-
-      jgen.writeStringField( "referredDependencyNodeWrapperId", value.getReferredDependencyNodeWrapper().getId() );
-
-      jgen.writeStringField( "clashSeverity", value.getClashSeverity().toString() );
-
-
+    jgen.writeStringField( "clashSeverity", value.getClashSeverity().toString() );
+    jgen.writeStringField( "referredDependencyNodeWrapperId", value.getReferredDependencyNodeWrapper().getId() );
+    jgen.writeStringField( "usedDependencyNodeWrapperId", value.getUsedDependencyNodeWrapper().getId() );
 
 
       jgen.writeEndObject();

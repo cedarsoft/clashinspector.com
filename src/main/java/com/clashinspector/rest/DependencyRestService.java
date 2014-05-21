@@ -1,9 +1,11 @@
 package com.clashinspector.rest;
 
-import com.clashinspector.jacksonSerializer.InnerVersionClashSerializerForOuterVersionClash;
+import com.clashinspector.jacksonSerializer.InnerVersionClashSerializer;
+import com.clashinspector.jacksonSerializer.OuterVersionClashSerializer;
 import com.clashinspector.jacksonSerializer.ProjectSerializerForDependencyNodeWrapper;
 import com.clashinspector.jacksonSerializer.VersionSerializer;
 import com.clashinspector.model.InnerVersionClash;
+import com.clashinspector.model.OuterVersionClash;
 import com.clashinspector.model.Project;
 import com.clashinspector.mojos.ClashSeverity;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -84,17 +86,18 @@ public class DependencyRestService {
   public String getClashList(@QueryParam("callback") String callback,@QueryParam( "viewId" )int viewId,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "includedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
   {
     //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
-
+        clashSeverity = ClashSeverity.UNSAFE;
     System.out.println("joo1 viewId:" + viewId);
     UserParameterWrapper userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
     System.out.println("joo2");
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
+
     System.out.println("joo3");
-    module.addSerializer(Version.class, new VersionSerializer());
-    module.addSerializer(InnerVersionClash.class, new InnerVersionClashSerializerForOuterVersionClash());
-    module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
-    mapper.registerModule( module );
+
+
+
+
     System.out.println("joo4");
     //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
     //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
@@ -104,11 +107,22 @@ public class DependencyRestService {
 
       ViewScopeObject viewScopeObject = viewScopeManager.getViewScopeObject( viewId, userParameterWrapper) ;
 
+
+
       ResponseObject responseObject = new ResponseObject();
 
-      responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getOuterClashesForSeverityLevel(ClashSeverity.UNSAFE));
+      responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getOuterClashesForSeverityLevel(clashSeverity));
       responseObject.setUserParameterWrapper( viewScopeObject.getUserParameterWrapper() );
       responseObject.setViewId( viewScopeObject.getViewId() );
+
+
+
+      module.addSerializer(Version.class, new VersionSerializer());
+      module.addSerializer(OuterVersionClash.class, new OuterVersionClashSerializer(clashSeverity));
+      module.addSerializer(InnerVersionClash.class, new InnerVersionClashSerializer());
+      module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
+
+      mapper.registerModule( module );
 
       value = mapper.writeValueAsString( responseObject  );
       System.out.println("joo6");

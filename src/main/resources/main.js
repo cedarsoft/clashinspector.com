@@ -105,18 +105,22 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
                                  console.log("outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length);
                               for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
                               var innerVersionClash =  outerVersionClash.innerVersionClashes[i];
+                               var dependencyNodeWrapper = dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper;
+
                                 var clashSeverityClass="";
                                 if(innerVersionClash.clashSeverity=="UNSAFE")
                                                                          {
                                                                           clashSeverityClass = "clashSeverityUnsafe" ;
+                                                                         highlightDependency(dependencyNodeWrapper,"clashSeverityUnsafe",false,false);
                                                                          }
                                                                          if(innerVersionClash.clashSeverity=="CRITICAL")
                                                                                                                   {
+                                                                                                                  highlightDependency(dependencyNodeWrapper,"clashSeverityCritical",false,false);
                                                                                                                     clashSeverityClass = "clashSeverityCritical" ;
                                                                                                                   }
 
 
-                                                var versionLink = '<span  onclick="highlightDependencyById(&quot;'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.id+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version+'</span>';
+                                                var versionLink = '<span  onclick="highlightDependencyById(&quot;'+dependencyNodeWrapper.id+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version+'</span>';
 
 
 
@@ -337,7 +341,12 @@ $(document).on('input', '.searchInput', function(){
 
 
 
+                                 $(document).on('click', '.easySelectBox li', function(){
 
+                                                                        $(this).toggleClass("selected");
+
+
+                                                              });
 
                             $(document).on('click', '.detailsButton', function(){
 
@@ -433,8 +442,21 @@ $(document).on('input', '.searchInput', function(){
 
                                                             for(var index in result) {
 
-                                                             //  alert(result[index].dependencyNodeWrapper.groupId) ;
-                                                              if(result[index].dependencyNodeWrapper.groupId!=groupId)
+                                                                    var compValue1;
+                                                                     var compValue2 = groupId;
+                                                                 if(groupId.slice(-1)=="*")
+                                                                 {
+                                                                      compValue2 = groupId.substring(0,groupId.length-1);
+                                                                      compValue1 =result[index].dependencyNodeWrapper.groupId.substring(0,compValue2.length);
+
+                                                                 }
+                                                                 else
+                                                                 {
+                                                                    compValue1 =result[index].dependencyNodeWrapper.groupId;
+                                                                 }
+
+
+                                                              if(compValue1!=compValue2)
                                                                {
 
                                                                   delete result[index];
@@ -453,7 +475,24 @@ $(document).on('input', '.searchInput', function(){
                                             {
 
                                                    for(var index in result) {
-                                           if(result[index].dependencyNodeWrapper.artifactId!=artifactId)
+
+
+
+                                                       var compValue1;
+                                                                                                                        var compValue2 = artifactId;
+                                                                                                                    if(artifactId.slice(-1)=="*")
+                                                                                                                    {
+                                                                                                                         compValue2 = artifactId.substring(0,artifactId.length-1);
+                                                                                                                         compValue1 =result[index].dependencyNodeWrapper.artifactId.substring(0,compValue2.length);
+
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+                                                                                                                       compValue1 =result[index].dependencyNodeWrapper.artifactId;
+                                                                                                                    }
+
+
+                                           if(compValue1!=compValue2)
                                                                                                         {
 
                                                                                                            delete result[index];
@@ -468,7 +507,20 @@ $(document).on('input', '.searchInput', function(){
 
                                                  for(var index in result) {
 
-                                                          if(result[index].dependencyNodeWrapper.version!=version)
+     var compValue1;
+                                                                     var compValue2 = version;
+                                                                 if(version.slice(-1)=="*")
+                                                                 {
+                                                                      compValue2 = version.substring(0,version.length-1);
+                                                                      compValue1 =result[index].dependencyNodeWrapper.version.substring(0,compValue2.length);
+
+                                                                 }
+                                                                 else
+                                                                 {
+                                                                    compValue1 =result[index].dependencyNodeWrapper.version;
+                                                                 }
+
+                                                          if(compValue1!=compValue2)
                                                                                                                        {
 
                                                                                                                           delete result[index];
@@ -527,12 +579,12 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                         }
                                         function highlightDependencyByIds(ids,highlightClazz,highlightClazzToDelete,openPath)
                                         {
-                                                        alert("jo");
+
                                             $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
 
 
                                                  for(var i=0;i<ids.length;i++){
-                                                         alert("id: " + ids[i]);
+
 
                                                         highlightDependency(dependencyNodeObjectList[ids[i]].dependencyNodeWrapper,highlightClazz,openPath,false);
                                                     }

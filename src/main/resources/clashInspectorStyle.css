@@ -261,35 +261,41 @@ float: left;
 
       }
 
-       .clashListContainer    .clashSeverityUnsafe
-                           {
-                                color: orange;
-                           }
+.clashListContainer    .clashSeverityUnsafe
+{
+  color: orange;
+}
 
-                           .clashListContainer    .clashSeverityCritical
-                                        {
-                                           color: red;
-                                        }
+.clashListContainer .clashSeverityCritical
+    {
+       color: red;
+    }
+
+
+    .depNode.clashSeverityUnsafe
+                               {
+                                    background-color: orange;
+                                    border-color: orange;
+                               }
+
+                               .depNode.clashSeverityCritical
+                                            {
+                                               background-color: red;
+                                                 border-color: red;
+                                            }
 
 .clashListContainer  ul li ul
       {
           margin-left: 10px;
       }
-	.details{
-		height:150px;
-		}
-	.clash_list{
-		height:250px;
-		}
-	.statistics{
-		height:185px;
-		}
-	.safe_version{
-		border-color:#0F0;
-	}
-	.unsafe_version{
-		border-color:#FC0;
-	}
+
+
+            .clashListContainer     span
+            {
+                                        cursor: pointer;
+            }
+
+
 	
 
 	
@@ -342,9 +348,22 @@ float: left;
               }
 
 
+                .easySelectBox
+                {
+                    border-radius: 4px;
+                     background-color: white;
+                     padding: 5px;
+                }
+
+                .easySelectBox .selected
+                {
+                     background-color:   #0088CC;
+                     color: white;
+                }
 
 
-              .highlightSearch
+
+              .depNode.highlightSearch
               {
                   border-color : #0088CC;
               }

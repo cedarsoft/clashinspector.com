@@ -1,9 +1,11 @@
 package com.clashinspector.rest;
 
+import com.clashinspector.jacksonSerializer.DependencyNodeWrapperSerializer;
 import com.clashinspector.jacksonSerializer.InnerVersionClashSerializer;
 import com.clashinspector.jacksonSerializer.OuterVersionClashSerializer;
 import com.clashinspector.jacksonSerializer.ProjectSerializerForDependencyNodeWrapper;
 import com.clashinspector.jacksonSerializer.VersionSerializer;
+import com.clashinspector.model.DependencyNodeWrapper;
 import com.clashinspector.model.InnerVersionClash;
 import com.clashinspector.model.OuterVersionClash;
 import com.clashinspector.model.Project;
@@ -48,8 +50,9 @@ public class DependencyRestService {
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
     System.out.println("joo3");
-    module.addSerializer(Version.class, new VersionSerializer());
+    module.addSerializer( Version.class, new VersionSerializer() );
     module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
+    module.addSerializer(DependencyNodeWrapper.class, new DependencyNodeWrapperSerializer());
     mapper.registerModule( module );
     System.out.println("joo4");
     //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );

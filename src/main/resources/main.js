@@ -13,6 +13,7 @@ function DependencyNodeObject(dependencyNodeWrapper)
 
 
        var dependencyNodeObjectList = new Array();
+       var outerVersionClashList= new Array();
         var viewId =0;
 
 
@@ -23,19 +24,89 @@ function DependencyNodeObject(dependencyNodeWrapper)
 $( document ).ready(function() {
 
 
+
+
+
 $(".javascriptWarning").hide();
 
-doGet("http://localhost:8080/dependencies",drawTree);
 
-
-
+ getTree();
 
 });
 
 
+function getTree()
+{
+console.log('[' + new Date().toUTCString() + '] ' +"getTree started");
+     doGet("http://localhost:8090/dependencies",drawTree,"",getList);
+     console.log('[' + new Date().toUTCString() + '] ' +"getTree finished");
+}
+
+function getList()
+{
+console.log('[' + new Date().toUTCString() + '] ' +"getList started");
+    doGet("http://localhost:8090/dependencies/outerVersionClashes",drawList);
+    console.log('[' + new Date().toUTCString() + '] ' +"getList finished");
+}
 
 
 
+   function drawList(result)
+   {                         console.log('[' + new Date().toUTCString() + '] ' +"drawList started");
+                   var listHtml = '<ul>';
+
+             for(var i=0;i<result.length;i++){
+
+                             var id = result[i].project.groupId+":"+result[i].project.artifactId;
+
+                                      outerVersionClashList[id]=result[i];
+
+                            listHtml = listHtml + buildClashListEntry(outerVersionClashList[id]);
+                            }
+
+                            $(".clashListContainer").html(listHtml+"</ul>") ;
+
+
+
+
+   }
+
+   function buildClashListEntry(outerVersionClash)
+   {                console.log("buildClashListEntry for" + outerVersionClash.project.groupId+ ":" +outerVersionClash.project.artifactId);
+           var html = "<li><span>"+outerVersionClash.project.groupId+"</span>:<span>"+outerVersionClash.project.artifactId+"</span><ul>";
+                                 console.log("outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length);
+                              for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
+                              var innerVersionClash =  outerVersionClash.innerVersionClashes[i];
+                                var clashSeverityClass="";
+                                if(innerVersionClash.clashSeverity=="UNSAFE")
+                                                                         {
+                                                                          clashSeverityClass = "clashSeverityUnsafe" ;
+                                                                         }
+                                                                         if(innerVersionClash.clashSeverity=="CRITICAL")
+                                                                                                                  {
+                                                                                                                    clashSeverityClass = "clashSeverityCritical" ;
+                                                                                                                  }
+
+                                         if(innerVersionClash.clashSeverity!="SAFE")
+                                         {
+                                               html=html + "<li class='"+clashSeverityClass+"'>" + dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version + "</li>";
+                                         }
+                              console.log("innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId);
+
+                              }
+
+                           html = html +"</ul></li>";
+
+   return html;
+
+
+   }
+
+
+   function buildList(result)
+   {
+
+   }
 
  function drawTree(result)
  {
@@ -53,20 +124,15 @@ doGet("http://localhost:8080/dependencies",drawTree);
 
 
  $("#leftMain").html( html);
-
+        console.log('[' + new Date().toUTCString() + '] ' +"drawTree finished");
  }
 
 function buildTree(data)
-{        //console.log("jo2" + html)
-
-
-              var id =   "d"+data.graphDepth+"r"+data.graphLevelOrderRelative+"a"+data.graphLevelOrderAbsolute;
-
-
+{
 
 
              var dep = new DependencyNodeObject(data);
-                      dependencyNodeObjectList[id] = dep;
+                      dependencyNodeObjectList[dep.dependencyNodeWrapper.id] = dep;
 
 
                        var html=buildGuiDependency(dep);
@@ -210,6 +276,11 @@ $(document).on('input', '.searchInput', function(){
 
                 });
 
+                 $(document).on('click', '.openClashListButton', function(){
+                                            $(".clashListContainer").toggle();
+
+                                });
+
         $(document).on('dbclick', '.depNode', function(){
 
                      e.preventDefault();
@@ -258,11 +329,11 @@ $(document).on('input', '.searchInput', function(){
 
 
 
-                                function doGet(url,callbackFunction)
+                                function doGet(url,callbackFunction,parameters,syncCallFunction)
                                 {
 
                                             var parameter = "viewId="+viewId;
-                                            alert(parameter);
+                                             console.log('[' + new Date().toUTCString() + '] ' +"sendend viewId: " + parameter);
 
                                      $.ajax({
                                                          type: "GET",
@@ -273,7 +344,7 @@ $(document).on('input', '.searchInput', function(){
                                                          dataType: "jsonp",
                                                          success: function(responseObject) {
 
-                                                                     processResponseObject(responseObject, callbackFunction);
+                                                                     processResponseObject(responseObject, callbackFunction,syncCallFunction);
                                                          },
                                                          error: function (XMLHttpRequest, textStatus, errorThrown) {
                                                                  alert('error');
@@ -291,13 +362,15 @@ $(document).on('input', '.searchInput', function(){
 
                                 //Bei jedem Get ausführen und viewId setzen etc.
 
-                                 function processResponseObject(responseObject, callbackFunction)
+                                 function processResponseObject(responseObject, callbackFunction,syncCallFunction)
                                         {
                                         //set View Id
                                         viewId =   responseObject.viewId;
-                                                                    alert("viewId " + viewId);
+                                                                    console.log('[' + new Date().toUTCString() + '] ' +"received viewId " + viewId);
 
                                                         callbackFunction.call( this, responseObject.result );
+                                                        syncCallFunction.call();
+
                                         }
 
 

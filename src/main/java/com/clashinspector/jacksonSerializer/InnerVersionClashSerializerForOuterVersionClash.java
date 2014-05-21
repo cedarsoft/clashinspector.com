@@ -1,0 +1,56 @@
+package com.clashinspector.jacksonSerializer;
+
+import com.clashinspector.model.DependencyNodeWrapper;
+import com.clashinspector.model.InnerVersionClash;
+import com.clashinspector.model.Project;
+import com.clashinspector.mojos.ClashSeverity;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
+
+import java.io.IOException;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: m
+ * Date: 09.05.14
+ * Time: 18:05
+ * To change this template use File | Settings | File Templates.
+ */
+
+
+public class InnerVersionClashSerializerForOuterVersionClash extends JsonSerializer<InnerVersionClash> {
+
+
+
+    @Override
+    public void serialize(InnerVersionClash value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException, JsonProcessingException {
+
+
+
+
+
+
+      jgen.writeStartObject();
+
+
+
+      jgen.writeStringField( "usedDependencyNodeWrapperId", value.getUsedDependencyNodeWrapper().getId());
+
+      jgen.writeStringField( "referredDependencyNodeWrapperId", value.getReferredDependencyNodeWrapper().getId() );
+
+      jgen.writeStringField( "clashSeverity", value.getClashSeverity().toString() );
+
+
+
+
+      jgen.writeEndObject();
+
+
+
+    }
+
+
+}

@@ -60,7 +60,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
       ResourceConfig config = new ResourceConfig(DependencyRestService.class);
-      HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:8080/"), config );
+      HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:8090/"), config );
 
 
       if (Desktop.isDesktopSupported())

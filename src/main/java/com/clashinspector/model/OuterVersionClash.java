@@ -50,6 +50,7 @@ public class OuterVersionClash {
     return list;
   }   */
 
+  @JsonIgnore
   public LinkedList<InnerVersionClash> getInnerVersionClashForClashSeverityLevel( ClashSeverity clashSeverity ) {
     List<InnerVersionClash> safeList = new ArrayList<InnerVersionClash>();
     List<InnerVersionClash> unsafeList = new ArrayList<InnerVersionClash>();

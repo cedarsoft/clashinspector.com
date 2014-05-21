@@ -70,7 +70,7 @@ public class ViewScopeManager {
         System.out.println("joooooooo");
         userParameterWrapper = startParameter;
       }
-      System.out.println("jo3");
+      System.out.println("neuer result wrapper erstellt");
       ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
 
       System.out.println("jo3");

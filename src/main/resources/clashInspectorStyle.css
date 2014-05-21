@@ -148,7 +148,7 @@ float: left;
 
     #leftMain{
     	float: left;
-    	width: 70%;
+
     }
 
     #rightMain{
@@ -167,6 +167,7 @@ float: left;
       background-color: #F5F5F5;
         border-radius: 4px;
          padding: 8px 15px;
+        /* box-shadow: 1px 1px 3px grey;   */
  }
 
 #menuContainer {
@@ -247,7 +248,33 @@ float: left;
       float: left;
 }
 
+      .clashListContainer
+      {
+      right: 0px;
+      position: absolute;
+      display: none;
+                     font-size: 12px;
+                     background-color: #F5F5F5;
+                padding: 6px;
+                   border-radius: 4px;
 
+
+      }
+
+       .clashListContainer    .clashSeverityUnsafe
+                           {
+                                color: orange;
+                           }
+
+                           .clashListContainer    .clashSeverityCritical
+                                        {
+                                           color: red;
+                                        }
+
+.clashListContainer  ul li ul
+      {
+          margin-left: 10px;
+      }
 	.details{
 		height:150px;
 		}

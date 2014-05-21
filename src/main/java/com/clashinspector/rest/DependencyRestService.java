@@ -1,7 +1,9 @@
 package com.clashinspector.rest;
 
+import com.clashinspector.jacksonSerializer.InnerVersionClashSerializerForOuterVersionClash;
 import com.clashinspector.jacksonSerializer.ProjectSerializerForDependencyNodeWrapper;
 import com.clashinspector.jacksonSerializer.VersionSerializer;
+import com.clashinspector.model.InnerVersionClash;
 import com.clashinspector.model.Project;
 import com.clashinspector.mojos.ClashSeverity;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -59,6 +61,52 @@ public class DependencyRestService {
       ResponseObject responseObject = new ResponseObject();
 
       responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getRoot() );
+      responseObject.setUserParameterWrapper( viewScopeObject.getUserParameterWrapper() );
+      responseObject.setViewId( viewScopeObject.getViewId() );
+
+      value = mapper.writeValueAsString( responseObject  );
+      System.out.println("joo6");
+    }
+    catch (Exception e)
+    {
+      System.out.println(e);
+    }
+
+    return value;
+  }
+
+
+
+  @GET
+  @Path("outerVersionClashes")
+  @JSONP(queryParam="callback")
+  @Produces("application/x-javascript")
+  public String getClashList(@QueryParam("callback") String callback,@QueryParam( "viewId" )int viewId,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "includedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
+  {
+    //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
+
+    System.out.println("joo1 viewId:" + viewId);
+    UserParameterWrapper userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
+    System.out.println("joo2");
+    ObjectMapper mapper = new ObjectMapper(  );
+    SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
+    System.out.println("joo3");
+    module.addSerializer(Version.class, new VersionSerializer());
+    module.addSerializer(InnerVersionClash.class, new InnerVersionClashSerializerForOuterVersionClash());
+    module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
+    mapper.registerModule( module );
+    System.out.println("joo4");
+    //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
+    //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+    String value = "";
+    try
+    {
+
+      ViewScopeObject viewScopeObject = viewScopeManager.getViewScopeObject( viewId, userParameterWrapper) ;
+
+      ResponseObject responseObject = new ResponseObject();
+
+      responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getOuterClashesForSeverityLevel(ClashSeverity.UNSAFE));
       responseObject.setUserParameterWrapper( viewScopeObject.getUserParameterWrapper() );
       responseObject.setViewId( viewScopeObject.getViewId() );
 

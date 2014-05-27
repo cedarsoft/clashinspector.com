@@ -1,6 +1,7 @@
 package com.clashinspector.model;
 
 import com.clashinspector.mojos.ClashSeverity;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.eclipse.aether.version.Version;
 
 import java.util.ArrayList;
@@ -31,8 +32,11 @@ public class Project {
 
   public void init() {
     this.dependencyNodeWrapperWithUsedVersion = this.identifyUsedDependencyNodeWrapper();
+
     this.usedVersion = this.identifyUsedDependencyNodeWrapper().getVersion();
+
     this.highestVersion = this.identifyHighestVersion();
+
     this.lowestVersion = this.identifyLowestVersion();
 
     //Detect Clashes for this project first inner than outer
@@ -153,6 +157,7 @@ public class Project {
     return projectInstances;
   }
 
+  @JsonIgnore
   public OuterVersionClash getOuterVersionClash() {
     return outerVersionClash;
   }
@@ -163,6 +168,10 @@ public class Project {
 
   public void addInstance( DependencyNodeWrapper dependencyNodeWrapper ) {
     this.projectInstances.add( dependencyNodeWrapper );
+  }
+
+  public DependencyNodeWrapper getDependencyNodeWrapperWithUsedVersion() {
+    return dependencyNodeWrapperWithUsedVersion;
   }
 
   @Override

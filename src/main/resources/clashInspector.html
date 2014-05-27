@@ -19,12 +19,12 @@
 <body class="topBarDisabled">
 <div class="container-fluid">
     <div>
-        <div class="pull-left banner">
+        <div class="pullLeft banner">
             <a href="http://www.clashinspector.com/index.html">
                 <img src="http://www.clashinspector.com/images/clashinspector-logo.jpg" alt="ClashInspector">
             </a>
         </div>
-        <div class="pull-right banner"><a href="http://www.reutlingen-university.de/">
+        <div class="pullRight banner"><a href="http://www.reutlingen-university.de/">
             <img src="http://www.clashinspector.com/images/FHRT_logo.jpg" alt="ClashInspector">
         </a>
         </div>
@@ -32,19 +32,80 @@
 
         </div>
     </div>
-    <div class="menu1">
-        <ul >
-            <li id="analyzedDep"><span class="javascriptWarning">Warning! ClashInspector needs JavaScript enabled!</span> </li>
-            <li class="pull-right">
-                Suche
-            </li>
-        </ul>
+    <div id="menuContainer" class="topContainer ">
+        <div class="pullLeft">
+            <span  class="javascriptWarning">Warning! ClashInspector needs JavaScript enabled!</span> <span id="analyzedDep"></span>
+        </div>
+        <div class="pullRight">
+            <span class="openSettingsButton menuEntry">filter & settings <span class="triangleDown"></span></span>
+            <span  class="openSearchButton menuEntry">search dependencies <span class="triangleDown"></span></span>
+            <span  class="openClashListButton menuEntry">show clash-list <span class="triangleDown"></span></span>
+        </div>
+
+          <div class="clearing"></div>
     </div>
+
+    <div id="settingsFilterContainer" class="topContainer ">
+
+        <div class="settingsContainer">
+            <h3>Settings</h3>
+            <ul class="easySelectBox" >
+                <li>compile</li>
+                <li>test</li>
+                <li>runtime</li>
+                <li>provided</li>
+                <li>system</li>
+
+            </ul>
+
+            <select name="top5" size="5" multiple>
+                <option>compile</option>
+                <option>test</option>
+                <option>runtime</option>
+                <option>provided</option>
+                <option>system</option>
+            </select>
+
+            <input type="checkbox" name="zutat" value="salami"> include optional<br>
+        </div>
+        <div class="filterContainer">
+            <h3>Filters</h3>
+            <select name="top5"  >
+                <option>CRITICAL</option>
+                <option>UNSAFE</option>
+            </select>
+        </div>
+        <div class="clearing"></div>
+        <div>
+
+        </div>
+
+
+    </div>
+
+    <div id="searchContainer" class="topContainer ">
+        <div class="pullRight">
+        <span class="searchInputLabel">groupId:</span>
+        <input id="groupIdInput" class="searchInput" type="text"/>
+        <span class="searchInputLabel">artifactId:</span>
+        <input id="artifactIdInput" class="searchInput" type="text"/>
+        <span class="searchInputLabel">version:</span>
+        <input id="versionInput" class="searchInput" type="text"/>
+        <button id="searchButton"  type="button"   >
+
+
+                no results
+
+        </button>
+        </div>
+        <div class="clearing"></div>
+    </div>
+
     <div id="main">
         <div id="leftMain">
 
         </div>
-        <div id="rightMain">Fenster 2</div>
+        <div class="clashListContainer"></div>
         <div class="clearing"></div>
     </div>
 </div>
@@ -59,6 +120,16 @@
         </div>
     </div>
 </footer>
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

@@ -48,14 +48,14 @@ public class DependencyNodeWrapper {
     this.project = project;
   }
 
-  public DependencyNodeWrapper( DependencyNode dependencyNode ) {
+  public DependencyNodeWrapper( DependencyNode dependencyNode,Project project ) {
     this.dependencyNode = dependencyNode;
     this.graphDepth = 0;
     this.graphLevelOrderRelative = 0;
-    this.graphLevelOrderAbsolute = 0;
+    this.graphLevelOrderAbsolute =0;
     this.parent = null;
     this.addCounter = 0;
-    this.project = null;
+    this.project = project;
   }
 
 
@@ -70,19 +70,23 @@ public class DependencyNodeWrapper {
 
   }
 
-  @JsonProperty("extension")
-  public String getExtension() {
+  public String getExtension()
+  {
     return this.dependencyNode.getArtifact().getExtension();
   }
 
-  @JsonProperty("repository")
-  public String getRepository() {
-    //TODO entsprechendes Repositoriy zurück geben und nicht nur erstes (wird benötigt für link in html seite)
 
-    if ( this.dependencyNode.getRepositories().size() > 0 ) {
-      return this.dependencyNode.getRepositories().get( 0 ).getHost();
-    } else {
-      return "";
+  public String getRepository()
+  {
+                //TODO entsprechendes Repositoriy zurück geben und nicht nur erstes (wird benötigt für link in html seite)
+
+    if(this.dependencyNode.getRepositories().size()>0)
+    {
+      return   this.dependencyNode.getRepositories().get( 0 ).getHost();
+    }
+    else
+    {
+      return   "";
     }
 
 
@@ -92,23 +96,23 @@ public class DependencyNodeWrapper {
     return this.dependencyNode.getArtifact().getArtifactId();
   }
 
-  @JsonProperty("version")
+
   public Version getVersion() {
     return this.dependencyNode.getVersion();
   }
+
 
 
   public List<DependencyNodeWrapper> getChildren() {
     return Collections.unmodifiableList( this.children );
   }
 
-  @JsonIgnore
+
   @Nullable
   public DependencyNodeWrapper getParent() {
     return this.parent;
   }
 
-  @JsonIgnore
   public List<DependencyNodeWrapper> getAllAncestors() {
     List<DependencyNodeWrapper> list = new ArrayList<DependencyNodeWrapper>();
     return this.collectAncestors( list );
@@ -125,7 +129,7 @@ public class DependencyNodeWrapper {
     return list;
   }
 
-  @JsonIgnore
+
   public RelationshipToUsedVersion getRelationShipToUsedVersion() {
     if ( this.project == null ) {
       throw new UnsupportedOperationException( "Not allowed on root node" );
@@ -154,30 +158,33 @@ public class DependencyNodeWrapper {
     this.children.add( dependencyNodeWrapper );
   }
 
-  @JsonProperty("graphDepth")
   public int getGraphDepth() {
     return graphDepth;
   }
 
-  @JsonProperty("graphLevelOrderRelative")
   public int getGraphLevelOrderRelative() {
     return graphLevelOrderRelative;
   }
 
-  @JsonProperty("graphLevelOrderAbsolute")
+
   public int getGraphLevelOrderAbsolute() {
     return graphLevelOrderAbsolute;
   }
 
-  @JsonIgnore
+
   public int getAddCounter() {
     return addCounter;
   }
 
-  @JsonIgnore
+
   @Nullable
   public Project getProject() {
     return project;
+  }
+
+  public String getId()
+  {
+    return "d"+this.getGraphDepth() +"r"+ this.getGraphLevelOrderRelative() +"a"+ this.graphLevelOrderAbsolute ;
   }
 
 
@@ -190,11 +197,11 @@ public class DependencyNodeWrapper {
       this.clashSeverity = clashSeverity;
     }
 
-    @JsonIgnore
     public ClashSeverity getClashSeverity() {
       return clashSeverity;
     }
   }
+
 
 
 }

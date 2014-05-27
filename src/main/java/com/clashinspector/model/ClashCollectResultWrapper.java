@@ -34,10 +34,19 @@ public class ClashCollectResultWrapper {
     Map<String, Project> projectMap = new LinkedHashMap<String, Project>();
     Map<Integer, Integer> graphLevelOrderAbsoluteMap = new LinkedHashMap<Integer, Integer>();
 
-    this.root = new DependencyNodeWrapper( this.collectResult.getRoot() );
+
+      //Create Project for Root DependenciyWrapper ... this project is needed in html
+    //TODO hier project vllt wieder entfernen
+    Project    project = new Project( this.collectResult.getRoot().getArtifact().getGroupId(), this.collectResult.getRoot().getArtifact().getArtifactId() );    //
+    String key =  this.collectResult.getRoot().getArtifact().getGroupId() + ":" +  this.collectResult.getRoot().getArtifact().getArtifactId();              //
+    projectMap.put( key,project ); //
+
+    this.root = new DependencyNodeWrapper( this.collectResult.getRoot(),project );
 
     this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1,graphLevelOrderAbsoluteMap );
 
+         project.addInstance( this.root );
+    this.root.getProject().init();      //
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
@@ -144,7 +153,17 @@ public class ClashCollectResultWrapper {
     return number;
   }
 
+  public List<OuterVersionClash> getOuterClashesForSeverityLevel( ClashSeverity clashSeverity ) {
 
+
+    List<OuterVersionClash> outerVersionClashes = new ArrayList<OuterVersionClash>();
+    for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
+      if ( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
+         outerVersionClashes.add( outerVersionClash ) ;
+      }
+    }
+    return outerVersionClashes;
+  }
 
 
 

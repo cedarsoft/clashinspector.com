@@ -6,8 +6,10 @@ import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +39,7 @@ public class ViewScopeManager {
 
   public void removeUnusedViewScopeObjects()
   {
+    List<Integer> listToDelete = new ArrayList<Integer>() ;
     for(Map.Entry<Integer,ViewScopeObject> entry : viewScopeList.entrySet() )
     {
       Date now= new Date();
@@ -44,11 +47,20 @@ public class ViewScopeManager {
       if (now.getTime() - entry.getValue().getLastUsed().getTime() >=60000 /*15*60*1000*/)
       {
 
-        System.out.println("ViewScope with id " + entry.getKey()+ " deleted.");
-        viewScopeList.remove( entry.getKey() ) ;
+            listToDelete.add( entry.getKey() ) ;
 
       }
 
+
+
+
+    }
+
+    for (Integer in : listToDelete)
+    {
+      System.out.println("ViewScope with id " + in+ " deleted.");
+
+      viewScopeList.remove( in );
     }
   }
 

@@ -116,11 +116,13 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
                                                                          {
                                                                           clashSeverityClass = "clashSeverityUnsafe" ;
                                                                          highlightDependency(dependencyNodeWrapper,"clashSeverityUnsafe",false,false);
+                                                                         addArrowClassToParentWrappers(dependencyNodeWrapper,"clashSeverityUnsafe");
                                                                          }
                                                                          if(innerVersionClash.clashSeverity=="CRITICAL")
                                                                                                                   {
                                                                                                                   highlightDependency(dependencyNodeWrapper,"clashSeverityCritical",false,false);
                                                                                                                     clashSeverityClass = "clashSeverityCritical" ;
+                                                                                                                    addArrowClassToParentWrappers(dependencyNodeWrapper,"clashSeverityCritical");
                                                                                                                   }
 
 
@@ -212,6 +214,8 @@ function buildTree(data)
 
 function buildGuiDependency(dependencyNodeObject)
     {
+
+
         if(dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" )
                                 {
                                       var mavenCentralHref =  "http://search.maven.org/#artifactdetails|"+dependencyNodeObject.dependencyNodeWrapper.groupId+"|"+dependencyNodeObject.dependencyNodeWrapper.artifactId+"|"+dependencyNodeObject.dependencyNodeWrapper.version+"|"+dependencyNodeObject.dependencyNodeWrapper.extension;
@@ -227,9 +231,15 @@ function buildGuiDependency(dependencyNodeObject)
 
 
                                //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+         var arrowClass= "";
+         if(dependencyNodeObject.dependencyNodeWrapper.children.length >0)
+         {
+             arrowClass="clashSeveritySafe";
+         }
 
 
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
+
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
@@ -619,7 +629,20 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
 
 
 
+                       function addArrowClassToParentWrappers(dependencyNodeWrapper,clazz)
+                                        {
+                                       // alert(dependencyNodeWrapper.groupId + " " +dependencyNodeWrapper.artifactId )   ;
 
+                                            // alert("jof " +dependencyNodeObjectList[dependencyNodeWrapper.parentId].dependencyNodeWrapper.id )   ;
+                                               $("#"+dependencyNodeWrapper.id).parents(".depNodeUl").prev(".depNodeWrapper").addClass(clazz);
+                                               // addArrowClassToParents(dependencyNodeObjectList(dependencyNodeWrapper.parentId).dependencyNodeWrapper);
+                                                ////    alert("jo" )   ;
+
+
+
+
+
+                                        }
 
 
                                                  function searchAndHighlightDependencyByCoordinates(groupId,artifactId,version,highlightClazz,highlightClazzToDelete,openPath)

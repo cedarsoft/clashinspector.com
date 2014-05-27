@@ -95,6 +95,7 @@ hr {
 
       .depNode{
       position: relative;
+            border: 2px solid #FFFFFF;
            border-radius: 4px;
                display: block;
                font-size: 12px;
@@ -189,3 +190,20 @@ hr {
        color: red;
        font-weight: bold;
        }
+
+   .hasUnsafe{
+     border: 2px solid #FFF843;
+   }
+
+   .hasCritical{
+     border: 2px solid #FF4A4A;
+   }
+
+
+  .isUnsafe{
+    background-color: #FFF843;
+  }
+
+  .isCritical{
+    background-color: #FF4A4A;
+  }

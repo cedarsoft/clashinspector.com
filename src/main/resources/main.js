@@ -253,7 +253,7 @@ function buildGuiDependency(dependencyNodeObject)
 
         var delayTime = 200, clickNumber = 0, timer = null;
 
-        $(document).on('click', '.depNode', function(){
+        $(document).on('click', '.depNodeWrapper', function(){
 
     var thisVar = $(this);
 
@@ -263,7 +263,7 @@ function buildGuiDependency(dependencyNodeObject)
 
             timer = setTimeout(function() {
 
-               thisVar.parent(".depNodeWrapper").next("ul").toggle();
+               thisVar.next("ul").toggle();
 
                 clickNumber = 0;
 
@@ -272,8 +272,8 @@ function buildGuiDependency(dependencyNodeObject)
         } else {
 
             clearTimeout(timer);
-            thisVar.parent(".depNodeWrapper").next("ul").show();
-            thisVar.parent(".depNodeWrapper").next("ul").find("ul").show();
+            thisVar.next("ul").show();
+            thisVar.next("ul").find("ul").show();
             clickNumber = 0;
         }
 

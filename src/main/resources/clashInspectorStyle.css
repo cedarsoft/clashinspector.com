@@ -17,6 +17,7 @@ body {
     font-size: 14px;
     margin: 0;
     min-width: 800px;
+    position: relative;
  }
 
 
@@ -41,6 +42,7 @@ font-weight: bold;
 .container-fluid {
     padding-left: 20px;
     padding-right: 20px;
+      position: relative;
 }
 
 
@@ -100,6 +102,16 @@ hr {
       .depNodeLi{
 
       }
+
+      .depNodeWrapper
+      {
+      position: relative;
+      padding-right: 30px;
+      border-radius: 4px;
+       float:left;
+       margin-bottom: 15px;
+      }
+
       .depNode hr{
          border: none;
          height: 1px;
@@ -117,13 +129,13 @@ hr {
            border-radius: 4px;
                display: block;
                font-size: 12px;
-                      float:left;
+
                padding: 6px;
                text-decoration: none;
                width: 180px;
                word-wrap: break-word;
            	background-color: #F5F5F5;
-           	margin-bottom: 15px;
+
            	    border: 2px solid #F5F5F5;
 
       }
@@ -135,7 +147,7 @@ hr {
 
 #dependencyTree ul li ul
 {
-     margin-left: 10px;
+
 
 }
 
@@ -148,7 +160,7 @@ float: left;
 
     #leftMain{
     	float: left;
-
+              position: relative;
     }
 
     #rightMain{
@@ -284,6 +296,26 @@ float: left;
                                                  border-color: red;
                                             }
 
+
+.depNodeWrapper.clashSeveritySafe
+{
+       background-color: green;
+
+}
+
+
+   .depNodeWrapper.clashSeverityUnsafe
+                               {
+                                    background-color: orange;
+                                    border-color: orange;
+                               }
+
+                               .depNodeWrapper.clashSeverityCritical
+                                            {
+                                               background-color: red;
+                                                 border-color: red;
+                                            }
+
 .clashListContainer  ul li ul
       {
           margin-left: 10px;
@@ -348,12 +380,51 @@ float: left;
               }
 
 
+
+                 .easyCheckBox
+                 {
+                 display: inline-block;
+
+                 background-color: white;
+
+                  border: 1px solid grey;
+                    border-radius: 4px;
+                 }
+                  .easyCheckBox div
+                                   {
+                                      display:block;
+                                       width:10px;
+                                       height: 10px;
+                                       background:none;
+                                       border-radius: 2px;
+                                       margin: 3px;
+                                   }
+
+                .easyCheckBox.selected div
+                {
+                background-color:   #0088CC;
+                }
+
+
                 .easySelectBox
                 {
+                display: inline-block;
+                margin:5px;
                     border-radius: 4px;
                      background-color: white;
                      padding: 5px;
+                        border-radius: 4px;
+                        font-size: 12px;
                 }
+
+                 .easySelectBox li
+                                {
+                                margin-top: 2px;
+                                margin-bottom: 2px;
+                                padding: 2px;
+                                    border-radius: 4px;
+                                   cursor:pointer;
+                                }
 
                 .easySelectBox .selected
                 {
@@ -420,3 +491,193 @@ span.triangleLeft {
                                                                                              height: 0;
                                                                                              width: 0;
                                                                                     }
+
+
+/*----------------------Loading-------------------------*/
+     #floatingCirclesG
+     {
+     display:none;
+     }
+
+.loading #floatingCirclesG{
+
+
+
+
+    left: 50%;
+    margin-left: -100px;
+
+    position: absolute;
+
+
+
+display:block;
+width:200px;
+height:200px;
+
+
+
+-moz-transform:scale(0.6);
+-webkit-transform:scale(0.6);
+-ms-transform:scale(0.6);
+-o-transform:scale(0.6);
+transform:scale(0.6);
+background:url(logo.jpg) no-repeat center;
+}
+
+.loading #floatingCirclesG .f_circleG{
+position:absolute;
+background-color:#FFFFFF;
+height:20px;
+width:20px;
+-moz-border-radius:18px;
+-moz-animation-name:f_fadeG;
+-moz-animation-duration:1.04s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-direction:linear;
+-webkit-border-radius:18px;
+-webkit-animation-name:f_fadeG;
+-webkit-animation-duration:1.04s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:linear;
+-ms-border-radius:18px;
+-ms-animation-name:f_fadeG;
+-ms-animation-duration:1.04s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-direction:linear;
+-o-border-radius:18px;
+-o-animation-name:f_fadeG;
+-o-animation-duration:1.04s;
+-o-animation-iteration-count:infinite;
+-o-animation-direction:linear;
+border-radius:18px;
+animation-name:f_fadeG;
+animation-duration:1.04s;
+animation-iteration-count:infinite;
+animation-direction:linear;
+}
+
+#floatingCirclesG #frotateG_01{
+left:0;
+top:82px;
+-moz-animation-delay:0.39s;
+-webkit-animation-delay:0.39s;
+-ms-animation-delay:0.39s;
+-o-animation-delay:0.39s;
+animation-delay:0.39s;
+}
+
+#floatingCirclesG #frotateG_02{
+left:24px;
+top:24px;
+-moz-animation-delay:0.52s;
+-webkit-animation-delay:0.52s;
+-ms-animation-delay:0.52s;
+-o-animation-delay:0.52s;
+animation-delay:0.52s;
+}
+
+#floatingCirclesG #frotateG_03{
+left:82px;
+top:0;
+-moz-animation-delay:0.65s;
+-webkit-animation-delay:0.65s;
+-ms-animation-delay:0.65s;
+-o-animation-delay:0.65s;
+animation-delay:0.65s;
+}
+
+#floatingCirclesG #frotateG_04{
+right:24px;
+top:24px;
+-moz-animation-delay:0.78s;
+-webkit-animation-delay:0.78s;
+-ms-animation-delay:0.78s;
+-o-animation-delay:0.78s;
+animation-delay:0.78s;
+}
+
+#floatingCirclesG #frotateG_05{
+right:0;
+top:82px;
+-moz-animation-delay:0.91s;
+-webkit-animation-delay:0.91s;
+-ms-animation-delay:0.91s;
+-o-animation-delay:0.91s;
+animation-delay:0.91s;
+}
+
+#floatingCirclesG #frotateG_06{
+right:24px;
+bottom:24px;
+-moz-animation-delay:1.04s;
+-webkit-animation-delay:1.04s;
+-ms-animation-delay:1.04s;
+-o-animation-delay:1.04s;
+animation-delay:1.04s;
+}
+
+#floatingCirclesG #frotateG_07{
+left:82px;
+bottom:0;
+-moz-animation-delay:1.17s;
+-webkit-animation-delay:1.17s;
+-ms-animation-delay:1.17s;
+-o-animation-delay:1.17s;
+animation-delay:1.17s;
+}
+
+#floatingCirclesG #frotateG_08{
+left:24px;
+bottom:24px;
+-moz-animation-delay:1.3s;
+-webkit-animation-delay:1.3s;
+-ms-animation-delay:1.3s;
+-o-animation-delay:1.3s;
+animation-delay:1.3s;
+}
+
+@-moz-keyframes f_fadeG{
+0%{
+background-color:#0072bc}
+
+100%{
+background-color:#FFFFFF}
+
+}
+
+@-webkit-keyframes f_fadeG{
+0%{
+background-color:#0072bc}
+
+100%{
+background-color:#FFFFFF}
+
+}
+
+@-ms-keyframes f_fadeG{
+0%{
+background-color:#0072bc}
+
+100%{
+background-color:#FFFFFF}
+
+}
+
+@-o-keyframes f_fadeG{
+0%{
+background-color:#0072bc}
+
+100%{
+background-color:#FFFFFF}
+
+}
+
+@keyframes f_fadeG{
+0%{
+background-color:#0072bc}
+
+100%{
+background-color:#FFFFFF}
+
+}

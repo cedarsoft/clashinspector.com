@@ -49,7 +49,7 @@
 
         <div class="settingsContainer">
             <h3>Settings</h3>
-            <ul class="easySelectBox" >
+            <ul id="includedScopeList" class="easySelectBox" >
                 <li>compile</li>
                 <li>test</li>
                 <li>runtime</li>
@@ -58,13 +58,16 @@
 
             </ul>
 
-            <select name="top5" size="5" multiple>
-                <option>compile</option>
-                <option>test</option>
-                <option>runtime</option>
-                <option>provided</option>
-                <option>system</option>
-            </select>
+            <ul id="excludedScopeList" class="easySelectBox" >
+                <li>compile</li>
+                <li>test</li>
+                <li>runtime</li>
+                <li>provided</li>
+                <li>system</li>
+
+            </ul>
+
+            <div id="includeOptional" class="easyCheckBox"><div></div></div>
 
             <input type="checkbox" name="zutat" value="salami"> include optional<br>
         </div>
@@ -102,12 +105,37 @@
     </div>
 
     <div id="main">
+        <div id="floatingCirclesG">
+            <div class="f_circleG" id="frotateG_01">
+            </div>
+            <div class="f_circleG" id="frotateG_02">
+            </div>
+            <div class="f_circleG" id="frotateG_03">
+            </div>
+            <div class="f_circleG" id="frotateG_04">
+            </div>
+            <div class="f_circleG" id="frotateG_05">
+            </div>
+            <div class="f_circleG" id="frotateG_06">
+            </div>
+            <div class="f_circleG" id="frotateG_07">
+            </div>
+            <div class="f_circleG" id="frotateG_08">
+            </div>
+        </div>
         <div id="leftMain">
 
         </div>
-        <div class="clashListContainer"></div>
+        <div class="clashListContainer">
+
+
+
+        </div>
         <div class="clearing"></div>
     </div>
+
+
+
 </div>
 
 <hr>

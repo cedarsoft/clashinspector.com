@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class UserParameterWrapper {
 
-  private java.util.List<String> includedScopes = new ArrayList<String>(  );
- private List<String> excludedScopes = new ArrayList<String>(  );
- private  boolean includeOptional ;
+  private java.util.List<String> includedScopes;
+ private List<String> excludedScopes;
+ private  Boolean includeOptional ;
 
-  public UserParameterWrapper( List<String> includedScopes, List<String> excludedScopes, boolean includeOptional ) {
-    this.includedScopes.addAll( includedScopes ) ;
-    this.excludedScopes.addAll(excludedScopes  );
+  public UserParameterWrapper( List<String> includedScopes, List<String> excludedScopes, Boolean includeOptional ) {
+    this.includedScopes =includedScopes;
+    this.excludedScopes = excludedScopes ;
     this.includeOptional = includeOptional;
   }
 
@@ -30,7 +30,7 @@ public class UserParameterWrapper {
     return excludedScopes;
   }
 
-  public boolean getIncludeOptional() {
+  public Boolean getIncludeOptional() {
     return includeOptional;
   }
 }

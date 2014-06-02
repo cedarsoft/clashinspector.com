@@ -18,6 +18,54 @@ this.includedScopes = includedScopes;
 this.excludedScopes = excludedScopes;
 this.includeOptional = includeOptional;
 this.clashSeverity = clashSeverity;
+               this.convertToParameterString = convertToParameterString;
+
+     function convertToParameterString(includeClashSeverity)
+      {
+
+
+        var parameterString="";
+
+                  if(this.includeOptional!=undefined)
+                  {
+                         parameterString =parameterString+ "includeOptional="+this.includeOptional+"";
+                  }
+
+                 if(this.clashSeverity!=undefined)
+                                  {
+                                        if(includeClashSeverity==true)
+                                                                  {
+                                                                      parameterString = parameterString +"&clashSeverity="+this.clashSeverity;
+                                                                  }
+                                  }
+
+                                   if(this.includedScopes!=undefined)
+                                                    {
+                                                            for(var i=0;i<this.includedScopes.length;i++){
+                                                                                       parameterString = parameterString +"&includedScope="+this.includedScopes[i];
+                                                                                 }
+                                                    }
+
+                                                     if(this.excludedScopes!=undefined)
+                                                                      {
+                                                                                for(var i=0;i<this.excludedScopes.length;i++){
+                                                                                                         parameterString = parameterString +"&excludedScope="+this.excludedScopes[i];
+                                                                                                   }
+
+                                                                      }
+
+
+
+
+
+
+
+
+                       console.log("Convertion completed with: " + parameterString)    ;
+
+                      return parameterString;
+      }
+
 
 }
 
@@ -26,7 +74,7 @@ this.clashSeverity = clashSeverity;
 
        var dependencyNodeObjectList = new Array();
        var outerVersionClashList= new Array();
-        var viewId =0;
+        var userSettingsWrapper = new UserSettingsWrapper();
 
 
 
@@ -239,7 +287,7 @@ function buildGuiDependency(dependencyNodeObject)
 
 
 
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" id="dNW'+dependencyNodeObject.dependencyNodeWrapper.id+'"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
@@ -395,8 +443,8 @@ $(document).on('input', '.searchInput', function(){
                                 function doGet(url,callbackFunction,parameters,syncCallFunction)
                                 {
 
-                                            var parameter = "viewId="+viewId;
-                                             console.log('[' + new Date().toUTCString() + '] ' +"sendend viewId: " + parameter);
+                                            var parameter = userSettingsWrapper.convertToParameterString();
+                                                 alert (parameter);
 
                                      $.ajax({
                                                          type: "GET",
@@ -427,9 +475,15 @@ $(document).on('input', '.searchInput', function(){
 
                                  function processResponseObject(responseObject, callbackFunction,syncCallFunction)
                                         {
-                                        //set View Id
-                                        viewId =   responseObject.viewId;
-                                                                    console.log('[' + new Date().toUTCString() + '] ' +"received viewId " + viewId);
+
+                                                             userSettingsWrapper.includedScopes = responseObject.userParameterWrapper.includedScopes;
+                                                             userSettingsWrapper.excludedScopes = responseObject.userParameterWrapper.excludedScopes;
+                                                             userSettingsWrapper.includeOptional = responseObject.userParameterWrapper.includeOptional;
+                                                             userSettingsWrapper.clashSeverity = responseObject.userParameterWrapper.clashSeverity;
+
+
+
+                                                           console.log("userSettingsWrapper " + userSettingsWrapper.includedScopes);
 
                                                         callbackFunction.call( this, responseObject.result );
 

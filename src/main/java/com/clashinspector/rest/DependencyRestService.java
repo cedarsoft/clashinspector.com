@@ -5,6 +5,7 @@ import com.clashinspector.jacksonSerializer.InnerVersionClashSerializer;
 import com.clashinspector.jacksonSerializer.OuterVersionClashSerializer;
 import com.clashinspector.jacksonSerializer.ProjectSerializerForDependencyNodeWrapper;
 import com.clashinspector.jacksonSerializer.VersionSerializer;
+import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.model.DependencyNodeWrapper;
 import com.clashinspector.model.InnerVersionClash;
 import com.clashinspector.model.OuterVersionClash;
@@ -12,6 +13,9 @@ import com.clashinspector.model.Project;
 import com.clashinspector.mojos.ClashSeverity;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.Artifact;
 import org.glassfish.jersey.server.JSONP;
 import org.eclipse.aether.version.Version;
 
@@ -34,19 +38,38 @@ public class DependencyRestService {
   //Was pasiiert wenn zwei browserfenster geöffnet werden?    resultWrapper in sessionmap speichern
 
 
-  private ViewScopeManager viewScopeManager = new ViewScopeManager();
-
+  private static Artifact mainArtifact;
+  private static RepositorySystem repositorySystem;
+  private static RepositorySystemSession repositorySystemSession;
+  private static UserParameterWrapper startParameter;
 
   @GET
   @JSONP(queryParam="callback")
   @Produces("application/x-javascript")
-  public String getAllDependencies(@QueryParam("callback") String callback,@QueryParam( "viewId" )int viewId,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "includedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional)
+  public String getAllDependenciesWithClashes(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional)
   {
     //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
-
-    System.out.println("joo1 viewId:" + viewId);
-    UserParameterWrapper userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
     System.out.println("joo2");
+
+    UserParameterWrapper userParameterWrapper;
+
+    //Bei ninitialanfrage sind userparameter leer, deshalb checke ob es sich um initalfrage handelt
+    if(includedScopes.size()==0 && excludedScopes.size() == 0)
+    {
+      userParameterWrapper = startParameter;
+    }
+    else
+    {
+      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
+      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
+    }
+
+    com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
+    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
+
+
+
+
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
     System.out.println("joo3");
@@ -55,19 +78,16 @@ public class DependencyRestService {
     module.addSerializer(DependencyNodeWrapper.class, new DependencyNodeWrapperSerializer());
     mapper.registerModule( module );
     System.out.println("joo4");
-    //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
-    //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+
     String value = "";
     try
     {
 
-      ViewScopeObject viewScopeObject = viewScopeManager.getViewScopeObject( viewId, userParameterWrapper) ;
-
       ResponseObject responseObject = new ResponseObject();
 
-      responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getRoot() );
-      responseObject.setUserParameterWrapper( viewScopeObject.getUserParameterWrapper() );
-      responseObject.setViewId( viewScopeObject.getViewId() );
+      responseObject.setResult( clashCollectResultWrapper.getRoot() );
+      responseObject.setUserParameterWrapper(userParameterWrapper );
+
 
       value = mapper.writeValueAsString( responseObject  );
       System.out.println("joo6");
@@ -86,37 +106,46 @@ public class DependencyRestService {
   @Path("outerVersionClashes")
   @JSONP(queryParam="callback")
   @Produces("application/x-javascript")
-  public String getClashList(@QueryParam("callback") String callback,@QueryParam( "viewId" )int viewId,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "includedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
+  public String getClashList(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
   {
     //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
         clashSeverity = ClashSeverity.UNSAFE;
-    System.out.println("joo1 viewId:" + viewId);
-    UserParameterWrapper userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
-    System.out.println("joo2");
+
+    UserParameterWrapper userParameterWrapper;
+
+      System.out.println("included Scopes: " + includedScopes.size());
+
+    //Bei ninitialanfrage sind userparameter leer, deshalb checke ob es sich um initalfrage handelt
+    if(includedScopes.size()==0 && excludedScopes.size() == 0)
+    {
+      userParameterWrapper = startParameter;
+    }
+    else
+    {
+      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
+      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
+    }
+
+    System.out.println("joo6");
+    com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
+    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
+    System.out.println("joo6");
+
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
 
     System.out.println("joo3");
 
-
-
-
-    System.out.println("joo4");
-    //mapper.setVisibility( JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY );
-    //mapper.configure( SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
     String value = "";
     try
     {
 
-      ViewScopeObject viewScopeObject = viewScopeManager.getViewScopeObject( viewId, userParameterWrapper) ;
-
-
 
       ResponseObject responseObject = new ResponseObject();
 
-      responseObject.setResult( viewScopeObject.getClashCollectResultWrapper().getOuterClashesForSeverityLevel(clashSeverity));
-      responseObject.setUserParameterWrapper( viewScopeObject.getUserParameterWrapper() );
-      responseObject.setViewId( viewScopeObject.getViewId() );
+      responseObject.setResult(clashCollectResultWrapper.getOuterClashesForSeverityLevel(clashSeverity));
+      responseObject.setUserParameterWrapper(userParameterWrapper );
+
 
 
 
@@ -171,6 +200,15 @@ public class DependencyRestService {
 
              */
 
+
+
+  public static void init(Artifact artifact, RepositorySystem repositorySystem1,RepositorySystemSession repositorySystemSession1, UserParameterWrapper userParameterWrapper)
+  {
+    startParameter = userParameterWrapper;
+    mainArtifact = artifact;
+    repositorySystem = repositorySystem1;
+    repositorySystemSession = repositorySystemSession1;
+  }
 
 
 }

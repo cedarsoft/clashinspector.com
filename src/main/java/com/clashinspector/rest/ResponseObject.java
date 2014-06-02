@@ -10,7 +10,6 @@ package com.clashinspector.rest;
 public class ResponseObject {
 
     private Object result;
-    private int viewId;
   private UserParameterWrapper userParameterWrapper;
 
   public UserParameterWrapper getUserParameterWrapper() {
@@ -29,11 +28,5 @@ public class ResponseObject {
     this.result = result;
   }
 
-  public int getViewId() {
-    return viewId;
-  }
 
-  public void setViewId( int viewId ) {
-    this.viewId = viewId;
-  }
 }

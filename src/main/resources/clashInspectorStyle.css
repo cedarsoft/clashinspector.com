@@ -132,8 +132,10 @@ hr {
 
 }
 
-#d0r0a0 {
-    display: none;
+
+#dNWd0r0a0
+{
+ display: none;
 }
 
 #dependencyTree ul li ul {
@@ -252,34 +254,34 @@ hr {
 }
 
 .clashListContainer .clashSeverityUnsafe {
-    color: #FFE771;
+    color: #FAC619;
 }
 
 .clashListContainer .clashSeverityCritical {
-    color: #FF6767;
+    color: #FF4C10;
 }
 
 .depNode.clashSeverityUnsafe {
-    background-color: #FFE771;
-    border-color: #FFE771;
+    background-color: #FAC619;
+    border-color: #FAC619;
 }
 
 .depNode.clashSeverityCritical {
-    background-color: #FF6767;
-    border-color: #FF6767;
+    background-color: #FF4C10;
+    border-color: #FF4C10;
 }
 
 .depNodeWrapper.clashSeveritySafe {
-    background-color: #E1E1E1;
+    background-color: #CECECE;
 
 }
 
 .depNodeWrapper.clashSeverityUnsafe {
-    background-color: #FFE771;
+    background-color: #FAC619;
 }
 
 .depNodeWrapper.clashSeverityCritical {
-    background-color: #FF6767;
+    background-color: #FF4C10;
 }
 
 .clashListContainer ul li ul {

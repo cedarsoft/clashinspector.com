@@ -29,6 +29,15 @@ h2 {
 }
 
 h3 {
+    font-size: 13px;
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
+    color: grey;
+    margin-bottom: 5px;
+}
+
+h4 {
     font-size: 12px;
     padding: 0px;
     margin: 0px;
@@ -200,13 +209,33 @@ hr {
     padding: 2px 8px 2px 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
+
 }
 
 #searchButton span {
     font-weight: normal;
     font-size: 12px;
 
+}
+
+#searchResultOutput
+{
+ font-size: 12px;
+    font-weight: bold;
+     vertical-align: middle;
+
+}
+
+#clearSearchButton {
+    position: relative;
+    border: none;
+    background-color: #0088CC;
+    color: white;
+    padding: 1px 2px 1px 2px;
+    border-radius: 4px;
+    cursor: pointer;
+       font-weight: bold;
+       font-size:10px;
 }
 
 .searchInput {
@@ -235,17 +264,21 @@ hr {
 .settingsContainer {
     position: relative;
     float: left;
+    margin-right: 10px;
 }
 
-.filterContainer {
+.settingsInlineContainer {
     position: relative;
-    float: left;
+   display: inline-block;
+   margin-right: 10px;
 }
+
+
 
 .clashListContainer {
     right: 0px;
     position: absolute;
-    display: none;
+    display: block;
     font-size: 12px;
     background-color: #F5F5F5;
     padding: 6px;
@@ -366,9 +399,11 @@ hr {
 }
 
 .easySelectBox li {
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     padding: 2px;
+     padding-left: 4px;
+      padding-right: 4px;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -376,6 +411,16 @@ hr {
 .easySelectBox .selected {
     background-color: #0088CC;
     color: white;
+}
+
+
+
+label
+{
+display:block;
+font-size:12px;
+ position: relative;
+ margin-bottom: 3px;
 }
 
 .depNode.highlightSearch {
@@ -429,6 +474,33 @@ span.triangleLeft {
     height: 0;
     width: 0;
 }
+
+span.triangleRight {
+    display: inline-block;
+    border-top: 6px solid rgba(0, 0, 0, 0);
+    border-bottom: 6px solid rgba(0, 0, 0, 0);
+    border-left: 7px solid #0088CC;
+    display: inline-block;
+    height: 0;
+    width: 0;
+}
+
+
+
+ #searchContainer span.triangleRight
+ {
+      margin-right:8px;
+       cursor: pointer;
+       vertical-align: middle;
+ }
+
+ #searchContainer span.triangleLeft
+ {
+ margin-left:8px;
+  cursor: pointer;
+  vertical-align: middle;
+
+ }
 
 /*----------------------Loading-------------------------*/
 #floatingCirclesG {

@@ -73,12 +73,18 @@ this.clashSeverity = clashSeverity;
 
 
        var dependencyNodeObjectList = new Array();
+       var searchResult = new Array();
+       var activeSearchDependencyId;
        var outerVersionClashList= new Array();
         var userSettingsWrapper = new UserSettingsWrapper();
 
 
 
+  function emptyAllInputs()
+  {
+  $("input").val("");
 
+  }
 
 
 $( document ).ready(function() {
@@ -88,6 +94,7 @@ $( document ).ready(function() {
 
 
 $(".javascriptWarning").hide();
+ emptyAllInputs();
 
 $("#main").addClass("loading");
 
@@ -329,8 +336,88 @@ function buildGuiDependency(dependencyNodeObject)
 
         });
 
+ $(document).on('click', '#searchJumpBack', function(){
+
+                                var idBefore;
+                                 var jumpToLast = false;
+                                for(var index in searchResult) {
+
+                                                if(activeSearchDependencyId==undefined)
+                                                {
+                                                      activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
+                                                      break;
+                                                }
+
+                                                var idNow=  searchResult[index].dependencyNodeWrapper.id ;
+                                                if(idNow==activeSearchDependencyId)
+                                                {
+                                                  if(idBefore!=undefined)
+                                                  {
+                                                    location.href = "#"+idBefore;
+                                                        activeSearchDependencyId = idBefore;
+                                                    break;
+                                                  }
+                                                  else
+                                                  {
+                                                      jumpToLast = true;
+                                                  }
+
+                                                }
+                                             idBefore =  idNow;
+                                   }
+
+                                  if(jumpToLast==true)
+                                  {
+                                    location.href = "#"+idBefore;
+                                     activeSearchDependencyId = idBefore;
+                                  }
 
 
+                 });
+
+$(document).on('click', '#searchJumpNext', function(){
+
+                          var jumpToNext = false;
+
+                                                         for(var index in searchResult) {
+
+                                                                         if(activeSearchDependencyId==undefined)
+                                                                         {
+                                                                               activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
+                                                                              jumpToNext=true;
+                                                                               break;
+                                                                         }
+                                                                            var idNow=  searchResult[index].dependencyNodeWrapper.id ;
+                                                                          if(jumpToNext==true)
+                                                                          {
+                                                                                  location.href = "#"+idNow;
+                                                                                activeSearchDependencyId = idNow;
+                                                                                  jumpToNext = false;
+                                                                                 break;
+                                                                          }
+
+
+                                                                         if(idNow==activeSearchDependencyId)
+                                                                         {
+                                                                             jumpToNext = true;
+
+                                                                         }
+
+                                                            }
+
+
+                                                               if(jumpToNext==true)
+                                                               {
+                                                               for(var index in searchResult) {
+                                                                    var idNow=  searchResult[index].dependencyNodeWrapper.id ;
+                                                                     location.href = "#"+idNow;
+                                                                    activeSearchDependencyId = idNow;
+                                                                    break;
+                                                               }
+                                                               }
+
+                });
+          /*
 $(document).on('click', '#searchButton', function(){
 
                           var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
@@ -344,7 +431,7 @@ $(document).on('click', '#searchButton', function(){
 
                                                                                                                                                     }
 
-                });
+                }); */
 
 
 
@@ -354,14 +441,19 @@ $(document).on('input', '.searchInput', function(){
 
                                                            if(Object.keys(result).length>0 )
                                                            {
-                                                               $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
+                                                               $("#searchResultOutput").html("results <span>("+Object.keys(result).length+")</span>");
                                                            }
                                                            else
                                                            {
-                                                               $("#searchButton").html("no results");
+                                                               $("#searchResultOutput").html("no results");
 
                                                            }
 
+
+                });
+
+$(document).on('click', '#clearSearchButton', function(){
+                            clearSearchResults();
 
                 });
 
@@ -405,8 +497,15 @@ $(document).on('input', '.searchInput', function(){
 
 
 
-                                 $(document).on('click', '.easySelectBox li', function(){
+                                 $(document).on('click', '.easySelectBox.selectModeMultiple li', function(){
 
+                                                                        $(this).toggleClass("selected");
+
+
+                                                              });
+
+ $(document).on('click', '.easySelectBox.selectModeSingle li', function(){
+                                                                         $(this).parent().children().removeClass("selected");
                                                                         $(this).toggleClass("selected");
 
 
@@ -499,7 +598,15 @@ $(document).on('input', '.searchInput', function(){
 
 
 
+                                function clearSearchResults()
+                                {
+                                       searchResult = new Array();
+                                       activeSearchDependencyId=undefined;
+                                        $(".highlightSearch").removeClass("highlightSearch");
+                                        $("#searchResultOutput").html("no results");
+                                        $(".searchInput").val("");
 
+                                }
 
                                function searchForDependencyById(id)
                                                                        {
@@ -511,32 +618,33 @@ $(document).on('input', '.searchInput', function(){
                                function searchForDependenciesByCoordinates(groupId,artifactId,version)
                                         {
                                                           //  alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length)
-                                                          var result =  jQuery.extend({}, dependencyNodeObjectList);
+                                                          searchResult =  jQuery.extend({}, dependencyNodeObjectList);
+                                                           activeSearchDependencyId=undefined;
 
                                             if(groupId != undefined && groupId!="" )
                                             {
 
 
-                                                            for(var index in result) {
+                                                            for(var index in searchResult) {
 
                                                                     var compValue1;
                                                                      var compValue2 = groupId;
                                                                  if(groupId.slice(-1)=="*")
                                                                  {
                                                                       compValue2 = groupId.substring(0,groupId.length-1);
-                                                                      compValue1 =result[index].dependencyNodeWrapper.groupId.substring(0,compValue2.length);
+                                                                      compValue1 =searchResult[index].dependencyNodeWrapper.groupId.substring(0,compValue2.length);
 
                                                                  }
                                                                  else
                                                                  {
-                                                                    compValue1 =result[index].dependencyNodeWrapper.groupId;
+                                                                    compValue1 =searchResult[index].dependencyNodeWrapper.groupId;
                                                                  }
 
 
                                                               if(compValue1!=compValue2)
                                                                {
 
-                                                                  delete result[index];
+                                                                  delete searchResult[index];
                                                                }
 
 
@@ -551,7 +659,7 @@ $(document).on('input', '.searchInput', function(){
                                             if(artifactId != undefined  && artifactId!="")
                                             {
 
-                                                   for(var index in result) {
+                                                   for(var index in searchResult) {
 
 
 
@@ -560,19 +668,19 @@ $(document).on('input', '.searchInput', function(){
                                                                                                                     if(artifactId.slice(-1)=="*")
                                                                                                                     {
                                                                                                                          compValue2 = artifactId.substring(0,artifactId.length-1);
-                                                                                                                         compValue1 =result[index].dependencyNodeWrapper.artifactId.substring(0,compValue2.length);
+                                                                                                                         compValue1 =searchResult[index].dependencyNodeWrapper.artifactId.substring(0,compValue2.length);
 
                                                                                                                     }
                                                                                                                     else
                                                                                                                     {
-                                                                                                                       compValue1 =result[index].dependencyNodeWrapper.artifactId;
+                                                                                                                       compValue1 =searchResult[index].dependencyNodeWrapper.artifactId;
                                                                                                                     }
 
 
                                            if(compValue1!=compValue2)
                                                                                                         {
 
-                                                                                                           delete result[index];
+                                                                                                           delete searchResult[index];
                                                                                                         }
 
                                                                                                                                                                                       }
@@ -582,25 +690,25 @@ $(document).on('input', '.searchInput', function(){
                                              if(version != undefined && version!="")
                                             {
 
-                                                 for(var index in result) {
+                                                 for(var index in searchResult) {
 
      var compValue1;
                                                                      var compValue2 = version;
                                                                  if(version.slice(-1)=="*")
                                                                  {
                                                                       compValue2 = version.substring(0,version.length-1);
-                                                                      compValue1 =result[index].dependencyNodeWrapper.version.substring(0,compValue2.length);
+                                                                      compValue1 =searchResult[index].dependencyNodeWrapper.version.substring(0,compValue2.length);
 
                                                                  }
                                                                  else
                                                                  {
-                                                                    compValue1 =result[index].dependencyNodeWrapper.version;
+                                                                    compValue1 =searchResult[index].dependencyNodeWrapper.version;
                                                                  }
 
                                                           if(compValue1!=compValue2)
                                                                                                                        {
 
-                                                                                                                          delete result[index];
+                                                                                                                          delete searchResult[index];
                                                                                                                        }
                                                                                                                                                                                     }
 
@@ -608,13 +716,13 @@ $(document).on('input', '.searchInput', function(){
                                                 if((groupId == undefined || groupId=="") && (artifactId == undefined || artifactId=="") && (version == undefined || version==""))
                                                 {
 
-                                                      result = new Array();
+                                                      searchResult = new Array();
                                                 }
 
 
 
 
-                                          return result;
+                                          return searchResult;
 
 
                                         }

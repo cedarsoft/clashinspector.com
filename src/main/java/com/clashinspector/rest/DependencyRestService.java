@@ -108,8 +108,7 @@ public class DependencyRestService {
   @Produces("application/x-javascript")
   public String getClashList(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
   {
-    //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
-        clashSeverity = ClashSeverity.UNSAFE;
+     clashSeverity = ClashSeverity.UNSAFE;
 
     UserParameterWrapper userParameterWrapper;
 

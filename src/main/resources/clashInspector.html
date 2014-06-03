@@ -37,7 +37,7 @@
             <span  class="javascriptWarning">Warning! ClashInspector needs JavaScript enabled!</span> <span id="analyzedDep"></span>
         </div>
         <div class="pullRight">
-            <span class="openSettingsButton menuEntry">filter & settings <span class="triangleDown"></span></span>
+            <span class="openSettingsButton menuEntry">settings & properties <span class="triangleDown"></span></span>
             <span  class="openSearchButton menuEntry">search dependencies <span class="triangleDown"></span></span>
             <span  class="openClashListButton menuEntry">show clash-list <span class="triangleDown"></span></span>
         </div>
@@ -48,8 +48,10 @@
     <div id="settingsFilterContainer" class="topContainer ">
 
         <div class="settingsContainer">
-            <h3>Settings</h3>
-            <ul id="includedScopeList" class="easySelectBox" >
+            <h3>Tree Settings</h3>
+            <div class="settingsInlineContainer">
+            <label for="treeDisplayMode" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes:</label>
+            <ul title="Select the scopes of the dependencies that should be included in the dependency-resolution." id="includedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
                 <li>runtime</li>
@@ -57,8 +59,10 @@
                 <li>system</li>
 
             </ul>
-
-            <ul id="excludedScopeList" class="easySelectBox" >
+            </div>
+            <div class="settingsInlineContainer">
+            <label for="treeDisplayMode" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes:</label>
+            <ul title="Select the scopes of the dependencies that should be excluded from the dependency-resolution." id="excludedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
                 <li>runtime</li>
@@ -66,19 +70,40 @@
                 <li>system</li>
 
             </ul>
+            </div>
+              <div class="settingsInlineContainer">
+                  <label for="includeOptional">Include Optional: </label>
+            <div id="includeOptional" class="easyCheckBox">  <div></div>
+            </div>
 
-            <div id="includeOptional" class="easyCheckBox"><div></div></div>
+              </div>
 
-            <input type="checkbox" name="zutat" value="salami"> include optional<br>
+            <button id="applySettings" type="button">Apply Settings</button>
         </div>
-        <div class="filterContainer">
-            <h3>Filters</h3>
-            <select name="top5"  >
-                <option>CRITICAL</option>
-                <option>UNSAFE</option>
-            </select>
+        <div class="settingsContainer">
+            <h3>Dependency Resolution Settings</h3>
+            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
+            <ul title="Select which paths should be displayed in the tree." id="clashSeverity" class="easySelectBox selectModeSingle" >
+
+                <li class="selected">UNSAFE</li>
+                <li class="selected">CRITICAL</li>
+
+            </ul>
+
+        </div>
+        <div class="settingsContainer">
+            <h3>Display Properties</h3>
+            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Displayed tree-paths:</label>
+            <ul title="Select which paths should be displayed in the tree." id="treeDisplayMode" class="easySelectBox" >
+                <li class="selected">SAFE tree-paths</li>
+                <li class="selected">UNSAFE tree-paths</li>
+                <li class="selected">CRITICAL tree-paths</li>
+
+            </ul>
+
         </div>
         <div class="clearing"></div>
+
         <div>
 
         </div>
@@ -94,12 +119,15 @@
         <input id="artifactIdInput" class="searchInput" type="text"/>
         <span class="searchInputLabel">version:</span>
         <input id="versionInput" class="searchInput" type="text"/>
-        <button id="searchButton"  type="button"   >
+            <span class="triangleLeft" id="searchJumpBack" title="jump back to last search result"></span>
+        <span id="searchResultOutput"   >
 
 
                 no results
 
-        </button>
+        </span>
+            <span class="triangleRight" id="searchJumpNext" title="jump to next search result"></span>
+          <button id="clearSearchButton" type="button">clear</button>
         </div>
         <div class="clearing"></div>
     </div>

@@ -1,5 +1,7 @@
 package com.clashinspector.rest;
 
+import com.clashinspector.mojos.ClashSeverity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,17 @@ public class UserParameterWrapper {
   private java.util.List<String> includedScopes;
  private List<String> excludedScopes;
  private  Boolean includeOptional ;
+  private ClashSeverity clashSeverity;
 
-  public UserParameterWrapper( List<String> includedScopes, List<String> excludedScopes, Boolean includeOptional ) {
-    this.includedScopes =includedScopes;
-    this.excludedScopes = excludedScopes ;
+  public UserParameterWrapper( List<String> includedScopes, List<String> excludedScopes, Boolean includeOptional, ClashSeverity clashSeverity ) {
+    this.includedScopes = includedScopes;
+    this.excludedScopes = excludedScopes;
     this.includeOptional = includeOptional;
+    this.clashSeverity = clashSeverity;
+  }
+
+  public ClashSeverity getClashSeverity() {
+    return clashSeverity;
   }
 
   public List<String> getIncludedScopes() {

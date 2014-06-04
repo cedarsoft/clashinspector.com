@@ -46,7 +46,7 @@ public class DependencyRestService {
   @GET
   @JSONP(queryParam="callback")
   @Produces("application/x-javascript")
-  public String getAllDependenciesWithClashes(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional)
+  public String getAllDependenciesWithClashes(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
   {
     //TODO Problem lösen, dass javascriopt speichert nur pro aufruf, also view ID jedesmal wieder verloren bei reload
     System.out.println("joo2");
@@ -60,7 +60,7 @@ public class DependencyRestService {
     }
     else
     {
-      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
+      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
       System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
     }
 
@@ -108,7 +108,7 @@ public class DependencyRestService {
   @Produces("application/x-javascript")
   public String getClashList(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
   {
-     clashSeverity = ClashSeverity.UNSAFE;
+
 
     UserParameterWrapper userParameterWrapper;
 
@@ -121,8 +121,8 @@ public class DependencyRestService {
     }
     else
     {
-      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional);
-      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
+      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
+      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional + " " + clashSeverity)    ;
     }
 
     System.out.println("joo6");

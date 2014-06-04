@@ -18,9 +18,72 @@ this.includedScopes = includedScopes;
 this.excludedScopes = excludedScopes;
 this.includeOptional = includeOptional;
 this.clashSeverity = clashSeverity;
-               this.convertToParameterString = convertToParameterString;
 
-     function convertToParameterString(includeClashSeverity)
+ this.convertToParameterString = convertToParameterString;
+ this.applyValuesToView = applyValuesToView;
+
+   this.applyViewValues = function()
+    {
+    this.includedScopes = [];
+    this.excludedScopes = [];
+            var that = this;
+
+
+           $("#includedScopeList").find(".selected").each(function() {
+
+
+                                                                        that.includedScopes.push($(this).text());
+                                                                      }  );
+
+
+               $("#excludedcopeList").find(".selected").each(function() {
+
+
+                                                                        that.excludedScopes.push($(this).text());
+                                                                      }  );
+
+             if($("#includeOptional").hasClass("selected"))
+             {
+                that.includeOptional = true;
+             }
+             else
+             {
+                   that.includeOptional = false;
+             }
+
+              this.clashSeverity = $("#clashSeverity .selected").text();
+
+
+    }
+
+
+  function applyValuesToView()
+ {
+            //Delete old selections in view
+            $(".settingsContainer").find(".selected").removeClass("selected");
+
+            for(var i=0;i<this.includedScopes.length;i++){
+
+             $("#includedScopeList li:contains('"+this.includedScopes[i]+"')").addClass("selected");
+
+       }
+            for(var i=0;i<this.excludedScopes.length;i++){
+
+             $("#includedScopeList li:contains('"+this.excludedScopes[i]+"')").addClass("selected");
+
+       }
+                      alert("clashSeverity: " + this.clashSeverity)  ;
+            $("#clashSeverity li:contains('"+this.clashSeverity+"')").addClass("selected");
+
+            if(this.includeOptional==true)
+            {
+                $("#includeOptional").addClass("selected");
+            }
+
+
+ }
+
+     function convertToParameterString()
       {
 
 
@@ -33,10 +96,9 @@ this.clashSeverity = clashSeverity;
 
                  if(this.clashSeverity!=undefined)
                                   {
-                                        if(includeClashSeverity==true)
-                                                                  {
+
                                                                       parameterString = parameterString +"&clashSeverity="+this.clashSeverity;
-                                                                  }
+
                                   }
 
                                    if(this.includedScopes!=undefined)
@@ -96,7 +158,7 @@ $( document ).ready(function() {
 $(".javascriptWarning").hide();
  emptyAllInputs();
 
-$("#main").addClass("loading");
+
 
  getTree();
 
@@ -107,6 +169,9 @@ $("#main").addClass("loading");
 
 function getTree()
 {
+$("#leftMain").html("");
+$("#clashListContainer").html("");
+$("#main").addClass("loading");
 console.log('[' + new Date().toUTCString() + '] ' +"getTree started");
      doGet("http://localhost:8090/dependencies",drawTree,"",getList);
      console.log('[' + new Date().toUTCString() + '] ' +"getTree finished");
@@ -135,7 +200,7 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
                             listHtml = listHtml + buildClashListEntry(outerVersionClashList[id]);
                             }
 
-                            $(".clashListContainer").html(listHtml+"</ul>") ;
+                            $("#clashListContainer").html(listHtml+"</ul>") ;
 
 
 
@@ -452,6 +517,14 @@ $(document).on('input', '.searchInput', function(){
 
                 });
 
+$(document).on('click', '#applyResolutionSettings', function(){
+
+
+                            userSettingsWrapper.applyViewValues();
+                            getTree();
+
+                });
+
 $(document).on('click', '#clearSearchButton', function(){
                             clearSearchResults();
 
@@ -463,12 +536,13 @@ $(document).on('click', '#clearSearchButton', function(){
                 });
 
  $(document).on('click', '.openSettingsButton', function(){
+                            userSettingsWrapper.applyValuesToView();
                             $("#settingsFilterContainer").toggle();
 
                 });
 
                  $(document).on('click', '.openClashListButton', function(){
-                                            $(".clashListContainer").toggle();
+                                            $("#clashListContainer").toggle();
 
                                 });
 
@@ -581,8 +655,8 @@ $(document).on('click', '#clearSearchButton', function(){
                                                              userSettingsWrapper.clashSeverity = responseObject.userParameterWrapper.clashSeverity;
 
 
-
-                                                           console.log("userSettingsWrapper " + userSettingsWrapper.includedScopes);
+                                                                   userSettingsWrapper.applyValuesToView();
+                                                           console.log("userSettingsWrapper clashSeverity " + userSettingsWrapper.clashSeverity);
 
                                                         callbackFunction.call( this, responseObject.result );
 

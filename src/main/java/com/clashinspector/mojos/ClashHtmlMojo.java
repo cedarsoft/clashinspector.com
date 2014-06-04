@@ -51,7 +51,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
 
 
-      UserParameterWrapper userParameterWrapper = new UserParameterWrapper(this.getIncludedScopesList(),this.getExcludedScopesList(),this.isIncludeOptional()  );
+      UserParameterWrapper userParameterWrapper = new UserParameterWrapper(this.getIncludedScopesList(),this.getExcludedScopesList(),this.isIncludeOptional(),this.getSeverity()  );
         //ViewScopeManager initialisieren
       DependencyRestService.init( artifact,this.getRepoSystem(),this.getRepoSession(), userParameterWrapper );
 

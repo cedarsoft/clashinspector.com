@@ -275,7 +275,7 @@ hr {
 
 
 
-.clashListContainer {
+#clashListContainer {
     right: 0px;
     position: absolute;
     display: block;
@@ -286,11 +286,11 @@ hr {
 
 }
 
-.clashListContainer .clashSeverityUnsafe {
+#clashListContainer .clashSeverityUnsafe {
     color: #FAC619;
 }
 
-.clashListContainer .clashSeverityCritical {
+#clashListContainer .clashSeverityCritical {
     color: #FF4C10;
 }
 
@@ -317,11 +317,11 @@ hr {
     background-color: #FF4C10;
 }
 
-.clashListContainer ul li ul {
+#clashListContainer ul li ul {
     margin-left: 10px;
 }
 
-.clashListContainer span {
+#clashListContainer span {
     cursor: pointer;
 }
 
@@ -370,7 +370,7 @@ hr {
     display: inline-block;
 
     background-color: white;
-
+               cursor: pointer;
     border: 1px solid grey;
     border-radius: 4px;
 }

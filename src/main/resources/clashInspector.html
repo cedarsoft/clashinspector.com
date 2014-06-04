@@ -48,7 +48,7 @@
     <div id="settingsFilterContainer" class="topContainer ">
 
         <div class="settingsContainer">
-            <h3>Tree Settings</h3>
+            <h3>Dependency Resolution Settings</h3>
             <div class="settingsInlineContainer">
             <label for="treeDisplayMode" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes:</label>
             <ul title="Select the scopes of the dependencies that should be included in the dependency-resolution." id="includedScopeList" class="easySelectBox selectModeMultiple" >
@@ -71,6 +71,16 @@
 
             </ul>
             </div>
+            <div class="settingsInlineContainer">
+            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
+            <ul title="Select which paths should be displayed in the tree." id="clashSeverity" class="easySelectBox selectModeSingle" >
+
+                <li class="">UNSAFE</li>
+                <li class="">CRITICAL</li>
+
+            </ul>
+              </div>
+
               <div class="settingsInlineContainer">
                   <label for="includeOptional">Include Optional: </label>
             <div id="includeOptional" class="easyCheckBox">  <div></div>
@@ -78,19 +88,9 @@
 
               </div>
 
-            <button id="applySettings" type="button">Apply Settings</button>
+            <button id="applyResolutionSettings" type="button">Apply Settings</button>
         </div>
-        <div class="settingsContainer">
-            <h3>Dependency Resolution Settings</h3>
-            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
-            <ul title="Select which paths should be displayed in the tree." id="clashSeverity" class="easySelectBox selectModeSingle" >
 
-                <li class="selected">UNSAFE</li>
-                <li class="selected">CRITICAL</li>
-
-            </ul>
-
-        </div>
         <div class="settingsContainer">
             <h3>Display Properties</h3>
             <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Displayed tree-paths:</label>
@@ -154,7 +154,7 @@
         <div id="leftMain">
 
         </div>
-        <div class="clashListContainer">
+        <div id="clashListContainer">
 
 
 

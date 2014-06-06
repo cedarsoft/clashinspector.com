@@ -261,7 +261,7 @@ hr {
 
 }
 
-.settingsContainer {
+.settingsContainer, .propertiesContainer  {
     position: relative;
     float: left;
     margin-right: 10px;
@@ -366,6 +366,18 @@ hr {
 
 }
 
+#applyResolutionSettings
+{
+    position: relative;
+    border: none;
+    background-color: #0088CC;
+    color: white;
+    padding: 2px 8px 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .easyCheckBox {
     display: inline-block;
 
@@ -418,7 +430,7 @@ hr {
 label
 {
 display:block;
-font-size:12px;
+font-size:11px;
  position: relative;
  margin-bottom: 3px;
 }
@@ -501,6 +513,20 @@ span.triangleRight {
   vertical-align: middle;
 
  }
+
+
+#dependencyTree.viewModeShortened .depNode hr,#dependencyTree.viewModeShortened .depNode .version,#dependencyTree.viewModeShortened .depNode .groupId
+{
+display:none;
+}
+
+#dependencyTree.viewModeShortened .depNode hr.showBlock,#dependencyTree.viewModeShortened .depNode .version.showBlock,#dependencyTree.viewModeShortened .depNode .groupId.showBlock
+{
+     display: block;
+}
+
+
+
 
 /*----------------------Loading-------------------------*/
 #floatingCirclesG {

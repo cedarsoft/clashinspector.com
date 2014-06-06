@@ -553,8 +553,34 @@ $(document).on('click', '#clearSearchButton', function(){
 
                 });
 
+$(document).on('click', '#treeViewMode li', function(){
+
+                               var selectedValue = $(this).text();
+                               alert(selectedValue) ;
+
+                                 $("#dependencyTree").removeClass("viewModeShortened viewModeFull");
+
+                              if(selectedValue=="Shortened")
+                              {
+                                $("#dependencyTree").addClass("viewModeShortened");
+                              }
+                              else if(selectedValue=="Full")
+                              {
+                                   $("#dependencyTree").addClass("viewModeFull");
+                              }
+
+
+                });
+
          $(document).on('mouseenter', '.depNode', function(){
 
+
+                              if($("#dependencyTree").hasClass("viewModeShortened"))
+                              {
+                                  $(this).children("hr").addClass("showBlock");
+                                   $(this).children(".version").addClass("showBlock");
+                                   $(this).children(".groupId").addClass("showBlock");
+                              }
 
                                $(this).children(".depMenu").show();
 
@@ -562,7 +588,12 @@ $(document).on('click', '#clearSearchButton', function(){
                 });
 
                   $(document).on('mouseleave', '.depNode', function(){
-
+                                                  if($("#dependencyTree").hasClass("viewModeShortened"))
+                                                                               {
+                                                                                   $(this).children("hr").removeClass("showBlock");
+                                                                                    $(this).children(".version").removeClass("showBlock");
+                                                                                    $(this).children(".groupId").removeClass("showBlock");
+                                                                               }
                                           $(this).children(".depMenu").hide();
 
 
@@ -579,6 +610,7 @@ $(document).on('click', '#clearSearchButton', function(){
                                                               });
 
  $(document).on('click', '.easySelectBox.selectModeSingle li', function(){
+                                                                            alert("selectModeSingle");
                                                                          $(this).parent().children().removeClass("selected");
                                                                         $(this).toggleClass("selected");
 

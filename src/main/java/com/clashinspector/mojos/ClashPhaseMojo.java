@@ -18,15 +18,26 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import java.util.List;
 
 /**
- * [Definition of Phase Mojo]
+ * Displays the dependencies with version clashes during a specified build phase.
+ *
+ * @since 0.9
  */
-
 @Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
 public class ClashPhaseMojo extends AbstractClashMojo {
 
+  /**
+   * Defines if the specified build phase will be aborted if a version clash of the defined severity was detected.
+   *
+   * @since 0.9
+   */
   @Parameter( alias = "failOnClash", defaultValue = "true", property = "failOnClash")
   private String failOnClash;
 
+  /**
+   * Defines the dependencies which will be ignored of this mojo.
+   *
+   * @since 0.9
+   */
   @Parameter( alias = "whiteList", property = "whiteList")
   private List<WhiteListDependency> whiteList;
 

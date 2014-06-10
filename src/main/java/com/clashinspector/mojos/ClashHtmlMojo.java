@@ -30,9 +30,9 @@ import java.net.URI;
 import java.nio.file.Files;
 
 /**
- * Displays the dependency tree for this project. The tree also shows version clashes.
+ * Opens a HTML tool for dynamic analysis of dependencies and dependency version clashes.
  *
- * @since 0.3
+ * @since 0.9
  */
 @Mojo(name = "html", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
 public class ClashHtmlMojo extends AbstractClashMojo {

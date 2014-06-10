@@ -190,7 +190,14 @@ hr {
     color: #0088CC;
     margin-left: 20px;
     cursor: pointer;
+    text-decoration:none;
+}
 
+.menuEntry:hover {
+    color: #0088CC;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration:underline;
 }
 
 #searchContainer {
@@ -346,6 +353,14 @@ hr {
     box-shadow: 2px 2px 2px 1px #CCCCCC;
 }
 
+.depMenu a{
+     text-decoration:none;
+ }
+
+.depMenu a:hover{
+    text-decoration:underline;
+}
+
 .javascriptWarning {
     color: red;
     font-weight: bold;
@@ -435,19 +450,31 @@ font-size:12px;
 .usedVersionLink {
     color: #0088CC;
     cursor: pointer;
-
+    text-decoration:none;
 }
 
 .highestVersionLink {
     color: #0088CC;
     cursor: pointer;
-
+    text-decoration:none;
 }
 
 .lowestVersionLink {
     color: #0088CC;
     cursor: pointer;
+    text-decoration:none;
+}
 
+.usedVersionLink:hover  {
+    text-decoration:underline;
+}
+
+.highestVersionLink:hover  {
+    text-decoration:underline;
+}
+
+.lowestVersionLink:hover  {
+    text-decoration:underline;
 }
 
 span.triangleDown {

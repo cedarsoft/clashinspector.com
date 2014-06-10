@@ -158,10 +158,10 @@ $( document ).ready(function() {
 $(".javascriptWarning").hide();
  emptyAllInputs();
 
-
+     setOnTopIfScrolled("topBar");
+         calculateMainPadding();
 
  getTree();
-     setOnTopIfScrolled("topBar");
 
 
 });
@@ -530,44 +530,40 @@ $(document).on('click', '#clearSearchButton', function(){
 
                 });
 
+
+      function calculateMainPadding()
+      {
+          var result =0;
+
+          if($("#topBar").css("top")!=0)
+          {
+          result = result + $("#logoContainer").outerHeight(true) ;
+          }
+
+        result = result + $("#topBar").outerHeight(true);
+        document.getElementById( "main" ).style.paddingTop =  result +"px";
+
+      }
+
  $(document).on('click', '.openSearchButton', function(){
 
- var mainPaddingTop = parseInt(document.getElementById("main").style.paddingTop);
+
+
 
                              $("#searchContainer").toggle();
-                             if(isopenSearchButton){
-                                mainHeight = mainHeight+40;
 
+                                 calculateMainPadding();
 
-                               isopenSearchButton=false;
-                               }
-                              else{
-                                 mainHeight = mainHeight-40;
-
-                                isopenSearchButton=true;
-                               }
-                                document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
 
 
                 });
 
  $(document).on('click', '.openSettingsButton', function(){
                             userSettingsWrapper.applyValuesToView();
-                            var mainHeight = parseInt(document.getElementById("main").style.paddingTop);
 
                                                         $("#settingsFilterContainer").toggle();
-                                                          if(isopenSettingsButton){
-                                                              mainHeight = mainHeight+170;
 
-                                                                                         isopenSettingsButton=false;
-                                                                                      }
-                                                                                     else{
-                                                                                             mainHeight = mainHeight-170;
-
-                                                                                           isopenSettingsButton=true;
-                                                                                      }
-                                                             document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
-
+                                                        calculateMainPadding();
                 });
 
                  $(document).on('click', '.openClashListButton', function(){
@@ -955,9 +951,8 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                 }
 
 
-                                                                                var isopenSearchButton = new Boolean(false);
-                                                                                var isopenSettingsButton = new Boolean(false);
-                                                                                 //Vllt doch besser objekte ohne rest einzuschreiben ??
+
+
                                                                                 function setOnTopIfScrolled(id){
                                                                                     var e_ = $("#"+id);
 
@@ -965,13 +960,19 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
 
                                                                                     var _defautlLeft = e_.offset().left - $(document).scrollLeft();
 
-                                                                                    var _position = e_.css('position');
-                                                                                    var _top = e_.css('top');
-                                                                                    var _left = e_.css('left');
-                                                                                    var _zIndex = e_.css('z-index');
-                                                                                    var _width = e_.css('width');
+                                                                                    var originalTopBarPosition = e_.css('position');
+                                                                                    var originalTopBarTop = e_.css('top');
+                                                                                    var originalTopBarLeft = e_.css('left');
+                                                                                    var originalTopBarZIndex = e_.css('z-index');
+                                                                                    var originalTopBarWidth = e_.css('width');
+
+
+                                                                                    var originalLogoContainerPosition = $("#logoContainer").css("position");
+                                                                                     var   originalLogoContainerWidth =  $("#logoContainer").css("width");
 
                                                                                     $(window).scroll(function(){
+
+
                                                                                         if($(this).scrollTop() > _defautlTop){
                                                                                             var ie6 = /msie 6/i.test(navigator.userAgent);
 
@@ -986,9 +987,38 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                                 e_.css({'position':'fixed','top':0+'px',
                                                                                                    'z-index':99999});
                                                                                             }
-                                                                                        }else{
-                                                                                            e_.css({'position':_position,'top':_top,
-                                                                                               'z-index':_zIndex});
                                                                                         }
+
+                                                                                         else if($(this).scrollLeft() > _defautlLeft){
+
+                                                                                         if($("#topBar").css("top")==0)
+                                                                                         {
+                                                                                            //hochgeklappt nichts machen mit header etc.
+                                                                                         }
+                                                                                         else
+                                                                                         {
+                                                                                              $("#logoContainer").css({
+                                                                                                             position: "fixed", width: "98%",
+
+                                                                                                           });
+                                                                                               e_.css({'position':'fixed',
+                                                                                                  'z-index':99999});
+                                                                                         }
+
+
+
+                                                                              }else{
+                                                                                  $("#topBar").css({'position':originalTopBarPosition,'top':originalTopBarTop,
+                                                                                     'z-index':originalTopBarZIndex});
+
+                                                                                    $("#logoContainer").css({'position':originalLogoContainerPosition});
+
+                                                                              }
+
+
                                                                                     });
                                                                                 }
+
+                                                                                window.onresize = function(event) {
+                                                                                        calculateMainPadding();
+                                                                                };

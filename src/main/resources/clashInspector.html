@@ -53,7 +53,7 @@
         <div class="settingsContainer">
             <h3>Dependency Resolution Settings</h3>
             <div class="settingsInlineContainer">
-            <label for="includedScopeList" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes:</label>
+            <label for="includedScopeList" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes</label>
             <ul title="Select the scopes of the dependencies that should be included in the dependency-resolution." id="includedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
@@ -64,7 +64,7 @@
             </ul>
             </div>
             <div class="settingsInlineContainer">
-            <label for="excludedScopeList" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes:</label>
+            <label for="excludedScopeList" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes</label>
             <ul title="Select the scopes of the dependencies that should be excluded from the dependency-resolution." id="excludedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
@@ -74,29 +74,29 @@
 
             </ul>
             </div>
-            <div class="settingsInlineContainer">
-            <label for="clashSeverity" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
+            <div class="settingsInlineContainerRight">
+            <label for="clashSeverity" title="Select which paths should be displayed in the tree.">Clash Severity</label>
             <ul title="Select which paths should be displayed in the tree." id="clashSeverity" class="easySelectBox selectModeSingle" >
 
                 <li class="">UNSAFE</li>
                 <li class="">CRITICAL</li>
 
             </ul>
+                <label for="includeOptional">Included Optional </label>
+                <div id="includeOptional" class="easyCheckBox">  <div>
               </div>
-
-              <div class="settingsInlineContainer">
-                  <label for="includeOptional">Include Optional: </label>
-            <div id="includeOptional" class="easyCheckBox">  <div></div>
-            </div>
 
               </div>
 
+
+              </div>
+            <div class="clearing"></div>
             <button id="applyResolutionSettings" type="button">Apply Settings</button>
         </div>
 
         <div class="propertiesContainer">
             <h3>Display Properties</h3>
-            <label for="treeViewMode" title="Select your preferred Tree-View.">View Mode:</label>
+            <label for="treeViewMode" title="Select your preferred Tree-View.">View Mode</label>
             <ul title="Select your preferred Tree-View." id="treeViewMode" class="easySelectBox selectModeSingle" >
                 <li class="selected">Full</li>
                 <li>Shortened</li>

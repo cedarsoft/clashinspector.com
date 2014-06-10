@@ -6,9 +6,6 @@
     list-style: none;
 }
 
-body.topBarDisabled {
-    /*padding-top: 20px;*/   /*hz */
-}
 
 body {
     background-color: #FFFFFF;
@@ -46,7 +43,7 @@ h4 {
     color: grey;
 }
 
-#topBar{   /*hz*/
+#headerContainer{   /*hz*/
      background-color: #FFFFFF;
              top: 70px;
        position: absolute;
@@ -54,7 +51,7 @@ h4 {
        z-index: 1000;
        width: 98%;
 }
-#logoContainer{    /*hz*/
+#logoContainer{
     padding-top:10px;
     padding-bottom:10px;
            width: 98%;
@@ -62,7 +59,15 @@ h4 {
     position: absolute;
 }
 
-.container-fluid {
+.footerContainer
+{
+position: relative;
+font-size: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+}
+
+.mainContainer {
     padding-left: 1%;
     padding-right: 1%;
     position: relative;
@@ -173,18 +178,15 @@ hr {
 
 }
 
-#leftMain {
-    float: left;
+#treeContainer {
+
     position: relative;
     width: 4000px;
 }
 
-#rightMain {
-    float: right;
-    width: 30%;
-}
 
-#main {
+
+#contentContainer {
     position: relative;
     min-height: 200px;
     padding-top: 130px;    /*hz */
@@ -227,22 +229,6 @@ hr {
     display: none;
 }
 
-#searchButton {
-    position: relative;
-    border: none;
-    background-color: #0088CC;
-    color: white;
-    padding: 2px 8px 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-
-}
-
-#searchButton span {
-    font-weight: normal;
-    font-size: 12px;
-
-}
 
 #searchResultOutput
 {
@@ -254,12 +240,9 @@ hr {
 
 #clearSearchButton {
     position: relative;
-    border: none;
-    background-color: #0088CC;
-    color: white;
     padding: 1px 2px 1px 2px;
-    border-radius: 4px;
-    cursor: pointer;
+
+
        font-weight: bold;
        font-size:10px;
 }
@@ -290,7 +273,7 @@ hr {
 .settingsContainer, .propertiesContainer  {
     position: relative;
     float: left;
-    margin-right: 35px;
+    margin-right: 50px;
 }
 
 .settingsContainer h3, .propertiesContainer h3  {
@@ -301,7 +284,7 @@ hr {
 .settingsInlineContainer {
    position: relative;
    display: block;
-   margin-right: 30px;
+   margin-right: 20px;
    float: left;
 }
 
@@ -421,19 +404,26 @@ hr {
 {
     position: relative;
     display:block;
-    border: none;
-    background-color: #0088CC;
-    color: white;
-    //padding: 2px 8px 2px 8px;
-    padding: 1px 2px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
     font-size: 11px;
     width: 100%;
+    padding-bottom: 4px;
+    padding-top: 4px;
 }
 
-
+   .easyButton
+   {
+      border-radius: 4px;
+      border: 1px solid grey;
+      background-color: #0088CC;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+   }
+   .easyButton:hover
+      {
+         background-color: #006DCD;
+      }
 
 .easyCheckBox {
     display: inline-block;
@@ -525,6 +515,16 @@ font-size:12px;
 
 .lowestVersionLink:hover  {
     text-decoration:underline;
+}
+
+#menuContainer  span.triangleDown
+{
+margin-bottom: 1px;
+}
+
+#menuContainer  span.triangleUp
+{
+margin-bottom: 2px;
 }
 
 span.triangleDown {

@@ -39,7 +39,7 @@ public class DependencyService {
    *
    * @throws DependencyCollectionException
    */
-  //TODO startparameterWrapper verwenden um alle nöten  startparameter mitzugeben
+
   public CollectResult getDependencyTree( Artifact artifact, RepositorySystemSession repoSession, RepositorySystem repoSystem, List<String> includedScopes, List<String> excludedScopes, boolean includeOptional ) {
     DefaultRepositorySystemSession session = new DefaultRepositorySystemSession( repoSession );
 

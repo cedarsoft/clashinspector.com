@@ -973,48 +973,47 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                     $(window).scroll(function(){
 
 
-                                                                                        if($(this).scrollTop() > _defautlTop){
-                                                                                            var ie6 = /msie 6/i.test(navigator.userAgent);
+                                                                                 if($(this).scrollTop() > _defautlTop && $(this).scrollLeft() > _defautlLeft)
+                                                                                 {
+                                                                                      $("#topBar").css({'position':'fixed','top':0+'px',
+                                                                                         'z-index':99999});
+                                                                                         $("#logoContainer").css({
+                                                                                        position: originalLogoContainerPosition
 
-                                                                                            if(ie6){
-                                                                                                e_.css({'position':'absolute',
-                                                                                                    'top':eval(document.documentElement.scrollTop),
-                                                                                                   'z-index':99999});
-
-                                                                                                $("html,body").css({'background-image':'url(about:blank)',
-                                                                                                    'background-attachment':'fixed'});
-                                                                                            }else{
-                                                                                                e_.css({'position':'fixed','top':0+'px',
-                                                                                                   'z-index':99999});
-                                                                                            }
-                                                                                        }
-
-                                                                                         else if($(this).scrollLeft() > _defautlLeft){
-
-                                                                                         if($("#topBar").css("top")==0)
-                                                                                         {
-                                                                                            //hochgeklappt nichts machen mit header etc.
-                                                                                         }
-                                                                                         else
-                                                                                         {
-                                                                                              $("#logoContainer").css({
-                                                                                                             position: "fixed", width: "98%",
-
-                                                                                                           });
-                                                                                               e_.css({'position':'fixed',
-                                                                                                  'z-index':99999});
-                                                                                         }
+                                                                                      });
 
 
+                                                                                 }
+                                                                                 else if($(this).scrollTop() > _defautlTop)
+                                                                                 {
+                                                                                       $("#topBar").css({'position':'fixed','top':0+'px','z-index':99999});
+                                                                                       $("#logoContainer").css({position: originalLogoContainerPosition });
 
-                                                                              }else{
-                                                                                  $("#topBar").css({'position':originalTopBarPosition,'top':originalTopBarTop,
-                                                                                     'z-index':originalTopBarZIndex});
+                                                                                 }
+                                                                                 else if($(this).scrollLeft() > _defautlLeft)
+                                                                                 {
+                                                                                          if( $("#topBar").css("top").replace("px","")=="0")
+                                                                                          {
+                                                                                          $("#topBar").css({'position':'fixed','top':'70px'});
+                                                                                            $("#logoContainer").css({position: "fixed"});
 
-                                                                                    $("#logoContainer").css({'position':originalLogoContainerPosition});
+                                                                                          }
+                                                                                          else
+                                                                                          {
+                                                                                            $("#topBar").css({'position':'fixed'});
+                                                                                           $("#logoContainer").css({position: "fixed"});
 
-                                                                              }
+                                                                                          }
 
+
+                                                                                 }
+                                                                                 else
+                                                                                 {
+                                                                                      $("#topBar").css({'position':originalTopBarPosition,'top':originalTopBarTop,
+                                                                                             'z-index':originalTopBarZIndex});
+
+                                                                                            $("#logoContainer").css({'position':originalLogoContainerPosition});
+                                                                                 }
 
                                                                                     });
                                                                                 }

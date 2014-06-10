@@ -30,7 +30,7 @@ h2 {
 }
 
 h3 {
-    font-size: 13px;
+    font-size: 14px;
     padding: 0px;
     margin: 0px;
     font-weight: bold;
@@ -124,7 +124,7 @@ hr {
     border-bottom-left-radius: 10px;
     float: left;
     margin-bottom: 15px;
-    background-image: url("openDepNode_l.png");
+    background-image: url("openDepNode.png");
     background-position: right;
     background-repeat: no-repeat;
 }
@@ -193,7 +193,7 @@ hr {
 .topContainer {
     background-color: #F5F5F5;
     border-radius: 4px;
-    padding: 8px 15px;
+    padding: 8px 10px;
     /* box-shadow: 1px 1px 3px grey;   */
 }
 
@@ -209,7 +209,14 @@ hr {
     color: #0088CC;
     margin-left: 20px;
     cursor: pointer;
+    text-decoration:none;
+}
 
+.menuEntry:hover {
+    color: #0088CC;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration:underline;
 }
 
 #searchContainer {
@@ -283,21 +290,26 @@ hr {
 .settingsContainer, .propertiesContainer  {
     position: relative;
     float: left;
-    margin-right: 15px;
+    margin-right: 35px;
 }
 
 .settingsContainer h3, .propertiesContainer h3  {
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid white;
   padding-bottom: 3px;
 }
 
 .settingsInlineContainer {
-    position: relative;
-   display: inline-block;
-   margin-right: 15px;
+   position: relative;
+   display: block;
+   margin-right: 30px;
+   float: left;
 }
 
-
+.settingsInlineContainerRight {
+    position: relative;
+    display: block;
+    float: left;
+}
 
 #clashListContainer {
     right: 0px;
@@ -305,9 +317,11 @@ hr {
     display: block;
     font-size: 12px;
     background-color: #F5F5F5;
-    padding: 6px;
+    padding: 8px 10px;
     border-radius: 4px;
-                margin-top:15px;
+    margin-top:15px;
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 #clashListContainer .clashSeverityUnsafe {
@@ -347,6 +361,11 @@ hr {
 
 #clashListContainer span {
     cursor: pointer;
+    text-decoration:none;
+}
+
+#clashListContainer span:hover {
+    text-decoration:underline;
 }
 
 .depMenu {
@@ -363,6 +382,14 @@ hr {
     -moz-box-shadow: 2px 2px 2px 1px #CCCCCC;
     -webkit-box-shadow: 2px 2px 2px 1px #CCCCCC;
     box-shadow: 2px 2px 2px 1px #CCCCCC;
+}
+
+.depMenu a{
+     text-decoration:none;
+ }
+
+.depMenu a:hover{
+    text-decoration:underline;
 }
 
 .javascriptWarning {
@@ -397,12 +424,16 @@ hr {
     border: none;
     background-color: #0088CC;
     color: white;
-    padding: 2px 8px 2px 8px;
+    //padding: 2px 8px 2px 8px;
+    padding: 1px 2px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-
+    font-size: 11px;
+    width: 100%;
 }
+
+
 
 .easyCheckBox {
     display: inline-block;
@@ -428,22 +459,22 @@ hr {
 
 .easySelectBox {
     display: inline-block;
-    margin: 5px;
+    margin: 8px 8px 8px 0px;
     border-radius: 4px;
     background-color: white;
     padding: 5px;
     border-radius: 4px;
     font-size: 12px;
+    width: 90%;
 }
 
 .easySelectBox li {
     margin-top: 3px;
     margin-bottom: 3px;
-    padding: 2px;
-     padding-left: 4px;
-      padding-right: 4px;
+    padding: 1px 2px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 11px;
 }
 
 .easySelectBox .selected {
@@ -456,9 +487,10 @@ hr {
 label
 {
 display:block;
-font-size:11px;
+font-size:12px;
  position: relative;
  margin-bottom: 0px;
+ padding: 2px 0px 0px 0px;
 }
 
 .depNode.highlightSearch {
@@ -468,19 +500,31 @@ font-size:11px;
 .usedVersionLink {
     color: #0088CC;
     cursor: pointer;
-
+    text-decoration:none;
 }
 
 .highestVersionLink {
     color: #0088CC;
     cursor: pointer;
-
+    text-decoration:none;
 }
 
 .lowestVersionLink {
     color: #0088CC;
     cursor: pointer;
+    text-decoration:none;
+}
 
+.usedVersionLink:hover  {
+    text-decoration:underline;
+}
+
+.highestVersionLink:hover  {
+    text-decoration:underline;
+}
+
+.lowestVersionLink:hover  {
+    text-decoration:underline;
 }
 
 span.triangleDown {

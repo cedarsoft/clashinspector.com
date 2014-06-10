@@ -1,0 +1,16 @@
+
+Usage HTML Analysis
+
+  Definitions and use-cases for the <<{{{./html-mojo.html}${project.artifactId}:html}}>> goal.
+
+* The {{{./html-mojo.html}clashinspector:html}} goal
+
+  The <<{{{./html-mojo.html}${project.artifactId}:html}}>> goal generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes.
+
+** <dependency tree> - section
+
+** <clash-list> - section
+
+** <settings & properties>
+
+** <search dependencies>

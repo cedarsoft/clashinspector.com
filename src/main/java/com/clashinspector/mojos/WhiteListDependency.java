@@ -3,13 +3,6 @@ package com.clashinspector.mojos;
 import com.clashinspector.model.DependencyNodeWrapper;
 import org.eclipse.aether.artifact.Artifact;
 
-/**
- * Created with IntelliJ IDEA.
- * User: m
- * Date: 15.04.14
- * Time: 14:44
- * To change this template use File | Settings | File Templates.
- */
 public class WhiteListDependency {
 
   private String groupId;

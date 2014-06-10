@@ -1,13 +1,10 @@
 
-Usage
+Usage Command Prompt Analysis
 
-  Definitions and use-cases for the goals.
-
-* Introduction: Html Output
-
-* The {{{./html-mojo.html}clashinspector:html}} goal
-
-  Every goal-execution starts with a <start-parameters>-section followed by the specific goal-section and finished with a <summary>-section.
+  Definitions and use-cases for the goals
+  <<{{{./list-mojo.html}${project.artifactId}:list}}>>,
+  <<{{{./listPhase-mojo.html}${project.artifactId}:listPhase}}>> and
+  <<{{{./tree-mojo.html}${project.artifactId}:tree}}>>.
 
 * Introduction: Command Line Output
 

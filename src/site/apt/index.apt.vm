@@ -109,11 +109,13 @@ Maven ${project.name} Plugin
 
   The ClashInspector Plugin has the following goals:
 
+  * <<{{{./html-mojo.html}${project.artifactId}:html}} >> <<opens a HTML tool for dynamic analysis of dependencies and dependency version clashes.>>
+
   * <<{{{./list-mojo.html}${project.artifactId}:list}} >> displays the dependencies with version clashes and a summary of the clashes.
 
-  * <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
+  * <<{{{./listPhase-mojo.html}${project.artifactId}:listPhase}} >> displays the dependencies with version clashes during a specified build phase.
 
-  * <<{{{./tree-mojo.html}${project.artifactId}:html}} >> opens a local html site with a dependency-tree and a dependency-list of your current project.
+  * <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
 
 
 * Version Preview & History

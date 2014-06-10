@@ -37,7 +37,10 @@
         <item name="Basics" href="version_clash.html" />
         <item name="Details" href="version_clash_details.html" />
       </item>
-      <item name="Usage" href="usage.html" />
+      <item name="Usage" href="usage_html.html" collapse="true" >
+        <item name="HTML Analysis" href="usage_html.html" />
+        <item name="Command Prompt Analysis" href="usage_commandPrompt.html" />
+      </item>
       <item name="Motivation" href="motivation.html" />
       <item name="Version History" href="version.html" />
     </menu>

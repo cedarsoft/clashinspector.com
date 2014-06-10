@@ -36,7 +36,7 @@ this.clashSeverity = clashSeverity;
                                                                       }  );
 
 
-               $("#excludedcopeList").find(".selected").each(function() {
+               $("#excludedScopeList").find(".selected").each(function() {
 
 
                                                                         that.excludedScopes.push($(this).text());
@@ -69,7 +69,7 @@ this.clashSeverity = clashSeverity;
        }
             for(var i=0;i<this.excludedScopes.length;i++){
 
-             $("#includedScopeList li:contains('"+this.excludedScopes[i]+"')").addClass("selected");
+             $("#excludedScopeList li:contains('"+this.excludedScopes[i]+"')").addClass("selected");
 
        }
                       alert("clashSeverity: " + this.clashSeverity)  ;
@@ -161,7 +161,7 @@ $(".javascriptWarning").hide();
 
 
  getTree();
-
+     setOnTopIfScrolled("topBar");
 
 
 });
@@ -531,13 +531,42 @@ $(document).on('click', '#clearSearchButton', function(){
                 });
 
  $(document).on('click', '.openSearchButton', function(){
-                            $("#searchContainer").toggle();
+
+ var mainPaddingTop = parseInt(document.getElementById("main").style.paddingTop);
+
+                             $("#searchContainer").toggle();
+                             if(isopenSearchButton){
+                                mainHeight = mainHeight+40;
+
+
+                               isopenSearchButton=false;
+                               }
+                              else{
+                                 mainHeight = mainHeight-40;
+
+                                isopenSearchButton=true;
+                               }
+                                document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
+
 
                 });
 
  $(document).on('click', '.openSettingsButton', function(){
                             userSettingsWrapper.applyValuesToView();
-                            $("#settingsFilterContainer").toggle();
+                            var mainHeight = parseInt(document.getElementById("main").style.paddingTop);
+
+                                                        $("#settingsFilterContainer").toggle();
+                                                          if(isopenSettingsButton){
+                                                              mainHeight = mainHeight+170;
+
+                                                                                         isopenSettingsButton=false;
+                                                                                      }
+                                                                                     else{
+                                                                                             mainHeight = mainHeight-170;
+
+                                                                                           isopenSettingsButton=true;
+                                                                                      }
+                                                             document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
 
                 });
 
@@ -923,4 +952,43 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                      highlightDependencies(result,highlightClazz,highlightClazzToDelete,openPath);
 
                                                                                      return result;
+                                                                                }
+
+
+                                                                                var isopenSearchButton = new Boolean(false);
+                                                                                var isopenSettingsButton = new Boolean(false);
+                                                                                 //Vllt doch besser objekte ohne rest einzuschreiben ??
+                                                                                function setOnTopIfScrolled(id){
+                                                                                    var e_ = $("#"+id);
+
+                                                                                    var _defautlTop = e_.offset().top - $(document).scrollTop();
+
+                                                                                    var _defautlLeft = e_.offset().left - $(document).scrollLeft();
+
+                                                                                    var _position = e_.css('position');
+                                                                                    var _top = e_.css('top');
+                                                                                    var _left = e_.css('left');
+                                                                                    var _zIndex = e_.css('z-index');
+                                                                                    var _width = e_.css('width');
+
+                                                                                    $(window).scroll(function(){
+                                                                                        if($(this).scrollTop() > _defautlTop){
+                                                                                            var ie6 = /msie 6/i.test(navigator.userAgent);
+
+                                                                                            if(ie6){
+                                                                                                e_.css({'position':'absolute',
+                                                                                                    'top':eval(document.documentElement.scrollTop),
+                                                                                                   'z-index':99999});
+
+                                                                                                $("html,body").css({'background-image':'url(about:blank)',
+                                                                                                    'background-attachment':'fixed'});
+                                                                                            }else{
+                                                                                                e_.css({'position':'fixed','top':0+'px',
+                                                                                                   'z-index':99999});
+                                                                                            }
+                                                                                        }else{
+                                                                                            e_.css({'position':_position,'top':_top,
+                                                                                               'z-index':_zIndex});
+                                                                                        }
+                                                                                    });
                                                                                 }

@@ -533,7 +533,15 @@ $(document).on('click', '#clearSearchButton', function(){
 
       function calculateMainPadding()
       {
-        document.getElementById( "main" ).style.paddingTop = $("#topBar").outerHeight(true)+"px";
+          var result =0;
+
+          if($("#topBar").css("top")!=0)
+          {
+          result = result + $("#logoContainer").outerHeight(true) ;
+          }
+
+        result = result + $("#topBar").outerHeight(true);
+        document.getElementById( "main" ).style.paddingTop =  result +"px";
 
       }
 
@@ -952,11 +960,15 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
 
                                                                                     var _defautlLeft = e_.offset().left - $(document).scrollLeft();
 
-                                                                                    var _position = e_.css('position');
-                                                                                    var _top = e_.css('top');
-                                                                                    var _left = e_.css('left');
-                                                                                    var _zIndex = e_.css('z-index');
-                                                                                    var _width = e_.css('width');
+                                                                                    var originalTopBarPosition = e_.css('position');
+                                                                                    var originalTopBarTop = e_.css('top');
+                                                                                    var originalTopBarLeft = e_.css('left');
+                                                                                    var originalTopBarZIndex = e_.css('z-index');
+                                                                                    var originalTopBarWidth = e_.css('width');
+
+
+                                                                                    var originalLogoContainerPosition = $("#logoContainer").css("position");
+                                                                                     var   originalLogoContainerWidth =  $("#logoContainer").css("width");
 
                                                                                     $(window).scroll(function(){
 
@@ -975,10 +987,35 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                                 e_.css({'position':'fixed','top':0+'px',
                                                                                                    'z-index':99999});
                                                                                             }
-                                                                                        }else{
-                                                                                            e_.css({'position':_position,'top':_top,
-                                                                                               'z-index':_zIndex});
                                                                                         }
+
+                                                                                         else if($(this).scrollLeft() > _defautlLeft){
+
+                                                                                         if($("#topBar").css("top")==0)
+                                                                                         {
+                                                                                            //hochgeklappt nichts machen mit header etc.
+                                                                                         }
+                                                                                         else
+                                                                                         {
+                                                                                              $("#logoContainer").css({
+                                                                                                             position: "fixed", width: "98%",
+
+                                                                                                           });
+                                                                                               e_.css({'position':'fixed',
+                                                                                                  'z-index':99999});
+                                                                                         }
+
+
+
+                                                                              }else{
+                                                                                  $("#topBar").css({'position':originalTopBarPosition,'top':originalTopBarTop,
+                                                                                     'z-index':originalTopBarZIndex});
+
+                                                                                    $("#logoContainer").css({'position':originalLogoContainerPosition});
+
+                                                                              }
+
+
                                                                                     });
                                                                                 }
 

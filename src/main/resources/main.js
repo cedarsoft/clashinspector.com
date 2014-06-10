@@ -158,10 +158,10 @@ $( document ).ready(function() {
 $(".javascriptWarning").hide();
  emptyAllInputs();
 
-
+     setOnTopIfScrolled("topBar");
+         calculateMainPadding();
 
  getTree();
-     setOnTopIfScrolled("topBar");
 
 
 });
@@ -530,44 +530,32 @@ $(document).on('click', '#clearSearchButton', function(){
 
                 });
 
+
+      function calculateMainPadding()
+      {
+        document.getElementById( "main" ).style.paddingTop = $("#topBar").outerHeight(true)+"px";
+
+      }
+
  $(document).on('click', '.openSearchButton', function(){
 
- var mainPaddingTop = parseInt(document.getElementById("main").style.paddingTop);
+
+
 
                              $("#searchContainer").toggle();
-                             if(isopenSearchButton){
-                                mainHeight = mainHeight+40;
 
+                                 calculateMainPadding();
 
-                               isopenSearchButton=false;
-                               }
-                              else{
-                                 mainHeight = mainHeight-40;
-
-                                isopenSearchButton=true;
-                               }
-                                document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
 
 
                 });
 
  $(document).on('click', '.openSettingsButton', function(){
                             userSettingsWrapper.applyValuesToView();
-                            var mainHeight = parseInt(document.getElementById("main").style.paddingTop);
 
                                                         $("#settingsFilterContainer").toggle();
-                                                          if(isopenSettingsButton){
-                                                              mainHeight = mainHeight+170;
 
-                                                                                         isopenSettingsButton=false;
-                                                                                      }
-                                                                                     else{
-                                                                                             mainHeight = mainHeight-170;
-
-                                                                                           isopenSettingsButton=true;
-                                                                                      }
-                                                             document.getElementById( "main" ).style.paddingTop = mainHeight+"px";
-
+                                                        calculateMainPadding();
                 });
 
                  $(document).on('click', '.openClashListButton', function(){
@@ -955,9 +943,8 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                 }
 
 
-                                                                                var isopenSearchButton = new Boolean(false);
-                                                                                var isopenSettingsButton = new Boolean(false);
-                                                                                 //Vllt doch besser objekte ohne rest einzuschreiben ??
+
+
                                                                                 function setOnTopIfScrolled(id){
                                                                                     var e_ = $("#"+id);
 
@@ -972,6 +959,8 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                     var _width = e_.css('width');
 
                                                                                     $(window).scroll(function(){
+
+
                                                                                         if($(this).scrollTop() > _defautlTop){
                                                                                             var ie6 = /msie 6/i.test(navigator.userAgent);
 
@@ -992,3 +981,7 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                         }
                                                                                     });
                                                                                 }
+
+                                                                                window.onresize = function(event) {
+                                                                                        calculateMainPadding();
+                                                                                };

@@ -48,20 +48,20 @@ h4 {
 
 #topBar{   /*hz*/
      background-color: #FFFFFF;
-       padding-bottom: 15px;
+
        position: absolute;
-top:80px;
+       margin-bottom: 15px;
        z-index: 1000;
-       width: 97%;
+       width: 98%;
 }
-#logo{    /*hz*/
-    padding-top:20px;
-    padding-bottom:20px;
+#logoContainer{    /*hz*/
+    padding-top:10px;
+    padding-bottom:10px;
 }
 
 .container-fluid {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 1%;
+    padding-right: 1%;
     position: relative;
 }
 
@@ -74,7 +74,7 @@ top:80px;
 }
 
 .banner {
-    padding-bottom: 10px;
+
     padding-left: 10px;
 
 }
@@ -303,7 +303,7 @@ hr {
     background-color: #F5F5F5;
     padding: 6px;
     border-radius: 4px;
-                margin-top:20px;
+                margin-top:15px;
 }
 
 #clashListContainer .clashSeverityUnsafe {

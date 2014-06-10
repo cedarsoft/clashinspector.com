@@ -3,7 +3,9 @@ Maven ${project.name} Plugin
 
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
-* Version Clash
+  With the new html-Mojo you will be
+
+* Dependency Version Clash
 
   Dependency version clashes can lead to unpredictable (critical) software problems during development and after deployment.
   That's why it is so important to recognize version clashes early and to fix them, before they make trouble. Read more about how we define
@@ -11,7 +13,7 @@ Maven ${project.name} Plugin
 
 * Quick Start
 
-  Even big projects like <<"com.google.guava:guava">> can leed to critical conditions if a project
+  Using even big projects like <<"com.google.guava:guava">> can leed to critical conditions if a project
   uses different versions of it. As mentioned on {{{https://code.google.com/p/guava-libraries/wiki/Release14}Guava Release 14.0: Release Notes}}
   release 14 brought up some significant API changes.
   One of it is: <<"The static methods in Equivalences have been moved into Equivalence.">>
@@ -110,6 +112,8 @@ Maven ${project.name} Plugin
   * <<{{{./list-mojo.html}${project.artifactId}:list}} >> displays the dependencies with version clashes and a summary of the clashes.
 
   * <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> displays the dependency tree for this project. The tree also shows version clashes.
+
+  * <<{{{./tree-mojo.html}${project.artifactId}:html}} >> opens a local html site with a dependency-tree and a dependency-list of your current project.
 
 
 * Version Preview & History

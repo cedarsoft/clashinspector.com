@@ -6,3 +6,10 @@ Version Preview & History
   - <<{{{./list-mojo.html}${project.artifactId}:list}} >> goal added
 
   - <<{{{./tree-mojo.html}${project.artifactId}:tree}} >> goal added
+
+
+  Release 0.8:
+
+  - <<{{{./html-mojo.html}${project.artifactId}:html}} >> goal added
+
+  - <<{{{./listPhase-mojo.html}${project.artifactId}:listPhase}} >> goal added

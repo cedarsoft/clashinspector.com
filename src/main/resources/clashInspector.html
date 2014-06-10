@@ -18,7 +18,7 @@
 </head>
 <body class="topBarDisabled">
 <div class="container-fluid">
-    <div>
+    <div id="logoContainer">
         <div class="pullLeft banner">
             <a href="http://www.clashinspector.com/index.html">
                 <img src="clashinspectorLogo.jpg" alt="ClashInspector">
@@ -32,6 +32,9 @@
 
         </div>
     </div>
+
+    <div id ="topBar">
+
     <div id="menuContainer" class="topContainer ">
         <div class="pullLeft">
             <span  class="javascriptWarning">Warning! ClashInspector needs JavaScript enabled!</span> <span id="analyzedDep"></span>
@@ -50,7 +53,7 @@
         <div class="settingsContainer">
             <h3>Dependency Resolution Settings</h3>
             <div class="settingsInlineContainer">
-            <label for="treeDisplayMode" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes:</label>
+            <label for="includedScopeList" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes:</label>
             <ul title="Select the scopes of the dependencies that should be included in the dependency-resolution." id="includedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
@@ -61,7 +64,7 @@
             </ul>
             </div>
             <div class="settingsInlineContainer">
-            <label for="treeDisplayMode" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes:</label>
+            <label for="excludedScopeList" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes:</label>
             <ul title="Select the scopes of the dependencies that should be excluded from the dependency-resolution." id="excludedScopeList" class="easySelectBox selectModeMultiple" >
                 <li>compile</li>
                 <li>test</li>
@@ -72,7 +75,7 @@
             </ul>
             </div>
             <div class="settingsInlineContainer">
-            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
+            <label for="clashSeverity" title="Select which paths should be displayed in the tree.">Clash Severity:</label>
             <ul title="Select which paths should be displayed in the tree." id="clashSeverity" class="easySelectBox selectModeSingle" >
 
                 <li class="">UNSAFE</li>
@@ -91,13 +94,13 @@
             <button id="applyResolutionSettings" type="button">Apply Settings</button>
         </div>
 
-        <div class="settingsContainer">
+        <div class="propertiesContainer">
             <h3>Display Properties</h3>
-            <label for="treeDisplayMode" title="Select which paths should be displayed in the tree.">Displayed tree-paths:</label>
-            <ul title="Select which paths should be displayed in the tree." id="treeDisplayMode" class="easySelectBox" >
-                <li class="selected">SAFE tree-paths</li>
-                <li class="selected">UNSAFE tree-paths</li>
-                <li class="selected">CRITICAL tree-paths</li>
+            <label for="treeViewMode" title="Select your preferred Tree-View.">View Mode:</label>
+            <ul title="Select your preferred Tree-View." id="treeViewMode" class="easySelectBox selectModeSingle" >
+                <li class="selected">Full</li>
+                <li>Shortened</li>
+
 
             </ul>
 
@@ -132,7 +135,15 @@
         <div class="clearing"></div>
     </div>
 
-    <div id="main">
+        <div id="clashListContainer" style="padding-top: 15px;">
+
+
+
+        </div>
+
+    </div>
+
+    <div id="main" style="padding-top: 30px;">
         <div id="floatingCirclesG">
             <div class="f_circleG" id="frotateG_01">
             </div>
@@ -154,11 +165,7 @@
         <div id="leftMain">
 
         </div>
-        <div id="clashListContainer">
 
-
-
-        </div>
         <div class="clearing"></div>
     </div>
 

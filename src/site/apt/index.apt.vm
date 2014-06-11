@@ -1,9 +1,15 @@
+ ------
+ Introduction
+ ------
+ ${project.properties.siteAuthors}
+ ------
+ ------
 
 Maven ${project.name} Plugin
 
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
-  With the new html-Mojo you will be
+
 
 * Dependency Version Clash
 

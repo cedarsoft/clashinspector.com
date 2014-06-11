@@ -69,6 +69,7 @@
 
   <properties>
     <aetherVersion>0.9.0.M3</aetherVersion>
+    <siteAuthors>Michael Behr, Martin Kampa, Huina Zhu</siteAuthors>
   </properties>
 
   <dependencies>

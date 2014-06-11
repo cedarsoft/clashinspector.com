@@ -1,3 +1,9 @@
+ ------
+ Usage HTML Analysis
+ ------
+ ${project.properties.siteAuthors}
+ ------
+ ------
 
 Usage HTML Analysis
 
@@ -5,12 +11,75 @@ Usage HTML Analysis
 
 * The {{{./html-mojo.html}clashinspector:html}} goal
 
-  The <<{{{./html-mojo.html}${project.artifactId}:html}}>> goal generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes.
+  This goal generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes.
 
-** <dependency tree> - section
+  The main features are the {{{dependency tree}<dependency tree>}} and the {{{clash-list}<clash-list>}}.
+  Using {{{settings & properties}<settings & properties>}} you can define what dependencies you want to analyze.
+  The {{{search dependencies}<search dependencies>}} feature enables a comfortable way to search and navigate through dependencies in the tree.
 
-** <clash-list> - section
 
-** <settings & properties>
+** dependency tree
 
-** <search dependencies>
+  The dependency tree shows the dependencies of your project.
+
+  Every dependency will be visualized as follows:
+
+** clash-list
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df
+
+** settings & properties
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df
+
+** search dependencies
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df
+
+  df
+
+  d d
+
+  df

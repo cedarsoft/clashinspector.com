@@ -1,3 +1,9 @@
+ ------
+ Motivation
+ ------
+ ${project.properties.siteAuthors}
+ ------
+ ------
 
 Motivation
 

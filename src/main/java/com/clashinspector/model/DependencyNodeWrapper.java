@@ -73,6 +73,7 @@ public class DependencyNodeWrapper {
   public String getExtension()
   {
     return this.dependencyNode.getArtifact().getExtension();
+
   }
 
 
@@ -105,8 +106,10 @@ public class DependencyNodeWrapper {
 
 
   public List<DependencyNodeWrapper> getChildren() {
-    return Collections.unmodifiableList( this.children );
+    return this.children ;
   }
+
+
 
 
   @Nullable

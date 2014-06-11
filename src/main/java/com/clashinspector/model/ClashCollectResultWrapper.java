@@ -4,6 +4,7 @@ package com.clashinspector.model;
 import com.clashinspector.mojos.ClashSeverity;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -42,6 +43,8 @@ public class ClashCollectResultWrapper {
     projectMap.put( key,project ); //
 
     this.root = new DependencyNodeWrapper( this.collectResult.getRoot(),project );
+     //Add Wrapper to Dependency Node
+    this.root.getDependencyNode().setData(  "RELATED_DEPENDENCY_NODE_WRAPPER",this.root ) ;
 
     this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1,graphLevelOrderAbsoluteMap );
 
@@ -50,6 +53,7 @@ public class ClashCollectResultWrapper {
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
+    addWinnerDependencies(this.root);
   }
 
 
@@ -118,6 +122,8 @@ public class ClashCollectResultWrapper {
 
 
       DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrderRelative,graphLevelOrderAbsolute, dependencyCounter );
+      dN.setData(  "RELATED_DEPENDENCY_NODE_WRAPPER",dependencyNodeWrapper ) ;
+
       project.addInstance( dependencyNodeWrapper );
 
       graphLevelOrderRelative += 1;
@@ -125,6 +131,26 @@ public class ClashCollectResultWrapper {
       this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, projectMap, graphDepth + 1,graphLevelOrderAbsoluteMap );
     }
 
+
+  }
+
+
+  private void addWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
+  {
+    System.out.println( (((DependencyNodeWrapper)dependencyNodeWrapper.getDependencyNode().getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" ))));
+
+    DependencyNode dependencyNodeWinner= (DependencyNode)dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER );
+
+     if(dependencyNodeWinner!=null)
+     {
+       dependencyNodeWrapper.getChildren().addAll(((DependencyNodeWrapper)dependencyNodeWinner.getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" )).getChildren());
+     }
+
+
+    for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
+      addWinnerDependencies(dNW);
+
+    }
 
   }
 

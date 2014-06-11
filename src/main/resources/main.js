@@ -348,7 +348,16 @@ function buildGuiDependency(dependencyNodeObject)
                                   var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'</span>';
                                   var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span>';
 
+var optionalHtml="";
 
+               if(dependencyNodeObject.dependencyNodeWrapper.optional==true)
+               {
+                  optionalHtml = " <span class='optional' title='This dependency is optional'>(o)</span>";
+               }
+
+
+
+var scopeHtml= " <span class='scope' title='The scope of this dependency is "+dependencyNodeObject.dependencyNodeWrapper.scope+".'>("+dependencyNodeObject.dependencyNodeWrapper.scope.charAt(0)+")</span>";
 
 
                                //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
@@ -365,11 +374,11 @@ function buildGuiDependency(dependencyNodeObject)
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
-                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span><span class="scope" title="scope">'+dependencyNodeObject.dependencyNodeWrapper.scope+'</span><span class="optional" title="optional">'+dependencyNodeObject.dependencyNodeWrapper.optional+'</span> \
-                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div><hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
+                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+'  \
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
     }
 
-
+                                            //TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>
 
 
         var delayTime = 200, clickNumber = 0, timer = null;
@@ -909,7 +918,7 @@ $(document).on('click', '#treeViewMode li', function(){
 
 function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPath,jumpTo)
                                         {
-
+                                             clearSearchResults();
                                             $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
 
                                             highlightDependency(dependencyNodeObjectList[id].dependencyNodeWrapper,highlightClazz,openPath,jumpTo);
@@ -917,7 +926,7 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                         }
                                         function highlightDependencyByIds(ids,highlightClazz,highlightClazzToDelete,openPath)
                                         {
-
+                                              clearSearchResults();
                                             $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
 
 

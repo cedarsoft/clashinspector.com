@@ -46,6 +46,7 @@ public class DependencyNodeWrapper {
     this.parent = parent;
     this.addCounter = addCounter;
     this.project = project;
+
   }
 
   public DependencyNodeWrapper( DependencyNode dependencyNode,Project project ) {
@@ -76,7 +77,17 @@ public class DependencyNodeWrapper {
 
   }
 
+  public String getScope()
+  {
+    return this.dependencyNode.getDependency().getScope();
 
+  }
+
+  public Boolean getOptional()
+  {
+    return this.dependencyNode.getDependency().getOptional();
+
+  }
 
   public String getRepository()
   {

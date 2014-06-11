@@ -53,7 +53,7 @@ public class ClashCollectResultWrapper {
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
-    //addWinnerDependencies(this.root);
+   // addWinnerDependencies(this.root);
   }
 
 
@@ -137,7 +137,7 @@ public class ClashCollectResultWrapper {
 
   private void addWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
   {
-    System.out.println( (((DependencyNodeWrapper)dependencyNodeWrapper.getDependencyNode().getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" ))));
+   // System.out.println( (((DependencyNodeWrapper)dependencyNodeWrapper.getDependencyNode().getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" ))));
 
     DependencyNode dependencyNodeWinner= (DependencyNode)dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER );
 

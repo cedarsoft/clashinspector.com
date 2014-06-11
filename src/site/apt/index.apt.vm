@@ -9,6 +9,8 @@ Maven ${project.name} Plugin
 
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
+  Our most powerfull goal <<{{{./html-mojo.html}${project.artifactId}:html}}>>
+  allows you to analyze dependencies intuitively and dynamic in your browser. Read more about the {{{./usage_html.html}usage of the html goal}}.
 
 
 * Dependency Version Clash

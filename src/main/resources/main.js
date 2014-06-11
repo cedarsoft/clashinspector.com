@@ -365,7 +365,7 @@ function buildGuiDependency(dependencyNodeObject)
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
-                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span> \
+                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span><span class="scope" title="scope">'+dependencyNodeObject.dependencyNodeWrapper.scope+'</span><span class="optional" title="optional">'+dependencyNodeObject.dependencyNodeWrapper.optional+'</span> \
                                               <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div><hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
     }
 

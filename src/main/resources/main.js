@@ -158,8 +158,9 @@ $( document ).ready(function() {
 $(".javascriptWarning").hide();
  emptyAllInputs();
 
-     setOnTopIfScrolled("topBar");
-         calculateMainPadding();
+
+          initializeOnTopIfScrolled();
+         addMainPaddingToContentContainer();
 
  getTree();
 
@@ -169,9 +170,9 @@ $(".javascriptWarning").hide();
 
 function getTree()
 {
-$("#leftMain").html("");
+$("#treeContainer").html("");
 $("#clashListContainer").html("");
-$("#main").addClass("loading");
+$("#contentContainer").addClass("loading");
 console.log('[' + new Date().toUTCString() + '] ' +"getTree started");
      doGet("http://localhost:8090/dependencies",drawTree,"",getList);
      console.log('[' + new Date().toUTCString() + '] ' +"getTree finished");
@@ -284,10 +285,10 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
 
 
 
- $("#leftMain").html( html);
+ $("#treeContainer").html( html);
         console.log('[' + new Date().toUTCString() + '] ' +"drawTree finished");
 
-        $("#main").removeClass("loading");
+        $("#contentContainer").removeClass("loading");
  }
 
 function buildTree(data)
@@ -401,6 +402,10 @@ function buildGuiDependency(dependencyNodeObject)
 
         });
 
+
+
+
+
  $(document).on('click', '#searchJumpBack', function(){
 
                                 var idBefore;
@@ -418,7 +423,7 @@ function buildGuiDependency(dependencyNodeObject)
                                                 {
                                                   if(idBefore!=undefined)
                                                   {
-                                                    location.href = "#"+idBefore;
+                                                    jumpToLocation(idBefore);
                                                         activeSearchDependencyId = idBefore;
                                                     break;
                                                   }
@@ -433,7 +438,7 @@ function buildGuiDependency(dependencyNodeObject)
 
                                   if(jumpToLast==true)
                                   {
-                                    location.href = "#"+idBefore;
+                                    jumpToLocation(idBefore);
                                      activeSearchDependencyId = idBefore;
                                   }
 
@@ -455,7 +460,7 @@ $(document).on('click', '#searchJumpNext', function(){
                                                                             var idNow=  searchResult[index].dependencyNodeWrapper.id ;
                                                                           if(jumpToNext==true)
                                                                           {
-                                                                                  location.href = "#"+idNow;
+                                                                                  jumpToLocation(idNow);
                                                                                 activeSearchDependencyId = idNow;
                                                                                   jumpToNext = false;
                                                                                  break;
@@ -475,7 +480,7 @@ $(document).on('click', '#searchJumpNext', function(){
                                                                {
                                                                for(var index in searchResult) {
                                                                     var idNow=  searchResult[index].dependencyNodeWrapper.id ;
-                                                                     location.href = "#"+idNow;
+                                                                     jumpToLocation(idNow);
                                                                     activeSearchDependencyId = idNow;
                                                                     break;
                                                                }
@@ -529,30 +534,35 @@ $(document).on('click', '#clearSearchButton', function(){
                             clearSearchResults();
 
                 });
-
+             //TODO clearen der searhc result sobald an einen ort gesprungen wird
 
       function calculateMainPadding()
       {
           var result =0;
 
-          if($("#topBar").css("top")!=0)
+          if($("#headerContainer").css("top")!=0)
           {
           result = result + $("#logoContainer").outerHeight(true) ;
           }
 
-        result = result + $("#topBar").outerHeight(true);
-        document.getElementById( "main" ).style.paddingTop =  result +"px";
+        result = result + $("#headerContainer").outerHeight(true);
 
+
+          return result;
+      }
+
+      function addMainPaddingToContentContainer()
+      {
+          document.getElementById( "contentContainer" ).style.paddingTop =  calculateMainPadding() +"px";
       }
 
  $(document).on('click', '.openSearchButton', function(){
 
-
-
-
                              $("#searchContainer").toggle();
+                                       $(this).children("span").toggleClass("triangleDown");
+                                                                                          $(this).children("span").toggleClass("triangleUp");
 
-                                 calculateMainPadding();
+                                 addMainPaddingToContentContainer();
 
 
 
@@ -562,13 +572,15 @@ $(document).on('click', '#clearSearchButton', function(){
                             userSettingsWrapper.applyValuesToView();
 
                                                         $("#settingsFilterContainer").toggle();
-
-                                                        calculateMainPadding();
+                                                             $(this).children("span").toggleClass("triangleDown");
+                                                                                                                $(this).children("span").toggleClass("triangleUp");
+                                                        addMainPaddingToContentContainer();
                 });
 
                  $(document).on('click', '.openClashListButton', function(){
                                             $("#clashListContainer").toggle();
-
+                                                     $(this).children("span").toggleClass("triangleDown");
+                                                       $(this).children("span").toggleClass("triangleUp");
                                 });
 
         $(document).on('dbclick', '.depNode', function(){
@@ -850,7 +862,9 @@ $(document).on('click', '#treeViewMode li', function(){
                                                       searchResult = new Array();
                                                 }
 
+                                        //Check if search result includes the active dependency d0r0a0
 
+                                                     delete searchResult["d0r0a0"];
 
 
                                           return searchResult;
@@ -859,7 +873,15 @@ $(document).on('click', '#treeViewMode li', function(){
                                         }
 
 
+     function jumpToLocation(locationId)
+     {
+         location.href = "#"+locationId;
 
+       $('html, body').animate({
+              scrollTop: $("#"+locationId).offset().top - calculateMainPadding()
+          },
+           0);
+     }
 
  function highlightDependency(dependencyNodeWrapper,highlightClazz,openPath,jumpTo)
                                         {
@@ -878,7 +900,7 @@ $(document).on('click', '#treeViewMode li', function(){
 
                                                                                          if(jumpTo == true)
                                                                                                                                   {
-                                                                                                                                                  location.href = "#"+dependencyNodeWrapper.id;
+                                                                                                                                                  jumpToLocation(dependencyNodeWrapper.id);
 
                                                                                                                                   }
 
@@ -953,18 +975,21 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
 
 
 
-                                                                                function setOnTopIfScrolled(id){
-                                                                                    var e_ = $("#"+id);
+                                                                                function initializeOnTopIfScrolled(){
 
-                                                                                    var _defautlTop = e_.offset().top - $(document).scrollTop();
+                                                                                      var headerContainer = $("#headerContainer");
 
-                                                                                    var _defautlLeft = e_.offset().left - $(document).scrollLeft();
+                                                                                    var _defautlTop = headerContainer.offset().top - $(document).scrollTop();
 
-                                                                                    var originalTopBarPosition = e_.css('position');
-                                                                                    var originalTopBarTop = e_.css('top');
-                                                                                    var originalTopBarLeft = e_.css('left');
-                                                                                    var originalTopBarZIndex = e_.css('z-index');
-                                                                                    var originalTopBarWidth = e_.css('width');
+                                                                                    var _defautlLeft = headerContainer.offset().left - $(document).scrollLeft();
+
+
+
+                                                                                    var originalHeaderContainerPosition = headerContainer.css('position');
+                                                                                    var originalHeaderContainerTop = headerContainer.css('top');
+                                                                                    var originalHeaderContainerLeft = headerContainer.css('left');
+                                                                                    var originalHeaderContainerZIndex = headerContainer.css('z-index');
+                                                                                    var originalHeaderContainerWidth = headerContainer.css('width');
 
 
                                                                                     var originalLogoContainerPosition = $("#logoContainer").css("position");
@@ -973,52 +998,51 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                     $(window).scroll(function(){
 
 
-                                                                                        if($(this).scrollTop() > _defautlTop){
-                                                                                            var ie6 = /msie 6/i.test(navigator.userAgent);
+                                                                                 if($(this).scrollTop() > _defautlTop && $(this).scrollLeft() > _defautlLeft)
+                                                                                 {
+                                                                                      $("#headerContainer").css({'position':'fixed','top':0+'px',
+                                                                                         'z-index':99999});
+                                                                                         $("#logoContainer").css({
+                                                                                        position: originalLogoContainerPosition
 
-                                                                                            if(ie6){
-                                                                                                e_.css({'position':'absolute',
-                                                                                                    'top':eval(document.documentElement.scrollTop),
-                                                                                                   'z-index':99999});
-
-                                                                                                $("html,body").css({'background-image':'url(about:blank)',
-                                                                                                    'background-attachment':'fixed'});
-                                                                                            }else{
-                                                                                                e_.css({'position':'fixed','top':0+'px',
-                                                                                                   'z-index':99999});
-                                                                                            }
-                                                                                        }
-
-                                                                                         else if($(this).scrollLeft() > _defautlLeft){
-
-                                                                                         if($("#topBar").css("top")==0)
-                                                                                         {
-                                                                                            //hochgeklappt nichts machen mit header etc.
-                                                                                         }
-                                                                                         else
-                                                                                         {
-                                                                                              $("#logoContainer").css({
-                                                                                                             position: "fixed", width: "98%",
-
-                                                                                                           });
-                                                                                               e_.css({'position':'fixed',
-                                                                                                  'z-index':99999});
-                                                                                         }
+                                                                                      });
 
 
+                                                                                 }
+                                                                                 else if($(this).scrollTop() > _defautlTop)
+                                                                                 {
+                                                                                       $("#headerContainer").css({'position':'fixed','top':0+'px','z-index':99999});
+                                                                                       $("#logoContainer").css({position: originalLogoContainerPosition });
 
-                                                                              }else{
-                                                                                  $("#topBar").css({'position':originalTopBarPosition,'top':originalTopBarTop,
-                                                                                     'z-index':originalTopBarZIndex});
+                                                                                 }
+                                                                                 else if($(this).scrollLeft() > _defautlLeft)
+                                                                                 {
+                                                                                          if( $("#headerContainer").css("top").replace("px","")=="0")
+                                                                                          {
+                                                                                          $("#headerContainer").css({'position':'fixed','top':'70px'});
+                                                                                            $("#logoContainer").css({position: "fixed"});
 
-                                                                                    $("#logoContainer").css({'position':originalLogoContainerPosition});
+                                                                                          }
+                                                                                          else
+                                                                                          {
+                                                                                            $("#headerContainer").css({'position':'fixed'});
+                                                                                           $("#logoContainer").css({position: "fixed"});
 
-                                                                              }
+                                                                                          }
 
+
+                                                                                 }
+                                                                                 else
+                                                                                 {
+                                                                                      $("#headerContainer").css({'position':originalHeaderContainerPosition,'top':originalHeaderContainerTop,
+                                                                                             'z-index':originalHeaderContainerZIndex});
+
+                                                                                            $("#logoContainer").css({'position':originalLogoContainerPosition});
+                                                                                 }
 
                                                                                     });
                                                                                 }
 
                                                                                 window.onresize = function(event) {
-                                                                                        calculateMainPadding();
+                                                                                        addMainPaddingToContentContainer();
                                                                                 };

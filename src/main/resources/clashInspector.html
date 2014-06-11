@@ -16,8 +16,8 @@
     <meta content="The Maven-Plugin ClashInspector enables you to find and analyze dependency conflicts (Version-Clashes) in your Java projects."
           name="description">
 </head>
-<body class="topBarDisabled">
-<div class="container-fluid">
+<body>
+<div class="mainContainer">
     <div id="logoContainer">
         <div class="pullLeft banner">
             <a href="http://www.clashinspector.com/index.html">
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div id ="topBar">
+    <div id ="headerContainer">
 
     <div id="menuContainer" class="topContainer ">
         <div class="pullLeft">
@@ -42,7 +42,7 @@
         <div class="pullRight">
             <span class="openSettingsButton menuEntry">settings & properties <span class="triangleDown"></span></span>
             <span  class="openSearchButton menuEntry">search dependencies <span class="triangleDown"></span></span>
-            <span  class="openClashListButton menuEntry">show clash-list <span class="triangleDown"></span></span>
+            <span  class="openClashListButton menuEntry">show clash-list <span class="triangleUp"></span></span>
         </div>
 
           <div class="clearing"></div>
@@ -91,7 +91,7 @@
 
               </div>
             <div class="clearing"></div>
-            <button id="applyResolutionSettings" type="button">Apply Settings</button>
+            <button id="applyResolutionSettings" class="easyButton" type="button">Apply Settings</button>
         </div>
 
         <div class="propertiesContainer">
@@ -130,7 +130,7 @@
 
         </span>
             <span class="triangleRight" id="searchJumpNext" title="jump to next search result"></span>
-          <button id="clearSearchButton" type="button">clear</button>
+          <button id="clearSearchButton" class="easyButton" type="button">clear</button>
         </div>
         <div class="clearing"></div>
     </div>
@@ -143,7 +143,7 @@
 
     </div>
 
-    <div id="main" style="padding-top: 30px;">
+    <div id="contentContainer" style="padding-top: 30px;">
         <div id="floatingCirclesG">
             <div class="f_circleG" id="frotateG_01">
             </div>
@@ -162,32 +162,21 @@
             <div class="f_circleG" id="frotateG_08">
             </div>
         </div>
-        <div id="leftMain">
+        <div id="treeContainer">
 
         </div>
 
-        <div class="clearing"></div>
+
     </div>
 
 
-
-</div>
-
-<hr>
-
-<footer>
-    <div class="container-fluid">
-        <div class="row span12">Copyright 2014
+        <div class="footerContainer">Copyright 2014
             <a href="http://www.reutlingen-university.de/">Hochschule Reutlingen</a>.
             Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.
         </div>
-    </div>
-</footer>
 
 
-
-
-
+</div>
 
 
 

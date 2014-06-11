@@ -9,10 +9,11 @@
     <version>1.0.0</version>
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>11.0.1</version>
-        </dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>11.0.1</version>
+    </dependency>
+
     </dependencies>
 
 </project>

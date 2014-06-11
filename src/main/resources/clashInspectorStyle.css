@@ -147,6 +147,12 @@ hr {
     display: block;
 }
 
+.depNode span.version, .depNode span.optional,.depNode span.scope {
+    padding: 2px;
+    width: auto;
+    display: inline-block;
+}
+
 .depNode {
     position: relative;
     border-radius: 4px;
@@ -585,12 +591,12 @@ span.triangleRight {
  }
 
 
-#dependencyTree.viewModeShortened .depNode hr,#dependencyTree.viewModeShortened .depNode .version,#dependencyTree.viewModeShortened .depNode .groupId
+#dependencyTree.viewModeShortened .depNode hr,#dependencyTree.viewModeShortened .depNode .version,#dependencyTree.viewModeShortened .depNode .groupId, #dependencyTree.viewModeShortened .depNode .optional, #dependencyTree.viewModeShortened .depNode .scope
 {
 display:none;
 }
 
-#dependencyTree.viewModeShortened .depNode hr.showBlock,#dependencyTree.viewModeShortened .depNode .version.showBlock,#dependencyTree.viewModeShortened .depNode .groupId.showBlock
+#dependencyTree.viewModeShortened .depNode hr.showBlock,#dependencyTree.viewModeShortened .depNode .version.showBlock,#dependencyTree.viewModeShortened .depNode .groupId.showBlock, #dependencyTree.viewModeShortened .depNode .optional.showBlock, #dependencyTree.viewModeShortened .depNode .scope.showBlock
 {
      display: block;
 }

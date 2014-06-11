@@ -53,7 +53,7 @@ public class ClashCollectResultWrapper {
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
-    addWinnerDependencies(this.root);
+    //addWinnerDependencies(this.root);
   }
 
 

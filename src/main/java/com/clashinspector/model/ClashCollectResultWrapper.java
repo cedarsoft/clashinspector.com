@@ -53,7 +53,7 @@ public class ClashCollectResultWrapper {
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
-   // addWinnerDependencies(this.root);
+   //completeTreeWithWinnerDependencies(this.root);
   }
 
 
@@ -134,21 +134,24 @@ public class ClashCollectResultWrapper {
 
   }
 
-
-  private void addWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
+  //TODO extend this method to build the complete tree even there are winner dependencies.
+  private void completeTreeWithWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
   {
-   // System.out.println( (((DependencyNodeWrapper)dependencyNodeWrapper.getDependencyNode().getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" ))));
+
 
     DependencyNode dependencyNodeWinner= (DependencyNode)dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER );
 
      if(dependencyNodeWinner!=null)
      {
+
+       System.out.println( dependencyNodeWrapper.toString() + " || " +(dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER )));
+
        dependencyNodeWrapper.getChildren().addAll(((DependencyNodeWrapper)dependencyNodeWinner.getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" )).getChildren());
      }
 
 
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
-      addWinnerDependencies(dNW);
+      completeTreeWithWinnerDependencies(dNW);
 
     }
 

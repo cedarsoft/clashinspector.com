@@ -208,7 +208,7 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
 
    }
 
-   function buildClashListEntry(outerVersionClash)
+   function buildClashListEntry(outerVersionClash) //and highlight clashes in tree
    {
    var idList = "";
    for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
@@ -299,6 +299,7 @@ function buildTree(data)
                       dependencyNodeObjectList[dep.dependencyNodeWrapper.id] = dep;
 
 
+
                        var html=buildGuiDependency(dep);
 
       if(data.children.length >0)
@@ -367,9 +368,17 @@ var scopeHtml= " <span class='scope' title='The scope of this dependency is "+de
              arrowClass="clashSeveritySafe";
          }
 
+        var wrapperTitle = "";
+         if(dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner)
+         {
+             arrowClass = arrowClass + " hasConcurrentDependencyWinner";
+              wrapperTitle = "This dependency is not resolved at this graph-position. Check used version."
+         }
 
+                var idHtml="";
+              idHtml= idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
 
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" id="dNW'+dependencyNodeObject.dependencyNodeWrapper.id+'"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" title="'+wrapperTitle+'" id="dNW'+idHtml+'"><div id="'+idHtml+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \

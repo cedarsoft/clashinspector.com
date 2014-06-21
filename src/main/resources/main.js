@@ -359,7 +359,12 @@ var optionalHtml="";
 
 
 var scopeHtml= " <span class='scope' title='The scope of this dependency is "+dependencyNodeObject.dependencyNodeWrapper.scope+".'>("+dependencyNodeObject.dependencyNodeWrapper.scope.charAt(0)+")</span>";
+var usedHtml ="";
+if(dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId == dependencyNodeObject.dependencyNodeWrapper.id)
+{
+  usedHtml =  "<span class='used' title='This dependency is used by maven.'>(u)</span>";
 
+}
 
                                //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
          var arrowClass= "";
@@ -383,7 +388,7 @@ var scopeHtml= " <span class='scope' title='The scope of this dependency is "+de
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
-                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+'  \
+                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+' '+usedHtml+'  \
                                               <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
     }
 

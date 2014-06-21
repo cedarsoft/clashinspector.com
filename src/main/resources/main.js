@@ -140,7 +140,20 @@ $( document ).ready( function () {
 } );
 
 
+function backOffValues()
+{
+     dependencyNodeObjectList = new Array();
+         searchResult = new Array();
+         outerVersionClashList = new Array();
+         userSettingsWrapper = new UserSettingsWrapper();
+         deepestGraphDepth = 0;
+         activeSearchDependencyId = undefined;
+}
+
 function getTree() {
+
+       backOffValues();
+
     $( "#treeContainer" ).html( "" );
     $( "#clashListContainer" ).html( "" );
     $( "#contentContainer" ).addClass( "loading" );
@@ -155,8 +168,20 @@ function getList() {
     doGet( "http://localhost:8090/dependencies/outerVersionClashes", drawList );
     logConsole( "getList finished" );
     $("#treeContainer").width(deepestGraphDepth*300);
+     applyTreeViewMode();
 
 }
+
+ function applyTreeViewMode()
+ {
+    var selectedValue = $("#treeViewMode .selected").text();
+           if ( selectedValue == "Shortened" ) {
+               $( "#dependencyTree" ).addClass( "viewModeShortened" );
+           }
+           else if ( selectedValue == "Full" ) {
+               $( "#dependencyTree" ).addClass( "viewModeFull" );
+           }
+ }
 
 
 function drawList( result ) {
@@ -536,18 +561,8 @@ $( document ).on( 'dbclick', '.depNode', function () {
 } );
 
 $( document ).on( 'click', '#treeViewMode li', function () {
+    applyTreeViewMode();
 
-    var selectedValue = $( this ).text();
-
-
-    $( "#dependencyTree" ).removeClass( "viewModeShortened viewModeFull" );
-
-    if ( selectedValue == "Shortened" ) {
-        $( "#dependencyTree" ).addClass( "viewModeShortened" );
-    }
-    else if ( selectedValue == "Full" ) {
-        $( "#dependencyTree" ).addClass( "viewModeFull" );
-    }
 
 
 } );

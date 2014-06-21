@@ -34,8 +34,8 @@ public class InnerVersionClash {
     boolean result = false;
     for (WhiteListDependency whiteListDependency : whiteList)
     {
-          System.out.println("whiteListDependency:" + whiteListDependency.toString());
-          System.out.println("usedDependencyNodeWrapper:" + usedDependencyNodeWrapper.toString());
+        //  System.out.println("whiteListDependency:" + whiteListDependency.toString());
+        //  System.out.println("usedDependencyNodeWrapper:" + usedDependencyNodeWrapper.toString());
 
          if(whiteListDependency.equals( usedDependencyNodeWrapper ) || whiteListDependency.equals( referredDependencyNodeWrapper ))
          {

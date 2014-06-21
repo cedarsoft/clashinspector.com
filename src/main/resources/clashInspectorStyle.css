@@ -43,7 +43,7 @@ h4 {
     color: grey;
 }
 
-#headerContainer{   /*hz*/
+#headerContainer{
      background-color: #FFFFFF;
              top: 70px;
        position: absolute;
@@ -193,7 +193,7 @@ hr {
 #treeContainer {
 
     position: relative;
-    width: 4000px;
+
 }
 
 

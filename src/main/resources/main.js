@@ -1,4 +1,3 @@
-//Vllt doch besser objekte ohne rest einzuschreiben ??
 function DependencyNodeObject( dependencyNodeWrapper ) {
 
 
@@ -64,7 +63,7 @@ function UserSettingsWrapper( includedScopes, excludedScopes, includeOptional, c
             $( "#excludedScopeList li:contains('" + this.excludedScopes[i] + "')" ).addClass( "selected" );
 
         }
-        alert( "clashSeverity: " + this.clashSeverity );
+
         $( "#clashSeverity li:contains('" + this.clashSeverity + "')" ).addClass( "selected" );
 
         if ( this.includeOptional == true ) {
@@ -103,7 +102,7 @@ function UserSettingsWrapper( includedScopes, excludedScopes, includeOptional, c
         }
 
 
-        console.log( "Convertion completed with: " + parameterString );
+        logConsole( "Convertion completed with: " + parameterString );
 
         return parameterString;
     }
@@ -117,7 +116,7 @@ var searchResult = new Array();
 var activeSearchDependencyId;
 var outerVersionClashList = new Array();
 var userSettingsWrapper = new UserSettingsWrapper();
-
+var deepestGraphDepth = 0;
 
 function emptyAllInputs() {
     $( "input" ).val( "" );
@@ -145,21 +144,23 @@ function getTree() {
     $( "#treeContainer" ).html( "" );
     $( "#clashListContainer" ).html( "" );
     $( "#contentContainer" ).addClass( "loading" );
-    console.log( '[' + new Date().toUTCString() + '] ' + "getTree started" );
+    logConsole(  "getTree started" );
     doGet( "http://localhost:8090/dependencies", drawTree, "", getList );
-    console.log( '[' + new Date().toUTCString() + '] ' + "getTree finished" );
+
+
 }
 
 function getList() {
-    console.log( '[' + new Date().toUTCString() + '] ' + "getList started" );
+    logConsole("getList started" );
     doGet( "http://localhost:8090/dependencies/outerVersionClashes", drawList );
-    console.log( '[' + new Date().toUTCString() + '] ' + "getList finished" );
+    logConsole( "getList finished" );
+    $("#treeContainer").width(deepestGraphDepth*300);
 
 }
 
 
 function drawList( result ) {
-    console.log( '[' + new Date().toUTCString() + '] ' + "drawList started" );
+    logConsole("drawList started" );
     var listHtml = '<ul>';
 
     for ( var i = 0; i < result.length; i++ ) {
@@ -188,12 +189,12 @@ function buildClashListEntry( outerVersionClash ) //and highlight clashes in tre
     }
 
 
-    console.log( idList );
+
     var versionsLink = '<span  onclick="highlightDependencyByIds([' + idList + '],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);"><span>' + outerVersionClash.project.groupId + "</span>:<span>" + outerVersionClash.project.artifactId + '</span></span>';
 
 
     var html = "<li>" + versionsLink + "<ul>";
-    console.log( "outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length );
+   logConsole( "outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length );
     for ( var i = 0; i < outerVersionClash.innerVersionClashes.length; i++ ) {
         var innerVersionClash = outerVersionClash.innerVersionClashes[i];
         var dependencyNodeWrapper = dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper;
@@ -216,7 +217,7 @@ function buildClashListEntry( outerVersionClash ) //and highlight clashes in tre
 
         html = html + "<li class='" + clashSeverityClass + "'>" + versionLink + "</li>";
 
-        console.log( "innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId );
+        logConsole( "innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId );
 
     }
 
@@ -243,7 +244,7 @@ function drawTree( result ) {
 
 
     $( "#treeContainer" ).html( html );
-    console.log( '[' + new Date().toUTCString() + '] ' + "drawTree finished" );
+    logConsole( "drawTree finished" );
 
     $( "#contentContainer" ).removeClass( "loading" );
 }
@@ -285,7 +286,18 @@ function buildTree( data ) {
 
 }
 
+function calculateDeepestGraphDepth(depth)
+{
+
+  if(deepestGraphDepth < depth)
+  {
+    deepestGraphDepth = depth;
+  }
+}
+
 function buildGuiDependency( dependencyNodeObject ) {
+
+             calculateDeepestGraphDepth( dependencyNodeObject.dependencyNodeWrapper.graphDepth);
 
 
     if ( dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" ) {
@@ -441,21 +453,7 @@ $( document ).on( 'click', '#searchJumpNext', function () {
     }
 
 } );
-/*
- $(document).on('click', '#searchButton', function(){
 
- var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
- if(Object.keys(result).length>0)
- {
- $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
- }
- else
- {
- $("#searchButton").html("no results");
-
- }
-
- }); */
 
 
 $( document ).on( 'input', '.searchInput', function () {
@@ -484,7 +482,7 @@ $( document ).on( 'click', '#clearSearchButton', function () {
     clearSearchResults();
 
 } );
-//TODO clearen der searhc result sobald an einen ort gesprungen wird
+
 
 function calculateMainPadding() {
     var result = 0;
@@ -539,7 +537,7 @@ $( document ).on( 'dbclick', '.depNode', function () {
 $( document ).on( 'click', '#treeViewMode li', function () {
 
     var selectedValue = $( this ).text();
-    alert( selectedValue );
+
 
     $( "#dependencyTree" ).removeClass( "viewModeShortened viewModeFull" );
 
@@ -587,7 +585,7 @@ $( document ).on( 'click', '.easySelectBox.selectModeMultiple li', function () {
 } );
 
 $( document ).on( 'click', '.easySelectBox.selectModeSingle li', function () {
-    alert( "selectModeSingle" );
+
     $( this ).parent().children().removeClass( "selected" );
     $( this ).toggleClass( "selected" );
 
@@ -622,7 +620,7 @@ $( document ).on( 'click', '.details', function () {
 function doGet( url, callbackFunction, parameters, syncCallFunction ) {
 
     var parameter = userSettingsWrapper.convertToParameterString();
-    alert( parameter );
+
 
     $.ajax( {
                 type: "GET",
@@ -636,7 +634,7 @@ function doGet( url, callbackFunction, parameters, syncCallFunction ) {
                     processResponseObject( responseObject, callbackFunction, syncCallFunction );
                 },
                 error: function ( XMLHttpRequest, textStatus, errorThrown ) {
-                    alert( 'error' );
+                    alert( 'Error in ajax call. Please contact developer.' );
                 },
                 beforeSend: function ( XMLHttpRequest ) {
                     //show loading
@@ -649,7 +647,7 @@ function doGet( url, callbackFunction, parameters, syncCallFunction ) {
 }
 
 
-//Bei jedem Get ausführen und viewId setzen etc.
+
 
 function processResponseObject( responseObject, callbackFunction, syncCallFunction ) {
 
@@ -660,7 +658,7 @@ function processResponseObject( responseObject, callbackFunction, syncCallFuncti
 
 
     userSettingsWrapper.applyValuesToView();
-    console.log( "userSettingsWrapper clashSeverity " + userSettingsWrapper.clashSeverity );
+    logConsole( "userSettingsWrapper clashSeverity " + userSettingsWrapper.clashSeverity );
 
     callbackFunction.call( this, responseObject.result );
 
@@ -843,12 +841,12 @@ function highlightDependencies( dependencyNodeWrapperList, highlightClazz, highl
 
 
 function addArrowClassToParentWrappers( dependencyNodeWrapper, clazz ) {
-    // alert(dependencyNodeWrapper.groupId + " " +dependencyNodeWrapper.artifactId )   ;
 
-    // alert("jof " +dependencyNodeObjectList[dependencyNodeWrapper.parentId].dependencyNodeWrapper.id )   ;
+
+
     $( "#" + dependencyNodeWrapper.id ).parents( ".depNodeUl" ).prev( ".depNodeWrapper" ).addClass( clazz );
-    // addArrowClassToParents(dependencyNodeObjectList(dependencyNodeWrapper.parentId).dependencyNodeWrapper);
-    ////    alert("jo" )   ;
+
+
 
 
 }
@@ -932,9 +930,9 @@ window.onresize = function ( event ) {
 
 
 function logConsole( message ) {
-    console.log( message );
+  //  console.log( '[' + new Date().toUTCString() + '] ' + message );
 }
 
 function logAlert( message ) {
-    alert( message );
+ //alert( message );
 }

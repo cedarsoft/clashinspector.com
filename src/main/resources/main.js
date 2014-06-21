@@ -474,6 +474,7 @@ $( document ).on( 'click', '#applyResolutionSettings', function () {
 
 
     userSettingsWrapper.applyViewValues();
+    clearSearchResults();
     getTree();
 
 } );

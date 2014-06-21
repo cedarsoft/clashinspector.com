@@ -1,1085 +1,940 @@
-
-
-
-
- //Vllt doch besser objekte ohne rest einzuschreiben ??
-function DependencyNodeObject(dependencyNodeWrapper)
-{
+//Vllt doch besser objekte ohne rest einzuschreiben ??
+function DependencyNodeObject( dependencyNodeWrapper ) {
 
 
     this.dependencyNodeWrapper = dependencyNodeWrapper;
 
 
-
 }
 
 
-function UserSettingsWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity)
-{
+function UserSettingsWrapper( includedScopes, excludedScopes, includeOptional, clashSeverity ) {
 
-this.includedScopes = includedScopes;
-this.excludedScopes = excludedScopes;
-this.includeOptional = includeOptional;
-this.clashSeverity = clashSeverity;
+    this.includedScopes = includedScopes;
+    this.excludedScopes = excludedScopes;
+    this.includeOptional = includeOptional;
+    this.clashSeverity = clashSeverity;
 
- this.convertToParameterString = convertToParameterString;
- this.applyValuesToView = applyValuesToView;
+    this.convertToParameterString = convertToParameterString;
+    this.applyValuesToView = applyValuesToView;
 
-   this.applyViewValues = function()
-    {
-    this.includedScopes = [];
-    this.excludedScopes = [];
-            var that = this;
+    this.applyViewValues = function () {
+        this.includedScopes = [];
+        this.excludedScopes = [];
+        var that = this;
 
 
-           $("#includedScopeList").find(".selected").each(function() {
+        $( "#includedScopeList" ).find( ".selected" ).each( function () {
 
 
-                                                                        that.includedScopes.push($(this).text());
-                                                                      }  );
+            that.includedScopes.push( $( this ).text() );
+        } );
 
 
-               $("#excludedScopeList").find(".selected").each(function() {
+        $( "#excludedScopeList" ).find( ".selected" ).each( function () {
 
 
-                                                                        that.excludedScopes.push($(this).text());
-                                                                      }  );
+            that.excludedScopes.push( $( this ).text() );
+        } );
 
-             if($("#includeOptional").hasClass("selected"))
-             {
-                that.includeOptional = true;
-             }
-             else
-             {
-                   that.includeOptional = false;
-             }
+        if ( $( "#includeOptional" ).hasClass( "selected" ) ) {
+            that.includeOptional = true;
+        }
+        else {
+            that.includeOptional = false;
+        }
 
-              this.clashSeverity = $("#clashSeverity .selected").text();
+        this.clashSeverity = $( "#clashSeverity .selected" ).text();
 
 
     }
 
 
-  function applyValuesToView()
- {
-            //Delete old selections in view
-            $(".settingsContainer").find(".selected").removeClass("selected");
+    function applyValuesToView() {
+        //Delete old selections in view
+        $( ".settingsContainer" ).find( ".selected" ).removeClass( "selected" );
 
-            for(var i=0;i<this.includedScopes.length;i++){
+        for ( var i = 0; i < this.includedScopes.length; i++ ) {
 
-             $("#includedScopeList li:contains('"+this.includedScopes[i]+"')").addClass("selected");
+            $( "#includedScopeList li:contains('" + this.includedScopes[i] + "')" ).addClass( "selected" );
 
-       }
-            for(var i=0;i<this.excludedScopes.length;i++){
+        }
+        for ( var i = 0; i < this.excludedScopes.length; i++ ) {
 
-             $("#excludedScopeList li:contains('"+this.excludedScopes[i]+"')").addClass("selected");
+            $( "#excludedScopeList li:contains('" + this.excludedScopes[i] + "')" ).addClass( "selected" );
 
-       }
-                      alert("clashSeverity: " + this.clashSeverity)  ;
-            $("#clashSeverity li:contains('"+this.clashSeverity+"')").addClass("selected");
+        }
+        alert( "clashSeverity: " + this.clashSeverity );
+        $( "#clashSeverity li:contains('" + this.clashSeverity + "')" ).addClass( "selected" );
 
-            if(this.includeOptional==true)
-            {
-                $("#includeOptional").addClass("selected");
-            }
-
-
- }
-
-     function convertToParameterString()
-      {
-
-
-        var parameterString="";
-
-                  if(this.includeOptional!=undefined)
-                  {
-                         parameterString =parameterString+ "includeOptional="+this.includeOptional+"";
-                  }
-
-                 if(this.clashSeverity!=undefined)
-                                  {
-
-                                                                      parameterString = parameterString +"&clashSeverity="+this.clashSeverity;
-
-                                  }
-
-                                   if(this.includedScopes!=undefined)
-                                                    {
-                                                            for(var i=0;i<this.includedScopes.length;i++){
-                                                                                       parameterString = parameterString +"&includedScope="+this.includedScopes[i];
-                                                                                 }
-                                                    }
-
-                                                     if(this.excludedScopes!=undefined)
-                                                                      {
-                                                                                for(var i=0;i<this.excludedScopes.length;i++){
-                                                                                                         parameterString = parameterString +"&excludedScope="+this.excludedScopes[i];
-                                                                                                   }
-
-                                                                      }
-
-
-
-
-
-
-
-
-                       console.log("Convertion completed with: " + parameterString)    ;
-
-                      return parameterString;
-      }
-
-
-}
-
-
-
-
-       var dependencyNodeObjectList = new Array();
-       var searchResult = new Array();
-       var activeSearchDependencyId;
-       var outerVersionClashList= new Array();
-        var userSettingsWrapper = new UserSettingsWrapper();
-
-
-
-  function emptyAllInputs()
-  {
-  $("input").val("");
-
-  }
-
-
-$( document ).ready(function() {
-
-
-
-
-
-$(".javascriptWarning").hide();
- emptyAllInputs();
-
-
-          initializeOnTopIfScrolled();
-         addMainPaddingToContentContainer();
-
- getTree();
-
-
-});
-
-
-function getTree()
-{
-$("#treeContainer").html("");
-$("#clashListContainer").html("");
-$("#contentContainer").addClass("loading");
-console.log('[' + new Date().toUTCString() + '] ' +"getTree started");
-     doGet("http://localhost:8090/dependencies",drawTree,"",getList);
-     console.log('[' + new Date().toUTCString() + '] ' +"getTree finished");
-}
-
-function getList()
-{
-console.log('[' + new Date().toUTCString() + '] ' +"getList started");
-    doGet("http://localhost:8090/dependencies/outerVersionClashes",drawList);
-    console.log('[' + new Date().toUTCString() + '] ' +"getList finished");
-
-}
-
-
-
-   function drawList(result)
-   {                         console.log('[' + new Date().toUTCString() + '] ' +"drawList started");
-                   var listHtml = '<ul>';
-
-             for(var i=0;i<result.length;i++){
-
-                             var id = result[i].project.groupId+":"+result[i].project.artifactId;
-
-                                      outerVersionClashList[id]=result[i];
-
-                            listHtml = listHtml + buildClashListEntry(outerVersionClashList[id]);
-                            }
-
-                            $("#clashListContainer").html(listHtml+"</ul>") ;
-
-
-
-
-   }
-
-   function buildClashListEntry(outerVersionClash) //and highlight clashes in tree
-   {
-   var idList = "";
-   for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
-       idList = idList + "'"+outerVersionClash.innerVersionClashes[i].referredDependencyNodeWrapperId+"'";
-
-       if(i<outerVersionClash.innerVersionClashes.length-1)
-       {
-         idList = idList + ",";
-       }
-   }
-
-
-             console.log(idList);
-          var versionsLink = '<span  onclick="highlightDependencyByIds(['+idList+'],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);"><span>'+outerVersionClash.project.groupId+"</span>:<span>"+outerVersionClash.project.artifactId+'</span></span>';
-
-
-
-           var html = "<li>"+versionsLink+"<ul>";
-                                 console.log("outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length);
-                              for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
-                              var innerVersionClash =  outerVersionClash.innerVersionClashes[i];
-                               var dependencyNodeWrapper = dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper;
-
-                                var clashSeverityClass="";
-                                if(innerVersionClash.clashSeverity=="UNSAFE")
-                                                                         {
-                                                                          clashSeverityClass = "clashSeverityUnsafe" ;
-                                                                         highlightDependency(dependencyNodeWrapper,"clashSeverityUnsafe",false,false);
-                                                                         addArrowClassToParentWrappers(dependencyNodeWrapper,"clashSeverityUnsafe");
-                                                                         }
-                                                                         if(innerVersionClash.clashSeverity=="CRITICAL")
-                                                                                                                  {
-                                                                                                                  highlightDependency(dependencyNodeWrapper,"clashSeverityCritical",false,false);
-                                                                                                                    clashSeverityClass = "clashSeverityCritical" ;
-                                                                                                                    addArrowClassToParentWrappers(dependencyNodeWrapper,"clashSeverityCritical");
-                                                                                                                  }
-
-
-                                                var versionLink = '<span  onclick="highlightDependencyById(&quot;'+dependencyNodeWrapper.id+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version+'</span>';
-
-
-
-                                               html=html + "<li class='"+clashSeverityClass+"'>" + versionLink + "</li>";
-
-                              console.log("innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId);
-
-                              }
-
-                           html = html +"</ul></li>";
-
-   return html;
-
-
-   }
-
-
-   function buildList(result)
-   {
-
-   }
-
- function drawTree(result)
- {
-
-
-
-
- $("#analyzedDep").html("<h2>"+ result.groupId+":"+result.artifactId+":"+result.version + "</h2>");
-
- var html = "<ul id='dependencyTree'>" +   buildTree(result);
-
- html = html + "</ul>";
-
-
-
-
- $("#treeContainer").html( html);
-        console.log('[' + new Date().toUTCString() + '] ' +"drawTree finished");
-
-        $("#contentContainer").removeClass("loading");
- }
-
-function buildTree(data)
-{
-
-
-             var dep = new DependencyNodeObject(data);
-                      dependencyNodeObjectList[dep.dependencyNodeWrapper.id] = dep;
-
-
-
-                       var html=buildGuiDependency(dep);
-
-      if(data.children.length >0)
-      {
-      var display = "display:block;";
-          if(dep.dependencyNodeWrapper.graphDepth>0)
-          {
-                display="display:none;"
-          }
-
-         html = html +    '<ul class="depNodeUl" style="'+display+'">' ;
-
-               for(var i=0;i<data.children.length;i++){
-
-
-
-                 html = html + buildTree(data.children[i]);
-               }
-
-
-            html = html + '</ul>' ;
-            html = html + ' <div class="clearing"></div></li>';
-       }
-       else
-       {
-       html = html +' <div class="clearing"></div></li>' ;
-       }
-
-
-         return html;
-
-
-}
-
-function buildGuiDependency(dependencyNodeObject)
-    {
-
-
-        if(dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" )
-                                {
-                                      var mavenCentralHref =  "http://search.maven.org/#artifactdetails|"+dependencyNodeObject.dependencyNodeWrapper.groupId+"|"+dependencyNodeObject.dependencyNodeWrapper.artifactId+"|"+dependencyNodeObject.dependencyNodeWrapper.version+"|"+dependencyNodeObject.dependencyNodeWrapper.extension;
-                                      var  mavenCentralLink   = '<a href="'+mavenCentralHref+'" target="_blank"> maven-central </a>';
-
-                                }
-
-                                  var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
-                                  var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.highestVersion+'</span>';
-                                  var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">'+dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion+'</span>';
-
-var optionalHtml="";
-
-               if(dependencyNodeObject.dependencyNodeWrapper.optional==true)
-               {
-                  optionalHtml = " <span class='optional' title='This dependency is optional'>(o)</span>";
-               }
-
-
-
-var scopeHtml= " <span class='scope' title='The scope of this dependency is "+dependencyNodeObject.dependencyNodeWrapper.scope+".'>("+dependencyNodeObject.dependencyNodeWrapper.scope.charAt(0)+")</span>";
-var usedHtml ="";
-if(dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId == dependencyNodeObject.dependencyNodeWrapper.id)
-{
-  usedHtml =  "<span class='used' title='This dependency is used by maven.'>(u)</span>";
-
-}
-
-                               //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
-         var arrowClass= "";
-         if(dependencyNodeObject.dependencyNodeWrapper.children.length >0)
-         {
-             arrowClass="clashSeveritySafe";
-         }
-
-        var wrapperTitle = "";
-         if(dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner)
-         {
-             arrowClass = arrowClass + " hasConcurrentDependencyWinner";
-              wrapperTitle = "This dependency is not resolved at this graph-position. Check used version."
-         }
-
-                var idHtml="";
-              idHtml= idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
-
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" title="'+wrapperTitle+'" id="dNW'+idHtml+'"><div id="'+idHtml+'" class="depNode">\
-                                             <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
-                                             <hr>                                         \
-                                             <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
-                                             <hr>                                      \
-                                             <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+' '+usedHtml+'  \
-                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
-    }
-
-                                            //TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>
-
-
-        var delayTime = 200, clickNumber = 0, timer = null;
-
-        $(document).on('click', '.depNodeWrapper', function(){
-
-    var thisVar = $(this);
-
-          clickNumber++;
-
-        if(clickNumber === 1) {
-
-            timer = setTimeout(function() {
-
-               thisVar.next("ul").toggle();
-
-                clickNumber = 0;
-
-            }, delayTime);
-
-        } else {
-
-            clearTimeout(timer);
-            thisVar.next("ul").show();
-            thisVar.next("ul").find("ul").show();
-            clickNumber = 0;
+        if ( this.includeOptional == true ) {
+            $( "#includeOptional" ).addClass( "selected" );
         }
 
 
+    }
 
-        });
+    function convertToParameterString() {
 
 
+        var parameterString = "";
 
+        if ( this.includeOptional != undefined ) {
+            parameterString = parameterString + "includeOptional=" + this.includeOptional + "";
+        }
 
+        if ( this.clashSeverity != undefined ) {
 
- $(document).on('click', '#searchJumpBack', function(){
+            parameterString = parameterString + "&clashSeverity=" + this.clashSeverity;
 
-                                var idBefore;
-                                 var jumpToLast = false;
-                                for(var index in searchResult) {
+        }
 
-                                                if(activeSearchDependencyId==undefined)
-                                                {
-                                                      activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
-                                                      break;
-                                                }
+        if ( this.includedScopes != undefined ) {
+            for ( var i = 0; i < this.includedScopes.length; i++ ) {
+                parameterString = parameterString + "&includedScope=" + this.includedScopes[i];
+            }
+        }
 
-                                                var idNow=  searchResult[index].dependencyNodeWrapper.id ;
-                                                if(idNow==activeSearchDependencyId)
-                                                {
-                                                  if(idBefore!=undefined)
-                                                  {
-                                                    jumpToLocation(idBefore);
-                                                        activeSearchDependencyId = idBefore;
-                                                    break;
-                                                  }
-                                                  else
-                                                  {
-                                                      jumpToLast = true;
-                                                  }
+        if ( this.excludedScopes != undefined ) {
+            for ( var i = 0; i < this.excludedScopes.length; i++ ) {
+                parameterString = parameterString + "&excludedScope=" + this.excludedScopes[i];
+            }
 
-                                                }
-                                             idBefore =  idNow;
-                                   }
+        }
 
-                                  if(jumpToLast==true)
-                                  {
-                                    jumpToLocation(idBefore);
-                                     activeSearchDependencyId = idBefore;
-                                  }
 
+        console.log( "Convertion completed with: " + parameterString );
 
-                 });
+        return parameterString;
+    }
 
-$(document).on('click', '#searchJumpNext', function(){
 
-                          var jumpToNext = false;
+}
 
-                                                         for(var index in searchResult) {
 
-                                                                         if(activeSearchDependencyId==undefined)
-                                                                         {
-                                                                               activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
-                                                                              jumpToNext=true;
-                                                                               break;
-                                                                         }
-                                                                            var idNow=  searchResult[index].dependencyNodeWrapper.id ;
-                                                                          if(jumpToNext==true)
-                                                                          {
-                                                                                  jumpToLocation(idNow);
-                                                                                activeSearchDependencyId = idNow;
-                                                                                  jumpToNext = false;
-                                                                                 break;
-                                                                          }
+var dependencyNodeObjectList = new Array();
+var searchResult = new Array();
+var activeSearchDependencyId;
+var outerVersionClashList = new Array();
+var userSettingsWrapper = new UserSettingsWrapper();
 
 
-                                                                         if(idNow==activeSearchDependencyId)
-                                                                         {
-                                                                             jumpToNext = true;
+function emptyAllInputs() {
+    $( "input" ).val( "" );
 
-                                                                         }
+}
 
-                                                            }
 
+$( document ).ready( function () {
 
-                                                               if(jumpToNext==true)
-                                                               {
-                                                               for(var index in searchResult) {
-                                                                    var idNow=  searchResult[index].dependencyNodeWrapper.id ;
-                                                                     jumpToLocation(idNow);
-                                                                    activeSearchDependencyId = idNow;
-                                                                    break;
-                                                               }
-                                                               }
 
-                });
-          /*
-$(document).on('click', '#searchButton', function(){
+    $( ".javascriptWarning" ).hide();
+    emptyAllInputs();
 
-                          var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
-                               if(Object.keys(result).length>0)
-                                                                                         {
-                                                                                             $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
-                                                                                         }
-                                                                                          else
-                                                                                                                                                    {
-                                                                                                                                                        $("#searchButton").html("no results");
 
-                                                                                                                                                    }
+    initializeOnTopIfScrolled();
+    addMainPaddingToContentContainer();
 
-                }); */
+    getTree();
 
 
+} );
 
 
-$(document).on('input', '.searchInput', function(){
-                                  var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
+function getTree() {
+    $( "#treeContainer" ).html( "" );
+    $( "#clashListContainer" ).html( "" );
+    $( "#contentContainer" ).addClass( "loading" );
+    console.log( '[' + new Date().toUTCString() + '] ' + "getTree started" );
+    doGet( "http://localhost:8090/dependencies", drawTree, "", getList );
+    console.log( '[' + new Date().toUTCString() + '] ' + "getTree finished" );
+}
 
-                                                           if(Object.keys(result).length>0 )
-                                                           {
-                                                               $("#searchResultOutput").html("results <span>("+Object.keys(result).length+")</span>");
-                                                           }
-                                                           else
-                                                           {
-                                                               $("#searchResultOutput").html("no results");
+function getList() {
+    console.log( '[' + new Date().toUTCString() + '] ' + "getList started" );
+    doGet( "http://localhost:8090/dependencies/outerVersionClashes", drawList );
+    console.log( '[' + new Date().toUTCString() + '] ' + "getList finished" );
 
-                                                           }
+}
 
 
-                });
+function drawList( result ) {
+    console.log( '[' + new Date().toUTCString() + '] ' + "drawList started" );
+    var listHtml = '<ul>';
 
-$(document).on('click', '#applyResolutionSettings', function(){
+    for ( var i = 0; i < result.length; i++ ) {
 
+        var id = result[i].project.groupId + ":" + result[i].project.artifactId;
 
-                            userSettingsWrapper.applyViewValues();
-                            getTree();
+        outerVersionClashList[id] = result[i];
 
-                });
+        listHtml = listHtml + buildClashListEntry( outerVersionClashList[id] );
+    }
 
-$(document).on('click', '#clearSearchButton', function(){
-                            clearSearchResults();
+    $( "#clashListContainer" ).html( listHtml + "</ul>" );
 
-                });
-             //TODO clearen der searhc result sobald an einen ort gesprungen wird
 
-      function calculateMainPadding()
-      {
-          var result =0;
+}
 
-          if($("#headerContainer").css("top")!=0)
-          {
-          result = result + $("#logoContainer").outerHeight(true) ;
-          }
+function buildClashListEntry( outerVersionClash ) //and highlight clashes in tree
+{
+    var idList = "";
+    for ( var i = 0; i < outerVersionClash.innerVersionClashes.length; i++ ) {
+        idList = idList + "'" + outerVersionClash.innerVersionClashes[i].referredDependencyNodeWrapperId + "'";
 
-        result = result + $("#headerContainer").outerHeight(true);
+        if ( i < outerVersionClash.innerVersionClashes.length - 1 ) {
+            idList = idList + ",";
+        }
+    }
 
 
-          return result;
-      }
+    console.log( idList );
+    var versionsLink = '<span  onclick="highlightDependencyByIds([' + idList + '],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);"><span>' + outerVersionClash.project.groupId + "</span>:<span>" + outerVersionClash.project.artifactId + '</span></span>';
 
-      function addMainPaddingToContentContainer()
-      {
-          document.getElementById( "contentContainer" ).style.paddingTop =  calculateMainPadding() +"px";
-      }
 
- $(document).on('click', '.openSearchButton', function(){
+    var html = "<li>" + versionsLink + "<ul>";
+    console.log( "outerVersionClash.innerVersionClashes.length " + outerVersionClash.innerVersionClashes.length );
+    for ( var i = 0; i < outerVersionClash.innerVersionClashes.length; i++ ) {
+        var innerVersionClash = outerVersionClash.innerVersionClashes[i];
+        var dependencyNodeWrapper = dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper;
 
-                             $("#searchContainer").toggle();
-                                       $(this).children("span").toggleClass("triangleDown");
-                                                                                          $(this).children("span").toggleClass("triangleUp");
+        var clashSeverityClass = "";
+        if ( innerVersionClash.clashSeverity == "UNSAFE" ) {
+            clashSeverityClass = "clashSeverityUnsafe";
+            highlightDependency( dependencyNodeWrapper, "clashSeverityUnsafe", false, false );
+            addArrowClassToParentWrappers( dependencyNodeWrapper, "clashSeverityUnsafe" );
+        }
+        if ( innerVersionClash.clashSeverity == "CRITICAL" ) {
+            highlightDependency( dependencyNodeWrapper, "clashSeverityCritical", false, false );
+            clashSeverityClass = "clashSeverityCritical";
+            addArrowClassToParentWrappers( dependencyNodeWrapper, "clashSeverityCritical" );
+        }
 
-                                 addMainPaddingToContentContainer();
 
+        var versionLink = '<span  onclick="highlightDependencyById(&quot;' + dependencyNodeWrapper.id + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">' + dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version + '</span>';
 
 
-                });
+        html = html + "<li class='" + clashSeverityClass + "'>" + versionLink + "</li>";
 
- $(document).on('click', '.openSettingsButton', function(){
-                            userSettingsWrapper.applyValuesToView();
+        console.log( "innerVersionClash " + innerVersionClash.referredDependencyNodeWrapperId );
 
-                                                        $("#settingsFilterContainer").toggle();
-                                                             $(this).children("span").toggleClass("triangleDown");
-                                                                                                                $(this).children("span").toggleClass("triangleUp");
-                                                        addMainPaddingToContentContainer();
-                });
+    }
 
-                 $(document).on('click', '.openClashListButton', function(){
-                                            $("#clashListContainer").toggle();
-                                                     $(this).children("span").toggleClass("triangleDown");
-                                                       $(this).children("span").toggleClass("triangleUp");
-                                });
+    html = html + "</ul></li>";
 
-        $(document).on('dbclick', '.depNode', function(){
+    return html;
 
-                     e.preventDefault();
 
+}
 
-                });
 
-$(document).on('click', '#treeViewMode li', function(){
+function buildList( result ) {
 
-                               var selectedValue = $(this).text();
-                               alert(selectedValue) ;
+}
 
-                                 $("#dependencyTree").removeClass("viewModeShortened viewModeFull");
+function drawTree( result ) {
 
-                              if(selectedValue=="Shortened")
-                              {
-                                $("#dependencyTree").addClass("viewModeShortened");
-                              }
-                              else if(selectedValue=="Full")
-                              {
-                                   $("#dependencyTree").addClass("viewModeFull");
-                              }
 
+    $( "#analyzedDep" ).html( "<h2>" + result.groupId + ":" + result.artifactId + ":" + result.version + "</h2>" );
 
-                });
+    var html = "<ul id='dependencyTree'>" + buildTree( result );
 
-         $(document).on('mouseenter', '.depNode', function(){
+    html = html + "</ul>";
 
 
-                              if($("#dependencyTree").hasClass("viewModeShortened"))
-                              {
-                                  $(this).children("hr").addClass("showBlock");
-                                   $(this).children(".version").addClass("showBlock");
-                                   $(this).children(".groupId").addClass("showBlock");
-                              }
+    $( "#treeContainer" ).html( html );
+    console.log( '[' + new Date().toUTCString() + '] ' + "drawTree finished" );
 
-                               $(this).children(".depMenu").show();
+    $( "#contentContainer" ).removeClass( "loading" );
+}
 
+function buildTree( data ) {
 
-                });
 
-                  $(document).on('mouseleave', '.depNode', function(){
-                                                  if($("#dependencyTree").hasClass("viewModeShortened"))
-                                                                               {
-                                                                                   $(this).children("hr").removeClass("showBlock");
-                                                                                    $(this).children(".version").removeClass("showBlock");
-                                                                                    $(this).children(".groupId").removeClass("showBlock");
-                                                                               }
-                                          $(this).children(".depMenu").hide();
+    var dep = new DependencyNodeObject( data );
+    dependencyNodeObjectList[dep.dependencyNodeWrapper.id] = dep;
 
 
-                                });
+    var html = buildGuiDependency( dep );
 
+    if ( data.children.length > 0 ) {
+        var display = "display:block;";
+        if ( dep.dependencyNodeWrapper.graphDepth > 0 ) {
+            display = "display:none;"
+        }
 
+        html = html + '<ul class="depNodeUl" style="' + display + '">';
 
+        for ( var i = 0; i < data.children.length; i++ ) {
 
-                                 $(document).on('click', '.easySelectBox.selectModeMultiple li', function(){
 
-                                                                        $(this).toggleClass("selected");
+            html = html + buildTree( data.children[i] );
+        }
 
 
-                                                              });
+        html = html + '</ul>';
+        html = html + ' <div class="clearing"></div></li>';
+    }
+    else {
+        html = html + ' <div class="clearing"></div></li>';
+    }
 
- $(document).on('click', '.easySelectBox.selectModeSingle li', function(){
-                                                                            alert("selectModeSingle");
-                                                                         $(this).parent().children().removeClass("selected");
-                                                                        $(this).toggleClass("selected");
 
+    return html;
 
-                                                              });
 
-                                                               $(document).on('click', '.easyCheckBox', function(){
+}
 
-                                                                        $(this).toggleClass("selected");
+function buildGuiDependency( dependencyNodeObject ) {
 
 
-                                                              });
+    if ( dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" ) {
+        var mavenCentralHref = "http://search.maven.org/#artifactdetails|" + dependencyNodeObject.dependencyNodeWrapper.groupId + "|" + dependencyNodeObject.dependencyNodeWrapper.artifactId + "|" + dependencyNodeObject.dependencyNodeWrapper.version + "|" + dependencyNodeObject.dependencyNodeWrapper.extension;
+        var mavenCentralLink = '<a href="' + mavenCentralHref + '" target="_blank"> maven-central </a>';
 
-                            $(document).on('click', '.detailsButton', function(){
+    }
 
-                                                 $(this).parent(".depMenu").prev(".details").toggle();
+    var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.usedVersion + '</span>';
+    var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '</span>';
+    var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '</span>';
 
-                                                e.preventDefault();
+    var optionalHtml = "";
 
+    if ( dependencyNodeObject.dependencyNodeWrapper.optional == true ) {
+        optionalHtml = " <span class='optional' title='This dependency is optional'>(o)</span>";
+    }
 
 
-                                           });
+    var scopeHtml = " <span class='scope' title='The scope of this dependency is " + dependencyNodeObject.dependencyNodeWrapper.scope + ".'>(" + dependencyNodeObject.dependencyNodeWrapper.scope.charAt( 0 ) + ")</span>";
+    var usedHtml = "";
+    if ( dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId == dependencyNodeObject.dependencyNodeWrapper.id ) {
+        usedHtml = "<span class='used' title='This dependency is used by maven.'>(u)</span>";
 
-                                        $(document).on('click', '.details', function(){
+    }
 
+    //searchviaID   var usedVersionLink = '<span class="usedVersionLink" onclick="searchAndHighlightDependency(&quot;'+dependencyNodeObject.dependencyNodeWrapper.groupId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'&quot;,&quot;'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'&quot;,&quot;highlightSearch&quot;,&quot;true&quot;);">'+dependencyNodeObject.dependencyNodeWrapper.project.usedVersion+'</span>';
+    var arrowClass = "";
+    if ( dependencyNodeObject.dependencyNodeWrapper.children.length > 0 ) {
+        arrowClass = "clashSeveritySafe";
+    }
 
-                                                                                        e.stopPropagation();
+    var wrapperTitle = "";
+    if ( dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner ) {
+        arrowClass = arrowClass + " hasConcurrentDependencyWinner";
+        wrapperTitle = "This dependency is not resolved at this graph-position. Check used version."
+    }
 
+    var idHtml = "";
+    idHtml = idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
 
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper ' + arrowClass + '" title="' + wrapperTitle + '" id="dNW' + idHtml + '"><div id="' + idHtml + '" class="depNode">\
+                                             <span class="groupId" title="groupId">' + dependencyNodeObject.dependencyNodeWrapper.groupId + '</span>     \
+                                             <hr>                                         \
+                                             <span class="artifactId" title="artifactId">' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '</span>   \
+                                             <hr>                                      \
+                                             <span class="version" title="version">' + dependencyNodeObject.dependencyNodeWrapper.version + '</span>' + scopeHtml + ' ' + optionalHtml + ' ' + usedHtml + '  \
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>' + usedVersionLink + '</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>' + highestVersionLink + '</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>' + lowestVersionLink + '</div></div> <div class="depMenu"><a class="detailsButton">details</a> | ' + mavenCentralLink + ' </div> </div>   </div>   ';
+}
 
-                                                                                   });
+//TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>
 
 
+var delayTime = 200, clickNumber = 0, timer = null;
 
-                                function doGet(url,callbackFunction,parameters,syncCallFunction)
-                                {
+$( document ).on( 'click', '.depNodeWrapper', function () {
 
-                                            var parameter = userSettingsWrapper.convertToParameterString();
-                                                 alert (parameter);
+    var thisVar = $( this );
 
-                                     $.ajax({
-                                                         type: "GET",
-                                                         url: url,
-                                                         data:  parameter,
-                                                         async:true,
-                                                         contentType: "application/json; charset=utf-8",
-                                                         dataType: "jsonp",
-                                                         success: function(responseObject) {
+    clickNumber++;
 
-                                                                     processResponseObject(responseObject, callbackFunction,syncCallFunction);
-                                                         },
-                                                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                                                 alert('error');
-                                                         },
-                                                         beforeSend: function (XMLHttpRequest) {
-                                             						//show loading
-                                                         },
-                                                         complete: function (XMLHttpRequest, textStatus) {
-                                             					//hide loading
-                                                         }
-                                             		});
+    if ( clickNumber === 1 ) {
 
-                                }
+        timer = setTimeout( function () {
 
+            thisVar.next( "ul" ).toggle();
 
-                                //Bei jedem Get ausführen und viewId setzen etc.
+            clickNumber = 0;
 
-                                 function processResponseObject(responseObject, callbackFunction,syncCallFunction)
-                                        {
+        }, delayTime );
 
-                                                             userSettingsWrapper.includedScopes = responseObject.userParameterWrapper.includedScopes;
-                                                             userSettingsWrapper.excludedScopes = responseObject.userParameterWrapper.excludedScopes;
-                                                             userSettingsWrapper.includeOptional = responseObject.userParameterWrapper.includeOptional;
-                                                             userSettingsWrapper.clashSeverity = responseObject.userParameterWrapper.clashSeverity;
+    } else {
 
+        clearTimeout( timer );
+        thisVar.next( "ul" ).show();
+        thisVar.next( "ul" ).find( "ul" ).show();
+        clickNumber = 0;
+    }
 
-                                                                   userSettingsWrapper.applyValuesToView();
-                                                           console.log("userSettingsWrapper clashSeverity " + userSettingsWrapper.clashSeverity);
 
-                                                        callbackFunction.call( this, responseObject.result );
+} );
 
-                                                        if(syncCallFunction!=undefined && syncCallFunction !="")
-                                                        {
-                                                            syncCallFunction.call();
-                                                        }
 
+$( document ).on( 'click', '#searchJumpBack', function () {
 
-                                        }
+    var idBefore;
+    var jumpToLast = false;
+    for ( var index in searchResult ) {
 
+        if ( activeSearchDependencyId == undefined ) {
+            activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
+            break;
+        }
 
+        var idNow = searchResult[index].dependencyNodeWrapper.id;
+        if ( idNow == activeSearchDependencyId ) {
+            if ( idBefore != undefined ) {
+                jumpToLocation( idBefore );
+                activeSearchDependencyId = idBefore;
+                break;
+            }
+            else {
+                jumpToLast = true;
+            }
 
+        }
+        idBefore = idNow;
+    }
 
+    if ( jumpToLast == true ) {
+        jumpToLocation( idBefore );
+        activeSearchDependencyId = idBefore;
+    }
 
-                                function clearSearchResults()
-                                {
-                                       searchResult = new Array();
-                                       activeSearchDependencyId=undefined;
-                                        $(".highlightSearch").removeClass("highlightSearch");
-                                        $("#searchResultOutput").html("no results");
-                                        $(".searchInput").val("");
 
-                                }
+} );
 
-                               function searchForDependencyById(id)
-                                                                       {
-                                                  return   dependencyNodeObjectList[id].dependencyNodeWrapper;
-                                                                       }
+$( document ).on( 'click', '#searchJumpNext', function () {
 
+    var jumpToNext = false;
 
+    for ( var index in searchResult ) {
 
-                               function searchForDependenciesByCoordinates(groupId,artifactId,version)
-                                        {
-                                                          //  alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length)
-                                                          searchResult =  jQuery.extend({}, dependencyNodeObjectList);
-                                                           activeSearchDependencyId=undefined;
+        if ( activeSearchDependencyId == undefined ) {
+            activeSearchDependencyId = searchResult[index].dependencyNodeWrapper.id;
+            jumpToNext = true;
+            break;
+        }
+        var idNow = searchResult[index].dependencyNodeWrapper.id;
+        if ( jumpToNext == true ) {
+            jumpToLocation( idNow );
+            activeSearchDependencyId = idNow;
+            jumpToNext = false;
+            break;
+        }
 
-                                            if(groupId != undefined && groupId!="" )
-                                            {
 
+        if ( idNow == activeSearchDependencyId ) {
+            jumpToNext = true;
 
-                                                            for(var index in searchResult) {
+        }
 
-                                                                    var compValue1;
-                                                                     var compValue2 = groupId;
-                                                                 if(groupId.slice(-1)=="*")
-                                                                 {
-                                                                      compValue2 = groupId.substring(0,groupId.length-1);
-                                                                      compValue1 =searchResult[index].dependencyNodeWrapper.groupId.substring(0,compValue2.length);
+    }
 
-                                                                 }
-                                                                 else
-                                                                 {
-                                                                    compValue1 =searchResult[index].dependencyNodeWrapper.groupId;
-                                                                 }
 
+    if ( jumpToNext == true ) {
+        for ( var index in searchResult ) {
+            var idNow = searchResult[index].dependencyNodeWrapper.id;
+            jumpToLocation( idNow );
+            activeSearchDependencyId = idNow;
+            break;
+        }
+    }
 
-                                                              if(compValue1!=compValue2)
-                                                               {
+} );
+/*
+ $(document).on('click', '#searchButton', function(){
 
-                                                                  delete searchResult[index];
-                                                               }
+ var result =  searchAndHighlightDependencyByCoordinates($('#groupIdInput').val(),$('#artifactIdInput').val(),$('#versionInput').val(),'highlightSearch','highlightSearch',true);
+ if(Object.keys(result).length>0)
+ {
+ $("#searchButton").html("results <span>("+Object.keys(result).length+")</span>");
+ }
+ else
+ {
+ $("#searchButton").html("no results");
 
+ }
 
-                                                                                                                                    }
+ }); */
 
 
+$( document ).on( 'input', '.searchInput', function () {
+    var result = searchAndHighlightDependencyByCoordinates( $( '#groupIdInput' ).val(), $( '#artifactIdInput' ).val(), $( '#versionInput' ).val(), 'highlightSearch', 'highlightSearch', true );
 
+    if ( Object.keys( result ).length > 0 ) {
+        $( "#searchResultOutput" ).html( "results <span>(" + Object.keys( result ).length + ")</span>" );
+    }
+    else {
+        $( "#searchResultOutput" ).html( "no results" );
 
+    }
 
 
-                                            }
-                                            if(artifactId != undefined  && artifactId!="")
-                                            {
+} );
 
-                                                   for(var index in searchResult) {
+$( document ).on( 'click', '#applyResolutionSettings', function () {
 
 
+    userSettingsWrapper.applyViewValues();
+    getTree();
 
-                                                       var compValue1;
-                                                                                                                        var compValue2 = artifactId;
-                                                                                                                    if(artifactId.slice(-1)=="*")
-                                                                                                                    {
-                                                                                                                         compValue2 = artifactId.substring(0,artifactId.length-1);
-                                                                                                                         compValue1 =searchResult[index].dependencyNodeWrapper.artifactId.substring(0,compValue2.length);
+} );
 
-                                                                                                                    }
-                                                                                                                    else
-                                                                                                                    {
-                                                                                                                       compValue1 =searchResult[index].dependencyNodeWrapper.artifactId;
-                                                                                                                    }
+$( document ).on( 'click', '#clearSearchButton', function () {
+    clearSearchResults();
 
+} );
+//TODO clearen der searhc result sobald an einen ort gesprungen wird
 
-                                           if(compValue1!=compValue2)
-                                                                                                        {
+function calculateMainPadding() {
+    var result = 0;
 
-                                                                                                           delete searchResult[index];
-                                                                                                        }
+    if ( $( "#headerContainer" ).css( "top" ) != 0 ) {
+        result = result + $( "#logoContainer" ).outerHeight( true );
+    }
 
-                                                                                                                                                                                      }
+    result = result + $( "#headerContainer" ).outerHeight( true );
 
 
-                                            }
-                                             if(version != undefined && version!="")
-                                            {
+    return result;
+}
 
-                                                 for(var index in searchResult) {
+function addMainPaddingToContentContainer() {
+    document.getElementById( "contentContainer" ).style.paddingTop = calculateMainPadding() + "px";
+}
 
-     var compValue1;
-                                                                     var compValue2 = version;
-                                                                 if(version.slice(-1)=="*")
-                                                                 {
-                                                                      compValue2 = version.substring(0,version.length-1);
-                                                                      compValue1 =searchResult[index].dependencyNodeWrapper.version.substring(0,compValue2.length);
+$( document ).on( 'click', '.openSearchButton', function () {
 
-                                                                 }
-                                                                 else
-                                                                 {
-                                                                    compValue1 =searchResult[index].dependencyNodeWrapper.version;
-                                                                 }
+    $( "#searchContainer" ).toggle();
+    $( this ).children( "span" ).toggleClass( "triangleDown" );
+    $( this ).children( "span" ).toggleClass( "triangleUp" );
 
-                                                          if(compValue1!=compValue2)
-                                                                                                                       {
+    addMainPaddingToContentContainer();
 
-                                                                                                                          delete searchResult[index];
-                                                                                                                       }
-                                                                                                                                                                                    }
 
-                                            }
-                                                if((groupId == undefined || groupId=="") && (artifactId == undefined || artifactId=="") && (version == undefined || version==""))
-                                                {
+} );
 
-                                                      searchResult = new Array();
-                                                }
+$( document ).on( 'click', '.openSettingsButton', function () {
+    userSettingsWrapper.applyValuesToView();
 
-                                        //Check if search result includes the active dependency d0r0a0
+    $( "#settingsFilterContainer" ).toggle();
+    $( this ).children( "span" ).toggleClass( "triangleDown" );
+    $( this ).children( "span" ).toggleClass( "triangleUp" );
+    addMainPaddingToContentContainer();
+} );
 
-                                                     delete searchResult["d0r0a0"];
+$( document ).on( 'click', '.openClashListButton', function () {
+    $( "#clashListContainer" ).toggle();
+    $( this ).children( "span" ).toggleClass( "triangleDown" );
+    $( this ).children( "span" ).toggleClass( "triangleUp" );
+} );
 
+$( document ).on( 'dbclick', '.depNode', function () {
 
-                                          return searchResult;
+    e.preventDefault();
 
 
-                                        }
+} );
 
+$( document ).on( 'click', '#treeViewMode li', function () {
 
-     function jumpToLocation(locationId)
-     {
-         location.href = "#"+locationId;
+    var selectedValue = $( this ).text();
+    alert( selectedValue );
 
-       $('html, body').animate({
-              scrollTop: $("#"+locationId).offset().top - calculateMainPadding()
-          },
-           0);
-     }
+    $( "#dependencyTree" ).removeClass( "viewModeShortened viewModeFull" );
 
- function highlightDependency(dependencyNodeWrapper,highlightClazz,openPath,jumpTo)
-                                        {
+    if ( selectedValue == "Shortened" ) {
+        $( "#dependencyTree" ).addClass( "viewModeShortened" );
+    }
+    else if ( selectedValue == "Full" ) {
+        $( "#dependencyTree" ).addClass( "viewModeFull" );
+    }
 
 
+} );
 
-                                            $("#"+dependencyNodeWrapper.id).addClass(highlightClazz);
+$( document ).on( 'mouseenter', '.depNode', function () {
 
 
+    if ( $( "#dependencyTree" ).hasClass( "viewModeShortened" ) ) {
+        $( this ).children( "hr" ).addClass( "showBlock" );
+        $( this ).children( ".version" ).addClass( "showBlock" );
+        $( this ).children( ".groupId" ).addClass( "showBlock" );
+    }
 
-                                           if(openPath == true)
-                                                                                       {
-                                                                                                       $("#"+dependencyNodeWrapper.id).parents("ul").show();
+    $( this ).children( ".depMenu" ).show();
 
-                                                                                       }
 
-                                                                                         if(jumpTo == true)
-                                                                                                                                  {
-                                                                                                                                                  jumpToLocation(dependencyNodeWrapper.id);
+} );
 
-                                                                                                                                  }
+$( document ).on( 'mouseleave', '.depNode', function () {
+    if ( $( "#dependencyTree" ).hasClass( "viewModeShortened" ) ) {
+        $( this ).children( "hr" ).removeClass( "showBlock" );
+        $( this ).children( ".version" ).removeClass( "showBlock" );
+        $( this ).children( ".groupId" ).removeClass( "showBlock" );
+    }
+    $( this ).children( ".depMenu" ).hide();
 
-                                        }
 
+} );
 
-function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPath,jumpTo)
-                                        {
-                                             clearSearchResults();
-                                            $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
 
-                                            highlightDependency(dependencyNodeObjectList[id].dependencyNodeWrapper,highlightClazz,openPath,jumpTo);
+$( document ).on( 'click', '.easySelectBox.selectModeMultiple li', function () {
 
-                                        }
-                                        function highlightDependencyByIds(ids,highlightClazz,highlightClazzToDelete,openPath)
-                                        {
-                                              clearSearchResults();
-                                            $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
+    $( this ).toggleClass( "selected" );
 
 
-                                                 for(var i=0;i<ids.length;i++){
+} );
 
+$( document ).on( 'click', '.easySelectBox.selectModeSingle li', function () {
+    alert( "selectModeSingle" );
+    $( this ).parent().children().removeClass( "selected" );
+    $( this ).toggleClass( "selected" );
 
-                                                        highlightDependency(dependencyNodeObjectList[ids[i]].dependencyNodeWrapper,highlightClazz,openPath,false);
-                                                    }
 
+} );
 
-                                        }
+$( document ).on( 'click', '.easyCheckBox', function () {
 
-                                         function highlightDependencies(dependencyNodeWrapperList,highlightClazz,highlightClazzToDelete,openPath)
-                                              {
-                                                 $("."+highlightClazzToDelete).removeClass(highlightClazzToDelete);
-                                                 for(var index in dependencyNodeWrapperList) {
+    $( this ).toggleClass( "selected" );
 
-                                                      highlightDependency(dependencyNodeWrapperList[index].dependencyNodeWrapper,highlightClazz,openPath);
 
+} );
 
-                                                 }
-                                              }
+$( document ).on( 'click', '.detailsButton', function () {
 
+    $( this ).parent( ".depMenu" ).prev( ".details" ).toggle();
 
+    e.preventDefault();
 
 
-                       function addArrowClassToParentWrappers(dependencyNodeWrapper,clazz)
-                                        {
-                                       // alert(dependencyNodeWrapper.groupId + " " +dependencyNodeWrapper.artifactId )   ;
+} );
 
-                                            // alert("jof " +dependencyNodeObjectList[dependencyNodeWrapper.parentId].dependencyNodeWrapper.id )   ;
-                                               $("#"+dependencyNodeWrapper.id).parents(".depNodeUl").prev(".depNodeWrapper").addClass(clazz);
-                                               // addArrowClassToParents(dependencyNodeObjectList(dependencyNodeWrapper.parentId).dependencyNodeWrapper);
-                                                ////    alert("jo" )   ;
+$( document ).on( 'click', '.details', function () {
 
 
+    e.stopPropagation();
 
 
+} );
 
-                                        }
 
+function doGet( url, callbackFunction, parameters, syncCallFunction ) {
 
-                                                 function searchAndHighlightDependencyByCoordinates(groupId,artifactId,version,highlightClazz,highlightClazzToDelete,openPath)
-                                                                                {
+    var parameter = userSettingsWrapper.convertToParameterString();
+    alert( parameter );
 
+    $.ajax( {
+                type: "GET",
+                url: url,
+                data: parameter,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "jsonp",
+                success: function ( responseObject ) {
 
+                    processResponseObject( responseObject, callbackFunction, syncCallFunction );
+                },
+                error: function ( XMLHttpRequest, textStatus, errorThrown ) {
+                    alert( 'error' );
+                },
+                beforeSend: function ( XMLHttpRequest ) {
+                    //show loading
+                },
+                complete: function ( XMLHttpRequest, textStatus ) {
+                    //hide loading
+                }
+            } );
 
-                                                                                     var result =  searchForDependenciesByCoordinates(groupId,artifactId,version) ;
+}
 
-                                                                                     highlightDependencies(result,highlightClazz,highlightClazzToDelete,openPath);
 
-                                                                                     return result;
-                                                                                }
+//Bei jedem Get ausführen und viewId setzen etc.
 
+function processResponseObject( responseObject, callbackFunction, syncCallFunction ) {
 
+    userSettingsWrapper.includedScopes = responseObject.userParameterWrapper.includedScopes;
+    userSettingsWrapper.excludedScopes = responseObject.userParameterWrapper.excludedScopes;
+    userSettingsWrapper.includeOptional = responseObject.userParameterWrapper.includeOptional;
+    userSettingsWrapper.clashSeverity = responseObject.userParameterWrapper.clashSeverity;
 
 
-                                                                                function initializeOnTopIfScrolled(){
+    userSettingsWrapper.applyValuesToView();
+    console.log( "userSettingsWrapper clashSeverity " + userSettingsWrapper.clashSeverity );
 
-                                                                                      var headerContainer = $("#headerContainer");
+    callbackFunction.call( this, responseObject.result );
 
-                                                                                    var _defautlTop = headerContainer.offset().top - $(document).scrollTop();
+    if ( syncCallFunction != undefined && syncCallFunction != "" ) {
+        syncCallFunction.call();
+    }
 
-                                                                                    var _defautlLeft = headerContainer.offset().left - $(document).scrollLeft();
 
+}
 
 
-                                                                                    var originalHeaderContainerPosition = headerContainer.css('position');
-                                                                                    var originalHeaderContainerTop = headerContainer.css('top');
-                                                                                    var originalHeaderContainerLeft = headerContainer.css('left');
-                                                                                    var originalHeaderContainerZIndex = headerContainer.css('z-index');
-                                                                                    var originalHeaderContainerWidth = headerContainer.css('width');
+function clearSearchResults() {
+    searchResult = new Array();
+    activeSearchDependencyId = undefined;
+    $( ".highlightSearch" ).removeClass( "highlightSearch" );
+    $( "#searchResultOutput" ).html( "no results" );
+    $( ".searchInput" ).val( "" );
 
+}
 
-                                                                                    var originalLogoContainerPosition = $("#logoContainer").css("position");
-                                                                                     var   originalLogoContainerWidth =  $("#logoContainer").css("width");
+function searchForDependencyById( id ) {
+    return   dependencyNodeObjectList[id].dependencyNodeWrapper;
+}
 
-                                                                                    $(window).scroll(function(){
 
+function searchForDependenciesByCoordinates( groupId, artifactId, version ) {
+    //  alert("dependencyNodeObjectList length: " + Object.keys(dependencyNodeObjectList).length)
+    searchResult = jQuery.extend( {}, dependencyNodeObjectList );
+    activeSearchDependencyId = undefined;
 
-                                                                                 if($(this).scrollTop() > _defautlTop && $(this).scrollLeft() > _defautlLeft)
-                                                                                 {
-                                                                                      $("#headerContainer").css({'position':'fixed','top':0+'px',
-                                                                                         'z-index':99999});
-                                                                                         $("#logoContainer").css({
-                                                                                        position: originalLogoContainerPosition
+    if ( groupId != undefined && groupId != "" ) {
 
-                                                                                      });
 
+        for ( var index in searchResult ) {
 
-                                                                                 }
-                                                                                 else if($(this).scrollTop() > _defautlTop)
-                                                                                 {
-                                                                                       $("#headerContainer").css({'position':'fixed','top':0+'px','z-index':99999});
-                                                                                       $("#logoContainer").css({position: originalLogoContainerPosition });
+            var compValue1;
+            var compValue2 = groupId;
+            if ( groupId.slice( -1 ) == "*" ) {
+                compValue2 = groupId.substring( 0, groupId.length - 1 );
+                compValue1 = searchResult[index].dependencyNodeWrapper.groupId.substring( 0, compValue2.length );
 
-                                                                                 }
-                                                                                 else if($(this).scrollLeft() > _defautlLeft)
-                                                                                 {
-                                                                                          if( $("#headerContainer").css("top").replace("px","")=="0")
-                                                                                          {
-                                                                                          $("#headerContainer").css({'position':'fixed','top':'70px'});
-                                                                                            $("#logoContainer").css({position: "fixed"});
+            }
+            else {
+                compValue1 = searchResult[index].dependencyNodeWrapper.groupId;
+            }
 
-                                                                                          }
-                                                                                          else
-                                                                                          {
-                                                                                            $("#headerContainer").css({'position':'fixed'});
-                                                                                           $("#logoContainer").css({position: "fixed"});
 
-                                                                                          }
+            if ( compValue1 != compValue2 ) {
 
+                delete searchResult[index];
+            }
 
-                                                                                 }
-                                                                                 else
-                                                                                 {
-                                                                                      $("#headerContainer").css({'position':originalHeaderContainerPosition,'top':originalHeaderContainerTop,
-                                                                                             'z-index':originalHeaderContainerZIndex});
 
-                                                                                            $("#logoContainer").css({'position':originalLogoContainerPosition});
-                                                                                 }
+        }
 
-                                                                                    });
-                                                                                }
 
-                                                                                window.onresize = function(event) {
-                                                                                        addMainPaddingToContentContainer();
-                                                                                };
+    }
+    if ( artifactId != undefined && artifactId != "" ) {
 
+        for ( var index in searchResult ) {
 
-                                                                                function logConsole(message)
-                                                                                {
-                                                                                    console.log(message);
-                                                                                }
 
-                                                                                function logAlert(message)
-                                                                                {
-                                                                                    alert(message);
-                                                                                }
+            var compValue1;
+            var compValue2 = artifactId;
+            if ( artifactId.slice( -1 ) == "*" ) {
+                compValue2 = artifactId.substring( 0, artifactId.length - 1 );
+                compValue1 = searchResult[index].dependencyNodeWrapper.artifactId.substring( 0, compValue2.length );
+
+            }
+            else {
+                compValue1 = searchResult[index].dependencyNodeWrapper.artifactId;
+            }
+
+
+            if ( compValue1 != compValue2 ) {
+
+                delete searchResult[index];
+            }
+
+        }
+
+
+    }
+    if ( version != undefined && version != "" ) {
+
+        for ( var index in searchResult ) {
+
+            var compValue1;
+            var compValue2 = version;
+            if ( version.slice( -1 ) == "*" ) {
+                compValue2 = version.substring( 0, version.length - 1 );
+                compValue1 = searchResult[index].dependencyNodeWrapper.version.substring( 0, compValue2.length );
+
+            }
+            else {
+                compValue1 = searchResult[index].dependencyNodeWrapper.version;
+            }
+
+            if ( compValue1 != compValue2 ) {
+
+                delete searchResult[index];
+            }
+        }
+
+    }
+    if ( (groupId == undefined || groupId == "") && (artifactId == undefined || artifactId == "") && (version == undefined || version == "") ) {
+
+        searchResult = new Array();
+    }
+
+    //Check if search result includes the active dependency d0r0a0
+
+    delete searchResult["d0r0a0"];
+
+
+    return searchResult;
+
+
+}
+
+
+function jumpToLocation( locationId ) {
+    location.href = "#" + locationId;
+
+    $( 'html, body' ).animate( {
+                                   scrollTop: $( "#" + locationId ).offset().top - calculateMainPadding()
+                               },
+                               0 );
+}
+
+function highlightDependency( dependencyNodeWrapper, highlightClazz, openPath, jumpTo ) {
+
+
+    $( "#" + dependencyNodeWrapper.id ).addClass( highlightClazz );
+
+
+    if ( openPath == true ) {
+        $( "#" + dependencyNodeWrapper.id ).parents( "ul" ).show();
+
+    }
+
+    if ( jumpTo == true ) {
+        jumpToLocation( dependencyNodeWrapper.id );
+
+    }
+
+}
+
+
+function highlightDependencyById( id, highlightClazz, highlightClazzToDelete, openPath, jumpTo ) {
+    clearSearchResults();
+    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+
+    highlightDependency( dependencyNodeObjectList[id].dependencyNodeWrapper, highlightClazz, openPath, jumpTo );
+
+}
+function highlightDependencyByIds( ids, highlightClazz, highlightClazzToDelete, openPath ) {
+    clearSearchResults();
+    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+
+
+    for ( var i = 0; i < ids.length; i++ ) {
+
+
+        highlightDependency( dependencyNodeObjectList[ids[i]].dependencyNodeWrapper, highlightClazz, openPath, false );
+    }
+
+
+}
+
+function highlightDependencies( dependencyNodeWrapperList, highlightClazz, highlightClazzToDelete, openPath ) {
+    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+    for ( var index in dependencyNodeWrapperList ) {
+
+        highlightDependency( dependencyNodeWrapperList[index].dependencyNodeWrapper, highlightClazz, openPath );
+
+
+    }
+}
+
+
+function addArrowClassToParentWrappers( dependencyNodeWrapper, clazz ) {
+    // alert(dependencyNodeWrapper.groupId + " " +dependencyNodeWrapper.artifactId )   ;
+
+    // alert("jof " +dependencyNodeObjectList[dependencyNodeWrapper.parentId].dependencyNodeWrapper.id )   ;
+    $( "#" + dependencyNodeWrapper.id ).parents( ".depNodeUl" ).prev( ".depNodeWrapper" ).addClass( clazz );
+    // addArrowClassToParents(dependencyNodeObjectList(dependencyNodeWrapper.parentId).dependencyNodeWrapper);
+    ////    alert("jo" )   ;
+
+
+}
+
+
+function searchAndHighlightDependencyByCoordinates( groupId, artifactId, version, highlightClazz, highlightClazzToDelete, openPath ) {
+
+
+    var result = searchForDependenciesByCoordinates( groupId, artifactId, version );
+
+    highlightDependencies( result, highlightClazz, highlightClazzToDelete, openPath );
+
+    return result;
+}
+
+
+function initializeOnTopIfScrolled() {
+
+    var headerContainer = $( "#headerContainer" );
+
+    var _defautlTop = headerContainer.offset().top - $( document ).scrollTop();
+
+    var _defautlLeft = headerContainer.offset().left - $( document ).scrollLeft();
+
+
+    var originalHeaderContainerPosition = headerContainer.css( 'position' );
+    var originalHeaderContainerTop = headerContainer.css( 'top' );
+    var originalHeaderContainerLeft = headerContainer.css( 'left' );
+    var originalHeaderContainerZIndex = headerContainer.css( 'z-index' );
+    var originalHeaderContainerWidth = headerContainer.css( 'width' );
+
+
+    var originalLogoContainerPosition = $( "#logoContainer" ).css( "position" );
+    var originalLogoContainerWidth = $( "#logoContainer" ).css( "width" );
+
+    $( window ).scroll( function () {
+
+
+        if ( $( this ).scrollTop() > _defautlTop && $( this ).scrollLeft() > _defautlLeft ) {
+            $( "#headerContainer" ).css( {'position': 'fixed', 'top': 0 + 'px',
+                                             'z-index': 99999} );
+            $( "#logoContainer" ).css( {
+                                           position: originalLogoContainerPosition
+
+                                       } );
+
+
+        }
+        else if ( $( this ).scrollTop() > _defautlTop ) {
+            $( "#headerContainer" ).css( {'position': 'fixed', 'top': 0 + 'px', 'z-index': 99999} );
+            $( "#logoContainer" ).css( {position: originalLogoContainerPosition } );
+
+        }
+        else if ( $( this ).scrollLeft() > _defautlLeft ) {
+            if ( $( "#headerContainer" ).css( "top" ).replace( "px", "" ) == "0" ) {
+                $( "#headerContainer" ).css( {'position': 'fixed', 'top': '70px'} );
+                $( "#logoContainer" ).css( {position: "fixed"} );
+
+            }
+            else {
+                $( "#headerContainer" ).css( {'position': 'fixed'} );
+                $( "#logoContainer" ).css( {position: "fixed"} );
+
+            }
+
+
+        }
+        else {
+            $( "#headerContainer" ).css( {'position': originalHeaderContainerPosition, 'top': originalHeaderContainerTop,
+                                             'z-index': originalHeaderContainerZIndex} );
+
+            $( "#logoContainer" ).css( {'position': originalLogoContainerPosition} );
+        }
+
+    } );
+}
+
+window.onresize = function ( event ) {
+    addMainPaddingToContentContainer();
+};
+
+
+function logConsole( message ) {
+    console.log( message );
+}
+
+function logAlert( message ) {
+    alert( message );
+}

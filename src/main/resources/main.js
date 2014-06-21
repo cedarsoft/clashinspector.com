@@ -145,7 +145,6 @@ function backOffValues()
      dependencyNodeObjectList = new Array();
          searchResult = new Array();
          outerVersionClashList = new Array();
-         userSettingsWrapper = new UserSettingsWrapper();
          deepestGraphDepth = 0;
          activeSearchDependencyId = undefined;
 }

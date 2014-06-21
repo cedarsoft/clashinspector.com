@@ -208,7 +208,7 @@ console.log('[' + new Date().toUTCString() + '] ' +"getList started");
 
    }
 
-   function buildClashListEntry(outerVersionClash)
+   function buildClashListEntry(outerVersionClash) //and highlight clashes in tree
    {
    var idList = "";
    for(var i=0;i<outerVersionClash.innerVersionClashes.length;i++){
@@ -368,21 +368,23 @@ var scopeHtml= " <span class='scope' title='The scope of this dependency is "+de
              arrowClass="clashSeveritySafe";
          }
 
+        var wrapperTitle = "";
+         if(dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner)
+         {
+             arrowClass = arrowClass + " hasConcurrentDependencyWinner";
+              wrapperTitle = "This dependency is not resolved at this graph-position. Check used version."
+         }
+
                 var idHtml="";
+              idHtml= idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
 
-
-
-
-
-                  idHtml= idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
-
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" id="dNW'+idHtml+'"><div id="'+idHtml+'" class="depNode">\
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" title="'+wrapperTitle+'" id="dNW'+idHtml+'"><div id="'+idHtml+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+'  \
-                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>  <span>'+dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner+'</span> </div>   ' ;
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
     }
 
                                             //TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>

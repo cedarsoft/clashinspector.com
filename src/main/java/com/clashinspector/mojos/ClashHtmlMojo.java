@@ -72,6 +72,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
         this.transferResourceToTmp( "jquery-1.11.0", "js" );
         this.transferResourceToTmp( "main", "js" );
         this.transferResourceToTmp( "openDepNode", "png" );
+        this.transferResourceToTmp( "openDepNode_hasWinner", "png" );
         this.transferResourceToTmp( "clashinspectorLogo", "jpg" );
         this.transferResourceToTmp( "fhReutlingenLogo", "jpg" );
 

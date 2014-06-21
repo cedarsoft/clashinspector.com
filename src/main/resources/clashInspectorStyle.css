@@ -129,7 +129,7 @@ hr {
     border-bottom-left-radius: 10px;
     float: left;
     margin-bottom: 15px;
-    background-image: url("openDepNode.png");
+      background-image: url("openDepNode.png");
     background-position: right;
     background-repeat: no-repeat;
 }
@@ -324,11 +324,13 @@ hr {
 .depNode.clashSeverityUnsafe {
     background-color: #FAC619;
     border-color: #FAC619;
+
 }
 
 .depNode.clashSeverityCritical {
     background-color: #FF4C10;
     border-color: #FF4C10;
+
 }
 
 .depNodeWrapper.clashSeveritySafe {
@@ -338,10 +340,17 @@ hr {
 
 .depNodeWrapper.clashSeverityUnsafe {
     background-color: #FAC619;
+
 }
 
 .depNodeWrapper.clashSeverityCritical {
     background-color: #FF4C10;
+}
+
+.hasConcurrentDependencyWinner
+{
+background-image: url("openDepNode_hasWinner.png");
+background-color: #CECECE;
 }
 
 #clashListContainer ul li ul {

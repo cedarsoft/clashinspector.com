@@ -53,7 +53,7 @@ public class ClashCollectResultWrapper {
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
-   completeTreeWithWinnerDependencies(this.root);
+   //completeTreeWithWinnerDependencies(this.root);
   }
 
 
@@ -134,7 +134,7 @@ public class ClashCollectResultWrapper {
 
   }
 
-
+  //TODO extend this method to build the complete tree even there are winner dependencies.
   private void completeTreeWithWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
   {
 

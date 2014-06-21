@@ -57,6 +57,7 @@ h4 {
            width: 98%;
            z-index: 1000;
     position: absolute;
+    min-width: 800px;
 }
 
 .footerContainer
@@ -208,6 +209,7 @@ hr {
     background-color: #F5F5F5;
     border-radius: 4px;
     padding: 8px 10px;
+    min-width: 800px;
     /* box-shadow: 1px 1px 3px grey;   */
 }
 
@@ -280,6 +282,23 @@ hr {
     margin-top: 10px;
     display: none;
 
+}
+
+
+
+#legendContainer
+{
+     margin: 0px;
+
+        margin-top: 10px;
+        display: none;
+}
+
+#legendContainer img
+{
+background-color: white;
+padding: 10px;
+border-radius: 4px;
 }
 
 .settingsContainer, .propertiesContainer  {
@@ -611,11 +630,15 @@ span.triangleRight {
 display:none;
 }
 
-#dependencyTree.viewModeShortened .depNode hr.showBlock,#dependencyTree.viewModeShortened .depNode .version.showBlock,#dependencyTree.viewModeShortened .depNode .groupId.showBlock, #dependencyTree.viewModeShortened .depNode .optional.showBlock, #dependencyTree.viewModeShortened .depNode .scope.showBlock, #dependencyTree.viewModeShortened .depNode .used.showBlock
+#dependencyTree.viewModeShortened .depNode hr.showBlock,#dependencyTree.viewModeShortened .depNode .groupId.showBlock
 {
      display: block;
 }
 
+#dependencyTree.viewModeShortened .depNode .version.showInlineBlock, #dependencyTree.viewModeShortened .depNode .optional.showInlineBlock, #dependencyTree.viewModeShortened .depNode .scope.showInlineBlock, #dependencyTree.viewModeShortened .depNode .used.showInlineBlock
+{
+     display: inline-block;
+}
 
 
 

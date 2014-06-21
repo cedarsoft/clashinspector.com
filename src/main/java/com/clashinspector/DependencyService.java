@@ -126,14 +126,7 @@ public class DependencyService {
 
         if ( dependency.getScope().equals( "test" ) || dependency.isOptional() || dependency.getScope().equals( "provided" ) ) {
         }
-        // System.out.println("-------------------------------------------------");
 
-        // System.out.println( Strings.repeat( "  ", depth )+ dependency );
-        //System.out.println( dependency.getScope() );
-
-        //System.out.println( "dependency.isOptional() = " + dependency.isOptional() );
-
-        //this.getAllDependencies( dependency.getArtifact(),depth+1 );
       }
     } catch ( Exception e ) {
       throw new RuntimeException( e );

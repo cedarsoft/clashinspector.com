@@ -51,16 +51,16 @@ public class WhiteListDependency {
 
       DependencyNodeWrapper that = ( DependencyNodeWrapper ) o;
 
-      System.out.println("DependencyNodeWrapper: groupId: " + that.getGroupId() +" ,  artifactId: " + that.getArtifactId() +" , version: " + that.getVersion())   ;
-      System.out.println("WhiteListDependency: groupId: " + this.getGroupId() +" ,  artifactId: " + this.getArtifactId() +" , version: " + this.getVersion())   ;
+      //System.out.println("DependencyNodeWrapper: groupId: " + that.getGroupId() +" ,  artifactId: " + that.getArtifactId() +" , version: " + that.getVersion())   ;
+      //System.out.println("WhiteListDependency: groupId: " + this.getGroupId() +" ,  artifactId: " + this.getArtifactId() +" , version: " + this.getVersion())   ;
 
       if ( artifactId != null ? !artifactId.equals( that.getArtifactId() ) : that.getArtifactId() != null ) return false;
-      System.out.println("false1");
+
       if ( groupId != null ? !groupId.equals( that.getGroupId() ) : that.getGroupId() != null ) return false;
-      System.out.println("false2");
+
       if ( version != null ? !version.equals( that.getVersion().toString() ) : that.getVersion().toString() != null ) return false;
-      System.out.println("false3");
-        System.out.println("truee");
+
+
       return true;
 
     }

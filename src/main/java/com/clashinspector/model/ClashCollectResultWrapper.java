@@ -144,7 +144,7 @@ public class ClashCollectResultWrapper {
      if(dependencyNodeWinner!=null)
      {
 
-       System.out.println( dependencyNodeWrapper.toString() + " || " +(dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER )));
+       //System.out.println( dependencyNodeWrapper.toString() + " || " +(dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER )));
 
        dependencyNodeWrapper.getChildren().addAll(((DependencyNodeWrapper)dependencyNodeWinner.getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" )).getChildren());
      }

@@ -70,7 +70,7 @@ public class DependencyRestService {
     else
     {
       userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
-      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
+      //System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
     }
 
     com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
@@ -81,12 +81,12 @@ public class DependencyRestService {
 
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
-    System.out.println("joo3");
+
     module.addSerializer( Version.class, new VersionSerializer() );
     module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
     module.addSerializer(DependencyNodeWrapper.class, new DependencyNodeWrapperSerializer());
     mapper.registerModule( module );
-    System.out.println("joo4");
+
 
     String value = "";
     try
@@ -99,7 +99,7 @@ public class DependencyRestService {
 
 
       value = mapper.writeValueAsString( responseObject  );
-      System.out.println("joo6");
+
     }
     catch (Exception e)
     {
@@ -121,9 +121,9 @@ public class DependencyRestService {
 
     UserParameterWrapper userParameterWrapper;
 
-      System.out.println("included Scopes: " + includedScopes.size());
 
-    //Bei ninitialanfrage sind userparameter leer, deshalb checke ob es sich um initalfrage handelt
+
+    //Bei initialanfrage sind userparameter leer, deshalb checken ob es sich um initalfrage handelt
     if(includedScopes.size()==0 && excludedScopes.size() == 0)
     {
       userParameterWrapper = startParameter;
@@ -131,18 +131,17 @@ public class DependencyRestService {
     else
     {
       userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
-      System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional + " " + clashSeverity)    ;
     }
 
-    System.out.println("joo6");
+
     com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
     ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
-    System.out.println("joo6");
+
 
     ObjectMapper mapper = new ObjectMapper(  );
     SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
 
-    System.out.println("joo3");
+
 
     String value = "";
     try
@@ -165,7 +164,7 @@ public class DependencyRestService {
       mapper.registerModule( module );
 
       value = mapper.writeValueAsString( responseObject  );
-      System.out.println("joo6");
+
     }
     catch (Exception e)
     {

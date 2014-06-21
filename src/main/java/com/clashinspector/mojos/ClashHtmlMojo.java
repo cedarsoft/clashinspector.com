@@ -75,6 +75,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
         this.transferResourceToTmp( "openDepNode_hasWinner", "png" );
         this.transferResourceToTmp( "clashinspectorLogo", "jpg" );
         this.transferResourceToTmp( "fhReutlingenLogo", "jpg" );
+        this.transferResourceToTmp( "legend", "png" );
 
         desktop.browse(this.transferResourceToTmp( "clashInspector", "html" ));
       }

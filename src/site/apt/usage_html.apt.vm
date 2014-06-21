@@ -17,12 +17,63 @@ Usage HTML Analysis
   Using {{{settings & properties}<settings & properties>}} you can define what dependencies you want to analyze.
   The {{{search dependencies}<search dependencies>}} feature enables a comfortable way to search and navigate through dependencies in the tree.
 
-
 ** dependency tree
 
   The dependency tree shows the dependencies of your project.
 
-  Every dependency will be visualized as follows:
+  Imagine you run this goal on a project <<<testproject.groupId:testproject-artifactId:1.0>>>. This project and its dependencies
+  refer to several versions of <<<com.google.guava:guava>>>.
+
+  In this case this project will be displayed in the top bar as follows:
+
+[images/rootDep.png] root project visualization in the top bar in html-goal
+
+  \
+  Afterwards its dependencies will be represented as follows.
+
+*** Default Dependency Representation
+
+[images/dep.png] dependency visualization in html-goal\
+
+ [[1]] The first line shows the <groupId> of the dependency, here <<<com.google.guava>>>
+
+ [[2]] The second line shows the <artifactId> of the dependency, here <<<guava>>>
+
+ [[3]] The third line shows
+
+       [[a]] the <version> of the dependency, here <<<13.0.1>>>
+
+       [[b]] the <scope> of the dependency, which could be
+
+             * <compile> represented by a <<<(c)>>>
+
+             * <test> represented by a <<<(t)>>>
+
+             * <runtime> represented by a <<<(r)>>>
+
+             * <provided> represented by a <<<(p)>>> or
+
+             * <system> represented by a <<<(s)>>>
+
+       [[c]] an <<<(o)>>> if the dependency is <optional>, here it is not optional
+
+       [[d]] an <<<(u)>>> if this dependency is <used by Maven> regarding to the {{{./version_clash.html}nearest definiton}}, here it is the used version
+
+ [[4]] On mouseover you have the opportunity to get {{{Detailed Dependency Representation}details}} of this dependency and to search this dependency on {{{http://www.maven.org}maven-central}} in a new tab, here this link would be {{{http://search.maven.org/#artifactdetails|com.google.guava|guava|13.0.1|jar}http://search.maven.org/#artifactdetails|com.google.guava|guava|13.0.1|jar}}.
+
+ []
+
+*** Detailed Dependency Representation
+
+[images/depDetailed.png] detailed dependency visualization in html-goal\
+
+ [[1]] Shows the <used version> of this project <<(groupId:artifactId)>>, here <<<com.google.guava:guava>>>. On click highlights and jumps to that <used version> in the tree. Here this dependency will be highlighted, because it is the used one.
+
+ [[2]] Shows the <highest version> of this project. Higher versions lead to {{{./version_clash.html}CRITICAL version clashes}}. On click highlights all dependencies in the tree with the <highest version>. In this case the highest version of <<<com.google.guava:guava>>> is <<<14.0.1>>>.
+
+ [[3]] Shows the <lowest version> of this project. Lower versions lead to {{{./version_clash.html}UNSAFE version clashes}}. On click highlights all dependencies in the tree with the <lowest version>. In this case the lowest version of <<<com.google.guava:guava>>> is <<<12.0>>>.
+
+ []
 
 ** clash-list
 

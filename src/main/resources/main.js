@@ -1,4 +1,7 @@
 
+
+
+
  //Vllt doch besser objekte ohne rest einzuschreiben ??
 function DependencyNodeObject(dependencyNodeWrapper)
 {
@@ -1069,3 +1072,14 @@ function highlightDependencyById(id,highlightClazz,highlightClazzToDelete,openPa
                                                                                 window.onresize = function(event) {
                                                                                         addMainPaddingToContentContainer();
                                                                                 };
+
+
+                                                                                function logConsole(message)
+                                                                                {
+                                                                                    console.log(message);
+                                                                                }
+
+                                                                                function logAlert(message)
+                                                                                {
+                                                                                    alert(message);
+                                                                                }

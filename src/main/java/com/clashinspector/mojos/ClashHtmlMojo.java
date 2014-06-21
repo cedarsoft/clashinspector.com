@@ -118,7 +118,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
          String tDir = System.getProperty("java.io.tmpdir");
 
-         File file = new File(tDir+fileName+fileEnding);
+         File file = new File("/"+tDir+"/"+fileName+fileEnding);
 
          if(file.exists())
          {

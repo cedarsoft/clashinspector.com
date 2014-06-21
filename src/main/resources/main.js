@@ -299,6 +299,7 @@ function buildTree(data)
                       dependencyNodeObjectList[dep.dependencyNodeWrapper.id] = dep;
 
 
+
                        var html=buildGuiDependency(dep);
 
       if(data.children.length >0)
@@ -367,15 +368,21 @@ var scopeHtml= " <span class='scope' title='The scope of this dependency is "+de
              arrowClass="clashSeveritySafe";
          }
 
+                var idHtml="";
 
 
-    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" id="dNW'+dependencyNodeObject.dependencyNodeWrapper.id+'"><div id="'+dependencyNodeObject.dependencyNodeWrapper.id+'" class="depNode">\
+
+
+
+                  idHtml= idHtml + dependencyNodeObject.dependencyNodeWrapper.id;
+
+    return '<li class="depNodeLi"  ><div class="depNodeWrapper '+arrowClass+'" id="dNW'+idHtml+'"><div id="'+idHtml+'" class="depNode">\
                                              <span class="groupId" title="groupId">'+dependencyNodeObject.dependencyNodeWrapper.groupId+'</span>     \
                                              <hr>                                         \
                                              <span class="artifactId" title="artifactId">'+dependencyNodeObject.dependencyNodeWrapper.artifactId+'</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">'+dependencyNodeObject.dependencyNodeWrapper.version+'</span>'+scopeHtml+' '+optionalHtml+'  \
-                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>   </div>   ' ;
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>'+usedVersionLink+'</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>'+highestVersionLink+'</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>'+lowestVersionLink+'</div></div> <div class="depMenu"><a class="detailsButton">details</a> | '+mavenCentralLink+' </div> </div>  <span>'+dependencyNodeObject.dependencyNodeWrapper.hasConcurrentDependencyWinner+'</span> </div>   ' ;
     }
 
                                             //TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>

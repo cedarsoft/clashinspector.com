@@ -17,7 +17,7 @@ Version Clash Details
   The figure above shows the dependencies of the project <<<testproject:1.0>>>. This project and its dependencies
   refer to several versions of <<<com.google.guava:guava>>>.
   Maven uses <<<com.google.guava:guava:13.0.1>>> (directly located in <<<testproject:1.0>>>), because of the {{{http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html}"nearest definition"}}-approach.
-  This situation leeds us to define two different version clashes:
+  This situation leads us to define two different version clashes:
   {{{Inner Version Clashes}<Inner Version Clashes>}} and {{{Outer Version Clashes}<Outer Version Clashes>}}.
 
 * Inner and Outer Version Clash

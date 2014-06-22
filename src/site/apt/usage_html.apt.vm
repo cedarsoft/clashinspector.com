@@ -67,13 +67,35 @@ Usage HTML Analysis
 
 [images/depDetailed.png] detailed dependency visualization in html-goal\
 
- [[1]] Shows the <used version> of this project <<(groupId:artifactId)>>, here <<<com.google.guava:guava>>>. On click highlights and jumps to that <used version> in the tree. Here this dependency will be highlighted, because it is the used one.
+ [[1]] Shows the <used version> of this project <<(groupId:artifactId)>>, here <<<com.google.guava:guava>>>.\ <On click:> {{{Highlighted Dependency}highlights}} and jumps to that <used version> in the tree. Here this dependency will be highlighted, because it is the used one.
 
- [[2]] Shows the <highest version> of this project. Higher versions lead to {{{./version_clash.html}CRITICAL version clashes}}. On click highlights all dependencies in the tree with the <highest version>. In this case the highest version of <<<com.google.guava:guava>>> is <<<14.0.1>>>.
+ [[2]] Shows the <highest version> of this project. Higher versions lead to {{{./version_clash.html}CRITICAL version clashes}}.\ <On click:> {{{Highlighted Dependency}highlights}} all dependencies in the tree with the <highest version>. In this case the highest version of <<<com.google.guava:guava>>> is <<<14.0.1>>>.
 
- [[3]] Shows the <lowest version> of this project. Lower versions lead to {{{./version_clash.html}UNSAFE version clashes}}. On click highlights all dependencies in the tree with the <lowest version>. In this case the lowest version of <<<com.google.guava:guava>>> is <<<12.0>>>.
+ [[3]] Shows the <lowest version> of this project. Lower versions lead to {{{./version_clash.html}UNSAFE version clashes}}.\ <On click:> {{{Highlighted Dependency}highlights}} all dependencies in the tree with the <lowest version>. In this case the lowest version of <<<com.google.guava:guava>>> is <<<12.0>>>.
 
  []
+
+*** Dependency Version Clashes
+
+[images/depColors.png] dependency color visualization in html-goal\
+
+  [[1]] gray: {{{./version_clash.html}<<SAFE>>}} dependency. This dependency
+
+        [[a]] appears only once in the tree, so there can't be a version clash or
+
+        [[b]] has the version which is used by Maven
+
+  [[2]] yellow: {{{./version_clash.html}<<UNSAFE>>}} dependency. This dependency has a lower version than the used version.
+
+  [[3]] red: {{{./version_clash.html}<<CRITICAL>>}} dependency. This dependency has a higher version than the used version.
+
+  []
+
+*** Highlighted Dependency
+
+  Every dependency can be highlighted. This is how a highlighted dependency looks like:
+
+[images/depHighlighted.png] highlighted dependency visualization in html-goal\
 
 *** Dependency Tree Structure
 
@@ -85,79 +107,51 @@ Usage HTML Analysis
 
 	Dependencies are linked via arrows. There are four kind of arrows which will be explained as follows:
 
-[images/arrowGray.png] gray navigation arrow
+[images/arrowGray.png] gray navigation arrow\
 
-	1212
+	<<Gray arrow - dependency has dependencies>>\
+  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}safe dependencies}}.\
+	<On click:> opens its dependencies.
 
 [images/arrowYellow.png] yellow navigation arrow
 
-	/2323
+  <<Yellow arrow - dependency has unsafe dependencies>>\
+  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}unsafe dependencies}}.
+  If this dependency has also critical dependencies the arrow of this dependency will be red instead.\
+  <On click:> opens its dependencies.
 
 [images/arrowRed.png] red navigation arrow
 
-  \2323
+  <<Red arrow - dependency has critical dependencies>>\
+  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}critical dependencies}}.
+  If this dependency has also unsafe dependencies the arrow of this dependency will remain red.\
+  <On click:> opens its dependencies.
 
 [images/arrowDotted.png] dotted navigation arrow
 
-
-
+  <<Dotted arrow - dependency has eventualy dependencies>>\
+  This arrow shows that the dependency has eventually one ore more dependencies, which are not resolved at this graph-point.
+	Check the used version of this dependency to get deeper in the tree.
 
 ** clash-list
 
-  df
-
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
+  TODO
 
 ** settings & properties
 
-  df
+[images/settings.png] settings in html-goal\
 
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
+  In this container you can set conditions of the dependency tree in advance.
+	After the Setting was choosed click the "Apply Settings" button,
+	a dependency tree which meet the conditions will be showed below.
 
 ** search dependencies
 
-  df
+[images/search.png] search in html-goal\
 
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
-
-  df
-
-  d d
-
-  df
+  In this container you can search the dependencies which is showed in the tree area.
+  The search function can be defined by groupId or artifactId or version.
+	The number of search result will be showed between the two arrows.
+	If the result is empty, "no result" will be showed between the two arrows.
+	And all the search result will be highlighted. You can chose every result by click the arrow.
+  With the clear button will all input Text be cleaned.

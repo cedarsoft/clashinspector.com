@@ -616,13 +616,13 @@ $( document ).on( 'click', '.easySelectBox.selectModeSingle li', function () {
 
     $( this ).parent().children().removeClass( "selected" );
     $( this ).toggleClass( "selected" );
-    alert("selectModeSingle");
+
 
 } );
 
 $( document ).on( 'click', '#treeViewMode li', function () {
     applyTreeViewMode();
-        alert("applyTreeViewMode");
+
 } );
 
 $( document ).on( 'click', '.easyCheckBox', function () {

@@ -34,6 +34,36 @@ Maven ${project.name} Plugin
   Recognizing version clashes early should be the goal of every software developer.
   Following snippets show how it's possible to detect those version clashes with the ${project.name} Plugin.
 
+  The following snippet shows the result of <<{{{./html-mojo.html}${project.artifactId}:html}} >>
+
++---+
+  mvn ${project.groupId}:${project.artifactId}:${project.version}:html
++---+
+
++---+
+  [INFO] Scanning for projects...
+  [INFO]
+  [INFO] ------------------------------------------------------------------------
+  [INFO] Building testproject-artifactId 1.0
+  [INFO] ------------------------------------------------------------------------
+  [INFO]
+  [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:html (default-cli) @ testproject-artifactId ---
+  [INFO]
+  [INFO] --------------------------- start-parameters ---------------------------
+  [INFO]
+  [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = | includeOptional = false
+  [INFO]
+  Jun 21, 2014 4:32:49 PM org.glassfish.jersey.server.ApplicationHandler initialize
+  INFO: Initiating Jersey application, version Jersey: 2.8 2014-04-29 01:25:26...
+  [INFO] Local ClashInspector-Server running on port 8090. To stop server press enter.
++---+
+
+
+[images/htmlGoal_overview.png] Dependency Clashes Html Goal Overview
+
+
+
+
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+

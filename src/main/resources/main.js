@@ -140,9 +140,24 @@ $( document ).ready( function () {
 } );
 
 
-function getTree() {
-    $( "#treeContainer" ).html( "" );
+function backOffValues()
+{
+         dependencyNodeObjectList = new Array();
+         searchResult = new Array();
+         outerVersionClashList = new Array();
+         deepestGraphDepth = 0;
+         activeSearchDependencyId = undefined;
+
+  $( "#treeContainer" ).html( "" );
     $( "#clashListContainer" ).html( "" );
+
+}
+
+function getTree() {
+
+       backOffValues();
+
+
     $( "#contentContainer" ).addClass( "loading" );
     logConsole(  "getTree started" );
     doGet( "http://localhost:8090/dependencies", drawTree, "", getList );
@@ -155,8 +170,23 @@ function getList() {
     doGet( "http://localhost:8090/dependencies/outerVersionClashes", drawList );
     logConsole( "getList finished" );
     $("#treeContainer").width(deepestGraphDepth*300);
+     applyTreeViewMode();
 
 }
+
+ function applyTreeViewMode()
+ {
+    var selectedValue = $("#treeViewMode .selected").text();
+
+           if ( selectedValue == "Shortened" ) {
+            $( "#dependencyTree" ).removeClass( "viewModeFull" );
+               $( "#dependencyTree" ).addClass( "viewModeShortened" );
+           }
+           else if ( selectedValue == "Full" ) {
+              $( "#dependencyTree" ).removeClass( "viewModeShortened" );
+               $( "#dependencyTree" ).addClass( "viewModeFull" );
+           }
+ }
 
 
 function drawList( result ) {
@@ -190,7 +220,7 @@ function buildClashListEntry( outerVersionClash ) //and highlight clashes in tre
 
 
 
-    var versionsLink = '<span  onclick="highlightDependencyByIds([' + idList + '],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);"><span>' + outerVersionClash.project.groupId + "</span>:<span>" + outerVersionClash.project.artifactId + '</span></span>';
+    var versionsLink = '<span  onclick="highlightDependencyByIds([' + idList + '],&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);"><span>' + outerVersionClash.project.groupId + "</span>:<span>" + outerVersionClash.project.artifactId + '</span></span>';
 
 
     var html = "<li>" + versionsLink + "<ul>";
@@ -212,7 +242,7 @@ function buildClashListEntry( outerVersionClash ) //and highlight clashes in tre
         }
 
 
-        var versionLink = '<span  onclick="highlightDependencyById(&quot;' + dependencyNodeWrapper.id + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">' + dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version + '</span>';
+        var versionLink = '<span  onclick="highlightDependencyById(&quot;' + dependencyNodeWrapper.id + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true, true);">' + dependencyNodeObjectList[innerVersionClash.referredDependencyNodeWrapperId].dependencyNodeWrapper.version + '</span>';
 
 
         html = html + "<li class='" + clashSeverityClass + "'>" + versionLink + "</li>";
@@ -306,9 +336,9 @@ function buildGuiDependency( dependencyNodeObject ) {
 
     }
 
-    var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.usedVersion + '</span>';
-    var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '</span>';
-    var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '</span>';
+    var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.usedVersion + '</span>';
+    var highestVersionLink = '<span class="highestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true, true);">' + dependencyNodeObject.dependencyNodeWrapper.project.highestVersion + '</span>';
+    var lowestVersionLink = '<span class="lowestVersionLink" onclick="searchAndHighlightDependencyByCoordinates(&quot;' + dependencyNodeObject.dependencyNodeWrapper.groupId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '&quot;,&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.lowestVersion + '</span>';
 
     var optionalHtml = "";
 
@@ -457,7 +487,7 @@ $( document ).on( 'click', '#searchJumpNext', function () {
 
 
 $( document ).on( 'input', '.searchInput', function () {
-    var result = searchAndHighlightDependencyByCoordinates( $( '#groupIdInput' ).val(), $( '#artifactIdInput' ).val(), $( '#versionInput' ).val(), 'highlightSearch', 'highlightSearch', true );
+    var result = searchAndHighlightDependencyByCoordinates( $( '#groupIdInput' ).val(), $( '#artifactIdInput' ).val(), $( '#versionInput' ).val(), 'highlightSearch', 'highlightSearch', true, false );
 
     if ( Object.keys( result ).length > 0 ) {
         $( "#searchResultOutput" ).html( "results <span>(" + Object.keys( result ).length + ")</span>" );
@@ -474,6 +504,7 @@ $( document ).on( 'click', '#applyResolutionSettings', function () {
 
 
     userSettingsWrapper.applyViewValues();
+    clearSearchResults();
     getTree();
 
 } );
@@ -527,6 +558,13 @@ $( document ).on( 'click', '.openClashListButton', function () {
     $( this ).children( "span" ).toggleClass( "triangleUp" );
 } );
 
+$( document ).on( 'click', '.openLegendButton', function () {
+    $( "#legendContainer" ).toggle();
+    $( this ).children( "span" ).toggleClass( "triangleDown" );
+    $( this ).children( "span" ).toggleClass( "triangleUp" );
+    addMainPaddingToContentContainer();
+} );
+
 $( document ).on( 'dbclick', '.depNode', function () {
 
     e.preventDefault();
@@ -534,30 +572,18 @@ $( document ).on( 'dbclick', '.depNode', function () {
 
 } );
 
-$( document ).on( 'click', '#treeViewMode li', function () {
 
-    var selectedValue = $( this ).text();
-
-
-    $( "#dependencyTree" ).removeClass( "viewModeShortened viewModeFull" );
-
-    if ( selectedValue == "Shortened" ) {
-        $( "#dependencyTree" ).addClass( "viewModeShortened" );
-    }
-    else if ( selectedValue == "Full" ) {
-        $( "#dependencyTree" ).addClass( "viewModeFull" );
-    }
-
-
-} );
 
 $( document ).on( 'mouseenter', '.depNode', function () {
 
 
     if ( $( "#dependencyTree" ).hasClass( "viewModeShortened" ) ) {
         $( this ).children( "hr" ).addClass( "showBlock" );
-        $( this ).children( ".version" ).addClass( "showBlock" );
+        $( this ).children( ".version" ).addClass( "showInlineBlock" );
         $( this ).children( ".groupId" ).addClass( "showBlock" );
+        $( this ).children( ".optional" ).addClass( "showInlineBlock" );
+        $( this ).children( ".used" ).addClass( "showInlineBlock" );
+        $( this ).children( ".scope" ).addClass( "showInlineBlock" );
     }
 
     $( this ).children( ".depMenu" ).show();
@@ -568,8 +594,11 @@ $( document ).on( 'mouseenter', '.depNode', function () {
 $( document ).on( 'mouseleave', '.depNode', function () {
     if ( $( "#dependencyTree" ).hasClass( "viewModeShortened" ) ) {
         $( this ).children( "hr" ).removeClass( "showBlock" );
-        $( this ).children( ".version" ).removeClass( "showBlock" );
-        $( this ).children( ".groupId" ).removeClass( "showBlock" );
+               $( this ).children( ".version" ).removeClass( "showInlineBlock" );
+               $( this ).children( ".groupId" ).removeClass( "showBlock" );
+               $( this ).children( ".optional" ).removeClass( "showInlineBlock" );
+               $( this ).children( ".used" ).removeClass( "showInlineBlock" );
+               $( this ).children( ".scope" ).removeClass( "showInlineBlock" );
     }
     $( this ).children( ".depMenu" ).hide();
 
@@ -589,6 +618,11 @@ $( document ).on( 'click', '.easySelectBox.selectModeSingle li', function () {
     $( this ).parent().children().removeClass( "selected" );
     $( this ).toggleClass( "selected" );
 
+
+} );
+
+$( document ).on( 'click', '#treeViewMode li', function () {
+    applyTreeViewMode();
 
 } );
 
@@ -668,6 +702,7 @@ function processResponseObject( responseObject, callbackFunction, syncCallFuncti
 
 
 }
+
 
 
 function clearSearchResults() {
@@ -808,17 +843,24 @@ function highlightDependency( dependencyNodeWrapper, highlightClazz, openPath, j
 }
 
 
-function highlightDependencyById( id, highlightClazz, highlightClazzToDelete, openPath, jumpTo ) {
-    clearSearchResults();
-    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+function highlightDependencyById( id, highlightClazz, highlightClazzToDelete, openPath, jumpTo, doClearSearchResults ) {
+     if(doClearSearchResults == true)
+              {
+                 clearSearchResults();
+              }
+         $( "."+highlightClazzToDelete ).removeClass(highlightClazzToDelete);
 
     highlightDependency( dependencyNodeObjectList[id].dependencyNodeWrapper, highlightClazz, openPath, jumpTo );
 
 }
-function highlightDependencyByIds( ids, highlightClazz, highlightClazzToDelete, openPath ) {
-    clearSearchResults();
-    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+function highlightDependencyByIds( ids, highlightClazz, highlightClazzToDelete, openPath, doClearSearchResults ) {
 
+
+      if(doClearSearchResults == true)
+                    {
+                       clearSearchResults();
+                    }
+         $( "."+highlightClazzToDelete ).removeClass(highlightClazzToDelete);
 
     for ( var i = 0; i < ids.length; i++ ) {
 
@@ -829,8 +871,15 @@ function highlightDependencyByIds( ids, highlightClazz, highlightClazzToDelete, 
 
 }
 
-function highlightDependencies( dependencyNodeWrapperList, highlightClazz, highlightClazzToDelete, openPath ) {
-    $( "." + highlightClazzToDelete ).removeClass( highlightClazzToDelete );
+function highlightDependencies( dependencyNodeWrapperList, highlightClazz, highlightClazzToDelete, openPath,doClearSearchResults ) {
+
+     if(doClearSearchResults == true)
+                       {
+                          clearSearchResults();
+                       }
+            $( "."+highlightClazzToDelete ).removeClass(highlightClazzToDelete);
+
+
     for ( var index in dependencyNodeWrapperList ) {
 
         highlightDependency( dependencyNodeWrapperList[index].dependencyNodeWrapper, highlightClazz, openPath );
@@ -852,12 +901,12 @@ function addArrowClassToParentWrappers( dependencyNodeWrapper, clazz ) {
 }
 
 
-function searchAndHighlightDependencyByCoordinates( groupId, artifactId, version, highlightClazz, highlightClazzToDelete, openPath ) {
+function searchAndHighlightDependencyByCoordinates( groupId, artifactId, version, highlightClazz, highlightClazzToDelete, openPath, doClearSearchResults ) {
 
 
     var result = searchForDependenciesByCoordinates( groupId, artifactId, version );
 
-    highlightDependencies( result, highlightClazz, highlightClazzToDelete, openPath );
+    highlightDependencies( result, highlightClazz, highlightClazzToDelete, openPath,doClearSearchResults );
 
     return result;
 }

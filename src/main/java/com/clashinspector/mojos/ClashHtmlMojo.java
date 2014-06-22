@@ -75,7 +75,19 @@ public class ClashHtmlMojo extends AbstractClashMojo {
         this.transferResourceToTmp( "openDepNode_hasWinner", "png" );
         this.transferResourceToTmp( "clashinspectorLogo", "jpg" );
         this.transferResourceToTmp( "fhReutlingenLogo", "jpg" );
-        this.transferResourceToTmp( "legend", "png" );
+        this.transferResourceToTmp( "legendArrowHasDependencies", "png" );
+        this.transferResourceToTmp( "legendArrowHasUnsafeDependencies", "png" );
+        this.transferResourceToTmp( "legendArrowHasCriticalDependencies", "png" );
+        this.transferResourceToTmp( "legendArrowHasUnresolvedDependencies", "png" );
+        this.transferResourceToTmp( "legendScopes_long", "png" );
+        this.transferResourceToTmp( "legendOptional", "png" );
+
+
+
+
+
+
+
 
         desktop.browse(this.transferResourceToTmp( "clashInspector", "html" ));
       }

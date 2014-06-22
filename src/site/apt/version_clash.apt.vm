@@ -19,7 +19,7 @@ Version Clash
 
 * Example 1: Critical
 
-[images/CRITICAL.png] Critical
+[images/CRITICAL.png] Critical Version Clash
 
   \
   Assume you have a <<<testproject:1.0>>> which has dependencies on <<<com.google.guava:guava:13.0.1>>> and on
@@ -29,7 +29,7 @@ Version Clash
 
 * Example 2: Unsafe
 
-[images/UNSAFE.png] Unsafe
+[images/UNSAFE.png] Unsafe Version Clash
 
   \
   Assume the closest dependency of <<<com.google.guava:guava>>> in the tree has the version <<<14.0.1>>> (used version) and <<<dependency:1.0>>> uses a lower version <<<13.0.1>>>.
@@ -37,7 +37,7 @@ Version Clash
   version <<<13.0.1>>> to <<<14.0.1>>> it would also lead to problems.
 
 
-* Example 3: Safe
+* Example 3: Safe Condition
 
 [images/SAFE.png] Safe
 

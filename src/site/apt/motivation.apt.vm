@@ -15,8 +15,8 @@ Motivation
 
   Our vision is to provide a Maven-Plugin that enables you to detect
   {{{./version_clash.html}version clashes}} in your java-projects and visualize them in different formats.
-  With our first release it was possible to visualize the results in the console.
+  Since our first release it has been possible to visualize the results in the {{{./usage_commandPrompt.html}console}}.
   Our actual release ships with a phase-goal that enables you to detect version clashes
-  automatically and cancel the build-cycle if necessary. Furthermore our Plugin provides a powerful html-goal which visualises the Clashes in HTML.
+  automatically and cancel the build-cycle if necessary. Furthermore our Plugin provides a powerful {{{./usage_html.html}html-goal}} which visualizes the Clashes in HTML.
 
   For the improvement of our plugin we rely on your feedback. So feel free to contact us in any case at {{{mailto:info@clashinspector.com}info@clashinspector.com}}.

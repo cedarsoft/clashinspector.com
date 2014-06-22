@@ -562,6 +562,7 @@ $( document ).on( 'click', '.openLegendButton', function () {
     $( "#legendContainer" ).toggle();
     $( this ).children( "span" ).toggleClass( "triangleDown" );
     $( this ).children( "span" ).toggleClass( "triangleUp" );
+    addMainPaddingToContentContainer();
 } );
 
 $( document ).on( 'dbclick', '.depNode', function () {

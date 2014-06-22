@@ -296,9 +296,12 @@ hr {
 
 #legendContainer img
 {
-background-color: white;
-padding: 10px;
-border-radius: 4px;
+background-color: #FFFFFF;
+    border-radius: 4px;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    padding: 10px;
 }
 
 .settingsContainer, .propertiesContainer  {

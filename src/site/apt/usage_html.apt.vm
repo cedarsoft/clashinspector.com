@@ -11,13 +11,13 @@ Usage HTML Analysis
 
 * The {{{./html-mojo.html}clashinspector:html}} goal
 
-  This goal generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes.
+  This goal starts a local server (localhost:8090), generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes. To stop this server just press <Enter> in the command prompt.
 
   The main features are the {{{dependency tree}<dependency tree>}} and the {{{clash-list}<clash-list>}}.
-  Using {{{settings & properties}<settings & properties>}} you can define what dependencies you want to analyze.
+  Using {{{settings & properties}<settings & properties>}} you can define which dependencies you want to analyze.
   The {{{search dependencies}<search dependencies>}} feature enables a comfortable way to search and navigate through dependencies in the tree.
 
-** dependency tree
+* dependency tree
 
   The dependency tree shows the dependencies of your project.
 
@@ -31,7 +31,7 @@ Usage HTML Analysis
   \
   Afterwards its dependencies will be represented as follows.
 
-*** Default Dependency Representation
+** Default Dependency Representation
 
 [images/dep.png] dependency visualization in html-goal\
 
@@ -63,7 +63,7 @@ Usage HTML Analysis
 
  []
 
-*** Detailed Dependency Representation
+** Detailed Dependency Representation
 
 [images/depDetailed.png] detailed dependency visualization in html-goal\
 
@@ -75,7 +75,7 @@ Usage HTML Analysis
 
  []
 
-*** Dependency Version Clashes
+** Dependency Version Clashes
 
 [images/depColors.png] dependency color visualization in html-goal\
 
@@ -91,13 +91,13 @@ Usage HTML Analysis
 
   []
 
-*** Highlighted Dependency
+** Highlighted Dependency
 
   Every dependency can be highlighted. This is how a highlighted dependency looks like:
 
 [images/depHighlighted.png] highlighted dependency visualization in html-goal\
 
-*** Dependency Tree Structure
+** Dependency Tree Structure
 
 	In the last chapters we talked about how dependencies look like.
   Now we will explain how they are structured as a tree.
@@ -116,28 +116,29 @@ Usage HTML Analysis
 [images/arrowYellow.png] yellow navigation arrow
 
   <<Yellow arrow - dependency has unsafe dependencies>>\
-  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}unsafe dependencies}}.
-  If this dependency has also critical dependencies the arrow of this dependency will be red instead.\
+  This arrow shows, that this dependency or its descendants have one ore more {{{Dependency Version Clashes}unsafe dependencies}}.
+  If this dependency or its descendants have also critical dependencies the arrow of this dependency will be red instead.\
   <On click:> opens its dependencies.
 
 [images/arrowRed.png] red navigation arrow
 
   <<Red arrow - dependency has critical dependencies>>\
-  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}critical dependencies}}.
-  If this dependency has also unsafe dependencies the arrow of this dependency will remain red.\
+  This arrow shows, that this dependency or its descendants have one ore more {{{Dependency Version Clashes}critical dependencies}}.
+  If this dependency or its descendants have also unsafe dependencies the arrow of this dependency will remain red.\
   <On click:> opens its dependencies.
 
 [images/arrowDotted.png] dotted navigation arrow
 
   <<Dotted arrow - dependency has eventualy dependencies>>\
-  This arrow shows that the dependency has eventually one ore more dependencies, which are not resolved at this graph-point.
-	Check the used version of this dependency to get deeper in the tree.
+  This arrow shows that the dependency has eventually one ore more dependencies, which are not resolved at this graph-point, because the used version is already resolved.
+	To see possible unresolved dependencies please check the maven-central link.
+	<Hint: we are planning a future release, that enables you to resolve this unresolved dependencies as well.>
 
-** clash-list
+* clash-list
 
   TODO
 
-** settings & properties
+* settings & properties
 
 [images/settings.png] settings in html-goal\
 
@@ -145,7 +146,7 @@ Usage HTML Analysis
 	After the Setting was choosed click the "Apply Settings" button,
 	a dependency tree which meet the conditions will be showed below.
 
-** search dependencies
+* search dependencies
 
 [images/search.png] search in html-goal\
 

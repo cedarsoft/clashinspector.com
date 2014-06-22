@@ -116,7 +116,7 @@ Usage HTML Analysis
 [images/arrowYellow.png] yellow navigation arrow
 
   <<Yellow arrow - dependency has unsafe dependencies>>\
-  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}unsafe dependencies}}.
+  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}unsafe dependencies}} as.
   If this dependency has also critical dependencies the arrow of this dependency will be red instead.\
   <On click:> opens its dependencies.
 

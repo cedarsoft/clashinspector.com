@@ -63,9 +63,10 @@ public class DependencyRestService {
     UserParameterWrapper userParameterWrapper;
 
     //Bei ninitialanfrage sind userparameter leer, deshalb checke ob es sich um initalfrage handelt
-    if(includedScopes.size()==0 && excludedScopes.size() == 0)
+    if(includedScopes.size()==0)
     {
       userParameterWrapper = startParameter;
+
     }
     else
     {
@@ -124,7 +125,7 @@ public class DependencyRestService {
 
 
     //Bei initialanfrage sind userparameter leer, deshalb checken ob es sich um initalfrage handelt
-    if(includedScopes.size()==0 && excludedScopes.size() == 0)
+    if(includedScopes.size()==0)
     {
       userParameterWrapper = startParameter;
     }

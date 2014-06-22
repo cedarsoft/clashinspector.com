@@ -37,25 +37,25 @@ Maven ${project.name} Plugin
   The following snippet shows the result of <<{{{./html-mojo.html}${project.artifactId}:html}} >>
 
 +---+
-  mvn ${project.groupId}:${project.artifactId}:${project.version}:html
+mvn ${project.groupId}:${project.artifactId}:${project.version}:html
 +---+
 
 +---+
-  [INFO] Scanning for projects...
-  [INFO]
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Building testproject-artifactId 1.0
-  [INFO] ------------------------------------------------------------------------
-  [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:html (default-cli) @ testproject-artifactId ---
-  [INFO]
-  [INFO] --------------------------- start-parameters ---------------------------
-  [INFO]
-  [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = | includeOptional = false
-  [INFO]
-  Jun 21, 2014 4:32:49 PM org.glassfish.jersey.server.ApplicationHandler initialize
-  INFO: Initiating Jersey application, version Jersey: 2.8 2014-04-29 01:25:26...
-  [INFO] Local ClashInspector-Server running on port 8090. To stop server press enter.
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building testproject-artifactId 1.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:html (default-cli) @ testproject-artifactId ---
+[INFO]
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = | includeOptional = false
+[INFO]
+Jun 21, 2014 4:32:49 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.8 2014-04-29 01:25:26...
+[INFO] Local ClashInspector-Server running on port 8090. To stop server press enter.
 +---+
 
 [images/htmlGoal_overview_with_container.png] Dependency Clashes Html Goal Overview
@@ -64,78 +64,78 @@ Maven ${project.name} Plugin
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
-  mvn ${project.groupId}:${project.artifactId}:${project.version}:list
+mvn ${project.groupId}:${project.artifactId}:${project.version}:list
 +---+
 
 +---+
-  [INFO] Scanning for projects...
-  [INFO]
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Building projectA 1.0.0
-  [INFO] ------------------------------------------------------------------------
-  [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3:list (default-cli) @ projectA ---
-  [INFO]
-  [INFO] --------------------------- start-parameters ---------------------------
-  [INFO]
-  [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
-  [INFO]
-  [INFO] --------------------------------- list ---------------------------------
-  [INFO]
-  [INFO] -------------------------------------
-  [INFO] [CRITICAL Version Clash]  com.google.guava:guava
-  [INFO]  (used: 13.0.1 highest: 14.0.1 lowest: 13.0.1)
-  [INFO] -------------------------------------
-  [INFO] CRITICAL
-  [INFO]  project:projectB:jar:1.0.0 (compile)
-  [INFO]   com.google.guava:guava:jar:14.0.1 (compile)
-  [INFO]
-  [INFO] ------------------------------- summary -------------------------------
-  [INFO]
-  [INFO] Number of Clashes with severity UNSAFE: 0
-  [INFO] Number of Clashes with severity CRITICAL: 1
-  [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
-  [INFO]
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building projectA 1.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- clashinspector-maven-plugin:0.3:list (default-cli) @ projectA ---
+[INFO]
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+[INFO]
+[INFO] --------------------------------- list ---------------------------------
+[INFO]
+[INFO] -------------------------------------
+[INFO] [CRITICAL Version Clash]  com.google.guava:guava
+[INFO]  (used: 13.0.1 highest: 14.0.1 lowest: 13.0.1)
+[INFO] -------------------------------------
+[INFO] CRITICAL
+[INFO]  project:projectB:jar:1.0.0 (compile)
+[INFO]   com.google.guava:guava:jar:14.0.1 (compile)
+[INFO]
+[INFO] ------------------------------- summary -------------------------------
+[INFO]
+[INFO] Number of Clashes with severity UNSAFE: 0
+[INFO] Number of Clashes with severity CRITICAL: 1
+[INFO]  [CRITICAL Version Clash]  com.google.guava:guava
+[INFO]
 +---+
 
   \
   The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+
-  mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
+mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
 +---+
 
 +---+
-  [INFO] Scanning for projects...
-  [INFO]
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Building projectA 1.0.0
-  [INFO] ------------------------------------------------------------------------
-  [INFO]
-  [INFO] --- clashinspector-maven-plugin:0.3:tree (default-cli) @ projectA ---
-  [INFO]
-  [INFO] --------------------------- start-parameters ---------------------------
-  [INFO]
-  [INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
-  [INFO]
-  [INFO] --------------------------------- tree ---------------------------------
-  [INFO]
-  [INFO] + project:projectB:jar:1.0.0 (compile)
-  [INFO] |  - com.google.guava:guava:jar:14.0.1 (compile)
-  [INFO] |    [CRITICAL Version Clash] Referred Version higher than used Version.
-  [INFO] |     14.0.1 (highest) <- referred
-  [INFO] |     13.0.1 (used) (lowest)
-  [INFO] - com.google.guava:guava:jar:13.0.1 (compile)
-  [INFO]   [SAFE Version Clash] Details:
-  [INFO]    14.0.1 (highest)
-  [INFO]    13.0.1 (used) (lowest) <- referred
-  [INFO]
-  [INFO] ------------------------------- summary -------------------------------
-  [INFO]
-  [INFO] Number of Clashes with severity UNSAFE: 0
-  [INFO] Number of Clashes with severity CRITICAL: 1
-  [INFO]  [CRITICAL Version Clash]  com.google.guava:guava
-  [INFO]
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building projectA 1.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- clashinspector-maven-plugin:0.3:tree (default-cli) @ projectA ---
+[INFO]
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+[INFO]
+[INFO] --------------------------------- tree ---------------------------------
+[INFO]
+[INFO] + project:projectB:jar:1.0.0 (compile)
+[INFO] |  - com.google.guava:guava:jar:14.0.1 (compile)
+[INFO] |    [CRITICAL Version Clash] Referred Version higher than used Version.
+[INFO] |     14.0.1 (highest) <- referred
+[INFO] |     13.0.1 (used) (lowest)
+[INFO] - com.google.guava:guava:jar:13.0.1 (compile)
+[INFO]   [SAFE Version Clash] Details:
+[INFO]    14.0.1 (highest)
+[INFO]    13.0.1 (used) (lowest) <- referred
+[INFO]
+[INFO] ------------------------------- summary -------------------------------
+[INFO]
+[INFO] Number of Clashes with severity UNSAFE: 0
+[INFO] Number of Clashes with severity CRITICAL: 1
+[INFO]  [CRITICAL Version Clash]  com.google.guava:guava
+[INFO]
 +---+
 
 

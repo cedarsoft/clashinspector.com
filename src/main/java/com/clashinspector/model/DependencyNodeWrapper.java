@@ -80,6 +80,10 @@ public class DependencyNodeWrapper {
 
   public String getScope()
   {
+    System.out.println("Depenedency: " + this.dependencyNode.getDependency().toString());
+    System.out.println("Artifact: " + this.dependencyNode.getArtifact().toString());
+    System.out.println("scope: " + this.dependencyNode.getDependency().getScope());
+    System.out.println("");
     return this.dependencyNode.getDependency().getScope();
 
   }

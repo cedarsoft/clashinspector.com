@@ -75,6 +75,33 @@ Usage HTML Analysis
 
  []
 
+*** Dependency Tree Structure
+
+	In the last chapters we talked about how dependencies look like.
+  Now we will explain how they are structured as a tree.
+	The following picture shows the tree for our already mentioned project <<<testproject.groupId:testproject-artifactId:1.0>>>.
+
+[images/depTree.png] dependency tree visualization in html-goal\
+
+	Dependencies are linked via arrows. There are four kind of arrows which will be explained as follows:
+
+[images/arrowGray.png] gray navigation arrow
+
+	1212
+
+[images/arrowYellow.png] yellow navigation arrow
+
+	/2323
+
+[images/arrowRed.png] red navigation arrow
+
+  \2323
+
+[images/arrowDotted.png] dotted navigation arrow
+
+
+
+
 ** clash-list
 
   df

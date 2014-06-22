@@ -20,19 +20,15 @@ import java.io.IOException;
 public class VersionSerializer extends JsonSerializer<Version> {
 
 
-    @Override
-    public void serialize(Version value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException, JsonProcessingException {
+  @Override
+  public void serialize( Version value, JsonGenerator jgen, SerializerProvider provider )
+    throws IOException, JsonProcessingException {
 
 
-
-        jgen.writeString(value.toString());
-
+    jgen.writeString( value.toString() );
 
 
-
-
-    }
+  }
 
 
 }

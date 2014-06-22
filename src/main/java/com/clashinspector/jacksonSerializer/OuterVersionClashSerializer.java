@@ -1,9 +1,6 @@
 package com.clashinspector.jacksonSerializer;
 
-import com.clashinspector.model.DependencyNodeWrapper;
-import com.clashinspector.model.InnerVersionClash;
 import com.clashinspector.model.OuterVersionClash;
-import com.clashinspector.model.Project;
 import com.clashinspector.mojos.ClashSeverity;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
@@ -26,32 +23,28 @@ public class OuterVersionClashSerializer extends JsonSerializer<OuterVersionClas
   private ClashSeverity forClashSeverity;
 
   public OuterVersionClashSerializer( ClashSeverity forClashSeverity ) {
-                                                                                    this.forClashSeverity = forClashSeverity;
+    this.forClashSeverity = forClashSeverity;
 
   }
 
   @Override
-    public void serialize(OuterVersionClash value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException, JsonProcessingException {
+  public void serialize( OuterVersionClash value, JsonGenerator jgen, SerializerProvider provider )
+    throws IOException, JsonProcessingException {
 
 
-
-
-
-      jgen.writeStartObject();
+    jgen.writeStartObject();
 
     jgen.writeStringField( "clashSeverity", value.getClashSeverity().toString() );
 
 
-               jgen.writeObjectField( "project", value.getProject());
-                jgen.writeObjectField("innerVersionClashes",value.getInnerVersionClashForClashSeverityLevel( forClashSeverity ));
+    jgen.writeObjectField( "project", value.getProject() );
+    jgen.writeObjectField( "innerVersionClashes", value.getInnerVersionClashForClashSeverityLevel( forClashSeverity ) );
 
 
-      jgen.writeEndObject();
+    jgen.writeEndObject();
 
 
-
-    }
+  }
 
 
 }

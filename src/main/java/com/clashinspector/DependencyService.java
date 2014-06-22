@@ -81,7 +81,7 @@ public class DependencyService {
 
     }
 
-            //System.out.println("Errrrors: "+ collectResult.getExceptions().size());
+    //System.out.println("Errrrors: "+ collectResult.getExceptions().size());
     //Fill list of versions for every dependency
     //Über alle depependency nodes iterieren und  map mit key und version erstellen
 

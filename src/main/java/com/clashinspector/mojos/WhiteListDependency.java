@@ -1,7 +1,6 @@
 package com.clashinspector.mojos;
 
 import com.clashinspector.model.DependencyNodeWrapper;
-import org.eclipse.aether.artifact.Artifact;
 
 public class WhiteListDependency {
 
@@ -24,7 +23,7 @@ public class WhiteListDependency {
 
   @Override
   public String toString() {
-    return groupId+":"+artifactId+":"+version;
+    return groupId + ":" + artifactId + ":" + version;
   }
 
 
@@ -33,8 +32,7 @@ public class WhiteListDependency {
     if ( this == o ) return true;
     if ( o == null ) return false;
 
-    if(getClass() == o.getClass())
-    {
+    if ( getClass() == o.getClass() ) {
       WhiteListDependency that = ( WhiteListDependency ) o;
       if ( artifactId != null ? !artifactId.equals( that.artifactId ) : that.artifactId != null ) return false;
       if ( groupId != null ? !groupId.equals( that.groupId ) : that.groupId != null ) return false;
@@ -45,8 +43,7 @@ public class WhiteListDependency {
     }
 
 
-    if(o instanceof DependencyNodeWrapper )
-    {
+    if ( o instanceof DependencyNodeWrapper ) {
 
 
       DependencyNodeWrapper that = ( DependencyNodeWrapper ) o;
@@ -64,7 +61,7 @@ public class WhiteListDependency {
       return true;
 
     }
-         return false;
+    return false;
 
   }
 

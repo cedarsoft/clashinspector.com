@@ -32,17 +32,15 @@ public class InnerVersionClash {
 
   public boolean hasDependencyInWhiteList( List<WhiteListDependency> whiteList ) {
     boolean result = false;
-    for (WhiteListDependency whiteListDependency : whiteList)
-    {
-        //  System.out.println("whiteListDependency:" + whiteListDependency.toString());
-        //  System.out.println("usedDependencyNodeWrapper:" + usedDependencyNodeWrapper.toString());
+    for ( WhiteListDependency whiteListDependency : whiteList ) {
+      //  System.out.println("whiteListDependency:" + whiteListDependency.toString());
+      //  System.out.println("usedDependencyNodeWrapper:" + usedDependencyNodeWrapper.toString());
 
-         if(whiteListDependency.equals( usedDependencyNodeWrapper ) || whiteListDependency.equals( referredDependencyNodeWrapper ))
-         {
-          return true;
-         }
+      if ( whiteListDependency.equals( usedDependencyNodeWrapper ) || whiteListDependency.equals( referredDependencyNodeWrapper ) ) {
+        return true;
+      }
     }
-    return  result;
+    return result;
   }
 
   public DependencyNodeWrapper getUsedDependencyNodeWrapper() {

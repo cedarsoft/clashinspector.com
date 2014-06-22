@@ -57,7 +57,7 @@ Usage HTML Analysis
 
        [[c]] an <<<(o)>>> if the dependency is <optional>, here it is not optional
 
-       [[d]] an <<<(u)>>> if this dependency is <used by Maven> regarding to the {{{./version_clash.html}nearest definiton}}, here it is the used version
+       [[d]] an <<<(u)>>> if this dependency is <used by Maven> regarding to the {{{./version_clash.html}nearest definition}}, here it is the used version
 
  [[4]] On mouseover you have the opportunity to get {{{Detailed Dependency Representation}details}} of this dependency and to search this dependency on {{{http://www.maven.org}maven-central}} in a new tab, here this link would be {{{http://search.maven.org/#artifactdetails|com.google.guava|guava|13.0.1|jar}http://search.maven.org/#artifactdetails|com.google.guava|guava|13.0.1|jar}}.
 
@@ -105,34 +105,34 @@ Usage HTML Analysis
 
 [images/depTree.png] dependency tree visualization in html-goal\
 
-	Dependencies are linked via arrows. There are four kind of arrows which will be explained as follows:
+	Dependencies are linked via arrows. There are four kinds of arrows which will be explained as follows:
 
 [images/arrowGray.png] gray navigation arrow\
 
 	<<Gray arrow - dependency has dependencies>>\
-  This arrow shows, that the dependency has one ore more {{{Dependency Version Clashes}safe dependencies}}.\
+  This arrow shows, that the dependency has one or more {{{Dependency Version Clashes}safe dependencies}}.\
 	<On click:> opens its dependencies.
 
 [images/arrowYellow.png] yellow navigation arrow
 
   <<Yellow arrow - dependency has unsafe dependencies>>\
-  This arrow shows, that this dependency or its descendants have one ore more {{{Dependency Version Clashes}unsafe dependencies}}.
+  This arrow shows, that this dependency or its descendants have one or more {{{Dependency Version Clashes}unsafe dependencies}}.
   If this dependency or its descendants have also critical dependencies the arrow of this dependency will be red instead.\
   <On click:> opens its dependencies.
 
 [images/arrowRed.png] red navigation arrow
 
   <<Red arrow - dependency has critical dependencies>>\
-  This arrow shows, that this dependency or its descendants have one ore more {{{Dependency Version Clashes}critical dependencies}}.
+  This arrow shows, that this dependency or its descendants have one or more {{{Dependency Version Clashes}critical dependencies}}.
   If this dependency or its descendants have also unsafe dependencies the arrow of this dependency will remain red.\
   <On click:> opens its dependencies.
 
 [images/arrowDotted.png] dotted navigation arrow
 
-  <<Dotted arrow - dependency has eventualy dependencies>>\
-  This arrow shows that the dependency has eventually one ore more dependencies, which are omitted for duplicate at this graph-point, because the used version is already resolved.
+  <<Dotted arrow - dependency has eventually dependencies>>\
+  This arrow shows that the dependency has eventually one or more dependencies, which are omitted for duplicate at this graph-point, because the used version is already resolved.
 	To see possible unresolved dependencies please check the maven-central link.\
-	<Hint: we are planning a future release, that enables you to resolve this omitted dependencies as well.>
+	<Hint: we are planning a future release, that enables you to resolve these omitted dependencies as well.>
 
 * Clash-List
 
@@ -148,15 +148,15 @@ Usage HTML Analysis
 
 * Settings & Properties
 
-  The <settings & properties> section - which is accessable over the top bar - allows you to customize the
-	dependency resolution and the visualisation of the dependency tree and the clash-list.
+  The <settings & properties> section - which is accessible over the top bar - allows you to customize the
+	dependency resolution and the visualization of the dependency tree and the clash-list.
 
 [images/settings.png] settings in html-goal\
 
   <<Dependency Resolution Settings>>\
 	This section allows you to set <included scopes>, <excluded scopes>, the <clash severity> and if you want to <include optional> dependencies.
-	After a change in this section it is neccessary to press the
-	<Apply Settings>-button which starts a resampling of the the dependency tree and the clash-list.
+	After a change in this section it is necessary to press the
+	<Apply Settings>-button which starts a resampling of the dependency tree and the clash-list.
 
   <<Display Properties>>\
 	This section allows you to switch between the <Full>-display mode - which is the standard mode - and the <Shortenend>-display
@@ -169,7 +169,7 @@ Usage HTML Analysis
 
 * Search Dependencies
 
-  The <search dependencies> section - which is accessable over the top bar - enables you
+  The <search dependencies> section - which is accessible over the top bar - enables you
 	a comfortable way to search and navigate through dependencies in the tree.
 
 [images/search.png] search in html-goal\

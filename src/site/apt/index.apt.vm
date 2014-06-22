@@ -9,7 +9,7 @@ Maven ${project.name} Plugin
 
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
-  Our most powerfull goal <<{{{./html-mojo.html}${project.artifactId}:html}}>>
+  Our most powerful goal <<{{{./html-mojo.html}${project.artifactId}:html}}>>
   allows you to analyze dependencies intuitively and dynamically in your browser. Read more about the {{{./usage_html.html}usage of the html goal}}.
 
 
@@ -21,14 +21,14 @@ Maven ${project.name} Plugin
 
 * Quick Start
 
-  Using even big projects like <<"com.google.guava:guava">> can leed to critical conditions if a project
+  Using even big projects like <<"com.google.guava:guava">> can lead to critical conditions if a project
   uses different versions of it. As mentioned on {{{https://code.google.com/p/guava-libraries/wiki/Release14}Guava Release 14.0: Release Notes}}
   release 14 brought up some significant API changes.
   One of it is: <<"The static methods in Equivalences have been moved into Equivalence.">>
 
   Assume a project <<ProjectA>> uses <<<com.google.guava:guava:13.0.1>>> and its dependency <<ProjectB>> uses
-  <<<com.google.guava:guava:14.0.1>>>. Because of the {{{./version_clash.html}nearest definiton}} Maven will use
-  version <<<13.0.1>>> for the whole project. This leeds to the critical condition that <<ProjectB>> is not able anymore
+  <<<com.google.guava:guava:14.0.1>>>. Because of the {{{./version_clash.html}nearest definition}} Maven will use
+  version <<<13.0.1>>> for the whole project. This leads to the critical condition that <<ProjectB>> is not able anymore
   to call the methods in <<<Equivalence>>> which has been moved from <<<Equivalences>>>.
 
   Recognizing version clashes early should be the goal of every software developer.
@@ -47,7 +47,7 @@ mvn ${project.groupId}:${project.artifactId}:${project.version}:html
 [INFO] Building testproject-artifactId 1.0
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- clashinspector-maven-plugin:0.3-SNAPSHOT:html (default-cli) @ testproject-artifactId ---
+[INFO] --- clashinspector-maven-plugin:0.9:html (default-cli) @ testproject-artifactId ---
 [INFO]
 [INFO] --------------------------- start-parameters ---------------------------
 [INFO]
@@ -74,7 +74,7 @@ mvn ${project.groupId}:${project.artifactId}:${project.version}:list
 [INFO] Building projectA 1.0.0
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- clashinspector-maven-plugin:0.3:list (default-cli) @ projectA ---
+[INFO] --- clashinspector-maven-plugin:0.9:list (default-cli) @ projectA ---
 [INFO]
 [INFO] --------------------------- start-parameters ---------------------------
 [INFO]
@@ -112,7 +112,7 @@ mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
 [INFO] Building projectA 1.0.0
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- clashinspector-maven-plugin:0.3:tree (default-cli) @ projectA ---
+[INFO] --- clashinspector-maven-plugin:0.9:tree (default-cli) @ projectA ---
 [INFO]
 [INFO] --------------------------- start-parameters ---------------------------
 [INFO]

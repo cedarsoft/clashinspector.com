@@ -1,8 +1,6 @@
 package com.clashinspector.mojos;
 
 
-
-
 import com.clashinspector.DependencyService;
 import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.visualize.ConsoleVisualizer;
@@ -18,7 +16,7 @@ import org.eclipse.aether.artifact.DefaultArtifact;
  *
  * @since 0.3
  */
-@Mojo(name = "list", requiresProject = true, defaultPhase = LifecyclePhase.NONE)
+@Mojo( name = "list", requiresProject = true, defaultPhase = LifecyclePhase.NONE )
 public class ClashListMojo extends AbstractClashMojo {
 
 
@@ -27,7 +25,7 @@ public class ClashListMojo extends AbstractClashMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-       super.printStartParameter( "list" );
+    super.printStartParameter( "list" );
 
     Artifact artifact;
     try {

@@ -1,7 +1,6 @@
 package com.clashinspector.mojos;
 
 
-
 import com.clashinspector.DependencyService;
 import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.model.OuterVersionClash;
@@ -14,7 +13,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 
-
 import java.util.List;
 
 /**
@@ -22,7 +20,7 @@ import java.util.List;
  *
  * @since 0.9
  */
-@Mojo(name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE)
+@Mojo( name = "listPhase", requiresProject = true, defaultPhase = LifecyclePhase.COMPILE )
 public class ClashPhaseMojo extends AbstractClashMojo {
 
   /**
@@ -30,7 +28,7 @@ public class ClashPhaseMojo extends AbstractClashMojo {
    *
    * @since 0.9
    */
-  @Parameter( alias = "failOnClash", defaultValue = "true", property = "failOnClash")
+  @Parameter( alias = "failOnClash", defaultValue = "true", property = "failOnClash" )
   private String failOnClash;
 
   /**
@@ -38,17 +36,15 @@ public class ClashPhaseMojo extends AbstractClashMojo {
    *
    * @since 0.9
    */
-  @Parameter( alias = "whiteList", property = "whiteList")
+  @Parameter( alias = "whiteList", property = "whiteList" )
   private List<WhiteListDependency> whiteList;
-
-
 
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     super.execute();
-    super.printStartParameter( "listPhase" , "failOnClash = " +this.getFailOnClash() );
+    super.printStartParameter( "listPhase", "failOnClash = " + this.getFailOnClash() );
 
     Artifact artifact;
     try {
@@ -67,22 +63,18 @@ public class ClashPhaseMojo extends AbstractClashMojo {
       consoleVisualizer.visualize( clashCollectResultWrapper, this.getSeverity(), this );
 
 
-
-      if ( this.getFailOnClash() && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity())>0 ) {
-
+      if ( this.getFailOnClash() && clashCollectResultWrapper.getNumberOfOuterClashesForSeverityLevel( this.getSeverity() ) > 0 ) {
 
 
-          //if every outer version clash is in the whiteList, then no Excpetion has to be thrown
-        for(OuterVersionClash outerVersionClash: clashCollectResultWrapper.getOuterVersionClashList())
-        {
+        //if every outer version clash is in the whiteList, then no Excpetion has to be thrown
+        for ( OuterVersionClash outerVersionClash : clashCollectResultWrapper.getOuterVersionClashList() ) {
 
-          if(outerVersionClash.hasAllInnerClashesInWhiteList( whiteList )==false)
-          {
+          if ( outerVersionClash.hasAllInnerClashesInWhiteList( whiteList ) == false ) {
             throw new MojoExecutionException( "Version Clashes for Detection-Level " + this.getSeverity() + " detected!!" );
           }
         }
 
-                       //beim failen muss die white liste berücksichtigt werden
+        //beim failen muss die white liste berücksichtigt werden
 
       }
 
@@ -93,13 +85,12 @@ public class ClashPhaseMojo extends AbstractClashMojo {
 
   }
 
-   //Searching for entrys in whitelist
-  private void resolveWhiteList ()
-  {
+  //Searching for entrys in whitelist
+  private void resolveWhiteList() {
 
   }
 
-  public boolean getFailOnClash(){
+  public boolean getFailOnClash() {
     return Boolean.valueOf( failOnClash );
   }
 

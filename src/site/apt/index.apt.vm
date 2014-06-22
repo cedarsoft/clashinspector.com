@@ -156,5 +156,5 @@ mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
 
 * Version Preview & History
 
-  The {{{./version.html}version preview & history}} page lists the version history of ${project.name} releases and shows what's comming soon.
+  The {{{./version.html}version preview & history}} page lists the version history of ${project.name} releases and shows what's coming soon.
 

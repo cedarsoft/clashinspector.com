@@ -9,7 +9,7 @@ package com.clashinspector.rest;
  */
 public class ResponseObject {
 
-    private Object result;
+  private Object result;
   private UserParameterWrapper userParameterWrapper;
 
   public UserParameterWrapper getUserParameterWrapper() {

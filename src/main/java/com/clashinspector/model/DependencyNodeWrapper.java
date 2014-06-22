@@ -1,8 +1,6 @@
 package com.clashinspector.model;
 
 import com.clashinspector.mojos.ClashSeverity;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 import org.eclipse.aether.version.Version;
@@ -10,7 +8,6 @@ import org.eclipse.aether.version.Version;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -50,11 +47,11 @@ public class DependencyNodeWrapper {
 
   }
 
-  public DependencyNodeWrapper( DependencyNode dependencyNode,Project project ) {
+  public DependencyNodeWrapper( DependencyNode dependencyNode, Project project ) {
     this.dependencyNode = dependencyNode;
     this.graphDepth = 0;
     this.graphLevelOrderRelative = 0;
-    this.graphLevelOrderAbsolute =0;
+    this.graphLevelOrderAbsolute = 0;
     this.parent = null;
     this.addCounter = 0;
     this.project = project;
@@ -72,54 +69,43 @@ public class DependencyNodeWrapper {
 
   }
 
-  public String getExtension()
-  {
+  public String getExtension() {
     return this.dependencyNode.getArtifact().getExtension();
 
   }
 
-  public String getScope()
-  {
-    System.out.println("Depenedency: " + this.dependencyNode.getDependency().toString());
-    System.out.println("Artifact: " + this.dependencyNode.getArtifact().toString());
-    System.out.println("scope: " + this.dependencyNode.getDependency().getScope());
-    System.out.println("");
+  public String getScope() {
+    System.out.println( "Depenedency: " + this.dependencyNode.getDependency().toString() );
+    System.out.println( "Artifact: " + this.dependencyNode.getArtifact().toString() );
+    System.out.println( "scope: " + this.dependencyNode.getDependency().getScope() );
+    System.out.println( "" );
     return this.dependencyNode.getDependency().getScope();
 
   }
 
-  public Boolean getOptional()
-  {
+  public Boolean getOptional() {
     return this.dependencyNode.getDependency().getOptional();
 
   }
 
-  public Boolean hasConcurrentDependencyWinner()
-  {
-    Object object = this.dependencyNode.getData().get( ConflictResolver.NODE_DATA_WINNER )    ;
+  public Boolean hasConcurrentDependencyWinner() {
+    Object object = this.dependencyNode.getData().get( ConflictResolver.NODE_DATA_WINNER );
 
-        if (object != null)
-        {
-          return true;
-        }
-    else
-        {
-          return false;
-        }
+    if ( object != null ) {
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
-  public String getRepository()
-  {
-                //TODO entsprechendes Repositoriy zurück geben und nicht nur erstes (wird benötigt für link in html seite)
+  public String getRepository() {
+    //TODO entsprechendes Repositoriy zurück geben und nicht nur erstes (wird benötigt für link in html seite)
 
-    if(this.dependencyNode.getRepositories().size()>0)
-    {
-      return   this.dependencyNode.getRepositories().get( 0 ).getHost();
-    }
-    else
-    {
-      return   "";
+    if ( this.dependencyNode.getRepositories().size() > 0 ) {
+      return this.dependencyNode.getRepositories().get( 0 ).getHost();
+    } else {
+      return "";
     }
 
 
@@ -135,12 +121,9 @@ public class DependencyNodeWrapper {
   }
 
 
-
   public List<DependencyNodeWrapper> getChildren() {
-    return this.children ;
+    return this.children;
   }
-
-
 
 
   @Nullable
@@ -217,9 +200,8 @@ public class DependencyNodeWrapper {
     return project;
   }
 
-  public String getId()
-  {
-    return "d"+this.getGraphDepth() +"r"+ this.getGraphLevelOrderRelative() +"a"+ this.graphLevelOrderAbsolute ;
+  public String getId() {
+    return "d" + this.getGraphDepth() + "r" + this.getGraphLevelOrderRelative() + "a" + this.graphLevelOrderAbsolute;
   }
 
 
@@ -236,7 +218,6 @@ public class DependencyNodeWrapper {
       return clashSeverity;
     }
   }
-
 
 
 }

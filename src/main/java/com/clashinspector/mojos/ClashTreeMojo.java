@@ -1,8 +1,6 @@
 package com.clashinspector.mojos;
 
 
-
-
 import com.clashinspector.DependencyService;
 import com.clashinspector.model.ClashCollectResultWrapper;
 import com.clashinspector.visualize.ConsoleVisualizer;

@@ -16,8 +16,8 @@ import org.codehaus.jackson.map.module.SimpleModule;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
-import org.glassfish.jersey.server.JSONP;
 import org.eclipse.aether.version.Version;
+import org.glassfish.jersey.server.JSONP;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -43,8 +43,7 @@ public class DependencyRestService {
   private static RepositorySystemSession repositorySystemSession;
   private static UserParameterWrapper startParameter;
 
-  public static void init(Artifact artifact, RepositorySystem repositorySystem1,RepositorySystemSession repositorySystemSession1, UserParameterWrapper userParameterWrapper)
-  {
+  public static void init( Artifact artifact, RepositorySystem repositorySystem1, RepositorySystemSession repositorySystemSession1, UserParameterWrapper userParameterWrapper ) {
     startParameter = userParameterWrapper;
     mainArtifact = artifact;
     repositorySystem = repositorySystem1;
@@ -53,123 +52,101 @@ public class DependencyRestService {
 
 
   @GET
-  @JSONP(queryParam="callback")
-  @Produces("application/x-javascript")
-  public String getAllDependenciesWithClashes(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
-  {
-
+  @JSONP( queryParam = "callback" )
+  @Produces( "application/x-javascript" )
+  public String getAllDependenciesWithClashes( @QueryParam( "callback" ) String callback, @QueryParam( "includedScope" ) List<String> includedScopes, @QueryParam( "excludedScope" ) List<String> excludedScopes, @QueryParam( "includeOptional" ) boolean includeOptional, @QueryParam( "clashSeverity" ) ClashSeverity clashSeverity ) {
 
 
     UserParameterWrapper userParameterWrapper;
 
     //Bei ninitialanfrage sind userparameter leer, deshalb checke ob es sich um initalfrage handelt
-    if(includedScopes.size()==0)
-    {
+    if ( includedScopes.size() == 0 ) {
       userParameterWrapper = startParameter;
 
-    }
-    else
-    {
-      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
+    } else {
+      userParameterWrapper = new UserParameterWrapper( includedScopes, excludedScopes, includeOptional, clashSeverity );
       //System.out.println("UserParameter aus url hergestellt: " + includedScopes.toString() + " " +  excludedScopes.toString() + " " + includeOptional)    ;
     }
 
     com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
-    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
+    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(), userParameterWrapper.getIncludeOptional() ) );
 
 
-
-
-    ObjectMapper mapper = new ObjectMapper(  );
-    SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
+    ObjectMapper mapper = new ObjectMapper();
+    SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version( 1, 0, 0, null ) );
 
     module.addSerializer( Version.class, new VersionSerializer() );
-    module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
-    module.addSerializer(DependencyNodeWrapper.class, new DependencyNodeWrapperSerializer());
+    module.addSerializer( Project.class, new ProjectSerializerForDependencyNodeWrapper() );
+    module.addSerializer( DependencyNodeWrapper.class, new DependencyNodeWrapperSerializer() );
     mapper.registerModule( module );
 
 
     String value = "";
-    try
-    {
+    try {
 
       ResponseObject responseObject = new ResponseObject();
 
       responseObject.setResult( clashCollectResultWrapper.getRoot() );
-      responseObject.setUserParameterWrapper(userParameterWrapper );
+      responseObject.setUserParameterWrapper( userParameterWrapper );
 
 
-      value = mapper.writeValueAsString( responseObject  );
+      value = mapper.writeValueAsString( responseObject );
 
-    }
-    catch (Exception e)
-    {
-      System.out.println(e);
+    } catch ( Exception e ) {
+      System.out.println( e );
     }
 
     return value;
   }
 
 
-
   @GET
-  @Path("outerVersionClashes")
-  @JSONP(queryParam="callback")
-  @Produces("application/x-javascript")
-  public String getClashList(@QueryParam("callback") String callback,@QueryParam( "includedScope" ) List<String> includedScopes,@QueryParam( "excludedScope" ) List<String> excludedScopes,@QueryParam( "includeOptional" ) boolean includeOptional,@QueryParam( "clashSeverity" )ClashSeverity clashSeverity)
-  {
+  @Path( "outerVersionClashes" )
+  @JSONP( queryParam = "callback" )
+  @Produces( "application/x-javascript" )
+  public String getClashList( @QueryParam( "callback" ) String callback, @QueryParam( "includedScope" ) List<String> includedScopes, @QueryParam( "excludedScope" ) List<String> excludedScopes, @QueryParam( "includeOptional" ) boolean includeOptional, @QueryParam( "clashSeverity" ) ClashSeverity clashSeverity ) {
 
 
     UserParameterWrapper userParameterWrapper;
 
 
-
     //Bei initialanfrage sind userparameter leer, deshalb checken ob es sich um initalfrage handelt
-    if(includedScopes.size()==0)
-    {
+    if ( includedScopes.size() == 0 ) {
       userParameterWrapper = startParameter;
-    }
-    else
-    {
-      userParameterWrapper = new UserParameterWrapper(includedScopes,excludedScopes,includeOptional,clashSeverity);
+    } else {
+      userParameterWrapper = new UserParameterWrapper( includedScopes, excludedScopes, includeOptional, clashSeverity );
     }
 
 
     com.clashinspector.DependencyService dependencyService = new com.clashinspector.DependencyService();
-    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(),userParameterWrapper.getIncludeOptional() ) );
+    ClashCollectResultWrapper clashCollectResultWrapper = new ClashCollectResultWrapper( dependencyService.getDependencyTree( mainArtifact, repositorySystemSession, repositorySystem, userParameterWrapper.getIncludedScopes(), userParameterWrapper.getExcludedScopes(), userParameterWrapper.getIncludeOptional() ) );
 
 
-    ObjectMapper mapper = new ObjectMapper(  );
-    SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version(1, 0, 0, null));
-
+    ObjectMapper mapper = new ObjectMapper();
+    SimpleModule module = new SimpleModule( "MyModule", new org.codehaus.jackson.Version( 1, 0, 0, null ) );
 
 
     String value = "";
-    try
-    {
+    try {
 
 
       ResponseObject responseObject = new ResponseObject();
 
-      responseObject.setResult(clashCollectResultWrapper.getOuterClashesForSeverityLevel(clashSeverity));
-      responseObject.setUserParameterWrapper(userParameterWrapper );
+      responseObject.setResult( clashCollectResultWrapper.getOuterClashesForSeverityLevel( clashSeverity ) );
+      responseObject.setUserParameterWrapper( userParameterWrapper );
 
 
-
-
-      module.addSerializer(Version.class, new VersionSerializer());
-      module.addSerializer(OuterVersionClash.class, new OuterVersionClashSerializer(clashSeverity));
-      module.addSerializer(InnerVersionClash.class, new InnerVersionClashSerializer());
-      module.addSerializer(Project.class, new ProjectSerializerForDependencyNodeWrapper());
+      module.addSerializer( Version.class, new VersionSerializer() );
+      module.addSerializer( OuterVersionClash.class, new OuterVersionClashSerializer( clashSeverity ) );
+      module.addSerializer( InnerVersionClash.class, new InnerVersionClashSerializer() );
+      module.addSerializer( Project.class, new ProjectSerializerForDependencyNodeWrapper() );
 
       mapper.registerModule( module );
 
-      value = mapper.writeValueAsString( responseObject  );
+      value = mapper.writeValueAsString( responseObject );
 
-    }
-    catch (Exception e)
-    {
-      System.out.println(e);
+    } catch ( Exception e ) {
+      System.out.println( e );
     }
 
     return value;
@@ -207,10 +184,6 @@ public class DependencyRestService {
 
 
              */
-
-
-
-
 
 
 }

@@ -176,13 +176,13 @@ Usage HTML Analysis
 
 	You can filter dependencies by <<<groupId>>>, <<<artifactId>>> and <<<version>>>.
 
-	<<Example:>> <<<groupId>>> = <com.google.guava> would highlight all dependencies with this <<<gorupId>>>.
+	<<Example:>> <<<groupId>>> = <com.google.guava> would highlight all dependencies with this <<<groupId>>>.
 	In our project <<<testproject.groupId:testproject-artifactId:1.0>>> there are four results. If there would be no results, <no result> would be displayed.
 
 	Using the wildcard <<<*>>> you are able to filter a greater range of dependencies.\
 	<Hint: So far there's only the possibility to set this wildcard at the end of an entry, not at the start.>
 
-  <<Example:>> <<<groupId>>> = <com.*> would highlight all dependencies whose <<<gorupId>>> start with <com.>.
+  <<Example:>> <<<groupId>>> = <com.*> would highlight all dependencies whose <<<groupId>>> start with <com.>.
   In our project <<<testproject.groupId:testproject-artifactId:1.0>>> there are still four results, like in our previous example.
 
 	Using the arrows the view jumps between the results.

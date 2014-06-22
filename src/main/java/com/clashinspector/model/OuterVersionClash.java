@@ -69,7 +69,7 @@ public class OuterVersionClash {
           }
           break;
         case CRITICAL:
-          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.UNSAFE | clashSeverity == ClashSeverity.CRITICAL  ) {
+          if ( clashSeverity == ClashSeverity.SAFE | clashSeverity == ClashSeverity.UNSAFE | clashSeverity == ClashSeverity.CRITICAL ) {
             criticalList.add( innerVersionClash );
           }
           break;
@@ -117,17 +117,16 @@ public class OuterVersionClash {
   }
 
   public boolean hasAllInnerClashesInWhiteList( List<WhiteListDependency> whiteList ) {
-                   //clash for whiteList for outerclash means that every inner clash of this outer clash has a dependency in the white List... this method can be used for the phase mojo to decide if a fail is necessary or not
+    //clash for whiteList for outerclash means that every inner clash of this outer clash has a dependency in the white List... this method can be used for the phase mojo to decide if a fail is necessary or not
 
     //If all innerclashes are part of the white list this outer clash is not an clash for the white list... if one innerclash is not part of the whiteList it is an clash for the whitelist
 
     boolean result = true;
     for ( InnerVersionClash innerVersionClash : this.innerVersionClashes ) {
 
-     if(innerVersionClash.hasDependencyInWhiteList(whiteList)==false)
-     {
-       return false;
-     }
+      if ( innerVersionClash.hasDependencyInWhiteList( whiteList ) == false ) {
+        return false;
+      }
 
     }
 

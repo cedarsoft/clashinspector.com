@@ -6,10 +6,6 @@ import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,24 +32,24 @@ public class ClashCollectResultWrapper {
     Map<Integer, Integer> graphLevelOrderAbsoluteMap = new LinkedHashMap<Integer, Integer>();
 
 
-      //Create Project for Root DependenciyWrapper ... this project is needed in html
+    //Create Project for Root DependenciyWrapper ... this project is needed in html
     //TODO hier project vllt wieder entfernen
-    Project    project = new Project( this.collectResult.getRoot().getArtifact().getGroupId(), this.collectResult.getRoot().getArtifact().getArtifactId() );    //
-    String key =  this.collectResult.getRoot().getArtifact().getGroupId() + ":" +  this.collectResult.getRoot().getArtifact().getArtifactId();              //
-    projectMap.put( key,project ); //
+    Project project = new Project( this.collectResult.getRoot().getArtifact().getGroupId(), this.collectResult.getRoot().getArtifact().getArtifactId() );    //
+    String key = this.collectResult.getRoot().getArtifact().getGroupId() + ":" + this.collectResult.getRoot().getArtifact().getArtifactId();              //
+    projectMap.put( key, project ); //
 
-    this.root = new DependencyNodeWrapper( this.collectResult.getRoot(),project );
-     //Add Wrapper to Dependency Node
-    this.root.getDependencyNode().setData(  "RELATED_DEPENDENCY_NODE_WRAPPER",this.root ) ;
+    this.root = new DependencyNodeWrapper( this.collectResult.getRoot(), project );
+    //Add Wrapper to Dependency Node
+    this.root.getDependencyNode().setData( "RELATED_DEPENDENCY_NODE_WRAPPER", this.root );
 
-    this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1,graphLevelOrderAbsoluteMap );
+    this.buildDependencyNodeWrapperGraph( this.root, projectMap, 1, graphLevelOrderAbsoluteMap );
 
-         project.addInstance( this.root );
+    project.addInstance( this.root );
     this.root.getProject().init();      //
 
     this.initializeClashCollectResultWrapper( this.root, 1 );
 
-   //completeTreeWithWinnerDependencies(this.root);
+    //completeTreeWithWinnerDependencies(this.root);
   }
 
 
@@ -84,7 +80,7 @@ public class ClashCollectResultWrapper {
 
 
   //Enrich Dependency Node with versiondetails and parent pathMap   buildWrapperGraph
-  private void buildDependencyNodeWrapperGraph( DependencyNodeWrapper dependencyNodeWrapperOld, Map<String, Project> projectMap, int graphDepth,Map<Integer, Integer> graphLevelOrderAbsoluteMap ) {
+  private void buildDependencyNodeWrapperGraph( DependencyNodeWrapper dependencyNodeWrapperOld, Map<String, Project> projectMap, int graphDepth, Map<Integer, Integer> graphLevelOrderAbsoluteMap ) {
 
     int graphLevelOrderRelative = 0;
 
@@ -108,50 +104,45 @@ public class ClashCollectResultWrapper {
       dependencyCounter += 1;
 
       //Get amount of dependency on one depth level and add one more
-      Integer    graphLevelOrderAbsolute = graphLevelOrderAbsoluteMap.get( graphDepth ) ;
-      if(graphLevelOrderAbsolute == null)
-      {
-        graphLevelOrderAbsoluteMap.put( graphDepth,-1 );
-        graphLevelOrderAbsolute = graphLevelOrderAbsoluteMap.get( graphDepth ) ;
+      Integer graphLevelOrderAbsolute = graphLevelOrderAbsoluteMap.get( graphDepth );
+      if ( graphLevelOrderAbsolute == null ) {
+        graphLevelOrderAbsoluteMap.put( graphDepth, -1 );
+        graphLevelOrderAbsolute = graphLevelOrderAbsoluteMap.get( graphDepth );
 
       }
-      graphLevelOrderAbsolute = graphLevelOrderAbsolute +1;
-        graphLevelOrderAbsoluteMap.put( graphDepth,graphLevelOrderAbsolute );
+      graphLevelOrderAbsolute = graphLevelOrderAbsolute + 1;
+      graphLevelOrderAbsoluteMap.put( graphDepth, graphLevelOrderAbsolute );
 
 
-
-
-      DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrderRelative,graphLevelOrderAbsolute, dependencyCounter );
-      dN.setData(  "RELATED_DEPENDENCY_NODE_WRAPPER",dependencyNodeWrapper ) ;
+      DependencyNodeWrapper dependencyNodeWrapper = new DependencyNodeWrapper( dN, dependencyNodeWrapperOld, project, graphDepth, graphLevelOrderRelative, graphLevelOrderAbsolute, dependencyCounter );
+      dN.setData( "RELATED_DEPENDENCY_NODE_WRAPPER", dependencyNodeWrapper );
 
       project.addInstance( dependencyNodeWrapper );
 
       graphLevelOrderRelative += 1;
       dependencyNodeWrapperOld.addChildren( dependencyNodeWrapper );
-      this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, projectMap, graphDepth + 1,graphLevelOrderAbsoluteMap );
+      this.buildDependencyNodeWrapperGraph( dependencyNodeWrapper, projectMap, graphDepth + 1, graphLevelOrderAbsoluteMap );
     }
 
 
   }
 
   //TODO extend this method to build the complete tree even there are winner dependencies.
-  private void completeTreeWithWinnerDependencies(DependencyNodeWrapper dependencyNodeWrapper)
-  {
+  private void completeTreeWithWinnerDependencies( DependencyNodeWrapper dependencyNodeWrapper ) {
 
 
-    DependencyNode dependencyNodeWinner= (DependencyNode)dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER );
+    DependencyNode dependencyNodeWinner = ( DependencyNode ) dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER );
 
-     if(dependencyNodeWinner!=null)
-     {
+    if ( dependencyNodeWinner != null ) {
 
-       //System.out.println( dependencyNodeWrapper.toString() + " || " +(dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER )));
+      //System.out.println( dependencyNodeWrapper.toString() + " || " +(dependencyNodeWrapper.getDependencyNode().getData().get( ConflictResolver.NODE_DATA_WINNER )));
 
-       dependencyNodeWrapper.getChildren().addAll(((DependencyNodeWrapper)dependencyNodeWinner.getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" )).getChildren());
-     }
+      dependencyNodeWrapper.getChildren().addAll( ( ( DependencyNodeWrapper ) dependencyNodeWinner.getData().get( "RELATED_DEPENDENCY_NODE_WRAPPER" ) ).getChildren() );
+    }
 
 
     for ( DependencyNodeWrapper dNW : dependencyNodeWrapper.getChildren() ) {
-      completeTreeWithWinnerDependencies(dNW);
+      completeTreeWithWinnerDependencies( dNW );
 
     }
 
@@ -188,7 +179,7 @@ public class ClashCollectResultWrapper {
     List<OuterVersionClash> outerVersionClashes = new ArrayList<OuterVersionClash>();
     for ( OuterVersionClash outerVersionClash : this.outerVersionClashList ) {
       if ( outerVersionClash.getClashSeverity().ordinal() >= clashSeverity.ordinal() ) {
-         outerVersionClashes.add( outerVersionClash ) ;
+        outerVersionClashes.add( outerVersionClash );
       }
     }
     return outerVersionClashes;

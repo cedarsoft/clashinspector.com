@@ -65,10 +65,10 @@ Usage Command Prompt Analysis
 +---+
 C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
 [INFO] ------------------------------------------------------------------------
-[INFO] Building ClashInspector 0.3
+[INFO] Building ClashInspector 0.9
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- clashinspector-maven-plugin:0.3:list (default-cli) @ clashinspector-maven-plugin ---
+[INFO] --- clashinspector-maven-plugin:0.9:list (default-cli) @ clashinspector-maven-plugin ---
 [INFO]
 [INFO] --------------------------- start-parameters ---------------------------
 [INFO]
@@ -177,7 +177,7 @@ C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version
 <plugin>
   <groupId>com.clashinspector</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.9</version>
       <executions>
         <execution>
           <goals>
@@ -196,7 +196,7 @@ C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version
 <plugin>
   <groupId>com.clashinspector</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.9</version>
       <executions>
         <execution>
           <goals>
@@ -208,7 +208,7 @@ C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version
 </plugin>
 +---+
 
- If a clash occurs, the phase-plugin will stop the maven build process with an exception (default behaviour).
+ If a clash occurs, the phase-plugin will stop the maven build process with an exception (default behavior).
  If a clash shouldn't lead to an abortion of the build just use the parameter \<failOnClash\>false\<failOnClash\>.
 
  You can even specify specific dependencies that shouldn't cause an exception via the whiteList-parameter:
@@ -217,7 +217,7 @@ C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version
 <plugin>
    <groupId>com.clashinspector</groupId>
    <artifactId>clashinspector-maven-plugin</artifactId>
-   <version>0.3-SNAPSHOT</version>
+   <version>0.9</version>
    <configuration>
         <whiteList>
            <whiteListDependency>
@@ -270,10 +270,10 @@ C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version
 +---+
 C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
 [INFO] ------------------------------------------------------------------------
-[INFO] Building ClashInspector 0.3
+[INFO] Building ClashInspector 0.9
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- clashinspector-maven-plugin:0.3:tree (default-cli) @ clashinspector-maven-plugin ---
+[INFO] --- clashinspector-maven-plugin:0.9:tree (default-cli) @ clashinspector-maven-plugin ---
 [INFO]
 [INFO] --------------------------- start-parameters ---------------------------
 [INFO]

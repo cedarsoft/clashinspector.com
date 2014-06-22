@@ -1,8 +1,6 @@
 package com.clashinspector.mojos;
 
 
-
-
 import com.clashinspector.visualize.util.ConsoleVisualizeHelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -24,13 +22,13 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   @Component
   private RepositorySystem repoSystem;
 
-  @Parameter( defaultValue = "${repositorySystemSession}", readonly = true )
+  @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
   private RepositorySystemSession repoSession;
 
-  @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
+  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepos;
 
-  @Parameter( defaultValue = "${project}", readonly = true, required = true )
+  @Parameter(defaultValue = "${project}", readonly = true, required = true)
   private MavenProject project;
 
   /**
@@ -38,7 +36,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "includedScopes")
+  @Parameter(alias = "includedScopes")
   private String[] includedScopes;
 
   /**
@@ -46,7 +44,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "excludedScopes" )
+  @Parameter(alias = "excludedScopes")
   private String[] excludedScopes;
 
   /**
@@ -54,7 +52,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "includeOptional", defaultValue = "false", property = "includeOptional")
+  @Parameter(alias = "includeOptional", defaultValue = "false", property = "includeOptional")
   private String includeOptional;
 
   /**
@@ -66,7 +64,7 @@ public abstract class AbstractClashMojo extends AbstractMojo {
    *
    * @since 0.3
    */
-  @Parameter( alias = "severity", defaultValue = "UNSAFE", property = "severity")
+  @Parameter(alias = "severity", defaultValue = "UNSAFE", property = "severity")
   private String severity;
 
   private final List<String> includedScopesList = new ArrayList<String>();
@@ -107,11 +105,11 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
   public boolean isIncludeOptional() {
-    return Boolean.valueOf(includeOptional);
+    return Boolean.valueOf( includeOptional );
   }
 
   public ClashSeverity getSeverity() {
-    return ClashSeverity.valueOf(severity);
+    return ClashSeverity.valueOf( severity );
   }
 
   public List<String> getIncludedScopesList() {
@@ -123,48 +121,43 @@ public abstract class AbstractClashMojo extends AbstractMojo {
   }
 
 
-  public String getStartParameter()
-  {
+  public String getStartParameter() {
     String includedOptionalStr = "includeOptional = " + this.isIncludeOptional();
     String severityStr = "severity = " + this.getSeverity();
-    String includedScopesStr="includedScopes =";
+    String includedScopesStr = "includedScopes =";
 
-    for(String s: this.getIncludedScopesList())
-    {
-      includedScopesStr = includedScopesStr + " "+ s;
+    for ( String s : this.getIncludedScopesList() ) {
+      includedScopesStr = includedScopesStr + " " + s;
     }
 
-    String excludedScopesStr="excludedScopes =";
+    String excludedScopesStr = "excludedScopes =";
 
-    for(String s: this.getExcludedScopesList())
-    {
-      excludedScopesStr = excludedScopesStr + " "+ s;
+    for ( String s : this.getExcludedScopesList() ) {
+      excludedScopesStr = excludedScopesStr + " " + s;
     }
 
-    return severityStr + " | " + includedScopesStr+ " | "+ excludedScopesStr+" | "+ includedOptionalStr;
+    return severityStr + " | " + includedScopesStr + " | " + excludedScopesStr + " | " + includedOptionalStr;
 
   }
 
-     public void printStartParameter(String goalName,String additionalParameters)
-     {
+  public void printStartParameter( String goalName, String additionalParameters ) {
 
 
-       this.getLog().info("");
-       this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) ) ;
-       this.getLog().info("");
-       this.getLog().info(  this.getStartParameter() + " | " + additionalParameters);
-       this.getLog().info("");
+    this.getLog().info( "" );
+    this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+    this.getLog().info( "" );
+    this.getLog().info( this.getStartParameter() + " | " + additionalParameters );
+    this.getLog().info( "" );
 
-     }
+  }
 
   //TODO goalName is not in use
-  public void printStartParameter(String goalName)
-  {
-    this.getLog().info("");
-    this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) ) ;
-    this.getLog().info("");
-    this.getLog().info(  this.getStartParameter());
-    this.getLog().info("");
+  public void printStartParameter( String goalName ) {
+    this.getLog().info( "" );
+    this.getLog().info( ConsoleVisualizeHelper.createSectionHeader( " start-parameters ", ConsoleVisualizeHelper.LogLevel.INFO ) );
+    this.getLog().info( "" );
+    this.getLog().info( this.getStartParameter() );
+    this.getLog().info( "" );
 
   }
 

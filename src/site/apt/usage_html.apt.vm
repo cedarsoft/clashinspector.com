@@ -13,11 +13,11 @@ Usage HTML Analysis
 
   This goal starts a local server (localhost:8090), generates and opens a local HTML site for dynamic analysis of dependencies and dependency version clashes. To stop this server just press <Enter> in the command prompt.
 
-  The main features are the {{{dependency tree}<dependency tree>}} and the {{{clash-list}<clash-list>}}.
-  Using {{{settings & properties}<settings & properties>}} you can define which dependencies you want to analyze.
-  The {{{search dependencies}<search dependencies>}} feature enables a comfortable way to search and navigate through dependencies in the tree.
+  The main features are the {{{Dependency Tree}<dependency tree>}} and the {{{Clash-List}<clash-list>}}.
+  Using {{{Settings & Properties}<settings & properties>}} you can define which dependencies you want to analyze.
+  The {{{Search Dependencies}<search dependencies>}} feature enables a comfortable way to search and navigate through dependencies in the tree.
 
-* dependency tree
+* Dependency Tree
 
   The dependency tree shows the dependencies of your project.
 
@@ -130,29 +130,61 @@ Usage HTML Analysis
 [images/arrowDotted.png] dotted navigation arrow
 
   <<Dotted arrow - dependency has eventualy dependencies>>\
-  This arrow shows that the dependency has eventually one ore more dependencies, which are not resolved at this graph-point, because the used version is already resolved.
-	To see possible unresolved dependencies please check the maven-central link.
-	<Hint: we are planning a future release, that enables you to resolve this unresolved dependencies as well.>
+  This arrow shows that the dependency has eventually one ore more dependencies, which are omitted for duplicate at this graph-point, because the used version is already resolved.
+	To see possible unresolved dependencies please check the maven-central link.\
+	<Hint: we are planning a future release, that enables you to resolve this omitted dependencies as well.>
 
-* clash-list
+* Clash-List
 
-  TODO
+	The clash-list lists the dependencies of your project which are <<UNSAFE>> or <<CRITICAL>>.
 
-* settings & properties
+  In case of our project <<<testproject.groupId:testproject-artifactId:1.0>>> the clash-list would look as follows:
+
+[images/clashList.png] clash list in html goal
+
+  A click on the project <<<com.google.guava:guava>>> would highlight all version clashes of this project, here <<<12.0>>> (unsafe) and <<<14.0.1>>> (critical).
+
+	A click on the version number e.g. <<<12.0>>> or <<<14.0.1>>> would highlight the corresponding dependency and jump to it.
+
+* Settings & Properties
+
+  The <settings & properties> section - which is accessable over the top bar - allows you to customize the
+	dependency resolution and the visualisation of the dependency tree and the clash-list.
 
 [images/settings.png] settings in html-goal\
 
-  In this container you can set conditions of the dependency tree in advance.
-	After the Setting was choosed click the "Apply Settings" button,
-	a dependency tree which meet the conditions will be showed below.
+  <<Dependency Resolution Settings>>\
+	This section allows you to set <included scopes>, <excluded scopes>, the <clash severity> and if you want to <include optional> dependencies.
+	After a change in this section it is neccessary to press the
+	<Apply Settings>-button which starts a resampling of the the dependency tree and the clash-list.
 
-* search dependencies
+  <<Display Properties>>\
+	This section allows you to switch between the <Full>-display mode - which is the standard mode - and the <Shortenend>-display
+	mode. Using the <Shortenend>-display mode dependencies in the tree are displayed in a downsized way for a better overview.
+	A shortened dependency shows only the <<<groupId>>> as follows:
+
+[images/depShort.png] shortened dependency in html-goal\
+
+	<On mouseover:> these dependencies will switch to full size.
+
+* Search Dependencies
+
+  The <search dependencies> section - which is accessable over the top bar - enables you
+	a comfortable way to search and navigate through dependencies in the tree.
 
 [images/search.png] search in html-goal\
 
-  In this container you can search the dependencies which is showed in the tree area.
-  The search function can be defined by groupId or artifactId or version.
-	The number of search result will be showed between the two arrows.
-	If the result is empty, "no result" will be showed between the two arrows.
-	And all the search result will be highlighted. You can chose every result by click the arrow.
-  With the clear button will all input Text be cleaned.
+	You can filter dependencies by <<<groupId>>>, <<<artifactId>>> and <<<version>>>.
+
+	<<Example:>> <<<groupId>>> = <com.google.guava> would highlight all dependencies with this <<<gorupId>>>.
+	In our project <<<testproject.groupId:testproject-artifactId:1.0>>> there are four results. If there would be no results, <no result> would be displayed.
+
+	Using the wildcard <<<*>>> you are able to filter a greater range of dependencies.\
+	<Hint: So far there's only the possibility to set this wildcard at the end of an entry, not at the start.>
+
+  <<Example:>> <<<groupId>>> = <com.*> would highlight all dependencies whose <<<gorupId>>> start with <com.>.
+  In our project <<<testproject.groupId:testproject-artifactId:1.0>>> there are still four results, like in our previous example.
+
+	Using the arrows the view jumps between the results.
+
+  The <clear>-Button removes all entered filters.

@@ -301,6 +301,8 @@ background-color: #FFFFFF;
     display: block;
     float: left;
     margin-right: 10px;
+    margin-bottom: 1px;
+    margin-top: 1px;
     padding: 10px;
 }
 

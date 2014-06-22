@@ -10,7 +10,7 @@ Maven ${project.name} Plugin
   The ${project.name} provides the ability to analyze the dependencies, especially dependency version clashes of a project.
 
   Our most powerfull goal <<{{{./html-mojo.html}${project.artifactId}:html}}>>
-  allows you to analyze dependencies intuitively and dynamic in your browser. Read more about the {{{./usage_html.html}usage of the html goal}}.
+  allows you to analyze dependencies intuitively and dynamically in your browser. Read more about the {{{./usage_html.html}usage of the html goal}}.
 
 
 * Dependency Version Clash
@@ -58,12 +58,9 @@ Maven ${project.name} Plugin
   [INFO] Local ClashInspector-Server running on port 8090. To stop server press enter.
 +---+
 
+[images/htmlGoal_overview_with_container.png] Dependency Clashes Html Goal Overview
 
-[images/htmlGoal_overview.png] Dependency Clashes Html Goal Overview
-
-
-
-
+  \
   The following snippet shows the result of <<{{{./list-mojo.html}${project.artifactId}:list}} >>
 
 +---+
@@ -101,6 +98,7 @@ Maven ${project.name} Plugin
   [INFO]
 +---+
 
+  \
   The following snippet shows the result of <<{{{./tree-mojo.html}${project.artifactId}:tree}} >>
 
 +---+

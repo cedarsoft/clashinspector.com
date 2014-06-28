@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
 
-    Copyright (C) cedarsoft GmbH.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.clashinspector</groupId>
   <artifactId>clashinspector-maven-plugin</artifactId>
-  <version>0.3</version>
+  <version>0.9</version>
   <packaging>maven-plugin</packaging>
   <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
@@ -69,6 +54,7 @@
       <organizationUrl>http://www.cedarsoft.com/index</organizationUrl>
       <email>info@cedarsoft.de</email>
     </developer>
+
   </developers>
 
   <scm>
@@ -82,32 +68,6 @@
     <url>https://github.com/cedarsoft/maven-director/issues</url>
   </issueManagement>
 
-  <mailingLists>
-    <mailingList>
-      <name>Mail-Support</name>
-      <post>info@clashinspector.com</post>
-    </mailingList>
-  </mailingLists>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>OSS Sonatype Snapshot</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </snapshotRepository>
-
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>OSS Sonatype Release</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-
-    <site>
-      <id>clashinspectorSite</id>
-      <name>clashinspector.com Web</name>
-      <url>scpexe://clashinspector.com/var/www/clashinspector.com</url>
-    </site>
-  </distributionManagement>
 
   <prerequisites>
     <maven>3.1.1</maven>
@@ -115,9 +75,7 @@
 
   <properties>
     <aetherVersion>0.9.0.M3</aetherVersion>
-    <!--Used for the site-->
-    <last.stable.version>0.3</last.stable.version>
-    <currentStableVersion>0.3</currentStableVersion>
+    <siteAuthors>Michael Behr, Martin Kampa, Huina Zhu</siteAuthors>
   </properties>
 
   <dependencies>
@@ -163,6 +121,19 @@
       <version>${aetherVersion}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-jdk-http</artifactId>
+      <version>2.8</version>
+    </dependency>
+
 
     <dependency>
       <groupId>junit</groupId>
@@ -198,6 +169,8 @@
 
   <build>
     <plugins>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -220,6 +193,66 @@
           </execution>
         </executions>
       </plugin>
+
+      <!--<plugin>-->
+      <!--<groupId>com.clashinspector</groupId>-->
+      <!--<artifactId>clashinspector-maven-plugin</artifactId>-->
+      <!--<version>0.3-SNAPSHOT</version>-->
+      <!--<configuration>-->
+
+
+      <!--<whiteList>-->
+      <!--<whiteListDependency>-->
+      <!--<groupId>org.codehaus.plexus</groupId>-->
+      <!--<artifactId>plexus-utils</artifactId>-->
+      <!--<version>3.0.15</version>-->
+      <!--</whiteListDependency>-->
+
+      <!--<whiteListDependency>-->
+      <!--<groupId>org.apache.maven</groupId>-->
+      <!--<artifactId>maven-artifact</artifactId>-->
+      <!--<version>3.1.1</version>-->
+      <!--</whiteListDependency>-->
+
+      <!--<whiteListDependency>-->
+      <!--<groupId>com.google.guava</groupId>-->
+      <!--<artifactId>guava</artifactId>-->
+      <!--<version>15.0</version>-->
+      <!--</whiteListDependency>-->
+
+      <!--<whiteListDependency>-->
+      <!--<groupId>org.codehaus.plexus</groupId>-->
+      <!--<artifactId>plexus-classworlds</artifactId>-->
+      <!--<version>2.5.1</version>-->
+      <!--</whiteListDependency>-->
+
+      <!--<whiteListDependency>-->
+      <!--<groupId>org.eclipse.aether</groupId>-->
+      <!--<artifactId>aether-api</artifactId>-->
+      <!--<version>0.9.0.M3</version>-->
+      <!--</whiteListDependency>-->
+
+      <!--<whiteListDependency>-->
+      <!--<groupId>org.eclipse.aether</groupId>-->
+      <!--<artifactId>aether-util</artifactId>-->
+      <!--<version>0.9.0.M3</version>-->
+      <!--</whiteListDependency>-->
+
+
+      <!--</whiteList>-->
+
+
+      <!--</configuration>-->
+      <!--<executions>-->
+      <!--<execution>-->
+      <!--<goals>-->
+      <!--<goal>listPhase</goal>-->
+      <!--</goals>-->
+
+      <!--</execution>-->
+      <!--</executions>-->
+
+      <!--</plugin>-->
 
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
@@ -246,13 +279,65 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <useAgent>true</useAgent>
-          <keyname>7B42FE9D</keyname>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
+      </plugin>
+
+    </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.2</version>
+      </extension>
+    </extensions>
+
+  </build>
+  <reporting>
+    <plugins>
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>project-team</report>
+              <report>license</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <!--plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
       </plugin>
 
       <plugin>
@@ -261,7 +346,7 @@
         <version>2.5</version>
         <configuration>
           <strictCheck>true</strictCheck>
-          <header>http://cedarsoft.org/apache2.header</header>
+          <header>http://clashinspector.com/license</header>
           <failIfMissing>false</failIfMissing>
           <aggregate>true</aggregate>
           <excludes>
@@ -284,41 +369,34 @@
       </plugin>
 
     </plugins>
-
-    <!--This extension is used for ssh-exe-->
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-        <version>2.2</version>
-      </extension>
-    </extensions>
-  </build>
-
-
-  <reporting>
+  </reporting>
+  <!--reporting>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>project-team</report>
-              <report>license</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.2</version>
       </plugin>
     </plugins>
-  </reporting>
+  </reporting-->
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>clashinspectorSnapshot</id>
+      <name>OSS Sonatype Snapshot</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>clashinspectorRepo</id>
+      <name>OSS Sonatype Release</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <site>
+      <id>clashinspectorWeb</id>
+      <name>ClashInspector Web</name>
+      <url>scpexe://clashinspector.com/var/www/clashinspector.com</url>
+    </site>
+  </distributionManagement>
 
   <profiles>
     <profile>

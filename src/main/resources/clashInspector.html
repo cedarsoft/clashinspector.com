@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://www.clashinspector.com/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Date-Revision-yyyymmdd" content="20140124">
+    <meta http-equiv="Content-Language" content="en">
+    <title>ClashInspector - HTML-Analysis</title>
+
+    <link rel="stylesheet" href="clashInspectorStyle.css">
+    <script type="text/javascript" src="jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+    <meta content="The Maven-Plugin ClashInspector enables you to find and analyze dependency conflicts (Version-Clashes) in your Java projects."
+          name="description">
+</head>
+<body>
+<div class="mainContainer">
+    <div id="logoContainer">
+        <div class="pullLeft banner">
+            <a href="http://www.clashinspector.com/index.html">
+                <img src="clashinspectorLogo.jpg" alt="ClashInspector">
+            </a>
+        </div>
+        <div class="pullRight banner"><a href="http://www.reutlingen-university.de/">
+            <img src="fhReutlingenLogo.jpg" alt="ClashInspector">
+        </a>
+        </div>
+        <div class="clearing">
+
+        </div>
+    </div>
+
+    <div id ="headerContainer">
+
+    <div id="menuContainer" class="topContainer ">
+        <div class="pullLeft">
+            <span  class="javascriptWarning">Warning! ClashInspector needs JavaScript enabled!</span> <span id="analyzedDep"></span>
+        </div>
+        <div class="pullRight">
+            <span class="openSettingsButton menuEntry">settings & properties <span class="triangleDown"></span></span>
+            <span  class="openSearchButton menuEntry">search dependencies <span class="triangleDown"></span></span>
+            <span  class="openClashListButton menuEntry">clash-list <span class="triangleUp"></span></span>
+            <span  class="openLegendButton menuEntry">legend <span class="triangleDown"></span></span>
+        </div>
+
+          <div class="clearing"></div>
+    </div>
+
+    <div id="settingsFilterContainer" class="topContainer ">
+
+        <div class="settingsContainer">
+            <h3>Dependency Resolution Settings</h3>
+            <div class="settingsInlineContainer">
+            <label for="includedScopeList" title="Select the scopes of the dependencies that should be included in the dependency-resolution.">Included Scopes</label>
+            <ul title="Select the scopes of the dependencies that should be included in the dependency-resolution." id="includedScopeList" class="easySelectBox selectModeMultiple" >
+                <li>compile</li>
+                <li>test</li>
+                <li>runtime</li>
+                <li>provided</li>
+                <li>system</li>
+
+            </ul>
+            </div>
+            <div class="settingsInlineContainer">
+            <label for="excludedScopeList" title="Select the scopes of the dependencies that should be excluded from the dependency-resolution.">Excluded Scopes</label>
+            <ul title="Select the scopes of the dependencies that should be excluded from the dependency-resolution." id="excludedScopeList" class="easySelectBox selectModeMultiple" >
+                <li>compile</li>
+                <li>test</li>
+                <li>runtime</li>
+                <li>provided</li>
+                <li>system</li>
+
+            </ul>
+            </div>
+            <div class="settingsInlineContainerRight">
+            <label for="clashSeverity" title="Select the Clash-Severity for the dependency resolution.">Clash Severity</label>
+            <ul title="Select the Clash-Severity for the dependency resolution." id="clashSeverity" class="easySelectBox selectModeSingle" >
+
+                <li class="">UNSAFE</li>
+                <li class="">CRITICAL</li>
+
+            </ul>
+                <label for="includeOptional">Included Optional </label>
+                <div id="includeOptional" class="easyCheckBox">  <div>
+              </div>
+
+              </div>
+
+
+              </div>
+            <div class="clearing"></div>
+            <button id="applyResolutionSettings" class="easyButton" type="button">Apply Settings</button>
+        </div>
+
+        <div class="propertiesContainer">
+            <h3>Display Properties</h3>
+            <label for="treeViewMode" title="Select your preferred tree-view.">View Mode</label>
+            <ul title="Select your preferred tree-view." id="treeViewMode" class="easySelectBox selectModeSingle" >
+                <li class="selected">Full</li>
+                <li>Shortened</li>
+
+
+            </ul>
+
+        </div>
+        <div class="clearing"></div>
+
+        <div>
+
+        </div>
+
+
+    </div>
+
+    <div id="searchContainer" class="topContainer ">
+        <div class="pullRight">
+        <span class="searchInputLabel">groupId:</span>
+        <input id="groupIdInput" class="searchInput" type="text"/>
+        <span class="searchInputLabel">artifactId:</span>
+        <input id="artifactIdInput" class="searchInput" type="text"/>
+        <span class="searchInputLabel">version:</span>
+        <input id="versionInput" class="searchInput" type="text"/>
+            <span class="triangleLeft" id="searchJumpBack" title="jump back to last search result"></span>
+        <span id="searchResultOutput"   >
+
+
+                no results
+
+        </span>
+            <span class="triangleRight" id="searchJumpNext" title="jump to next search result"></span>
+          <button id="clearSearchButton" class="easyButton" type="button">clear</button>
+        </div>
+        <div class="clearing"></div>
+    </div>
+
+        <div id="legendContainer" class="topContainer ">
+
+            <img src="legendArrowHasDependencies.png" alt="Legend">
+            <img src="legendArrowHasUnsafeDependencies.png" alt="Legend">
+            <img src="legendArrowHasCriticalDependencies.png" alt="Legend">
+            <img src="legendArrowHasUnresolvedDependencies.png" alt="Legend">
+            <img src="legendScopes_long.png" alt="Legend">
+            <img src="legendOptional.png" alt="Legend">
+             <div class="clearing"></div>
+
+        </div>
+
+        <div id="clashListContainer">
+
+
+
+        </div>
+
+    </div>
+
+    <div id="contentContainer" style="padding-top: 30px;">
+        <div id="floatingCirclesG">
+            <div class="f_circleG" id="frotateG_01">
+            </div>
+            <div class="f_circleG" id="frotateG_02">
+            </div>
+            <div class="f_circleG" id="frotateG_03">
+            </div>
+            <div class="f_circleG" id="frotateG_04">
+            </div>
+            <div class="f_circleG" id="frotateG_05">
+            </div>
+            <div class="f_circleG" id="frotateG_06">
+            </div>
+            <div class="f_circleG" id="frotateG_07">
+            </div>
+            <div class="f_circleG" id="frotateG_08">
+            </div>
+        </div>
+        <div id="treeContainer">
+
+        </div>
+
+
+    </div>
+
+        <div class="footerContainer">
+
+            Copyright 2014
+            <a href="http://www.reutlingen-university.de/">Hochschule Reutlingen</a>.
+            Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.
+        </div>
+
+
+</div>
+
+
+
+
+
+
+</body>
+</html>

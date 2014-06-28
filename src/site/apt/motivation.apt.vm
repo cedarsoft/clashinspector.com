@@ -1,18 +1,9 @@
-#*
- * Copyright (C) cedarsoft GmbH.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *#
+ ------
+ Motivation
+ ------
+ ${project.properties.siteAuthors}
+ ------
+ ------
 
 Motivation
 
@@ -24,9 +15,8 @@ Motivation
 
   Our vision is to provide a Maven-Plugin that enables you to detect
   {{{./version_clash.html}version clashes}} in your java-projects and visualize them in different formats.
-  So far with our first release it is possible to visualize the results in the console.
-  Next steps will be the development of a phase-goal for detecting the version clashes
-  automatically and the development of a HTML-visualization that will enable
-  you to inspect the version clashes in the browser.
+  Since our first release it has been possible to visualize the results in the {{{./usage_commandPrompt.html}console}}.
+  Our actual release ships with a phase-goal that enables you to detect version clashes
+  automatically and cancel the build-cycle if necessary. Furthermore our Plugin provides a powerful {{{./usage_html.html}html-goal}} which visualizes the Clashes in HTML.
 
   For the improvement of our plugin we rely on your feedback. So feel free to contact us in any case at {{{mailto:info@clashinspector.com}info@clashinspector.com}}.

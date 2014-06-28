@@ -1,0 +1,461 @@
+ ------
+ Usage Command Prompt Analysis
+ ------
+ ${project.properties.siteAuthors}
+ ------
+ ------
+
+Usage Command Prompt Analysis
+
+  Definitions and use-cases for the goals
+  <<{{{./list-mojo.html}${project.artifactId}:list}}>>,
+  <<{{{./listPhase-mojo.html}${project.artifactId}:listPhase}}>> and
+  <<{{{./tree-mojo.html}${project.artifactId}:tree}}>>.
+
+* Introduction: Command Line Output
+
+** <start-parameters> - section
+
++---+
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
++---+
+
+   Every goal is executed with several start-parameters: <<<severity>>>, <<<includedScopes>>>, <<<excludedScopes>>>
+   and <<<includeOptional>>>. Additional parameters for a specific goal are explained at the appropriate goal-explanation.
+   If you're not initializing the parameters explicitly, pre-defined values (Default-Values) will be used. (<<<severity>>>=<<<unsafe>>>,
+   <<<includedScopes>>>=<<<compile>>>, <<<includeOptional>>>=<<<false>>>)
+
+** <goal> - section
+
++---+
+[INFO] ------------------------------ goal-name -------------------------------
+.
+.
+.
++---+
+
+    Depending on the executed goal different content the will be displayed.
+
+** <summary> - section
+
++---+
+[INFO] ------------------------------- summary -------------------------------
+[INFO]
+[INFO] Number of Clashes with severity UNSAFE: 0
+[INFO] Number of Clashes with severity CRITICAL: 1
+[INFO]  [CRITICAL Version Clash]  com.google.guava:guava
++---+
+
+  The last section gives you a quick overview of all detected clashes and their source-dependency classified by the clash type: <<<UNSAFE>>> and <<<CRITICAL>>>.
+
+* The {{{./list-mojo.html}clashinspector:list}} goal
+
+  The goal <clashinspector:list> shows a list with information about all version clashes.
+
+  For every single version clash there will be displayed
+
+  [[1]] quick information about the version clash (surrounded by horizontal lines) and
+
+  [[2]] detailed information about every single dependency which is involved in the version clash.
+
+  []
+
++---+
+C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:list
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ClashInspector 0.9
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- clashinspector-maven-plugin:0.9:list (default-cli) @ clashinspector-maven-plugin ---
+[INFO]
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+[INFO]
+[INFO] --------------------------------- list ---------------------------------
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  org.codehaus.plexus:plexus-utils
+[INFO]  (used: 3.0.15 highest: 3.0.15 lowest: 1.5.5)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-plugin-api:jar:3.1.1 (compile)
+[INFO]   org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.0.0.M5 (compile)
+[INFO]    org.codehaus.plexus:plexus-utils:jar:2.1 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3 (compile)
+[INFO]    org.codehaus.plexus:plexus-utils:jar:1.5.5 (compile)
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  org.apache.maven:maven-artifact
+[INFO]  (used: 3.1.1 highest: 3.1.1 lowest: 3.0)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven.plugin-tools:maven-plugin-annotations:jar:3.2 (compile)
+[INFO]   org.apache.maven:maven-artifact:jar:3.0 (compile)
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  com.google.guava:guava
+[INFO]  (used: 15.0 highest: 15.0 lowest: 10.0.1)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-plugin-api:jar:3.1.1 (compile)
+[INFO]   org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.0.0.M5 (compile)
+[INFO]    com.google.guava:guava:jar:10.0.1 (compile)
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  org.codehaus.plexus:plexus-classworlds
+[INFO]  (used: 2.5.1 highest: 2.5.1 lowest: 2.4)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-plugin-api:jar:3.1.1 (compile)
+[INFO]   org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.0.0.M5 (compile)
+[INFO]    org.codehaus.plexus:plexus-classworlds:jar:2.4 (compile)
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  org.eclipse.aether:aether-api
+[INFO]  (used: 0.9.0.M3 highest: 0.9.0.M3 lowest: 0.9.0.M2)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.apache.maven:maven-aether-provider:jar:3.1.1 (compile)
+[INFO]    org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.apache.maven:maven-aether-provider:jar:3.1.1 (compile)
+[INFO]    org.eclipse.aether:aether-spi:jar:0.9.0.M2 (compile)
+[INFO]     org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.eclipse.aether:aether-impl:jar:0.9.0.M2 (compile)
+[INFO]    org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO]
+[INFO] -------------------------------------
+[INFO] [UNSAFE Version Clash]  org.eclipse.aether:aether-util
+[INFO]  (used: 0.9.0.M3 highest: 0.9.0.M3 lowest: 0.9.0.M2)
+[INFO] -------------------------------------
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.apache.maven:maven-aether-provider:jar:3.1.1 (compile)
+[INFO]    org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.eclipse.aether:aether-impl:jar:0.9.0.M2 (compile)
+[INFO]    org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO] UNSAFE
+[INFO]  org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO]   org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO]
+[INFO] ------------------------------- summary -------------------------------
+[INFO]
+[INFO] Number of Clashes with severity UNSAFE: 6
+[INFO]  [UNSAFE Version Clash]  org.codehaus.plexus:plexus-utils
+[INFO]  [UNSAFE Version Clash]  org.apache.maven:maven-artifact
+[INFO]  [UNSAFE Version Clash]  com.google.guava:guava
+[INFO]  [UNSAFE Version Clash]  org.codehaus.plexus:plexus-classworlds
+[INFO]  [UNSAFE Version Clash]  org.eclipse.aether:aether-api
+[INFO]  [UNSAFE Version Clash]  org.eclipse.aether:aether-util
+[INFO] Number of Clashes with severity CRITICAL: 0
++---+
+
+
+
+* The {{{./listPhase-mojo.html}clashinspector:listPhase}} goal
+
+   The goal <clashinspector:listPhase> enables the execution of the list-plugin during a specified life-cycle-phase. The default life-cycle-phase is compile.
+
+   To use the listPhase goal you have to register it in the plugins-section of your pom as follows:
+
+
++---+
+<plugin>
+  <groupId>com.clashinspector</groupId>
+  <artifactId>clashinspector-maven-plugin</artifactId>
+  <version>0.9</version>
+      <executions>
+        <execution>
+          <goals>
+            <goal>listPhase</goal>
+          </goals>
+        </execution>
+      </executions>
+</plugin>
++---+
+
+** Available Configurations
+
+ To change the default phase for this goal add \<phase\>yourPhase\</phase\> to the execution section in your pom like this:
+
++---+
+<plugin>
+  <groupId>com.clashinspector</groupId>
+  <artifactId>clashinspector-maven-plugin</artifactId>
+  <version>0.9</version>
+      <executions>
+        <execution>
+          <goals>
+            <goal>listPhase</goal>
+            <phase>deploy</phase>
+          </goals>
+        </execution>
+      </executions>
+</plugin>
++---+
+
+ If a clash occurs, the phase-plugin will stop the maven build process with an exception (default behavior).
+ If a clash shouldn't lead to an abortion of the build just use the parameter \<failOnClash\>false\<failOnClash\>.
+
+ You can even specify specific dependencies that shouldn't cause an exception via the whiteList-parameter:
+
++---+
+<plugin>
+   <groupId>com.clashinspector</groupId>
+   <artifactId>clashinspector-maven-plugin</artifactId>
+   <version>0.9</version>
+   <configuration>
+        <whiteList>
+           <whiteListDependency>
+             <groupId>org.codehaus.plexus</groupId>
+             <artifactId>plexus-utils</artifactId>
+             <version>3.0.15</version>
+           </whiteListDependency>
+       </whiteList>
+  </configuration>
+       <executions>
+         <execution>
+           <goals>
+             <goal>listPhase</goal>
+           </goals>
+         </execution>
+       </executions>
+</plugin>
++---+
+
+
+
+* The {{{./tree-mojo.html}clashinspector:tree}} goal
+
+  Tree Legend
+
+*---------------------------------------------+------------------------------------------------------+
+ +                                            | dependency with sub-dependencies
+*---------------------------------------------+------------------------------------------------------+
+ -                                            | dependency without sub-dependencies
+*---------------------------------------------+------------------------------------------------------+
+ \|                                           | ledger line
+*---------------------------------------------+------------------------------------------------------+
+ (highest)                                    | highest version of a dependency type which is embedded
+                                              | to this root project
+*---------------------------------------------+------------------------------------------------------+
+ (lowest)                                     | lowest version of a dependency type which is embedded
+                                              | to this root project
+*---------------------------------------------+------------------------------------------------------+
+ (used)                                       | used dependency version of Maven
+*---------------------------------------------+------------------------------------------------------+
+ \<\- referred                                     | Specifies the version to which the version clash is
+                                              | associated
+*---------------------------------------------+------------------------------------------------------+
+
+  The tree shows the dependencies - enriched with their scopes (e.g. compile, test) - in the appropriate depth. The order of the dependencies
+  is based on the pom.xml of the root project.
+  If a dependency has a version clash, details about the clash will be displayed under the dependency. It shows the version clash type and
+  all available versions of a dependency in this project.
+
++---+
+C:\clashinspector>mvn ${project.groupId}:${project.artifactId}:${project.version}:tree
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ClashInspector 0.9
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- clashinspector-maven-plugin:0.9:tree (default-cli) @ clashinspector-maven-plugin ---
+[INFO]
+[INFO] --------------------------- start-parameters ---------------------------
+[INFO]
+[INFO] severity = UNSAFE | includedScopes = compile | excludedScopes = null | includeOptional = false
+[INFO]
+[INFO] --------------------------------- tree ---------------------------------
+[INFO]
+[INFO] - com.google.code.findbugs:jsr305:jar:2.0.2 (compile)
+[INFO] + org.apache.maven:maven-plugin-api:jar:3.1.1 (compile)
+[INFO] |  + org.apache.maven:maven-model:jar:3.1.1 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  + org.apache.maven:maven-artifact:jar:3.1.1 (compile)
+[INFO] |    [SAFE Version Clash] Details:
+[INFO] |     3.1.1 (used) (highest) <- referred
+[INFO] |     3.0 (lowest)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  + org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.0.0.M5 (compile)
+[INFO] |  |  + javax.enterprise:cdi-api:jar:1.0 (compile)
+[INFO] |  |  |  - org.jboss.interceptor:jboss-interceptor-api:jar:1.1 (compile)
+[INFO] |  |  |  - javax.annotation:jsr250-api:jar:1.0 (compile)
+[INFO] |  |  |  - javax.inject:javax.inject:jar:1 (compile)
+[INFO] |  |  - com.google.guava:guava:jar:10.0.1 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     10.0.1 (lowest) <- referred
+[INFO] |  |     15.0 (used) (highest)
+[INFO] |  |  + org.sonatype.sisu:sisu-guice:jar:no_aop:3.1.0 (compile)
+[INFO] |  |  |  - javax.inject:javax.inject:jar:1 (compile)
+[INFO] |  |  |  - aopalliance:aopalliance:jar:1.0 (compile)
+[INFO] |  |  |  - org.sonatype.sisu:sisu-guava:jar:0.9.9 (compile)
+[INFO] |  |  + org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.0.0.M5 (compile)
+[INFO] |  |  |  + com.google.inject:guice:jar:3.0 (compile)
+[INFO] |  |  |  |  - javax.inject:javax.inject:jar:1 (compile)
+[INFO] |  |  |  |  - aopalliance:aopalliance:jar:1.0 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-component-annotations:jar:1.5.5 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-classworlds:jar:2.4 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     2.4 (lowest) <- referred
+[INFO] |  |     2.5.1 (used) (highest)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:2.1 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     3.0.15 (used) (highest)
+[INFO] |  |     2.1 <- referred
+[INFO] |  |     1.5.5 (lowest)
+[INFO] + org.apache.maven:maven-core:jar:3.1.1 (compile)
+[INFO] |  - org.apache.maven:maven-model:jar:3.1.1 (compile)
+[INFO] |  + org.apache.maven:maven-settings:jar:3.1.1 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  + org.apache.maven:maven-settings-builder:jar:3.1.1 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  |  - org.codehaus.plexus:plexus-interpolation:jar:1.19 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-component-annotations:jar:1.5.5 (compile)
+[INFO] |  |  - org.apache.maven:maven-settings:jar:3.1.1 (compile)
+[INFO] |  |  - org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3 (compile)
+[INFO] |  + org.apache.maven:maven-repository-metadata:jar:3.1.1 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  - org.apache.maven:maven-artifact:jar:3.1.1 (compile)
+[INFO] |    [SAFE Version Clash] Details:
+[INFO] |     3.1.1 (used) (highest) <- referred
+[INFO] |     3.0 (lowest)
+[INFO] |  - org.apache.maven:maven-plugin-api:jar:3.1.1 (compile)
+[INFO] |  + org.apache.maven:maven-model-builder:jar:3.1.1 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  |  - org.codehaus.plexus:plexus-interpolation:jar:1.19 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-component-annotations:jar:1.5.5 (compile)
+[INFO] |  |  - org.apache.maven:maven-model:jar:3.1.1 (compile)
+[INFO] |  + org.apache.maven:maven-aether-provider:jar:3.1.1 (compile)
+[INFO] |  |  - org.apache.maven:maven-model:jar:3.1.1 (compile)
+[INFO] |  |  - org.apache.maven:maven-model-builder:jar:3.1.1 (compile)
+[INFO] |  |  - org.apache.maven:maven-repository-metadata:jar:3.1.1 (compile)
+[INFO] |  |  - org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     0.9.0.M2 (lowest) <- referred
+[INFO] |  |     0.9.0.M3 (used) (highest)
+[INFO] |  |  + org.eclipse.aether:aether-spi:jar:0.9.0.M2 (compile)
+[INFO] |  |  |  - org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] |  |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |  |     0.9.0.M2 (lowest) <- referred
+[INFO] |  |  |     0.9.0.M3 (used) (highest)
+[INFO] |  |  - org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     0.9.0.M2 (lowest) <- referred
+[INFO] |  |     0.9.0.M3 (used) (highest)
+[INFO] |  |  - org.eclipse.aether:aether-impl:jar:0.9.0.M2 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-component-annotations:jar:1.5.5 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |  |    [SAFE Version Clash] Details:
+[INFO] |  |     3.0.15 (used) (highest) <- referred
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest)
+[INFO] |  + org.eclipse.aether:aether-impl:jar:0.9.0.M2 (compile)
+[INFO] |  |  - org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     0.9.0.M2 (lowest) <- referred
+[INFO] |  |     0.9.0.M3 (used) (highest)
+[INFO] |  |  - org.eclipse.aether:aether-spi:jar:0.9.0.M2 (compile)
+[INFO] |  |  - org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     0.9.0.M2 (lowest) <- referred
+[INFO] |  |     0.9.0.M3 (used) (highest)
+[INFO] |  - org.eclipse.aether:aether-api:jar:0.9.0.M2 (compile)
+[INFO] |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |     0.9.0.M2 (lowest) <- referred
+[INFO] |     0.9.0.M3 (used) (highest)
+[INFO] |  - org.eclipse.aether:aether-util:jar:0.9.0.M2 (compile)
+[INFO] |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |     0.9.0.M2 (lowest) <- referred
+[INFO] |     0.9.0.M3 (used) (highest)
+[INFO] |  - org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.0.0.M5 (compile)
+[INFO] |  - org.codehaus.plexus:plexus-interpolation:jar:1.19 (compile)
+[INFO] |  - org.codehaus.plexus:plexus-utils:jar:3.0.15 (compile)
+[INFO] |    [SAFE Version Clash] Details:
+[INFO] |     3.0.15 (used) (highest) <- referred
+[INFO] |     2.1
+[INFO] |     1.5.5 (lowest)
+[INFO] |  - org.codehaus.plexus:plexus-classworlds:jar:2.5.1 (compile)
+[INFO] |    [SAFE Version Clash] Details:
+[INFO] |     2.4 (lowest)
+[INFO] |     2.5.1 (used) (highest) <- referred
+[INFO] |  - org.codehaus.plexus:plexus-component-annotations:jar:1.5.5 (compile)
+[INFO] |  + org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3 (compile)
+[INFO] |  |  - org.codehaus.plexus:plexus-utils:jar:1.5.5 (compile)
+[INFO] |  |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |  |     3.0.15 (used) (highest)
+[INFO] |  |     2.1
+[INFO] |  |     1.5.5 (lowest) <- referred
+[INFO] |  |  - org.sonatype.plexus:plexus-cipher:jar:1.4 (compile)
+[INFO] + org.apache.maven.plugin-tools:maven-plugin-annotations:jar:3.2 (compile)
+[INFO] |  - org.apache.maven:maven-artifact:jar:3.0 (compile)
+[INFO] |    [UNSAFE Version Clash] Referred Version lower than used Version.
+[INFO] |     3.1.1 (used) (highest)
+[INFO] |     3.0 (lowest) <- referred
+[INFO] - com.google.guava:guava:jar:15.0 (compile)
+[INFO]   [SAFE Version Clash] Details:
+[INFO]    10.0.1 (lowest)
+[INFO]    15.0 (used) (highest) <- referred
+[INFO] - org.eclipse.aether:aether-api:jar:0.9.0.M3 (compile)
+[INFO]   [SAFE Version Clash] Details:
+[INFO]    0.9.0.M2 (lowest)
+[INFO]    0.9.0.M3 (used) (highest) <- referred
+[INFO] + org.eclipse.aether:aether-util:jar:0.9.0.M3 (compile)
+[INFO]   [SAFE Version Clash] Details:
+[INFO]    0.9.0.M2 (lowest)
+[INFO]    0.9.0.M3 (used) (highest) <- referred
+[INFO] |  - org.eclipse.aether:aether-api:jar:0.9.0.M3 (compile)
+[INFO] |    [SAFE Version Clash] Details:
+[INFO] |     0.9.0.M2 (lowest)
+[INFO] |     0.9.0.M3 (used) (highest) <- referred
+[INFO]
+[INFO] ------------------------------- summary -------------------------------
+[INFO]
+[INFO] Number of Clashes with severity UNSAFE: 6
+[INFO]  [UNSAFE Version Clash]  org.codehaus.plexus:plexus-utils
+[INFO]  [UNSAFE Version Clash]  org.apache.maven:maven-artifact
+[INFO]  [UNSAFE Version Clash]  com.google.guava:guava
+[INFO]  [UNSAFE Version Clash]  org.codehaus.plexus:plexus-classworlds
+[INFO]  [UNSAFE Version Clash]  org.eclipse.aether:aether-api
+[INFO]  [UNSAFE Version Clash]  org.eclipse.aether:aether-util
+[INFO] Number of Clashes with severity CRITICAL: 0
++---+
+
+

@@ -13,6 +13,7 @@
   <name>ClashInspector</name>
   <description>Jahresprojekt 2013/2014 Hochschule Reutlingen</description>
   <inceptionYear>2014</inceptionYear>
+  <url>http://clashinspector.com</url>
 
   <organization>
     <name>Hochschule Reutlingen</name>
@@ -56,6 +57,12 @@
     </developer>
 
   </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/cedarsoft/clashinspector.com.git</connection>
+    <developerConnection>scm:git:git@github.com:cedarsoft/clashinspector.com.git</developerConnection>
+    <url>https://github.com/cedarsoft/clashinspector.com</url>
+  </scm>
 
   <issueManagement>
     <system>GitHub</system>

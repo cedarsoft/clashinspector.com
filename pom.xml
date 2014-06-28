@@ -115,12 +115,11 @@
       <version>${aetherVersion}</version>
     </dependency>
 
-         <dependency>
-           <groupId>org.codehaus.jackson</groupId>
-           <artifactId>jackson-mapper-asl</artifactId>
-           <version>1.9.13</version>
-         </dependency>
-
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
 
 
     <dependency>
@@ -159,15 +158,11 @@
     </dependency>
 
 
-
-
-
   </dependencies>
 
 
   <build>
     <plugins>
-
 
 
       <plugin>
@@ -254,7 +249,30 @@
       <!--</plugin>-->
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.5.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <nexusUrl>https://oss.sonatype.org</nexusUrl>
+          <serverId>sonatype-nexus-staging</serverId>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-jgitflow-plugin</artifactId>
+        <version>1.0-alpha24</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <enableFeatureVersions>true</enableFeatureVersions>
+          <enableSshAgent>true</enableSshAgent>
+          <localOnly>true</localOnly>
+        </configuration>
+      </plugin>
+
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.7</source>
@@ -263,11 +281,18 @@
       </plugin>
 
     </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.2</version>
+      </extension>
+    </extensions>
+
   </build>
   <reporting>
     <plugins>
-
-
 
 
       <plugin>
@@ -276,11 +301,11 @@
         <version>2.7</version>
         <reportSets>
           <reportSet>
-          <reports>
-            <report>dependencies</report>
-            <report>project-team</report>
-            <report>license</report>
-          </reports>
+            <reports>
+              <report>dependencies</report>
+              <report>project-team</report>
+              <report>license</report>
+            </reports>
           </reportSet>
         </reportSets>
       </plugin>

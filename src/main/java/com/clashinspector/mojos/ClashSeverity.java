@@ -9,6 +9,6 @@ package com.clashinspector.mojos;
  */
 public enum ClashSeverity {
   SAFE, UNSAFE, CRITICAL
-  //Ändern safe hört sich blöd an... ein sicherer clash ??
+
 
 }

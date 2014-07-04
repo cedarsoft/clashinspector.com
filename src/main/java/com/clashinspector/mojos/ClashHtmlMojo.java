@@ -20,13 +20,16 @@ import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
+import javax.ws.rs.ProcessingException;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.BindException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 /**
@@ -60,8 +63,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
       BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 
       ResourceConfig config = new ResourceConfig(DependencyRestService.class);
-      HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:"+port+"/"), config );
-
+      HttpServer server = this.startServer( config ) ;
 
       if (Desktop.isDesktopSupported())
       {
@@ -81,10 +83,6 @@ public class ClashHtmlMojo extends AbstractClashMojo {
         this.transferResourceToTmp( "legendArrowHasUnresolvedDependencies", "png" );
         this.transferResourceToTmp( "legendScopes_long", "png" );
         this.transferResourceToTmp( "legendOptional", "png" );
-
-
-
-
 
 
 
@@ -114,7 +112,31 @@ public class ClashHtmlMojo extends AbstractClashMojo {
   }
 
 
+      private HttpServer startServer(ResourceConfig resourceConfig) throws Exception {
 
+
+        try
+        {
+          HttpServer server = JdkHttpServerFactory.createHttpServer(new URI( "http://localhost:"+port+"/"), resourceConfig );
+          return server;
+        }
+        catch(ProcessingException processingException)
+        {
+          if(this.port>8050)
+          {
+                this.port = this.port -1;
+               return this.startServer( resourceConfig );
+          }
+          else
+          {
+            super.getLog().error( "No free port for clashinspector-server found" );
+            throw new Exception("No free port for clashinspector-server found");
+          }
+        }
+
+
+
+      }
 
 
 

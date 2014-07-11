@@ -333,8 +333,9 @@ function buildGuiDependency( dependencyNodeObject ) {
 
     if ( dependencyNodeObject.dependencyNodeWrapper.repository == "repo.maven.apache.org" ) {
         var mavenCentralHref = "http://search.maven.org/#artifactdetails|" + dependencyNodeObject.dependencyNodeWrapper.groupId + "|" + dependencyNodeObject.dependencyNodeWrapper.artifactId + "|" + dependencyNodeObject.dependencyNodeWrapper.version + "|" + dependencyNodeObject.dependencyNodeWrapper.extension;
-        var mavenCentralLink = '<a href="' + mavenCentralHref + '" target="_blank"> maven-central </a>';
-
+        var mavenCentralLink = ' | <a href="' + mavenCentralHref + '" target="_blank"> maven-central </a>';
+    }else{
+        var mavenCentralLink = "";
     }
 
     var usedVersionLink = '<span class="usedVersionLink" onclick="highlightDependencyById(&quot;' + dependencyNodeObject.dependencyNodeWrapper.project.dependencyNodeWrapperWithUsedVersionId + '&quot;,&quot;highlightSearch&quot;,&quot;highlightSearch&quot;,true,true,true);">' + dependencyNodeObject.dependencyNodeWrapper.project.usedVersion + '</span>';
@@ -376,7 +377,7 @@ function buildGuiDependency( dependencyNodeObject ) {
                                              <span class="artifactId" title="artifactId">' + dependencyNodeObject.dependencyNodeWrapper.artifactId + '</span>   \
                                              <hr>                                      \
                                              <span class="version" title="version">' + dependencyNodeObject.dependencyNodeWrapper.version + '</span>' + scopeHtml + ' ' + optionalHtml + ' ' + usedHtml + '  \
-                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>' + usedVersionLink + '</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>' + highestVersionLink + '</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>' + lowestVersionLink + '</div></div> <div class="depMenu"><a class="detailsButton">details</a> | ' + mavenCentralLink + ' </div> </div>   </div>   ';
+                                              <div class="details"><div title="from maven used version of this project"><span >used version:  </span>' + usedVersionLink + '</div> <hr><div title="highest version of this project included in the analyzed dependency"><span >highest version:  </span>' + highestVersionLink + '</div><hr><div title="lowest version of this project included in the analyzed dependency"><span >lowest version: </span>' + lowestVersionLink + '</div></div> <div class="depMenu"><a class="detailsButton">details</a>' + mavenCentralLink + ' </div> </div>   </div>   ';
 }
 
 //TODO add count of the same dependencies <hr><div title="number of direct dependencies"><span >number of dep: '+dependencyNodeObject.dependencyNodeWrapper.children.length+'</span></div>

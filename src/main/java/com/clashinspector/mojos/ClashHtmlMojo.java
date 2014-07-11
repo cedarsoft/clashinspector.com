@@ -9,6 +9,8 @@ import com.clashinspector.rest.UserParameterWrapper;
 
 import com.clashinspector.visualize.ConsoleVisualizer;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.ByteStreams;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -23,6 +25,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import javax.ws.rs.ProcessingException;
 import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,24 +73,27 @@ public class ClashHtmlMojo extends AbstractClashMojo {
         Desktop desktop=Desktop.getDesktop();
 
 
-        this.transferResourceToTmp( "clashInspectorStyle", "css" );
-        this.transferResourceToTmp( "jquery-1.11.0", "js" );
-        this.transferResourceToTmp( "main", "js" );
-        this.transferResourceToTmp( "openDepNode", "png" );
-        this.transferResourceToTmp( "openDepNode_hasWinner", "png" );
-        this.transferResourceToTmp( "clashinspectorLogo", "jpg" );
-        this.transferResourceToTmp( "fhReutlingenLogo", "jpg" );
-        this.transferResourceToTmp( "legendArrowHasDependencies", "png" );
-        this.transferResourceToTmp( "legendArrowHasUnsafeDependencies", "png" );
-        this.transferResourceToTmp( "legendArrowHasCriticalDependencies", "png" );
-        this.transferResourceToTmp( "legendArrowHasUnresolvedDependencies", "png" );
-        this.transferResourceToTmp( "legendScopes_long", "png" );
-        this.transferResourceToTmp( "legendOptional", "png" );
+        File tempDir = com.google.common.io.Files.createTempDir();
+        tempDir.deleteOnExit();
+
+        this.transferResourceToTmp( "clashInspectorStyle", "css",tempDir,false );
+        this.transferResourceToTmp( "jquery-1.11.0", "js",tempDir ,false);
+        this.transferResourceToTmp( "main", "js",tempDir,true );
+        this.transferResourceToTmp( "openDepNode", "png",tempDir,false );
+        this.transferResourceToTmp( "openDepNode_hasWinner", "png",tempDir,false );
+        this.transferResourceToTmp( "clashinspectorLogo", "jpg",tempDir,false );
+        this.transferResourceToTmp( "fhReutlingenLogo", "jpg",tempDir,false );
+        this.transferResourceToTmp( "legendArrowHasDependencies", "png",tempDir,false );
+        this.transferResourceToTmp( "legendArrowHasUnsafeDependencies", "png",tempDir,false );
+        this.transferResourceToTmp( "legendArrowHasCriticalDependencies", "png",tempDir,false );
+        this.transferResourceToTmp( "legendArrowHasUnresolvedDependencies", "png",tempDir,false );
+        this.transferResourceToTmp( "legendScopes_long", "png",tempDir,false );
+        this.transferResourceToTmp( "legendOptional", "png",tempDir,false );
 
 
 
 
-        desktop.browse(this.transferResourceToTmp( "clashInspector", "html" ));
+        desktop.browse(this.transferResourceToTmp( "clashInspector", "html",tempDir,false ));
       }
       else
       {
@@ -142,7 +148,7 @@ public class ClashHtmlMojo extends AbstractClashMojo {
 
 
        //Puts file into tmp-folder
-     private URI transferResourceToTmp(String fileName,String fileEnding)
+     private URI transferResourceToTmp(String fileName,String fileEnding, File tmpDir,boolean replacePortInJSFile)
      {
        fileEnding = fileEnding.replace( ".","" );
             fileEnding = "."+fileEnding;
@@ -152,14 +158,17 @@ public class ClashHtmlMojo extends AbstractClashMojo {
        try
        {
 
-         String tDir = System.getProperty("java.io.tmpdir");
+       if(replacePortInJSFile)
+       {
+         String replace = new String( ByteStreams.toByteArray( resource ), Charsets.UTF_8 ).replace( "{replacePort}", String.valueOf( this.port ) );
+         resource = new ByteArrayInputStream( replace.getBytes(Charsets.UTF_8));
+       }
 
-         File file = new File("/"+tDir+"/"+fileName+fileEnding);
 
-         if(file.exists())
-         {
-           file.delete();
-         }
+
+
+
+         File file = new File(tmpDir,fileName+fileEnding);
 
 
          file.deleteOnExit();

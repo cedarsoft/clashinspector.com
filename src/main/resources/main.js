@@ -117,6 +117,7 @@ var activeSearchDependencyId;
 var outerVersionClashList = new Array();
 var userSettingsWrapper = new UserSettingsWrapper();
 var deepestGraphDepth = 0;
+var port = {replacePort};
 
 function emptyAllInputs() {
     $( "input" ).val( "" );
@@ -160,14 +161,14 @@ function getTree() {
 
     $( "#contentContainer" ).addClass( "loading" );
     logConsole(  "getTree started" );
-    doGet( "http://localhost:8090/dependencies", drawTree, "", getList );
+    doGet( "http://localhost:"+port+"/dependencies", drawTree, "", getList );
 
 
 }
 
 function getList() {
     logConsole("getList started" );
-    doGet( "http://localhost:8090/dependencies/outerVersionClashes", drawList );
+    doGet( "http://localhost:"+port+"/dependencies/outerVersionClashes", drawList );
     logConsole( "getList finished" );
     $("#treeContainer").width(deepestGraphDepth*300);
      applyTreeViewMode();
